@@ -113,9 +113,14 @@ ref 08 A5 tanı panelinin karşılığı: FPS (2B/3B ayrı), atılan kare, kare�
 | Beta | TestFlight | `RECORDING_MODE` derleme bayrağı açık: `SoloRecording` paketi bağlanır (09) |
 | Release | App Store | `SoloRecording` **derlenmez**; kayıt modu kodu ikili dosyada yoktur |
 
+**Uygulama biçimi:** Xcode'da paket bağımlılığı yapılandırmaya göre değil hedefe göre bağlanır. Bu yüzden iki uygulama hedefi aynı kaynakları (`App/`) paylaşır:
+- `GymSpotSolo`: Debug ve Release ile derlenir; `SoloRecording`'e bağlı **değildir**. App Store arşivi bu hedeften alınır.
+- `GymSpotSoloBeta`: Beta ile arşivlenir (TestFlight); `SoloRecording`'e bağlıdır ve `RECORDING_MODE` bayrağını tanımlar. Geliştirme için Debug ile de çalıştırılabilir; Release ile derlenmeye çalışılırsa derleme hatası verir (`#error`).
+- Kayıt moduna dokunan uygulama kodu `#if RECORDING_MODE` içindedir. İki hedefin bundle kimliği aynıdır (aynı App Store kaydı).
+
 ## CI
-- Linux (GitHub Actions): `swift test --package-path Packages/SoloEngine` (kaynak uyumluluğu ve anlık görüntüler dahil) + `swift run --package-path Packages/SoloCalibrate solo-calibrate validate exercises/` (tüm şablon ve katalogların doğrulanması).
-- macOS runner: `xcodebuild test` (uygulama ve diğer paketler), PR'larda. Maliyet yüksekse yalnız `main` ve etiketlerde.
+- Linux (GitHub Actions): `swift test --package-path Packages/SoloEngine` (kaynak uyumluluğu ve anlık görüntüler dahil) + `swift run --package-path Packages/SoloCalibrate solo-calibrate validate exercises/` (tüm şablon ve katalogların doğrulanması) + `exercises/source/SHA256SUMS` sağlama toplamı kontrolü (AC-4.2).
+- macOS runner: `xcodebuild test` (uygulama ve diğer paketler), PR'larda. Maliyet yüksekse yalnız `main` ve etiketlerde. Aynı işte AC-2.3 (`GymSpotSolo` Release ikilisinde `SoloRecording` sembolü yok; karşı kontrol olarak `GymSpotSoloBeta` ikilisinde var) ve AC-2.5 (`Info.plist`'te mikrofon anahtarı yok) kontrol edilir.
 
 ## Spike T0.2 — Vision ve zamanlama ölçümü
 **Amaç:** projenin en büyük teknik riskini kodun geri kalanı yazılmadan ölçmek.

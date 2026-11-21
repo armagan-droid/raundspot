@@ -1,0 +1,681 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3543C81D1A366203A4E40DF1 /* SoloPose in Frameworks */ = {
+			isa = PBXBuildFile;
+			productRef = 346B83D10B5DB392C4B322FF /* SoloPose */;
+		};
+		7A25F1C9EF77C50E2DBD45AF /* SoloEngine in Frameworks */ = {
+			isa = PBXBuildFile;
+			productRef = 9BF22CC8B1366D2BBB476DDA /* SoloEngine */;
+		};
+		8E770CA335B34ED356A9E418 /* SoloHealth in Frameworks */ = {
+			isa = PBXBuildFile;
+			productRef = A4A2C541E7BA4BF98F3803C2 /* SoloHealth */;
+		};
+		8EAA0A009E817CBE1AB8611F /* SoloRecording in Frameworks */ = {
+			isa = PBXBuildFile;
+			productRef = 3630D4AF45D137466EFF5999 /* SoloRecording */;
+		};
+		9151A329930B2654F86C78F6 /* SoloPose in Frameworks */ = {
+			isa = PBXBuildFile;
+			productRef = 601714BA791A890DFC21D242 /* SoloPose */;
+		};
+		9A47765D15A0426025C1FE3F /* SoloCapture in Frameworks */ = {
+			isa = PBXBuildFile;
+			productRef = DDE01C19A39623C120ADEB18 /* SoloCapture */;
+		};
+		BD149E5390D1FF822A84BAE6 /* SoloHealth in Frameworks */ = {
+			isa = PBXBuildFile;
+			productRef = 27CBF906256875E41A16D066 /* SoloHealth */;
+		};
+		C3EA20208706FFE4728F2EB3 /* SoloCapture in Frameworks */ = {
+			isa = PBXBuildFile;
+			productRef = 28FA2E4B933A20E6C2DE8FED /* SoloCapture */;
+		};
+		D4D1A2D2959957475C5DACBE /* SoloEngine in Frameworks */ = {
+			isa = PBXBuildFile;
+			productRef = 32F34340C9140871637ABB85 /* SoloEngine */;
+		};
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3347374BC14DBC8713B04C78 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98F54143AB4E86B28C3AFEE0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B902F7C2327297FC583709E1;
+			remoteInfo = GymSpotSolo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		6F9454BBA75FEC86CAE54762 /* GymSpotSoloTests.xctest */ = {
+			isa = PBXFileReference;
+			explicitFileType = wrapper.cfbundle;
+			includeInIndex = 0;
+			path = GymSpotSoloTests.xctest;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AB5545AF32C13C06A76D3A2A /* GymSpotSolo.app */ = {
+			isa = PBXFileReference;
+			explicitFileType = wrapper.application;
+			includeInIndex = 0;
+			path = GymSpotSolo.app;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F540F7D23A12233B46E994A1 /* GymSpotSoloBeta.app */ = {
+			isa = PBXFileReference;
+			explicitFileType = wrapper.application;
+			includeInIndex = 0;
+			path = GymSpotSoloBeta.app;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		10E2E1F0B112FDC6E61CD833 /* AppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = AppTests;
+			sourceTree = "<group>";
+		};
+		D29FC6E3AF445F2F81853E9F /* App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = App;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8E77ECB697B0FD0B2F831F53 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7A25F1C9EF77C50E2DBD45AF /* SoloEngine in Frameworks */,
+				3543C81D1A366203A4E40DF1 /* SoloPose in Frameworks */,
+				9A47765D15A0426025C1FE3F /* SoloCapture in Frameworks */,
+				BD149E5390D1FF822A84BAE6 /* SoloHealth in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D97DC1B43FE1655255E77332 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF1428073023BC66287AD38C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4D1A2D2959957475C5DACBE /* SoloEngine in Frameworks */,
+				9151A329930B2654F86C78F6 /* SoloPose in Frameworks */,
+				C3EA20208706FFE4728F2EB3 /* SoloCapture in Frameworks */,
+				8E770CA335B34ED356A9E418 /* SoloHealth in Frameworks */,
+				8EAA0A009E817CBE1AB8611F /* SoloRecording in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8916C45310B24E205C92B70E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB5545AF32C13C06A76D3A2A /* GymSpotSolo.app */,
+				F540F7D23A12233B46E994A1 /* GymSpotSoloBeta.app */,
+				6F9454BBA75FEC86CAE54762 /* GymSpotSoloTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AB48CFA305015276AB5620D4 /*  */ = {
+			isa = PBXGroup;
+			children = (
+				D29FC6E3AF445F2F81853E9F /* App */,
+				10E2E1F0B112FDC6E61CD833 /* AppTests */,
+				8916C45310B24E205C92B70E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6A1E24F1D627678E5C8106C0 /* GymSpotSoloTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E1140BE24B8F4E476FF27777 /* Build configuration list for PBXNativeTarget "GymSpotSoloTests" */;
+			buildPhases = (
+				EAAB4D80933D751E14AB8C66 /* Sources */,
+				D97DC1B43FE1655255E77332 /* Frameworks */,
+				DDA3AA0EBF5B4455789FCBEF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AA4FCAC8043005718DCD0CC7 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				10E2E1F0B112FDC6E61CD833 /* AppTests */,
+			);
+			name = GymSpotSoloTests;
+			packageProductDependencies = (
+			);
+			productName = GymSpotSoloTests;
+			productReference = 6F9454BBA75FEC86CAE54762 /* GymSpotSoloTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		9071E799D3308BE76EAC00EB /* GymSpotSoloBeta */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 988B2A9A37499BD939194D23 /* Build configuration list for PBXNativeTarget "GymSpotSoloBeta" */;
+			buildPhases = (
+				AE5970F3A97FE1C77B7EC4D8 /* Sources */,
+				FF1428073023BC66287AD38C /* Frameworks */,
+				04B9E8B9BC32AECFB177BBB1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				D29FC6E3AF445F2F81853E9F /* App */,
+			);
+			name = GymSpotSoloBeta;
+			packageProductDependencies = (
+				32F34340C9140871637ABB85 /* SoloEngine */,
+				601714BA791A890DFC21D242 /* SoloPose */,
+				28FA2E4B933A20E6C2DE8FED /* SoloCapture */,
+				A4A2C541E7BA4BF98F3803C2 /* SoloHealth */,
+				3630D4AF45D137466EFF5999 /* SoloRecording */,
+			);
+			productName = GymSpotSoloBeta;
+			productReference = F540F7D23A12233B46E994A1 /* GymSpotSoloBeta.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B902F7C2327297FC583709E1 /* GymSpotSolo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D3ACBE0AEDC735B7C4275A36 /* Build configuration list for PBXNativeTarget "GymSpotSolo" */;
+			buildPhases = (
+				99401062377D734ACEDFAF23 /* Sources */,
+				8E77ECB697B0FD0B2F831F53 /* Frameworks */,
+				5D755D8A53590A15D4B43487 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				D29FC6E3AF445F2F81853E9F /* App */,
+			);
+			name = GymSpotSolo;
+			packageProductDependencies = (
+				9BF22CC8B1366D2BBB476DDA /* SoloEngine */,
+				346B83D10B5DB392C4B322FF /* SoloPose */,
+				DDE01C19A39623C120ADEB18 /* SoloCapture */,
+				27CBF906256875E41A16D066 /* SoloHealth */,
+			);
+			productName = GymSpotSolo;
+			productReference = AB5545AF32C13C06A76D3A2A /* GymSpotSolo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		98F54143AB4E86B28C3AFEE0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2720;
+				LastUpgradeCheck = 2720;
+				TargetAttributes = {
+					B902F7C2327297FC583709E1 = {
+						CreatedOnToolsVersion = 27.2;
+					};
+					9071E799D3308BE76EAC00EB = {
+						CreatedOnToolsVersion = 27.2;
+					};
+					6A1E24F1D627678E5C8106C0 = {
+						CreatedOnToolsVersion = 27.2;
+						TestTargetID = B902F7C2327297FC583709E1;
+					};
+				};
+			};
+			buildConfigurationList = D6CC217727934A074E68F345 /* Build configuration list for PBXProject "GymSpotSolo" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				tr,
+				Base,
+			);
+			mainGroup = AB48CFA305015276AB5620D4 /*  */;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				963B046DA2CE9A291978A989 /* XCLocalSwiftPackageReference "Packages/SoloEngine" */,
+				3EC1CBC52DF122FED0C869ED /* XCLocalSwiftPackageReference "Packages/SoloPose" */,
+				F4D3D424DB1ADE9EB79F6555 /* XCLocalSwiftPackageReference "Packages/SoloCapture" */,
+				57EE40108A104E93ECCF48B5 /* XCLocalSwiftPackageReference "Packages/SoloHealth" */,
+				B462E476598EF7B6206EC753 /* XCLocalSwiftPackageReference "Packages/SoloRecording" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 8916C45310B24E205C92B70E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B902F7C2327297FC583709E1 /* GymSpotSolo */,
+				9071E799D3308BE76EAC00EB /* GymSpotSoloBeta */,
+				6A1E24F1D627678E5C8106C0 /* GymSpotSoloTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		04B9E8B9BC32AECFB177BBB1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5D755D8A53590A15D4B43487 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDA3AA0EBF5B4455789FCBEF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		99401062377D734ACEDFAF23 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AE5970F3A97FE1C77B7EC4D8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EAAB4D80933D751E14AB8C66 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AA4FCAC8043005718DCD0CC7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B902F7C2327297FC583709E1 /* GymSpotSolo */;
+			targetProxy = 3347374BC14DBC8713B04C78 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		107A3BEB1F6E19B7F2D1FF3F /* Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 6.0;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "BETA $(inherited)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Beta;
+		};
+		172C32B8BD906B07C86E9665 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gymspot.solo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		1D7921D4C6A76F525CAD52F6 /* Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gymspot.solo.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GymSpotSolo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GymSpotSolo";
+			};
+			name = Beta;
+		};
+		37E1FC44C0B0596AF0200ABC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gymspot.solo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) RECORDING_MODE";
+			};
+			name = Debug;
+		};
+		5ECFFD55CAA030BF4D6C450B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 6.0;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		844FE267AC2116D4EDDC2255 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gymspot.solo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		8A87215C3E677D6E2FD4A2CE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gymspot.solo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) RECORDING_MODE RECORDING_MODE_RELEASE_FORBIDDEN";
+			};
+			name = Release;
+		};
+		AB7CAFD0E5DF8C054ED6D635 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gymspot.solo.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GymSpotSolo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GymSpotSolo";
+			};
+			name = Release;
+		};
+		ACDD0E94E3CF1C174123089C /* Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gymspot.solo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Beta;
+		};
+		C80F50331CFF23C66E1CCEBB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gymspot.solo.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GymSpotSolo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GymSpotSolo";
+			};
+			name = Debug;
+		};
+		CC4B7327D5CEAE18E21DAC49 /* Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gymspot.solo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) RECORDING_MODE";
+			};
+			name = Beta;
+		};
+		F75A80BE4083B47E496D4761 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 6.0;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		988B2A9A37499BD939194D23 /* Build configuration list for PBXNativeTarget "GymSpotSoloBeta" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				37E1FC44C0B0596AF0200ABC /* Debug */,
+				CC4B7327D5CEAE18E21DAC49 /* Beta */,
+				8A87215C3E677D6E2FD4A2CE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D3ACBE0AEDC735B7C4275A36 /* Build configuration list for PBXNativeTarget "GymSpotSolo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				172C32B8BD906B07C86E9665 /* Debug */,
+				ACDD0E94E3CF1C174123089C /* Beta */,
+				844FE267AC2116D4EDDC2255 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D6CC217727934A074E68F345 /* Build configuration list for PBXProject "GymSpotSolo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F75A80BE4083B47E496D4761 /* Debug */,
+				107A3BEB1F6E19B7F2D1FF3F /* Beta */,
+				5ECFFD55CAA030BF4D6C450B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E1140BE24B8F4E476FF27777 /* Build configuration list for PBXNativeTarget "GymSpotSoloTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C80F50331CFF23C66E1CCEBB /* Debug */,
+				1D7921D4C6A76F525CAD52F6 /* Beta */,
+				AB7CAFD0E5DF8C054ED6D635 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		3EC1CBC52DF122FED0C869ED /* XCLocalSwiftPackageReference "Packages/SoloPose" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/SoloPose;
+		};
+		57EE40108A104E93ECCF48B5 /* XCLocalSwiftPackageReference "Packages/SoloHealth" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/SoloHealth;
+		};
+		963B046DA2CE9A291978A989 /* XCLocalSwiftPackageReference "Packages/SoloEngine" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/SoloEngine;
+		};
+		B462E476598EF7B6206EC753 /* XCLocalSwiftPackageReference "Packages/SoloRecording" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/SoloRecording;
+		};
+		F4D3D424DB1ADE9EB79F6555 /* XCLocalSwiftPackageReference "Packages/SoloCapture" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/SoloCapture;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		27CBF906256875E41A16D066 /* SoloHealth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 57EE40108A104E93ECCF48B5 /* XCLocalSwiftPackageReference "Packages/SoloHealth" */;
+			productName = SoloHealth;
+		};
+		28FA2E4B933A20E6C2DE8FED /* SoloCapture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F4D3D424DB1ADE9EB79F6555 /* XCLocalSwiftPackageReference "Packages/SoloCapture" */;
+			productName = SoloCapture;
+		};
+		32F34340C9140871637ABB85 /* SoloEngine */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 963B046DA2CE9A291978A989 /* XCLocalSwiftPackageReference "Packages/SoloEngine" */;
+			productName = SoloEngine;
+		};
+		346B83D10B5DB392C4B322FF /* SoloPose */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3EC1CBC52DF122FED0C869ED /* XCLocalSwiftPackageReference "Packages/SoloPose" */;
+			productName = SoloPose;
+		};
+		3630D4AF45D137466EFF5999 /* SoloRecording */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B462E476598EF7B6206EC753 /* XCLocalSwiftPackageReference "Packages/SoloRecording" */;
+			productName = SoloRecording;
+		};
+		601714BA791A890DFC21D242 /* SoloPose */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3EC1CBC52DF122FED0C869ED /* XCLocalSwiftPackageReference "Packages/SoloPose" */;
+			productName = SoloPose;
+		};
+		9BF22CC8B1366D2BBB476DDA /* SoloEngine */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 963B046DA2CE9A291978A989 /* XCLocalSwiftPackageReference "Packages/SoloEngine" */;
+			productName = SoloEngine;
+		};
+		A4A2C541E7BA4BF98F3803C2 /* SoloHealth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 57EE40108A104E93ECCF48B5 /* XCLocalSwiftPackageReference "Packages/SoloHealth" */;
+			productName = SoloHealth;
+		};
+		DDE01C19A39623C120ADEB18 /* SoloCapture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F4D3D424DB1ADE9EB79F6555 /* XCLocalSwiftPackageReference "Packages/SoloCapture" */;
+			productName = SoloCapture;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 98F54143AB4E86B28C3AFEE0 /* Project object */;
+}
