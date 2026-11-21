@@ -39,12 +39,20 @@ Tam liste ve gerekçeler: `specs/00-vision.md` "Değişmez kurallar". Özet:
 8. TR ve EN baştan; kullanıcıya görünen her metin String Catalog'dadır.
 
 ## Komutlar
-Şu an iskelet yok (`specs/14` T0.1). İskelet kurulunca bu bölüm doldurulur:
 - Motor testleri (Linux/macOS): `swift test --package-path Packages/SoloEngine`
-- Şablon doğrulama: `swift run --package-path Packages/SoloCalibrate solo-calibrate validate exercises/`
-- Kalibrasyon raporu: `solo-calibrate report --files fixtures/recordings/<şablon> [--sweep <yol>=<değerler>]`
-- Uygulama testleri (macOS): `xcodebuild test -scheme GymSpotSolo -destination 'platform=iOS Simulator,name=…'`
+- Araç testleri: `swift test --package-path Packages/SoloCalibrate`
+- Şablon doğrulama: `swift run --package-path Packages/SoloCalibrate solo-calibrate validate exercises/` (T2.1'e kadar yalnız JSON biçimi denetlenir)
+- Kaynak sağlama toplamı (AC-4.2): `cd exercises/source && shasum -a 256 -c SHA256SUMS`
+- Kalibrasyon raporu (T2.9): `solo-calibrate report --files fixtures/recordings/<şablon> [--sweep <yol>=<değerler>]`
+- Uygulama testleri (macOS): `xcodebuild test -project GymSpotSolo.xcodeproj -scheme GymSpotSolo -destination 'platform=iOS Simulator,name=…' CODE_SIGNING_ALLOWED=NO`
+- Paket testleri (iOS paketleri): `cd Packages/<Paket> && xcodebuild test -scheme <Paket> -destination 'platform=iOS Simulator,name=…'`
+- Release ikili kontrolü (AC-2.3, AC-2.5): `scripts/ci/check-release-binary.sh <derived-data-dizini>`
 - Anlık görüntüleri güncelleme (yalnız spec değişikliğiyle): `UPDATE_SNAPSHOTS=1 swift test …`
+
+## Proje yapısı notları
+- İki uygulama hedefi aynı `App/` kaynaklarını paylaşır: `GymSpotSolo` (Debug/Release, App Store) ve `GymSpotSoloBeta` (Beta, TestFlight; `SoloRecording` ve `RECORDING_MODE` yalnız burada) — `specs/02` "Derleme yapılandırmaları".
+- `App/` ve `AppTests/` Xcode'da senkron klasördür: yeni dosya eklemek için `project.pbxproj` düzenlenmez.
+- Bundle kimliği `com.gymspot.solo` yer tutucudur; ürün adıyla birlikte kesinleşir (`specs/00` açık soru 2).
 
 ## Araç notları
 - Node/TypeScript yalnız `tools/golden-export` içindir ve bir kez çalıştırılır (`specs/03`); CI ve derlemede yoktur.

@@ -1,0 +1,52 @@
+# CI (specs/02 "CI"). No third-party actions besides actions/checkout.
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ["*"]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  linux:
+    name: Linux · SoloEngine + solo-calibrate
+    runs-on: ubuntu-latest
+    container: swift:6.4-noble
+    steps:
+      - uses: actions/checkout@v4
+      - name: Source template checksums (AC-4.2)
+        run: cd exercises/source && sha256sum -c SHA256SUMS
+      - name: SoloEngine tests (AC-2.1)
+        run: swift test --package-path Packages/SoloEngine
+      - name: SoloCalibrate tests
+        run: swift test --package-path Packages/SoloCalibrate
+      - name: Validate templates
+        run: swift run --package-path Packages/SoloCalibrate solo-calibrate validate exercises/
+
+  macos:
+    name: macOS · app and packages
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Toolchain
+        run: xcodebuild -version && swift --version
+      - name: Pick simulator
+        run: echo "SIM=$(scripts/ci/first-iphone-simulator.sh)" >> "$GITHUB_ENV"
+      - name: App tests
+        run: |
+          xcodebuild test -project GymSpotSolo.xcodeproj -scheme GymSpotSolo \
+            -destination "id=$SIM" -derivedDataPath .build/dd CODE_SIGNING_ALLOWED=NO -quiet
+      - name: Package tests (iOS Simulator)
+        run: |
+          for pkg in SoloEngine SoloPose SoloCapture SoloHealth SoloRecording; do
+            echo "::group::$pkg"
+            (cd "Packages/$pkg" && xcodebuild test -scheme "$pkg" -destination "id=$SIM" \
+              -derivedDataPath ../../.build/dd-pkg CODE_SIGNING_ALLOWED=NO -quiet)
+            echo "::endgroup::"
+          done
+      - name: Release binary checks (AC-2.3, AC-2.5)
+        run: scripts/ci/check-release-binary.sh .build/dd-release

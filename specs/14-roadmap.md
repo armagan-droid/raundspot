@@ -5,7 +5,7 @@ Her görev bir **ana spec**'e dayanır (görev satırında ilk yazılan) ve sat�
 Bu proje salon reposundan bağımsızdır; salon reposuna hiçbir görevde yazılmaz. Tek temas T1.2'deki bir kerelik golden üretimidir.
 
 ## Faz 0 — Hazırlık ve spike
-- [ ] T0.1 Repo iskeleti: Xcode projesi (Debug/Beta/Release), `Packages/` altında `SoloEngine` (Linux'ta `swift test`), `SoloCalibrate`, `SoloPose`, `SoloCapture`, `SoloHealth`, `SoloRecording` boş paketleri; String Catalog TR/EN; CI (Linux `swift test` + `solo-calibrate validate`, macOS `xcodebuild test`) — 02 (AC-2.1, AC-2.3, AC-2.5)
+- [x] T0.1 Repo iskeleti: Xcode projesi (Debug/Beta/Release), `Packages/` altında `SoloEngine` (Linux'ta `swift test`), `SoloCalibrate`, `SoloPose`, `SoloCapture`, `SoloHealth`, `SoloRecording` boş paketleri; String Catalog TR/EN; CI (Linux `swift test` + `solo-calibrate validate`, macOS `xcodebuild test`) — 02 (AC-2.1, AC-2.3, AC-2.5)
 - [ ] T0.2 **Spike:** Vision 2B/3B FPS ve gecikme, 3B eksenleri, `centerHead`↔`nose`, güven dağılımı, önden lean back derinliği, ses çıkış gecikmesi (hoparlör/Bluetooth), termal ve pil. Ölçüm uygulaması `Spike/` (Debug hedefi, üretime girmez). Sonuçları 02 tablosuna yaz; H1/H2 kararını 03'e, `lean_back_front`/`high_kick` kararını 04 ve 05'e işle — 02 (AC-2.4), 03
 
 ## Faz 1 — Kaynaktan devralma (bir kerelik)
