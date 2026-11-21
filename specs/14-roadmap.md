@@ -15,7 +15,7 @@ Bu proje salon reposundan bağımsızdır; salon reposuna hiçbir görevde yazı
 ## Faz 2 — Swift motoru
 - [x] T2.1 Şema ve yükleyici: rule pack (Codable, katı), ref 04 doğrulama kuralları, `LandmarkSequence` v1/v2 (`skeleton`, `null` noktalar), iskelet yetenek kontrolü `unsupported_landmark`; `solo-calibrate validate` — 03 (AC-3.4, AC-3.5), 04 (AC-4.1)
 - [ ] T2.2 İfade dili: tokenize, parse, üç değerli değerlendirme; ifade golden'ı — 03 (AC-3.3). *Durum: dil ve kaynak testlerinin çevirisi tamam; ifade golden karşılaştırması T1.2'yi bekliyor.*
-- [ ] T2.3 Metrikler (kaynak kapalı liste), One Euro, görünüm tespiti, yakın taraf — 03
+- [x] T2.3 Metrikler (kaynak kapalı liste), One Euro, görünüm tespiti, yakın taraf — 03
 - [ ] T2.4 Tekrar sayıcı, hata değerlendirici, uyarı kuralları, güvenlik duraklatması, takip kaybı; zaman damgalı olaylar; ham metrik geçmişi — 03
 - [ ] T2.5 Kaynak uyumluluğu tüm kaynak golden'larda yeşil (Linux CI); anlık görüntü altyapısı (`UPDATE_SNAPSHOTS`) — 03 (AC-3.2, AC-3.7)
 - [ ] T2.6 Kurulum değerlendirmesi ve kişi seçimi (ref 08 A3, ref 07) — 03, 12

@@ -53,6 +53,11 @@ public enum RepOutcome: String, CaseIterable, Sendable, Equatable {
 public struct RepLabel: Sendable, Equatable {
     public var outcome: RepOutcome
     public var faults: [String]
+
+    public init(outcome: RepOutcome, faults: [String]) {
+        self.outcome = outcome
+        self.faults = faults
+    }
 }
 
 /// Landmark sequence used by fixtures and recordings (ref 04 "fixture
@@ -71,6 +76,19 @@ public struct LandmarkSequence: Sendable, Equatable {
     public var frames: [Frame]
     /// False when a v2 sequence stores `world: null` (no 3D data).
     public var hasWorld: Bool
+
+    public init(formatVersion: Int, skeleton: Skeleton, exerciseId: String, source: Source, view: CameraView,
+                fps: Double, labels: [RepLabel]?, frames: [Frame], hasWorld: Bool) {
+        self.formatVersion = formatVersion
+        self.skeleton = skeleton
+        self.exerciseId = exerciseId
+        self.source = source
+        self.view = view
+        self.fps = fps
+        self.labels = labels
+        self.frames = frames
+        self.hasWorld = hasWorld
+    }
 
     public static func parse(_ json: JSONValue) -> Result<LandmarkSequence, SequenceIssues> {
         var r = SchemaReader()
