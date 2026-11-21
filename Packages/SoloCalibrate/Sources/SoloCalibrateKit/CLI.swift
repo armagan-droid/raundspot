@@ -23,7 +23,6 @@ public enum CLI {
                 let report = try Validator.validate(directory: directory)
                 for error in report.errors { output("error: \(error)") }
                 output("checked \(report.checkedFiles.count) JSON file(s): \(report.isValid ? "OK" : "\(report.errors.count) error(s)")")
-                output("note: only JSON well-formedness is checked; schema validation arrives in T2.1")
                 return report.isValid ? 0 : 1
             case "report":
                 throw CalibrateError.notImplemented(command: "report", task: "T2.9")
