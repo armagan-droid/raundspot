@@ -1,0 +1,12 @@
+.DS_Store
+# Xcode / Swift
+build/
+DerivedData/
+.build/
+.swiftpm/
+*.xcuserstate
+xcuserdata/
+*.xcscmblueprint
+# tools/golden-export
+tools/golden-export/node_modules/
+tools/golden-export/.work/
