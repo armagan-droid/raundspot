@@ -30,6 +30,8 @@ import UIKit
     private(set) var metricRows: [(String, Double)] = []
     private(set) var setupView: View = .ambiguous
     private(set) var candidateCount = 0
+    private(set) var guide: HeadGuide?
+    private var guideTracker: HeadGuideTracker?
 
     let camera = CameraSession(position: .front)
     private let speech = SpeechOut(language: Lang.code)
@@ -145,6 +147,7 @@ import UIKit
         // ready for 1.5 s without a break → next step (ref 08 "Otomatik başlama")
         if let since = readySince, t - since >= 1500 {
             engine = ExerciseEngine(loaded, setup: ExerciseSetup(view: a.view, nearSide: a.nearSide))
+            guideTracker = HeadGuideTracker(loaded.pack, nearSide: a.nearSide)
             samples = []
             phase = .ready
             speech.say(String(localized: "training.ready.spoken"))
@@ -154,6 +157,8 @@ import UIKit
     private func run(_ f: Frame, _ t: Double) {
         guard let engine else { return }
         let events = engine.push(f)
+        guide = guideTracker?.update(f, repMetric: engine.metrics[loaded.pack.rep.metric], inRep: engine.repState == .inRep,
+                                     minVisibility: loaded.pack.camera.minVisibility)
         metricRows = engine.metricOrder.map { ($0, engine.metrics[$0] ?? .nan) }
         for e in events { handle(e.event, t) }
     }

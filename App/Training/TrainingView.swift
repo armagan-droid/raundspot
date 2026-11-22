@@ -62,6 +62,9 @@ struct TrainingView: SwiftUI.View {
                                     minVisibility: model.loaded.pack.camera.minVisibility)
                         .ignoresSafeArea()
                 }
+                if model.phase == .ready || model.phase == .active {
+                    GuideOverlay(guide: model.guide, aspect: model.aspect, mirrored: model.isFrontCamera).ignoresSafeArea()
+                }
                 if model.phase == .paused {
                     Rectangle().strokeBorder(.red, lineWidth: 12).ignoresSafeArea()
                 }
@@ -92,6 +95,9 @@ struct TrainingView: SwiftUI.View {
                 Text(model.hints.first.map { LocalizedStringKey($0.rawValue) } ?? "training.setup.hold")
                     .font(.title.bold())
                 Text(model.setupHint).font(.callout)
+                if !model.howTo.isEmpty {
+                    Label(model.howTo, systemImage: "info.circle").font(.callout).padding(.top, 4)
+                }
             }
             .multilineTextAlignment(.center)
             .padding().background(.black.opacity(0.55), in: .rect(cornerRadius: 16))
