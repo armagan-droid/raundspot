@@ -41,7 +41,7 @@ Tam liste ve gerekçeler: `specs/00-vision.md` "Değişmez kurallar". Özet:
 ## Komutlar
 - Motor testleri (Linux/macOS): `swift test --package-path Packages/SoloEngine`
 - Araç testleri: `swift test --package-path Packages/SoloCalibrate`
-- Şablon doğrulama: `swift run --package-path Packages/SoloCalibrate solo-calibrate validate exercises/` (T2.1'e kadar yalnız JSON biçimi denetlenir)
+- Şablon doğrulama: `swift run --package-path Packages/SoloCalibrate solo-calibrate validate exercises/` (şema + ifadeler; `exercises/` kökünde `howTo` zorunlu, `source/` hariç; tanınmayan alt dizin hata)
 - Kaynak sağlama toplamı (AC-4.2): `cd exercises/source && shasum -a 256 -c SHA256SUMS`
 - Kalibrasyon raporu (T2.9): `solo-calibrate report --files fixtures/recordings/<şablon> [--sweep <yol>=<değerler>]`
 - Uygulama testleri (macOS): `xcodebuild test -project GymSpotSolo.xcodeproj -scheme GymSpotSolo -destination 'platform=iOS Simulator,name=…' CODE_SIGNING_ALLOWED=NO`
