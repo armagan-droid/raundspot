@@ -1,0 +1,102 @@
+{
+  "formatVersion": 1,
+  "id": "eskiv_temeli",
+  "name": {
+    "tr": "Eskiv temeli",
+    "en": "Evasion basics"
+  },
+  "sport": "muay_thai",
+  "estimatedMinutes": 15,
+  "blocks": [
+    {
+      "type": "warmup",
+      "steps": [
+        {
+          "textKey": "warmup.light_jumps",
+          "durationSec": 30
+        },
+        {
+          "textKey": "warmup.arm_circles",
+          "durationSec": 30
+        },
+        {
+          "textKey": "warmup.hip_circles",
+          "durationSec": 30
+        },
+        {
+          "textKey": "warmup.shadow",
+          "durationSec": 60
+        },
+        {
+          "textKey": "warmup.dynamic_stretch",
+          "durationSec": 30
+        }
+      ]
+    },
+    {
+      "type": "technique",
+      "exerciseId": "slip_left",
+      "sets": 2,
+      "reps": 8,
+      "restSec": 30,
+      "mode": "lenient"
+    },
+    {
+      "type": "technique",
+      "exerciseId": "slip_right",
+      "sets": 2,
+      "reps": 8,
+      "restSec": 30,
+      "mode": "lenient"
+    },
+    {
+      "type": "technique",
+      "exerciseId": "duck",
+      "sets": 2,
+      "reps": 8,
+      "restSec": 30,
+      "mode": "lenient"
+    },
+    {
+      "type": "technique",
+      "exerciseId": "bob_weave_left",
+      "sets": 1,
+      "reps": 6,
+      "restSec": 30,
+      "mode": "lenient"
+    },
+    {
+      "type": "technique",
+      "exerciseId": "bob_weave_right",
+      "sets": 1,
+      "reps": 6,
+      "restSec": 30,
+      "mode": "lenient"
+    },
+    {
+      "type": "reflex",
+      "catalogId": "muay_thai",
+      "level": 1,
+      "cues": 15,
+      "sets": 1,
+      "restSec": 60
+    },
+    {
+      "type": "guided",
+      "steps": [
+        {
+          "textKey": "cooldown.breathing",
+          "durationSec": 30
+        },
+        {
+          "textKey": "cooldown.hip_stretch",
+          "durationSec": 45
+        },
+        {
+          "textKey": "cooldown.shoulder_stretch",
+          "durationSec": 45
+        }
+      ]
+    }
+  ]
+}

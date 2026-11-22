@@ -33,10 +33,39 @@ BLOCK_DONE → READY (sonraki blok) | COOLDOWN → SESSION_DONE
 ### Geçiş kuralları
 ref 03'ün şu kuralları aynen geçerlidir: 2 (geri sayım), 3 (sayaç; strict/lenient), 4 (set sonu), 5 (hareketsizlik, yalnız teknik/kondisyon), 6 (dinlenme), 10 (takip kaybı, 5 sn), 11 (güvenlik duraklatması), 12 (iptal), 15 (geçersiz girdi). Kaldırılanlar: 1'in yürütücü kısmı, 7'nin `TRANSFER`'i, 8, 9'un `TRANSFER` kısmı, 13, 14 (elle kayıt yok: kamera yoksa uygulama zaten antrenman başlatmaz).
 Eklenenler:
-- **E1 Refleks bloğu:** `ACTIVE`'de 05 deneme döngüsü yürür; set, işaret sayısı dolunca biter (`END_SET` ile erken bitirilebilir). Set özeti 05.
+- **E1 Refleks bloğu:** `ACTIVE`'de 05 deneme döngüsü yürür; set, işaret sayısı kadar `REFLEX_ATTEMPT_DONE` gelince biter (`END_SET` ile erken bitirilebilir). Set özeti 05.
 - **E2 Ses kesintisi:** başka uygulama ses oturumunu alırsa (ör. sesli mesaj) refleks seti `PAUSED` olur; teknik setinde yalnız uyarılar susar.
 - **E3 Antrenman sonu:** son bloktan sonra `COOLDOWN` (guided adımlar, atlanabilir), sonra `SESSION_DONE`; HealthKit kaydı (08) ve özet.
 - **E4 Kaldığı yerden devam:** durum `serialize/deserialize` edilir (ref AC-3.5). Uygulama kapanırsa 30 dk içinde açıldığında "Antrenmana devam et" önerilir; sonra seans `ABORTED` olarak kapanır.
+
+### Girdiler ve komutlar (bu projenin eklemeleri)
+ref 03 girdilerine (motor olayları, `USER_ACTION`, `TICK`) eklenenler. Devir ve elle kayıt girdileri yoktur.
+- `USER_ACTION`: ref 03'tekiler (`START`, `READY`, `PAUSE`, `RESUME`, `END_SET`, `CONTINUE_SET`, `SKIP_BLOCK`, `UNDO_SKIP`, `ABORT`), ek olarak `CONFIRM_SPACE` (S2 "Alan güvenli" dokunuşu) ve `SKIP_WARMUP`. Soğuma `SKIP_BLOCK` ile atlanır.
+- `SETUP_READY`: S1 kurulumu hazır (uygulama `assessSetup` 1,5 sn kesintisiz hazır kalınca verir, 12). `SETUP`'ta alan onayından önce gelirse yok sayılır. Takip kaybıyla duraklamadan sonra S1 kontrolleri yeniden sağlanınca da gelir; bu durumda `TRACKING_RESTORED` gibi işlenir.
+- `INTERRUPTED { kind: background | call | camera }`: otomatik `PAUSED` (E4 ile aynı kurallar, elle "Devam").
+- `AUDIO_INTERRUPTED`, `AUDIO_RESUMED`: E2.
+- `REFLEX_ATTEMPT_DONE`: refleks deneme döngüsü (05, ayrı makine, Faz 4) bir denemenin sonucunu verdi. Seans motoru refleks setinde yalnız deneme sayar ve kayıt komutunu döngünün kendisi üretir.
+- `RESTORED { now }`: E4, serileştirilmiş durumdan açılış.
+- Komutlar: `SPEAK { key }`, `SHOW { key }`, `PERSIST { record }`. Anahtarlar String Catalog anahtarıdır (00 kural 8). Uyarı anahtarı `cue.<exerciseId>.<faultId>` ve metni şablonun `cue` alanından gelir.
+- Kayıtlar: `session` (`active` / `done` / `aborted`, `warmupSkipped`), `block` (`done` / `partial` / `skipped`, `exerciseVersion`), `set` (`validReps`, `faultyReps`, `target`, `belowTarget`, `mode`), `rep` (`outcome`, `faults`, `durationMs`, `counted`). Kimlikler enjekte edilen üreticiden gelir (ref 03).
+- Kamerasız bloklar (`warmup`, `guided`) `WARMUP` ya da `COOLDOWN` durumunda adım adım yürür: her adımın başında `SPEAK { textKey }`, süre `TICK` ile ilerler. Son blok `guided` ise `COOLDOWN` olur, aradaki `guided` bloklar da aynı durumda yürür.
+- Sabitler: geri sayım 3 sn, hareketsizlik 10 / 20 sn, takip kaybı 5 sn, devam önerisi 30 dk (ref 03, E4).
+
+### Hazır antrenman dosyası (`exercises/workouts/<id>.json`)
+```json
+{ "formatVersion": 1, "id": "eskiv_temeli", "name": { "tr": "…", "en": "…" }, "sport": "muay_thai", "estimatedMinutes": 15,
+  "blocks": [
+    { "type": "warmup", "steps": [ { "textKey": "warmup.jog", "durationSec": 60 } ] },
+    { "type": "technique", "exerciseId": "slip_left", "sets": 2, "reps": 8, "restSec": 45, "mode": "lenient" },
+    { "type": "reflex", "catalogId": "muay_thai", "level": 1, "cues": 15, "restSec": 60 },
+    { "type": "conditioning", "exerciseId": "squat", "sets": 3, "reps": 12, "restSec": 60, "mode": "lenient" },
+    { "type": "guided", "steps": [ … ] } ] }
+```
+- `level` bir tam sayı ya da `"chosen"`: kullanıcı seviyeyi antrenman başında seçer (H3). `conditioning` bloğu `reps` ya da `durationSec`'ten tam olarak birini taşır. `mode` öntanımlı `lenient`.
+- `technique` ve `conditioning` bloklarının `exerciseId`'si `exercises/` altında bir şablon olmalıdır (AC-6.5, `solo-calibrate validate`). Refleks katalogları (`exercises/reflex/`) Faz 4'te gelir; o zamana kadar `catalogId` denetlenmez.
+- `reflex` bloğu `sets` taşıyabilir (öntanımlı 1); `cues` yoksa seviyenin işaret sayısı geçerlidir (05, öntanımlı 20).
+- "Hızlı karma" (seçilen 2 eskiv) için bloklarda seçim gösterimi gerekir. Kondisyon **devresi** için de (blokların sırayla tekrarı, devreler arası dinlenme) format eklemesi gerekir. İkisi de formata sonra eklenecek. O zamana kadar "Kondisyon" antrenmanı her hareketi düz setlerle yazar (3 set, 60 sn dinlenme) ve "Hızlı karma" dosyası yoktur. `reverse_lunge` 20 tekrar = her bacak 10.
+- Ref 03 kural 5'teki "`CONTINUE_SET` → sayaç sıfırlanır" ifadesi, bu projede **hareketsizlik sayacı** olarak okunur. Tekrar sayacı korunur, çünkü sıfırlamak yapılan tekrarları silerdi.
 
 ### MVP hazır antrenmanları (taslak, hoca onayına bağlı)
 | Antrenman | Süre | Bloklar |

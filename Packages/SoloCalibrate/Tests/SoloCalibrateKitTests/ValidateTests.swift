@@ -67,6 +67,14 @@ import Testing
         #expect(try Validator.validate(directory: broken).errors == ["demos/squat.json: formatVersion must be 1"])
     }
 
+    @Test func workoutsAreChecked() throws {
+        let w = #"{"formatVersion": 1, "id": "w", "name": {"tr": "a", "en": "b"}, "sport": "muay_thai", "estimatedMinutes": 5, "blocks": [{"type": "technique", "exerciseId": "nope", "sets": 1, "reps": 5, "restSec": 0}]}"#
+        let dir = try makeDirectory(["workouts/w.json": w, "workouts/bad.json": "{\"formatVersion\": 1}"])
+        let errors = try Validator.validate(directory: dir).errors
+        #expect(errors.contains("workouts/w.json: blocks[0].exerciseId: no template 'nope' in exercises/ (specs/06 AC-6.5)"))
+        #expect(errors.contains { $0.hasPrefix("workouts/bad.json: id") })
+    }
+
     @Test func unknownFileKindsAreErrors() throws {
         let dir = try makeDirectory(["reflex/muay_thai.json": "{}"])
         let report = try Validator.validate(directory: dir)

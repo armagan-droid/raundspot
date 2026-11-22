@@ -1,0 +1,61 @@
+{
+  "formatVersion": 1,
+  "id": "refleks",
+  "name": {
+    "tr": "Refleks",
+    "en": "Reflex"
+  },
+  "sport": "muay_thai",
+  "estimatedMinutes": 11,
+  "blocks": [
+    {
+      "type": "warmup",
+      "steps": [
+        {
+          "textKey": "warmup.light_jumps",
+          "durationSec": 30
+        },
+        {
+          "textKey": "warmup.arm_circles",
+          "durationSec": 30
+        },
+        {
+          "textKey": "warmup.hip_circles",
+          "durationSec": 30
+        },
+        {
+          "textKey": "warmup.shadow",
+          "durationSec": 60
+        },
+        {
+          "textKey": "warmup.dynamic_stretch",
+          "durationSec": 30
+        }
+      ]
+    },
+    {
+      "type": "reflex",
+      "catalogId": "muay_thai",
+      "level": "chosen",
+      "sets": 3,
+      "restSec": 60
+    },
+    {
+      "type": "guided",
+      "steps": [
+        {
+          "textKey": "cooldown.breathing",
+          "durationSec": 30
+        },
+        {
+          "textKey": "cooldown.hip_stretch",
+          "durationSec": 45
+        },
+        {
+          "textKey": "cooldown.shoulder_stretch",
+          "durationSec": 45
+        }
+      ]
+    }
+  ]
+}
