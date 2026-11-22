@@ -1,0 +1,796 @@
+{
+ "goldenVersion": 1,
+ "generatedBy": "SoloEngine 0.0.1",
+ "rulePack": "snap_side_2d",
+ "rulePackVersion": 1,
+ "rulePackFile": "fixtures/snapshots/packs/snap_side_2d.json",
+ "setup": {
+  "view": "side",
+  "nearSide": "left"
+ },
+ "options": {
+  "safetyPause": true
+ },
+ "cuesEnabled": [
+  {
+   "fromT": 0,
+   "enabled": true
+  },
+  {
+   "fromT": 6000,
+   "enabled": false
+  }
+ ],
+ "sequence": "sequences/snap_side_2d_lean_back.json",
+ "expected": {
+  "events": [
+   {
+    "frame": 60,
+    "t": 2000.0000000000002,
+    "type": "READY_POSE_HELD"
+   },
+   {
+    "frame": 70,
+    "t": 2333.3333333333335,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 92,
+    "t": 3066.666666666667,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 767
+   },
+   {
+    "frame": 122,
+    "t": 4066.666666666667,
+    "type": "READY_POSE_HELD"
+   },
+   {
+    "frame": 136,
+    "t": 4533.333333333334,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 150,
+    "t": 5000,
+    "type": "REP_COMPLETED",
+    "outcome": "incomplete",
+    "faults": [],
+    "durationMs": 600
+   },
+   {
+    "frame": 178,
+    "t": 5933.333333333334,
+    "type": "READY_POSE_HELD"
+   },
+   {
+    "frame": 189,
+    "t": 6300,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 213,
+    "t": 7100.000000000001,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 867
+   },
+   {
+    "frame": 242,
+    "t": 8066.666666666667,
+    "type": "READY_POSE_HELD"
+   },
+   {
+    "frame": 247,
+    "t": 8233.333333333334,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 274,
+    "t": 9133.333333333334,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [
+     "too_far"
+    ],
+    "durationMs": 933
+   },
+   {
+    "frame": 304,
+    "t": 10133.333333333334,
+    "type": "READY_POSE_HELD"
+   },
+   {
+    "frame": 309,
+    "t": 10300,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 333,
+    "t": 11100,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 833
+   },
+   {
+    "frame": 362,
+    "t": 12066.666666666668,
+    "type": "READY_POSE_HELD"
+   }
+  ],
+  "metrics": {
+   "every": 10,
+   "values": [
+    {
+     "frame": 0,
+     "values": {
+      "lean": -0.07152434061428743,
+      "knee": 179.02415865733803,
+      "guard": -0.012370231758841544
+     }
+    },
+    {
+     "frame": 10,
+     "values": {
+      "lean": -0.07276482738255491,
+      "knee": 177.4256415121326,
+      "guard": -0.01065624417232862
+     }
+    },
+    {
+     "frame": 20,
+     "values": {
+      "lean": -0.06885902550311951,
+      "knee": 179.34982204346647,
+      "guard": -0.02038795907260519
+     }
+    },
+    {
+     "frame": 30,
+     "values": {
+      "lean": -0.07127490635850316,
+      "knee": 174.31820978239938,
+      "guard": -0.00043888915071818775
+     }
+    },
+    {
+     "frame": 40,
+     "values": {
+      "lean": -0.06695437644831748,
+      "knee": 176.3270242674133,
+      "guard": -0.01720701189962075
+     }
+    },
+    {
+     "frame": 50,
+     "values": {
+      "lean": -0.06036313576686358,
+      "knee": 175.63670412742619,
+      "guard": -0.013271070581707222
+     }
+    },
+    {
+     "frame": 60,
+     "values": {
+      "lean": -0.06290712838665916,
+      "knee": 174.32327606401037,
+      "guard": -0.011155696761865284
+     }
+    },
+    {
+     "frame": 70,
+     "values": {
+      "lean": 0.17387731055967431,
+      "knee": 178.28311229816342,
+      "guard": -0.014985801195269736
+     }
+    },
+    {
+     "frame": 80,
+     "values": {
+      "lean": 0.437696155597613,
+      "knee": 178.58601595196583,
+      "guard": -0.014734974972212
+     }
+    },
+    {
+     "frame": 90,
+     "values": {
+      "lean": 0.1275303771183251,
+      "knee": 175.68369277721672,
+      "guard": -0.012790029568757515
+     }
+    },
+    {
+     "frame": 100,
+     "values": {
+      "lean": -0.0697247042961309,
+      "knee": 175.02622344800562,
+      "guard": -0.02329471109111666
+     }
+    },
+    {
+     "frame": 110,
+     "values": {
+      "lean": -0.06315471586094046,
+      "knee": 172.8925356465646,
+      "guard": -0.009201539906704463
+     }
+    },
+    {
+     "frame": 120,
+     "values": {
+      "lean": -0.06880128859183707,
+      "knee": 175.82321640322894,
+      "guard": -0.014908390936204939
+     }
+    },
+    {
+     "frame": 130,
+     "values": {
+      "lean": 0.05722712031091468,
+      "knee": 178.21002591560716,
+      "guard": -0.008705072888679466
+     }
+    },
+    {
+     "frame": 140,
+     "values": {
+      "lean": 0.19458192986198664,
+      "knee": 179.25692597124873,
+      "guard": -0.008506074710283078
+     }
+    },
+    {
+     "frame": 150,
+     "values": {
+      "lean": 0.03043414490633211,
+      "knee": 176.160050479735,
+      "guard": -0.012313360024285847
+     }
+    },
+    {
+     "frame": 160,
+     "values": {
+      "lean": -0.06334956782214687,
+      "knee": 174.8977884492326,
+      "guard": -0.01098529354608422
+     }
+    },
+    {
+     "frame": 170,
+     "values": {
+      "lean": -0.06458831521727466,
+      "knee": 174.49313624583834,
+      "guard": -0.022128508096832415
+     }
+    },
+    {
+     "frame": 180,
+     "values": {
+      "lean": -0.06461915423251885,
+      "knee": 175.13797763350433,
+      "guard": -0.021006326107378535
+     }
+    },
+    {
+     "frame": 190,
+     "values": {
+      "lean": 0.26657134246280056,
+      "knee": 179.89782858720503,
+      "guard": -0.02046115493857271
+     }
+    },
+    {
+     "frame": 200,
+     "values": {
+      "lean": 0.5936630841179018,
+      "knee": 178.13821332699825,
+      "guard": -0.004604729713334444
+     }
+    },
+    {
+     "frame": 210,
+     "values": {
+      "lean": 0.1843801544947808,
+      "knee": 177.6900653420034,
+      "guard": -0.020856389119002016
+     }
+    },
+    {
+     "frame": 220,
+     "values": {
+      "lean": -0.06964946980426985,
+      "knee": 174.94218486234936,
+      "guard": -0.022247247941977612
+     }
+    },
+    {
+     "frame": 230,
+     "values": {
+      "lean": -0.062262869541809845,
+      "knee": 173.07314563337516,
+      "guard": -0.008672946286393498
+     }
+    },
+    {
+     "frame": 240,
+     "values": {
+      "lean": -0.06170985339674393,
+      "knee": 175.38260018227754,
+      "guard": -0.00764396960164907
+     }
+    },
+    {
+     "frame": 250,
+     "values": {
+      "lean": 0.5244040352239884,
+      "knee": 179.57807120261384,
+      "guard": -0.020833834658502047
+     }
+    },
+    {
+     "frame": 260,
+     "values": {
+      "lean": 0.9204040951254867,
+      "knee": 179.08265488951483,
+      "guard": -0.011316855348618737
+     }
+    },
+    {
+     "frame": 270,
+     "values": {
+      "lean": 0.33809076363934437,
+      "knee": 176.093532839258,
+      "guard": -0.011489989901830752
+     }
+    },
+    {
+     "frame": 280,
+     "values": {
+      "lean": -0.063882732688192,
+      "knee": 176.78344459272597,
+      "guard": -0.009639002390884463
+     }
+    },
+    {
+     "frame": 290,
+     "values": {
+      "lean": -0.07038898121241227,
+      "knee": 173.0958650720469,
+      "guard": -0.01058859090190024
+     }
+    },
+    {
+     "frame": 300,
+     "values": {
+      "lean": -0.0622029804693315,
+      "knee": 175.89703315566334,
+      "guard": -0.012646799966510207
+     }
+    },
+    {
+     "frame": 310,
+     "values": {
+      "lean": 0.22630942927536074,
+      "knee": 176.9953204333811,
+      "guard": -0.0019668399195045577
+     }
+    },
+    {
+     "frame": 320,
+     "values": {
+      "lean": 0.5139478907416605,
+      "knee": 179.45267494102262,
+      "guard": -0.011974923606418978
+     }
+    },
+    {
+     "frame": 330,
+     "values": {
+      "lean": 0.15241588278063223,
+      "knee": 176.48698728510672,
+      "guard": -0.0176981187276627
+     }
+    },
+    {
+     "frame": 340,
+     "values": {
+      "lean": -0.05619241005688405,
+      "knee": 174.47177140233418,
+      "guard": -0.00972425523338304
+     }
+    },
+    {
+     "frame": 350,
+     "values": {
+      "lean": -0.06675491775055306,
+      "knee": 175.20586664291795,
+      "guard": -0.006435754630961826
+     }
+    },
+    {
+     "frame": 360,
+     "values": {
+      "lean": -0.06457995943225939,
+      "knee": 172.80373450019167,
+      "guard": -0.012500737917508997
+     }
+    }
+   ]
+  },
+  "repStates": [
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START"
+  ]
+ }
+}

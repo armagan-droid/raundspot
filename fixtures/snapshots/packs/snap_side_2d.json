@@ -1,0 +1,91 @@
+{
+  "id": "snap_side_2d",
+  "version": 1,
+  "status": "draft",
+  "name": {
+    "tr": "Anlık görüntü: yandan 2B geriye yatma",
+    "en": "Snapshot: side 2D lean back"
+  },
+  "howTo": {
+    "tr": "Gard al; başın dairenin ortasında olsun. Dizlerini hafif kırıp gövdenle sola yat, başını sarı balona götür. Daire yeşile dönünce sayılır; ok ortayı gösterince ortaya dön.",
+    "en": "Take your guard with your head in the middle of the circle. Bend your knees slightly and lean your body to your left, taking your head to the yellow bubble. It counts when the circle turns green; when the arrow points to the middle, come back."
+  },
+  "type": "reps",
+  "camera": {
+    "views": [
+      "side"
+    ],
+    "minVisibleLandmarks": [
+      "nose",
+      "near_shoulder",
+      "near_hip",
+      "near_knee",
+      "near_ankle"
+    ],
+    "minVisibility": 0.6,
+    "posture": "standing",
+    "setupHint": {
+      "tr": "Kamerayı göğüs hizasına, tam karşına koy; 2–3 metre uzaklaş, gard al.",
+      "en": "Place the camera at chest height straight in front of you, step back 2–3 meters and take your guard."
+    }
+  },
+  "metrics": {
+    "lean": {
+      "sagittalLean2d": [
+        "nose",
+        "near_hip"
+      ]
+    },
+    "knee": {
+      "angle2d": [
+        "near_hip",
+        "near_knee",
+        "near_ankle"
+      ]
+    },
+    "guard": {
+      "diffY": [
+        "near_wrist",
+        "near_shoulder"
+      ]
+    }
+  },
+  "rep": {
+    "metric": "lean",
+    "start": {
+      "enter": 0.05,
+      "exit": 0.1
+    },
+    "target": {
+      "enter": 0.3,
+      "exit": 0.25
+    },
+    "attemptMinExcursion": 0.06,
+    "minDurationMs": 250,
+    "maxDurationMs": 2500
+  },
+  "readyPose": "lean < 0.08 for 1000ms",
+  "faults": [
+    {
+      "id": "too_far",
+      "name": {
+        "tr": "Çok geriye",
+        "en": "Too far back"
+      },
+      "severity": "major",
+      "check": "at_turn: lean > 0.6",
+      "cue": {
+        "tr": "Çok geriye gitme, dengeni koru",
+        "en": "Don't lean back too far, stay balanced"
+      },
+      "affectsValidity": false,
+      "cooldownMs": 4000,
+      "minConsecutiveReps": 1
+    }
+  ],
+  "smoothing": {
+    "method": "one_euro",
+    "minCutoff": 2.0,
+    "beta": 0.7
+  }
+}

@@ -66,6 +66,7 @@ Gerekçe:
   }
 }
 ```
+- Alan biçimleri (golden ve anlık görüntü ortak): `events[]` olayın tüm alanlarını taşır (`type` + kaynak alanları) ve `frame` (dizideki 0 tabanlı kare indeksi) ile `t` (o karenin zamanı) eklenir. `metrics.values[]` her `every`'inci karede (0, 10, 20 …) bir eleman: `{ "frame": i, "values": { "<metrik>": sayı | null } }`; anahtarlar motorun değerlendirme sırasındadır, `NaN` `null` yazılır (JSON `NaN` taşımaz). `cuesEnabled` adımları, `t ≥ fromT` olan ilk kareden önce uygulanır. Sayılar JavaScript `JSON.stringify` biçimindedir (Swift yazıcısı aynı biçimi üretir).
 - Kapsam: kaynaktaki 11 şablonun tümü (`slip`, `slip_left`, `slip_right`, `duck`, `squat`, `pushup`, `teep`, `knee_strike`, `straight_punch`, `mae_geri`, `shoulder_press`; uygulamaya girmeyenler dahil, çünkü golden sonradan yeniden üretilmez) için en az 3 temiz, 3 hatalı, 1 eşik salınımı (ref AC-4.4), 1 takip kaybı, 1 düşük görünürlük, 1 `ambiguous` görünüm durumu; farklı tohum, gürültü, aynalama. Ayrıca ifade dili golden'ı: ifade + metrik değerleri → `true` / `false` / `unknown` ya da ayrıştırma hatası kodu.
 - Kaynak şablonlar `exercises/source/` altına aynen kopyalanır (golden onlara bağlıdır); bu projenin kendi şablonları `exercises/` altındadır (04).
 
@@ -75,7 +76,7 @@ Gerekçe:
 - Kaynak golden **değiştirilmez ve silinmez.** Bu projede kaynak davranış bilerek değiştirilirse (ör. bir varsayılan değer), etkilenen dosyalar `fixtures/source-golden/superseded.json` listesine spec bölümü ve gerekçeyle yazılır; test o dosyaları atlar.
 
 ### Yeni davranış: anlık görüntüler
-Kaynakta olmayan her şey (2B metrik fonksiyonları, `vision19`, `sequence:`, `hold`, refleks sınıflandırması …) Swift'te birim testleriyle (elle hesaplanmış beklenen değerler) geliştirilir. Uçtan uca davranış, Swift motorunun ürettiği ve gözden geçirilip onaylanan **anlık görüntülerle** (`fixtures/snapshots/`) korunur: aynı biçim, `source` yerine `"generatedBy": "SoloEngine <sürüm>"`. Anlık görüntü yalnız ilgili spec değişikliğiyle güncellenir (`swift test` ile `UPDATE_SNAPSHOTS=1`, PR'da fark gözden geçirilir).
+Kaynakta olmayan her şey (2B metrik fonksiyonları, `vision19`, `sequence:`, `hold`, refleks sınıflandırması …) Swift'te birim testleriyle (elle hesaplanmış beklenen değerler) geliştirilir. Uçtan uca davranış, Swift motorunun ürettiği ve gözden geçirilip onaylanan **anlık görüntülerle** (`fixtures/snapshots/`) korunur: aynı biçim, `source` yerine `"generatedBy": "SoloEngine <sürüm>"`. Anlık görüntü ayrıca şablon dosyasının repo köküne göre yolunu (`"rulePackFile"`) taşır; girdi dizisi `fixtures/snapshots/sequences/` altında saklanır ve test motoru **saklanan** diziyle çalıştırır (sentetik üreticideki bir değişiklik anlık görüntüyü kırmaz; dizi yalnız `UPDATE_SNAPSHOTS=1` ile yeniden yazılır). Dosya ya da dizi yoksa test başarısız olur ve ne yapılacağını yazar. Anlık görüntü yalnız ilgili spec değişikliğiyle güncellenir (`swift test` ile `UPDATE_SNAPSHOTS=1`, PR'da fark gözden geçirilir).
 
 ### Zaman damgalı olaylar
 Kaynak `EngineEvent` olayları zaman taşımaz. Swift motoru her olaya karenin `t`'sini ekler (`TimedEvent { t, event }`); kaynak golden'daki `frame`/`t` alanları golden-export betiği tarafından eklenir.

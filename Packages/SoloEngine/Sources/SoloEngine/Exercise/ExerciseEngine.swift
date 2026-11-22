@@ -103,6 +103,10 @@ public final class ExerciseEngine {
     public private(set) var missingLandmarks: [Int] = []
     /// Unsmoothed metrics of recent frames, at least one maximum rep duration back.
     public private(set) var rawHistory: RawMetricHistory
+    /// Smoothed metrics of the latest frame (golden and snapshot `metrics`, specs/03).
+    public private(set) var metrics: [String: Double] = [:]
+    /// Metric names in evaluation order.
+    public var metricOrder: [String] { computer.order }
 
     /// The landmarks that must stay in view (`camera.minVisibleLandmarks` on the current side).
     public var trackedLandmarks: [Int] { trackingLandmarks }
@@ -201,6 +205,7 @@ public final class ExerciseEngine {
         let raw = computer.compute(frame, near: nearSide)
         rawHistory.append(Snapshot(t: t, values: raw))
         let values = smoother.smooth(raw, tMs: t)
+        metrics = values
         let visible = faults.map { visibleAll($0.landmarks) }
 
         trackReadyPose(t, values, visible: visibleAll(readyPose.landmarks), &events)
