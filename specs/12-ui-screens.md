@@ -39,7 +39,7 @@ Sıra: **S2 → S1 → S3**. Alan onayı, kullanıcı telefonu yerleştirirken (
 
 | # | Ekran | İçerik |
 |---|---|---|
-| S1 | Kamera kurulumu | ref 08 A3'ün karşılığı: tam ekran önizleme (ön kamerada aynalı gösterim), hedef siluet, kılavuz çerçeve, sorunlu kenarlarda kırmızı bant, büyük ipucu, sesli ipucu. Kontroller ref 08 "A3 kurulum kontrolleri"ndeki gibi (tüm vücut, çok uzak/yakın değil, görünüm uygun, tek kişi) + **mesafe**: görünen vücut kutusunun yüksekliğinden ve kamera görüş açısından tahmin edilen mesafe 2–3 m aralığında değilse "Biraz yaklaş" / "Bir adım geri" (boy profilde varsa onunla, yoksa 1,70 m varsayımıyla). Telefon eğimi > 10° ise "Telefonu dik koy". Refleks modunda gereken landmark birleşimi (baştan ayağa) |
+| S1 | Kamera kurulumu | ref 08 A3'ün karşılığı: tam ekran önizleme (ön kamerada aynalı gösterim), hedef siluet, kılavuz çerçeve, sorunlu kenarlarda kırmızı bant, büyük ipucu, sesli ipucu. Kontroller ref 08 "A3 kurulum kontrolleri"ndeki gibi (tüm vücut, çok uzak/yakın değil, görünüm uygun, tek kişi) + **mesafe**: görünen vücut kutusunun yüksekliğinden ve kamera görüş açısından tahmin edilen mesafe 2–3 m aralığında değilse "Biraz yaklaş" / "Bir adım geri" (boy profilde varsa onunla, yoksa 1,70 m varsayımıyla). Telefon eğimi > 10° ise "Telefonu dik koy". Refleks modunda gereken landmark birleşimi (baştan ayağa). Kamera ipucunun altında `howTo` ve gösterim animasyonu (varsa, 04) |
 | S2 | Alan onayı ve tıbbi uyarı | Seans başına bir kez, S1'den önce: "Tıbbi tavsiye değildir. Ağrı hissedersen dur." (10) + "Etrafında en az 2×2 m boş alan var mı? Kaygan zemin, eşya, evcil hayvan?" → "Alan güvenli" düğmesine **dokunarak** onay. Sesle ya da duruşla onay yoktur: bilinçli bir kullanıcı eylemi olmalıdır. Kamera engelleri göremez; bu kullanıcı onayıdır |
 | S3 | Isınma | Adım adım sesli rehber (06), kalan süre büyük, "Atla" (atlanınca uyarı bir kez). Kamerayla sayım yapılmaz (06 `warmup`) |
 
@@ -56,8 +56,8 @@ Kaynak `assessSetup` (ref 08 A3: son ~1 sn'lik örneklerin ≥ %80'i geçer, ipu
 ## T) Teknik ve kondisyon seti
 | # | Ekran | İçerik |
 |---|---|---|
-| T1 | Hazır / geri sayım | Hareket adı, `howTo`, set x/toplam; hazır duruşla ya da "Başla" ile sesli 3-2-1 |
-| T2 | Aktif set | ref 08 A5 ile aynı yerleşim ve kurallar: kamera + iskelet (kapatılabilir), büyük sayaç (x / hedef, ekran yüksekliğinin ≥ %25'i), uyarı bandı, form hatasında eklem vurgusu, güvenlik duraklatmasında kırmızı kutu ve çerçeve. **Eskiv hedef dairesi, oklar ve balonlar** ref 08'deki gibi; eğilme çizgisi (`duck`, `bob_weave_*`) `ayak bileği ortası.y − headTarget.height · omuz genişliği` yüksekliğindedir (`heightOverShoulders2d`, 04); `bob_weave_*` için balon kesikli çizginin altında yana kayık; `lean_back` (yandan) için başın arkasında dikey kesikli çizgi ve balon. Düğmeler: ses, duraklat, seti bitir |
+| T1 | Hazır / geri sayım | Hareket adı, `howTo`, gösterim animasyonu (varsa, 04 "Gösterim animasyonu"; küçük panelde döngüyle), set x/toplam; hazır duruşla ya da "Başla" ile sesli 3-2-1 |
+| T2 | Aktif set | ref 08 A5 ile aynı yerleşim ve kurallar: kamera + iskelet (kapatılabilir), büyük sayaç (x / hedef, ekran yüksekliğinin ≥ %25'i), uyarı bandı, form hatasında eklem vurgusu, güvenlik duraklatmasında kırmızı kutu ve çerçeve. **Eskiv hedef dairesi, oklar ve balonlar** ref 08'deki gibi; eğilme çizgisi (`duck`, `bob_weave_*`) `ayak bileği ortası.y − headTarget.height · omuz genişliği` yüksekliğindedir (`heightOverShoulders2d`, 04); `bob_weave_*` için balon kesikli çizginin altında yana kayık; `lean_back` (yandan) için başın arkasında dikey kesikli çizgi ve balon. **Kondisyon şablonlarında hedef çizgisi** (`overlay.targetLine`, 04): ulaşılacak derinlikte yatay kesikli çizgi; "git"te sarı ve hareketli noktadan çizgiye ok, eşik geçilince yeşil. İskelet kapalıyken de çizilir. Düğmeler: ses, duraklat, seti bitir |
 | T3 | Dinlenme | Geri sayım, set özeti (ref 05), sonraki set/hareket, "Hazırım" |
 
 ## R) Refleks seti
@@ -124,7 +124,7 @@ Dil, tema, gard yönü, seviye/hedef, kilo/boy, kamera (ön/arka), form uyarıs�
 - AC-12.4: S2 alan onayı seans başına bir kez, ilk bloktan (ısınma dahil) önce istenir ve onaysız hiçbir blok başlamaz.
 - AC-12.5: TR/EN, koyu/açık tema geçişi tüm ekranlarda çalışır; String Catalog'da eksik çeviri yok (test).
 - AC-12.6: VoiceOver ile O1–O7, O9 (MVP), O8 (v1.0) ve A tamamlanabilir.
-- AC-12.7: R2'de hedef balonu çizilmez; T2'de eskiv şablonlarında çizilir.
+- AC-12.7: R2'de hedef balonu çizilmez; T2'de eskiv şablonlarında çizilir; `overlay.targetLine` taşıyan kondisyon şablonlarında hedef çizgisi çizilir.
 
 ## Açık sorular
 1. Arka kamera öntanımlı olmalı mı? Daha geniş görüş ve daha iyi kalite, ama kullanıcı ekranı göremez (ses yeterli olabilir).

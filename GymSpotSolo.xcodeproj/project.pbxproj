@@ -7,42 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3543C81D1A366203A4E40DF1 /* SoloPose in Frameworks */ = {
-			isa = PBXBuildFile;
-			productRef = 346B83D10B5DB392C4B322FF /* SoloPose */;
-		};
-		7A25F1C9EF77C50E2DBD45AF /* SoloEngine in Frameworks */ = {
-			isa = PBXBuildFile;
-			productRef = 9BF22CC8B1366D2BBB476DDA /* SoloEngine */;
-		};
-		8E770CA335B34ED356A9E418 /* SoloHealth in Frameworks */ = {
-			isa = PBXBuildFile;
-			productRef = A4A2C541E7BA4BF98F3803C2 /* SoloHealth */;
-		};
-		8EAA0A009E817CBE1AB8611F /* SoloRecording in Frameworks */ = {
-			isa = PBXBuildFile;
-			productRef = 3630D4AF45D137466EFF5999 /* SoloRecording */;
-		};
-		9151A329930B2654F86C78F6 /* SoloPose in Frameworks */ = {
-			isa = PBXBuildFile;
-			productRef = 601714BA791A890DFC21D242 /* SoloPose */;
-		};
-		9A47765D15A0426025C1FE3F /* SoloCapture in Frameworks */ = {
-			isa = PBXBuildFile;
-			productRef = DDE01C19A39623C120ADEB18 /* SoloCapture */;
-		};
-		BD149E5390D1FF822A84BAE6 /* SoloHealth in Frameworks */ = {
-			isa = PBXBuildFile;
-			productRef = 27CBF906256875E41A16D066 /* SoloHealth */;
-		};
-		C3EA20208706FFE4728F2EB3 /* SoloCapture in Frameworks */ = {
-			isa = PBXBuildFile;
-			productRef = 28FA2E4B933A20E6C2DE8FED /* SoloCapture */;
-		};
-		D4D1A2D2959957475C5DACBE /* SoloEngine in Frameworks */ = {
-			isa = PBXBuildFile;
-			productRef = 32F34340C9140871637ABB85 /* SoloEngine */;
-		};
+		3543C81D1A366203A4E40DF1 /* SoloPose in Frameworks */ = {isa = PBXBuildFile; productRef = 346B83D10B5DB392C4B322FF /* SoloPose */; };
+		7A25F1C9EF77C50E2DBD45AF /* SoloEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 9BF22CC8B1366D2BBB476DDA /* SoloEngine */; };
+		8E770CA335B34ED356A9E418 /* SoloHealth in Frameworks */ = {isa = PBXBuildFile; productRef = A4A2C541E7BA4BF98F3803C2 /* SoloHealth */; };
+		8EAA0A009E817CBE1AB8611F /* SoloRecording in Frameworks */ = {isa = PBXBuildFile; productRef = 3630D4AF45D137466EFF5999 /* SoloRecording */; };
+		9151A329930B2654F86C78F6 /* SoloPose in Frameworks */ = {isa = PBXBuildFile; productRef = 601714BA791A890DFC21D242 /* SoloPose */; };
+		9A47765D15A0426025C1FE3F /* SoloCapture in Frameworks */ = {isa = PBXBuildFile; productRef = DDE01C19A39623C120ADEB18 /* SoloCapture */; };
+		BD149E5390D1FF822A84BAE6 /* SoloHealth in Frameworks */ = {isa = PBXBuildFile; productRef = 27CBF906256875E41A16D066 /* SoloHealth */; };
+		C3EA20208706FFE4728F2EB3 /* SoloCapture in Frameworks */ = {isa = PBXBuildFile; productRef = 28FA2E4B933A20E6C2DE8FED /* SoloCapture */; };
+		D4D1A2D2959957475C5DACBE /* SoloEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 32F34340C9140871637ABB85 /* SoloEngine */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,27 +29,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		6F9454BBA75FEC86CAE54762 /* GymSpotSoloTests.xctest */ = {
-			isa = PBXFileReference;
-			explicitFileType = wrapper.cfbundle;
-			includeInIndex = 0;
-			path = GymSpotSoloTests.xctest;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AB5545AF32C13C06A76D3A2A /* GymSpotSolo.app */ = {
-			isa = PBXFileReference;
-			explicitFileType = wrapper.application;
-			includeInIndex = 0;
-			path = GymSpotSolo.app;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F540F7D23A12233B46E994A1 /* GymSpotSoloBeta.app */ = {
-			isa = PBXFileReference;
-			explicitFileType = wrapper.application;
-			includeInIndex = 0;
-			path = GymSpotSoloBeta.app;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
+		6F9454BBA75FEC86CAE54762 /* GymSpotSoloTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GymSpotSoloTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB5545AF32C13C06A76D3A2A /* GymSpotSolo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GymSpotSolo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F540F7D23A12233B46E994A1 /* GymSpotSoloBeta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GymSpotSoloBeta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -136,7 +91,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		AB48CFA305015276AB5620D4 /*  */ = {
+		AB48CFA305015276AB5620D4 = {
 			isa = PBXGroup;
 			children = (
 				D29FC6E3AF445F2F81853E9F /* App */,
@@ -178,6 +133,7 @@
 				AE5970F3A97FE1C77B7EC4D8 /* Sources */,
 				FF1428073023BC66287AD38C /* Frameworks */,
 				04B9E8B9BC32AECFB177BBB1 /* Resources */,
+				C0E5A11B0000000000000001 /* Copy exercises */,
 			);
 			buildRules = (
 			);
@@ -205,6 +161,7 @@
 				99401062377D734ACEDFAF23 /* Sources */,
 				8E77ECB697B0FD0B2F831F53 /* Frameworks */,
 				5D755D8A53590A15D4B43487 /* Resources */,
+				C0E5A11B0000000000000002 /* Copy exercises */,
 			);
 			buildRules = (
 			);
@@ -234,15 +191,15 @@
 				LastSwiftUpdateCheck = 2720;
 				LastUpgradeCheck = 2720;
 				TargetAttributes = {
-					B902F7C2327297FC583709E1 = {
+					6A1E24F1D627678E5C8106C0 = {
 						CreatedOnToolsVersion = 27.2;
+						TestTargetID = B902F7C2327297FC583709E1;
 					};
 					9071E799D3308BE76EAC00EB = {
 						CreatedOnToolsVersion = 27.2;
 					};
-					6A1E24F1D627678E5C8106C0 = {
+					B902F7C2327297FC583709E1 = {
 						CreatedOnToolsVersion = 27.2;
-						TestTargetID = B902F7C2327297FC583709E1;
 					};
 				};
 			};
@@ -254,7 +211,7 @@
 				tr,
 				Base,
 			);
-			mainGroup = AB48CFA305015276AB5620D4 /*  */;
+			mainGroup = AB48CFA305015276AB5620D4;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				963B046DA2CE9A291978A989 /* XCLocalSwiftPackageReference "Packages/SoloEngine" */,
@@ -299,6 +256,51 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		C0E5A11B0000000000000001 /* Copy exercises */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"$(SRCROOT)/scripts/xcode/exercises.xcfilelist",
+			);
+			inputPaths = (
+				"$(SRCROOT)/scripts/xcode/copy-exercises.sh",
+			);
+			name = "Copy exercises";
+			outputFileListPaths = (
+				"$(SRCROOT)/scripts/xcode/exercises-out.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/scripts/xcode/copy-exercises.sh\"\n";
+		};
+		C0E5A11B0000000000000002 /* Copy exercises */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"$(SRCROOT)/scripts/xcode/exercises.xcfilelist",
+			);
+			inputPaths = (
+				"$(SRCROOT)/scripts/xcode/copy-exercises.sh",
+			);
+			name = "Copy exercises";
+			outputFileListPaths = (
+				"$(SRCROOT)/scripts/xcode/exercises-out.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/scripts/xcode/copy-exercises.sh\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		99401062377D734ACEDFAF23 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -338,15 +340,15 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 6.0;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "BETA $(inherited)";
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 6.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Beta;
@@ -356,12 +358,17 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KZH2L97JP8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "The camera sees your movement so the app can count and correct it. The image is processed on the phone and never saved or sent.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gymspot.solo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -377,6 +384,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KZH2L97JP8;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gymspot.solo.tests;
@@ -392,19 +400,24 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KZH2L97JP8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "The camera sees your movement so the app can count and correct it. The image is processed on the phone and never saved or sent.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gymspot.solo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) RECORDING_MODE";
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = 1;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) RECORDING_MODE";
 			};
 			name = Debug;
 		};
@@ -414,14 +427,14 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 6.0;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 6.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -431,12 +444,17 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KZH2L97JP8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "The camera sees your movement so the app can count and correct it. The image is processed on the phone and never saved or sent.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gymspot.solo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -451,19 +469,24 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KZH2L97JP8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "The camera sees your movement so the app can count and correct it. The image is processed on the phone and never saved or sent.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gymspot.solo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) RECORDING_MODE RECORDING_MODE_RELEASE_FORBIDDEN";
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = 1;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) RECORDING_MODE RECORDING_MODE_RELEASE_FORBIDDEN";
 			};
 			name = Release;
 		};
@@ -473,6 +496,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KZH2L97JP8;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gymspot.solo.tests;
@@ -488,12 +512,17 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KZH2L97JP8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "The camera sees your movement so the app can count and correct it. The image is processed on the phone and never saved or sent.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gymspot.solo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -509,6 +538,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KZH2L97JP8;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gymspot.solo.tests;
@@ -524,19 +554,24 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KZH2L97JP8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "The camera sees your movement so the app can count and correct it. The image is processed on the phone and never saved or sent.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gymspot.solo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) RECORDING_MODE";
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = 1;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) RECORDING_MODE";
 			};
 			name = Beta;
 		};
@@ -546,18 +581,18 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				SDKROOT = iphoneos;
-				SWIFT_VERSION = 6.0;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_TESTABILITY = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};

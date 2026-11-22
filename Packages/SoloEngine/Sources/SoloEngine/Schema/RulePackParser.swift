@@ -236,8 +236,21 @@ public enum RulePackParser {
 
     private static func readOverlay(_ v: JSONValue?, _ r: inout SchemaReader) -> Overlay? {
         let p = ["overlay"]
-        guard let o = r.object(v, p, keys: ["headTarget"]) else { return nil }
-        guard o["headTarget"] != nil else { return Overlay(headTarget: nil) }
+        guard let o = r.object(v, p, keys: ["headTarget", "targetLine"]) else { return nil }
+        var targetLine: TargetLine?? = .some(nil)
+        if o["targetLine"] != nil {
+            let tp = p + ["targetLine"]
+            targetLine = r.object(o["targetLine"], tp, keys: ["metric"]).flatMap { t -> TargetLine? in
+                if t["metric"] == nil { return TargetLine(metric: nil) }
+                guard case .string(let m)? = t["metric"] else {
+                    r.add(tp + ["metric"], "must be a metric name")
+                    return nil
+                }
+                return TargetLine(metric: m)
+            }.map { Optional($0) }
+        }
+        guard let targetLine else { return nil }
+        guard o["headTarget"] != nil else { return Overlay(headTarget: nil, targetLine: targetLine) }
         let hp = p + ["headTarget"]
         guard let h = r.object(o["headTarget"], hp, keys: ["lateral", "height", "back", "sides"]) else { return nil }
         func positive(_ key: String, _ r: inout SchemaReader) -> Double?? {
@@ -267,7 +280,7 @@ public enum RulePackParser {
             r.add(hp, "sides need a lateral target")
             return nil
         }
-        return Overlay(headTarget: HeadTarget(lateral: lateral, height: height, back: back, sides: sides))
+        return Overlay(headTarget: HeadTarget(lateral: lateral, height: height, back: back, sides: sides), targetLine: targetLine)
     }
 
     // MARK: Cross-field rules (source superRefine)
@@ -313,6 +326,10 @@ public enum RulePackParser {
             r.add(["rep"], "minDurationMs must be below maxDurationMs")
         }
 
+        if let line = pack.overlay?.targetLine {
+            targetLineChecks(line, pack, &r)
+        }
+
         var seen = Set<String>()
         for (i, fault) in pack.faults.enumerated() {
             if seen.contains(fault.id) {
@@ -323,6 +340,36 @@ public enum RulePackParser {
             if !outside.isEmpty {
                 r.add(["faults", "\(i)", "views"], "not in camera.views: \(outside.map(\.rawValue).joined(separator: ", "))")
             }
+        }
+    }
+
+    /// specs/04 `overlay.targetLine`: the rep metric or one of its min/max/avg
+    /// arguments, resting on `angle2d` or `diffY`.
+    private static func targetLineChecks(_ line: TargetLine, _ pack: RulePack, _ r: inout SchemaReader) {
+        let path = ["overlay", "targetLine"]
+        let byName = Dictionary(pack.metrics.map { ($0.name, $0.definition) }, uniquingKeysWith: { a, _ in a })
+        let repArgs: [String] = switch byName[pack.rep.metric] {
+        case .min(let a, let b)?, .max(let a, let b)?, .avg(let a, let b)?: [a, b]
+        default: []
+        }
+        let name = line.metric ?? pack.rep.metric
+        guard name == pack.rep.metric || repArgs.contains(name) else {
+            r.add(path + ["metric"], "must be the rep metric or one of its min/max/avg arguments")
+            return
+        }
+        func drawable(_ n: String) -> Bool {
+            switch byName[n] {
+            case .angle2d?, .diffY?: true
+            default: false
+            }
+        }
+        let ok: Bool = switch byName[name] {
+        case .angle2d?, .diffY?: true
+        case .min(let a, let b)?, .max(let a, let b)?, .avg(let a, let b)?: drawable(a) && drawable(b)
+        default: false
+        }
+        if !ok {
+            r.add(path, "the line needs an angle2d or diffY metric (or min/max/avg of two)")
         }
     }
 
