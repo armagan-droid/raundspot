@@ -44,7 +44,12 @@ jobs:
         run: |
           for pkg in SoloEngine SoloPose SoloCapture SoloHealth SoloRecording; do
             echo "::group::$pkg"
-            (cd "Packages/$pkg" && xcodebuild test -scheme "$pkg" -destination "id=$SIM" \
+            # A package with several products gets a "<name>-Package" scheme that holds the tests.
+            scheme="$pkg"
+            if (cd "Packages/$pkg" && xcodebuild -list) | grep -qx "[[:space:]]*$pkg-Package"; then
+              scheme="$pkg-Package"
+            fi
+            (cd "Packages/$pkg" && xcodebuild test -scheme "$scheme" -destination "id=$SIM" \
               -derivedDataPath ../../.build/dd-pkg CODE_SIGNING_ALLOWED=NO -quiet)
             echo "::endgroup::"
           done

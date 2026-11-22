@@ -8,10 +8,13 @@ let package = Package(
     platforms: [.iOS(.v26), .macOS(.v15)],
     products: [
         .library(name: "SoloEngine", targets: ["SoloEngine"]),
+        // Synthetic bodies and sequences for tests and tools (specs/03); not for the app.
+        .library(name: "SoloEngineTesting", targets: ["SoloEngineTesting"]),
     ],
     targets: [
         .target(name: "SoloEngine"),
-        .testTarget(name: "SoloEngineTests", dependencies: ["SoloEngine"]),
+        .target(name: "SoloEngineTesting", dependencies: ["SoloEngine"]),
+        .testTarget(name: "SoloEngineTests", dependencies: ["SoloEngine", "SoloEngineTesting"]),
     ],
     swiftLanguageModes: [.v6]
 )
