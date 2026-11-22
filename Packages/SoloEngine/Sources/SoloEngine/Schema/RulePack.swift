@@ -50,6 +50,7 @@ public enum MetricDefinition: Sendable, Equatable {
     case chainHeight2d([LandmarkRef])
     case sagittalLean(LandmarkRef, LandmarkRef)
     case sagittalLean2d(LandmarkRef, LandmarkRef)
+    case heightOverShoulders2d(LandmarkRef, LandmarkRef)
 
     public enum Arguments: Sendable {
         case metrics(count: Int)
@@ -75,6 +76,7 @@ public enum MetricDefinition: Sendable, Equatable {
         ("chainHeight2d", .landmarkChain(min: 2, max: 6)),
         ("sagittalLean", .landmarks(count: 2)),
         ("sagittalLean2d", .landmarks(count: 2)),
+        ("heightOverShoulders2d", .landmarks(count: 2)),
     ]
 
     public var functionName: String {
@@ -95,6 +97,7 @@ public enum MetricDefinition: Sendable, Equatable {
         case .chainHeight2d: "chainHeight2d"
         case .sagittalLean: "sagittalLean"
         case .sagittalLean2d: "sagittalLean2d"
+        case .heightOverShoulders2d: "heightOverShoulders2d"
         }
     }
 
@@ -112,7 +115,8 @@ public enum MetricDefinition: Sendable, Equatable {
              .signedOffset(let a, let b, let c), .angle2d(let a, let b, let c):
             [a, b, c]
         case .diffY(let a, let b), .angleFromVertical(let a, let b), .lateralLean(let a, let b),
-             .lateralLean2d(let a, let b), .sagittalLean(let a, let b), .sagittalLean2d(let a, let b):
+             .lateralLean2d(let a, let b), .sagittalLean(let a, let b), .sagittalLean2d(let a, let b),
+             .heightOverShoulders2d(let a, let b):
             [a, b]
         case .chainHeight(let chain), .chainHeight2d(let chain):
             chain

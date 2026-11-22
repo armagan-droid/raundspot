@@ -139,7 +139,7 @@ Ayrıca `minVisibility` (0,6) MediaPipe "visibility" ölçeğine göredir; Visio
 | Seçenek | Ne yapılır | Ne zaman |
 |---|---|---|
 | **H1 – 3B vekil** | World `nose` = 3B `centerHead` (+ spike'ta ölçülen sabit ofset) | 3B her karede ya da ≥ 15 Hz çalışabiliyorsa ve `centerHead` slip/duck'ta burunla tutarlıysa (spike madde 4) |
-| **H2 – 2B metrik** | World kullanan şablonlar bu projede 2B olarak yeniden yazılır: baş yatışı 2B görüntüden (`lateralLean2d`, 04), eğilme 2B zincirden (`chainHeight2d`), eklem açıları 2B'den (`angle2d`) | 3B yavaşsa; eskivler zaten **önden** ve ön düzlemde olduğu için 2B yatış doğrudan görüntü düzlemindedir; squat/şınav açıları **yandan** 2B'de doğru ölçülür |
+| **H2 – 2B metrik** | World kullanan şablonlar bu projede 2B olarak yeniden yazılır: baş yatışı 2B görüntüden (`lateralLean2d`, 04), eğilme önden baş yüksekliği / omuz genişliğinden (`heightOverShoulders2d`; `chainHeight2d` önden öne eğilmeyi görmez, 04 açık soru 6), eklem açıları 2B'den (`angle2d`) | 3B yavaşsa; eskivler zaten **önden** ve ön düzlemde olduğu için 2B yatış doğrudan görüntü düzlemindedir; squat/şınav açıları **yandan** 2B'de doğru ölçülür |
 | H3 – karma | 3B her N karede, araya 2B ile enterpolasyon | Önerilmez: iki hızlı veri akışı motoru karmaşıklaştırır |
 
 **Varsayılan plan H2'dir** (2B, her karede, 30 FPS), çünkü refleks modu tepki süresi için kare hızına ve düşük gecikmeye öncelik verir. H2'de MVP'nin hiçbir şablonu 3B'ye bağlı değildir; tek istisna derinlik gerektiren `lean_back_front`'tur (04, deneysel) ve o yalnız H1 doğrulanırsa açılır. H1 doğrulanırsa 3B, açı metriklerinde de kullanılabilir. Karar spike tablosuna (02) ve bu bölüme yazılır.

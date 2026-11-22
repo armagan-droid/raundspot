@@ -140,6 +140,7 @@ public enum RulePackParser {
             case "angle2d": return .angle2d(l[0], l[1], l[2])
             case "lateralLean2d": return .lateralLean2d(l[0], l[1])
             case "sagittalLean": return .sagittalLean(l[0], l[1])
+            case "heightOverShoulders2d": return .heightOverShoulders2d(l[0], l[1])
             default: return .sagittalLean2d(l[0], l[1])
             }
         case .landmarkChain(let lo, let hi):

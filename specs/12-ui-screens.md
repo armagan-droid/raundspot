@@ -57,7 +57,7 @@ Kaynak `assessSetup` (ref 08 A3: son ~1 sn'lik örneklerin ≥ %80'i geçer, ipu
 | # | Ekran | İçerik |
 |---|---|---|
 | T1 | Hazır / geri sayım | Hareket adı, `howTo`, set x/toplam; hazır duruşla ya da "Başla" ile sesli 3-2-1 |
-| T2 | Aktif set | ref 08 A5 ile aynı yerleşim ve kurallar: kamera + iskelet (kapatılabilir), büyük sayaç (x / hedef, ekran yüksekliğinin ≥ %25'i), uyarı bandı, form hatasında eklem vurgusu, güvenlik duraklatmasında kırmızı kutu ve çerçeve. **Eskiv hedef dairesi, oklar ve balonlar** ref 08'deki gibi; `bob_weave_*` için balon kesikli çizginin altında yana kayık; `lean_back` (yandan) için başın arkasında dikey kesikli çizgi ve balon. Düğmeler: ses, duraklat, seti bitir |
+| T2 | Aktif set | ref 08 A5 ile aynı yerleşim ve kurallar: kamera + iskelet (kapatılabilir), büyük sayaç (x / hedef, ekran yüksekliğinin ≥ %25'i), uyarı bandı, form hatasında eklem vurgusu, güvenlik duraklatmasında kırmızı kutu ve çerçeve. **Eskiv hedef dairesi, oklar ve balonlar** ref 08'deki gibi; eğilme çizgisi (`duck`, `bob_weave_*`) `ayak bileği ortası.y − headTarget.height · omuz genişliği` yüksekliğindedir (`heightOverShoulders2d`, 04); `bob_weave_*` için balon kesikli çizginin altında yana kayık; `lean_back` (yandan) için başın arkasında dikey kesikli çizgi ve balon. Düğmeler: ses, duraklat, seti bitir |
 | T3 | Dinlenme | Geri sayım, set özeti (ref 05), sonraki set/hareket, "Hazırım" |
 
 ## R) Refleks seti
