@@ -60,6 +60,11 @@ private let deepDuck = EvaderParams(kneeAngle: 110, torsoLean: 25)
                 .filter { $0.hasSuffix(".json") }.map { "$(SRCROOT)/\(dir)/\($0)" }
         }
         #expect(listed.sorted() == (try json("exercises") + json("exercises/demos")).sorted())
+        let out = try String(contentsOf: Repo.root.appendingPathComponent("scripts/xcode/exercises-out.xcfilelist"), encoding: .utf8)
+            .split(separator: "\n").map { String($0) }.filter { !$0.isEmpty }
+        #expect(out.sorted() == listed.map {
+            $0.replacingOccurrences(of: "$(SRCROOT)/exercises/", with: "$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/exercises/")
+        }.sorted(), "the output list names the same files in the bundle")
     }
 
     @Test func everyTemplateRunsOnVision2DOnly() throws {
