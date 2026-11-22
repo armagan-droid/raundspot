@@ -81,13 +81,11 @@ public enum Validator {
 public enum CalibrateError: Error, Equatable, CustomStringConvertible {
     case notADirectory(String)
     case usage(String)
-    case notImplemented(command: String, task: String)
 
     public var description: String {
         switch self {
         case .notADirectory(let path): "not a directory: \(path)"
         case .usage(let message): message
-        case .notImplemented(let command, let task): "'\(command)' is not implemented yet (specs/14 \(task))"
         }
     }
 }
