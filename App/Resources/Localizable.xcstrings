@@ -19,6 +19,108 @@
         }
       }
     },
+    "cooldown.breathing": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Breathe slowly and deeply"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yavaş ve derin nefes al"
+          }
+        }
+      }
+    },
+    "cooldown.hip_stretch": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hip stretch, both sides"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kalça esnemesi, iki taraf"
+          }
+        }
+      }
+    },
+    "cooldown.shoulder_stretch": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shoulder stretch, both sides"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Omuz esnemesi, iki taraf"
+          }
+        }
+      }
+    },
+    "countdown.1": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "One"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir"
+          }
+        }
+      }
+    },
+    "countdown.2": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Two"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İki"
+          }
+        }
+      }
+    },
+    "countdown.3": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Three"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Üç"
+          }
+        }
+      }
+    },
     "demo.accessibility": {
       "extractionState": "manual",
       "localizations": {
@@ -104,6 +206,23 @@
         }
       }
     },
+    "list.single": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Single move"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tek hareket"
+          }
+        }
+      }
+    },
     "list.view.front": {
       "extractionState": "manual",
       "localizations": {
@@ -134,6 +253,278 @@
           "stringUnit": {
             "state": "translated",
             "value": "Yandan"
+          }
+        }
+      }
+    },
+    "list.workout.minutes %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "~%lld min"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "~%lld dk"
+          }
+        }
+      }
+    },
+    "list.workouts": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Workouts"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antrenmanlar"
+          }
+        }
+      }
+    },
+    "prompt.ready": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Take the ready pose or tap Start"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hazır duruşa geç ya da Başla'ya dokun"
+          }
+        }
+      }
+    },
+    "prompt.rest": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rest"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dinlen"
+          }
+        }
+      }
+    },
+    "prompt.resume": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap Resume to go on"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Devam etmek için Devam'a dokun"
+          }
+        }
+      }
+    },
+    "prompt.set_confirm": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Is the set done?"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set bitti mi?"
+          }
+        }
+      }
+    },
+    "prompt.set_done": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set done"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set bitti"
+          }
+        }
+      }
+    },
+    "rest.done": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rest is over"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dinlenme bitti"
+          }
+        }
+      }
+    },
+    "safety.resumed": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Form is right again"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Form düzeldi"
+          }
+        }
+      }
+    },
+    "safety.stop": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop and check your form"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dur, formunu kontrol et"
+          }
+        }
+      }
+    },
+    "safety.warmup_skipped": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Starting without a warm-up raises the risk of injury"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Isınmadan başlamak sakatlık riskini artırır"
+          }
+        }
+      }
+    },
+    "session.done": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Workout done"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antrenman bitti"
+          }
+        }
+      }
+    },
+    "session.paused": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paused"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Duraklatıldı"
+          }
+        }
+      }
+    },
+    "session.resume_offer": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue the workout"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antrenmana devam et"
+          }
+        }
+      }
+    },
+    "set.go": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Go"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başla"
+          }
+        }
+      }
+    },
+    "setup.camera": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Place the phone and step back 2–3 m"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telefonu yerleştir, 2–3 m geri git"
           }
         }
       }
@@ -291,6 +682,40 @@
         }
       }
     },
+    "setup.space": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Space check"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alan onayı"
+          }
+        }
+      }
+    },
+    "tracking.lost": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I can't see you, come back into the frame"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seni göremiyorum, kadraja geri gel"
+          }
+        }
+      }
+    },
     "training.camera.denied": {
       "extractionState": "manual",
       "localizations": {
@@ -376,6 +801,40 @@
         }
       }
     },
+    "training.continue_set": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Devam"
+          }
+        }
+      }
+    },
+    "training.cooldown.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cool-down"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Soğuma"
+          }
+        }
+      }
+    },
     "training.count.accessibility %lld": {
       "extractionState": "manual",
       "localizations": {
@@ -389,6 +848,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld tekrar"
+          }
+        }
+      }
+    },
+    "training.countdown.accessibility %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld"
+          }
+        }
+      }
+    },
+    "training.end_set": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "End set"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seti bitir"
           }
         }
       }
@@ -410,36 +903,121 @@
         }
       }
     },
-    "training.finished.spoken %lld": {
+    "training.finished.aborted": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Set done. %lld reps."
+            "value": "Workout ended early"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Set bitti. %lld tekrar."
+            "value": "Antrenman yarıda bitti"
           }
         }
       }
     },
-    "training.go": {
+    "training.finished.done": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Go"
+            "value": "Workout done"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Başla"
+            "value": "Antrenman bitti"
+          }
+        }
+      }
+    },
+    "training.finished.sets %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld sets"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld set"
+          }
+        }
+      }
+    },
+    "training.next %@ %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next: %1$@, set %2$@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sıradaki: %1$@, set %2$@"
+          }
+        }
+      }
+    },
+    "training.pause": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Duraklat"
+          }
+        }
+      }
+    },
+    "training.paused.safety": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Go back to the start pose; it goes on when your form is right"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başlangıç duruşuna dön; form düzelince devam eder"
+          }
+        }
+      }
+    },
+    "training.paused.tracking": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "It goes on by itself when you are back in the frame"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kadraja dönünce kendiliğinden devam eder"
           }
         }
       }
@@ -461,19 +1039,36 @@
         }
       }
     },
-    "training.ready.spoken": {
+    "training.ready_now": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Setup done. Take the ready pose."
+            "value": "I'm ready"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kurulum tamam. Hazır duruşa geç."
+            "value": "Hazırım"
+          }
+        }
+      }
+    },
+    "training.reflex.later": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reflex sets come in the next build; this block was skipped"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Refleks seti bir sonraki sürümde; bu blok atlandı"
           }
         }
       }
@@ -529,6 +1124,23 @@
         }
       }
     },
+    "training.rest.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rest"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dinlenme"
+          }
+        }
+      }
+    },
     "training.resume": {
       "extractionState": "manual",
       "localizations": {
@@ -536,23 +1148,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Resume"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Devam"
-          }
-        }
-      }
-    },
-    "training.resumed": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Resumed"
           }
         },
         "tr": {
@@ -631,19 +1226,19 @@
         }
       }
     },
-    "training.safety.spoken": {
+    "training.set %@": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Stop. Pause for safety. Resume when you are ready."
+            "value": "Set %@"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dur. Güvenlik için mola. Hazır olunca devam et."
+            "value": "Set %@"
           }
         }
       }
@@ -678,6 +1273,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "İskelet"
+          }
+        }
+      }
+    },
+    "training.skip": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skip"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atla"
+          }
+        }
+      }
+    },
+    "training.skip_warmup": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skip warm-up"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Isınmayı atla"
           }
         }
       }
@@ -733,19 +1362,121 @@
         }
       }
     },
-    "training.tracking.lost": {
+    "training.undo_skip": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "I can't see you"
+            "value": "Undo"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Seni göremiyorum"
+            "value": "Geri al"
+          }
+        }
+      }
+    },
+    "training.warmup.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Warm-up"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Isınma"
+          }
+        }
+      }
+    },
+    "warmup.arm_circles": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Circle your arms forward and back"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kollarını öne ve arkaya çevir"
+          }
+        }
+      }
+    },
+    "warmup.dynamic_stretch": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dynamic stretch: leg swings and torso turns"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dinamik esneme: bacak salla, gövdeni döndür"
+          }
+        }
+      }
+    },
+    "warmup.hip_circles": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Circle your hips both ways"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kalçanı iki yöne çevir"
+          }
+        }
+      }
+    },
+    "warmup.light_jumps": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Light jumps in place"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yerinde hafif sıçra"
+          }
+        }
+      }
+    },
+    "warmup.shadow": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shadowbox: light and loose"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gölge hareketi: hafif ve gevşek"
           }
         }
       }
