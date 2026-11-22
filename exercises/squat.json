@@ -103,5 +103,8 @@
     "method": "one_euro",
     "minCutoff": 1.0,
     "beta": 0.05
+  },
+  "overlay": {
+    "targetLine": {}
   }
 }

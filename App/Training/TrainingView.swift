@@ -63,7 +63,8 @@ struct TrainingView: SwiftUI.View {
                         .ignoresSafeArea()
                 }
                 if model.phase == .ready || model.phase == .active {
-                    GuideOverlay(guide: model.guide, aspect: model.aspect, mirrored: model.isFrontCamera).ignoresSafeArea()
+                    GuideOverlay(guide: model.guide, line: model.targetLine, aspect: model.aspect, mirrored: model.isFrontCamera)
+                        .ignoresSafeArea()
                 }
                 if model.phase == .paused {
                     Rectangle().strokeBorder(.red, lineWidth: 12).ignoresSafeArea()
@@ -98,6 +99,7 @@ struct TrainingView: SwiftUI.View {
                 if !model.howTo.isEmpty {
                     Label(model.howTo, systemImage: "info.circle").font(.callout).padding(.top, 4)
                 }
+                demoPanel
             }
             .multilineTextAlignment(.center)
             .padding().background(.black.opacity(0.55), in: .rect(cornerRadius: 16))
@@ -106,6 +108,7 @@ struct TrainingView: SwiftUI.View {
             VStack(spacing: 8) {
                 Text(model.name).font(.title.bold())
                 Text(model.howTo).font(.callout)
+                demoPanel
                 Text("training.ready.prompt").font(.headline)
             }
             .multilineTextAlignment(.center)
@@ -131,6 +134,14 @@ struct TrainingView: SwiftUI.View {
                     .accessibilityLabel(Text("training.count.accessibility \(model.count)"))
             }
             Spacer()
+        }
+    }
+
+    @ViewBuilder private var demoPanel: some SwiftUI.View {
+        if let demo = model.demo {
+            DemoFigure(demo: demo, mirrored: model.isFrontCamera)
+                .frame(maxWidth: 160, maxHeight: 160)
+                .background(.white.opacity(0.08), in: .rect(cornerRadius: 12))
         }
     }
 

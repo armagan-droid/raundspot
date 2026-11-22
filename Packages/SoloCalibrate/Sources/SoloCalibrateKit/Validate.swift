@@ -7,6 +7,8 @@ import SoloEngine
 ///   expression, file name = `id`, and `howTo` is required (AC-4.8).
 /// - `<dir>/source/*.json`: verbatim source templates (c2fe3fd). Same checks
 ///   except `howTo`, which the source format leaves optional.
+/// - `<dir>/demos/*.json`: demo animations (specs/04 "Gösterim animasyonu"):
+///   format, file name = `exercise`, and the template exists in `<dir>`.
 /// - Any other JSON (e.g. `reflex/`, `workouts/`) is an error until its
 ///   validator exists, so a new file kind cannot slip through unchecked.
 public struct ValidationReport: Sendable, Equatable {
@@ -29,11 +31,34 @@ public enum Validator {
                 report.errors += validateRulePack(file, relative: relative, requireHowTo: true)
             case 2 where parts[0] == "source":
                 report.errors += validateRulePack(file, relative: relative, requireHowTo: false)
+            case 2 where parts[0] == "demos":
+                report.errors += validateDemo(file, relative: relative, root: root)
             default:
                 report.errors.append("\(relative): no validator for this file kind yet")
             }
         }
         return report
+    }
+
+    static func validateDemo(_ file: URL, relative: String, root: URL) -> [String] {
+        let demo: ExerciseDemo
+        do {
+            demo = try ExerciseDemo.parse(JSONValue.parse(contentsOf: file))
+        } catch {
+            return ["\(relative): \(error)"]
+        }
+        var errors: [String] = []
+        if demo.exercise != file.deletingPathExtension().lastPathComponent {
+            errors.append("\(relative): exercise '\(demo.exercise)' does not match the file name")
+        }
+        let template = root.appendingPathComponent("\(demo.exercise).json")
+        if !FileManager.default.fileExists(atPath: template.path) {
+            errors.append("\(relative): no template '\(demo.exercise)' in exercises/")
+        } else if let data = try? Data(contentsOf: template), case .success(let loaded) = RulePackLoader.load(data: data),
+                  !loaded.pack.camera.views.contains(demo.view) {
+            errors.append("\(relative): view '\(demo.view.rawValue)' is not in the template's camera.views")
+        }
+        return errors
     }
 
     static func validateRulePack(_ file: URL, relative: String, requireHowTo: Bool) -> [String] {

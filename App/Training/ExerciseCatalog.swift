@@ -14,6 +14,13 @@ enum ExerciseCatalog {
             .sorted { order($0.pack.id) < order($1.pack.id) }
     }
 
+    /// The template's demo animation, if the bundle has one (specs/04).
+    static func demo(for id: String) -> ExerciseDemo? {
+        guard let url = Bundle.main.url(forResource: id, withExtension: "json", subdirectory: "exercises/demos"),
+              let json = try? JSONValue.parse(contentsOf: url) else { return nil }
+        return try? ExerciseDemo.parse(json)
+    }
+
     /// Eskivs first, then conditioning (specs/04 "Şablon seti").
     private static func order(_ id: String) -> String {
         let first = ["slip_left", "slip_right", "slip", "duck", "bob_weave_left", "bob_weave_right", "lean_back"]

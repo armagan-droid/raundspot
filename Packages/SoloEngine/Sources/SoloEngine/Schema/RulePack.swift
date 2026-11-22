@@ -190,8 +190,15 @@ public struct HeadTarget: Sendable, Equatable {
     public var sides: [PersonSide]?
 }
 
+/// Conditioning target line (specs/04 `overlay.targetLine`); the threshold is `rep.target.enter`.
+public struct TargetLine: Sendable, Equatable {
+    /// The metric the line is drawn for; nil = `rep.metric`.
+    public var metric: String?
+}
+
 public struct Overlay: Sendable, Equatable {
     public var headTarget: HeadTarget?
+    public var targetLine: TargetLine? = nil
 }
 
 /// Origin of a template derived from a source template (specs/04); informational.

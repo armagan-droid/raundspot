@@ -14,6 +14,14 @@ Temel: ref 04 (şema, tekrar algılama, ifade dili, görünüm, görünürlük, 
 
 **`overlay.headTarget.back`** (opsiyonel, pozitif sayı): yan görünümde geriye yatma eşiği; `lean_back` hedef çizimi için. Kural ref 04'teki gibi: rep `target.enter` ile aynı değeri taşır (test).
 
+**`overlay.targetLine`** (opsiyonel, nesne `{ "metric"?: <metrik adı> }`): kondisyon şablonlarında T2'deki hedef çizgisi (12). Yalnız çizimdir, sayım rep kuralıyla yapılır. Eşik ayrıca yazılmaz, `rep.target.enter`'dır. `metric` öntanımlı olarak `rep.metric`'tir; başka bir ad verilirse ya rep metriği olmalı ya da rep metriği `min`/`max`/`avg` ise onun argümanlarından biri. Çizginin dayandığı metrik `angle2d` ya da `diffY` olmalıdır. `min`/`max`/`avg` ise iki argümanı da bunlardan biri olmalıdır. Bu kurallara uymayan şablon yükleyicide reddedilir. Geometri, baş çizgiyi tam metriğin eşiği geçtiği anda geçecek biçimde o anki kareden hesaplanır:
+- `angle2d: [a, b, c]`: hareketli nokta `a`. `P = b + |a − b| · döndür(birim(c − b), ±eşik)`, yani `b` etrafında, `b→c` kolundan eşik açısı kadar döndürülmüş ve `a`'nın o anki uzaklığında duran nokta. Dönme yönü `a`'nın kola göre o anki tarafıdır. Açı 170°'den büyükse (taraf belirsiz) son bilinen taraf kullanılır, hiç yoksa iki yönün ortalaması. Çizgi `P`'den geçen yataydır. Açı eşiğe eşitken `P = a`'dır.
+- `diffY: [a, b]` (`(b.y − a.y) / gövde boyu`): çizgi `y = b.y − eşik · gövde boyu`; hareketli nokta `a`.
+- `min`/`max`/`avg`: argümanların noktaları en az `minVisibility / 2` görünür olmalıdır (takip kaybı eşiği, ref 04: yan görünümde uzak bacak kısmen örtülür). `angle2d` argümanlarından yalnız biri çizilir: sabit kolu (`b→c`) dikeye en yakın olanı. Gerekçe: kol yatıklaştıkça eşik noktası eğri çizer ve "nokta çizginin ötesinde" ile "açı eşiğin ötesinde" ayrışır. Sentetik ters lunge'da arka bacaktan çizilen çizgi karelerin %86'sında, ön bacaktan çizilen her karede uyuşur. `diffY` argümanlarının her biri çizilir. Görüntü yüksekliğinin %2'sinden yakın çizgiler tek çizgi olur (jumping jack'te iki bilek tek çizgiye gider).
+- İşaret durumları baş hedefindeki gibidir (ref 08 A5). **Git:** çizgi sarı yanıp söner ve hareketli noktadan çizgiye sarı bir ok uzanır. **Dön:** rep metriği hedefe ulaşınca çizgi yeşil olur. Başlangıç bölgesine dönüşte yeniden "git" olur.
+
+**Gösterim animasyonu** (opsiyonel, şablon dosyasının dışında): `exercises/demos/<id>.json`. Hareketi bilmeyen kullanıcıya S1 ve T1'de döngüyle oynatılan çöp adam gösterimi (12). Format: `{ "formatVersion": 1, "exercise": "<id>", "view": "front" | "side", "aspect": <pozitif sayı>, "frameMs": <pozitif tam sayı>, "frames": [ { "<landmark>": [x, y], … } ] }`. Noktalar `vision19`'un 17 eklemidir, MediaPipe adlarıyla. Koordinatlar normalize görüntü koordinatıdır (y aşağı, aynalanmamış). Kareler arası doğrusal ara değer alınır. Uygulama gösterimi önizlemeyle aynı dönüşümle çizer: ön kamerada aynalı, kullanıcının kendi görüntüsüyle aynı yöne hareket eder. Dosyalar `SoloEngineTesting` sentetik vücutlarından üretilir (`UPDATE_DEMOS=1 swift test …`). Ayrı dosyadır, çünkü şablonun `version`'ını ve eşdeğerlik kopyalarını (AC-4.4) etkilemez. `solo-calibrate validate` `demos/` alt dizinini kabul eder; her gösterimin `exercise`'ı `exercises/` altında bulunmalıdır.
+
 **Yeni metrik fonksiyonları** (ref 04 "Metrik fonksiyonları" kapalı listesine eklenir):
 
 | Fonksiyon | Tanım | Koordinat |
@@ -181,6 +189,8 @@ Isınma ve kondisyon. Kollar yukarı + bacaklar açık, sonra başlangıç.
 - AC-4.6: (v1.0) `sequence:` hatası: diz önce kalkarsa tetiklenmez, bacak önce düzleşirse tetiklenir, iki koşul hiç sağlanmazsa tetiklenmez (sentetik test).
 - AC-4.7: (v1.0) `lead_`/`rear_`: aynı fixture orthodox'ta ve aynalanmış southpaw'da aynı sonucu verir.
 - AC-4.8: `exercises/` altındaki her şablonda `howTo` vardır; eksikse test hatası.
+- AC-4.9: `overlay.targetLine`: kurallara uymayan şablon reddedilir. `squat`, `pushup`, `reverse_lunge` ve `jumping_jack` sentetik dizilerinde hareketli nokta, karelerin en az %90'ında, rep metriği eşiğin ötesindeyken ve yalnız o zaman çizginin ötesindedir (test).
+- AC-4.10: Her gösterim, `vision19` 2B karelerine çevrilip kendi şablonuyla motordan geçirildiğinde (görünürlük 1, iki döngü) döngü başına beklenen sayıda `valid` tekrar verir ve hata vermez. Yani gösterim doğru bir tekrardır. Dosyalar üreticinin çıktısıyla aynıdır (test).
 
 ## Açık sorular
 1. **Hoca onayı:** lean back, bob & weave ve check'in hata listesi ve cue metinleri; özellikle lean back'te çenenin içeride olması, ağırlığın arka bacakta olması kameradan ölçülebilir mi?

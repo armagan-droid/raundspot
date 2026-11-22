@@ -5,6 +5,7 @@ import SwiftUI
 /// Same transform as the preview and the skeleton; drawn even with the skeleton off.
 struct GuideOverlay: SwiftUI.View {
     let guide: HeadGuide?
+    var line: TargetLineGuide? = nil
     let aspect: Double
     let mirrored: Bool
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -12,11 +13,11 @@ struct GuideOverlay: SwiftUI.View {
     var body: some SwiftUI.View {
         TimelineView(.animation(minimumInterval: 1 / 30, paused: reduceMotion)) { context in
             Canvas { ctx, size in
-                guard let guide else { return }
                 // "go": the next balloon blinks yellow; "Hareketi azalt" → steady
                 let phase = context.date.timeIntervalSinceReferenceDate.truncatingRemainder(dividingBy: 0.8) / 0.8
                 let blink = reduceMotion ? 1 : (phase < 0.5 ? 1.0 : 0.35)
-                draw(guide, in: &ctx, size: size, blink: blink)
+                if let guide { draw(guide, in: &ctx, size: size, blink: blink) }
+                if let line { draw(line, in: &ctx, size: size, blink: blink) }
             }
         }
         .allowsHitTesting(false)
@@ -77,6 +78,31 @@ struct GuideOverlay: SwiftUI.View {
 
         // arrow from the head: to the balloon ("go") or back to the center ("back")
         arrow(from: pt(g.head), to: pt(g.arrowTo), color: yellow, in: &ctx)
+    }
+
+    /// Conditioning target line (specs/04 `overlay.targetLine`, specs/12 T2).
+    private func draw(_ g: TargetLineGuide, in ctx: inout GraphicsContext, size: CGSize, blink: Double) {
+        let rect = SkeletonOverlay.contentRect(size: size, aspect: aspect)
+        func pt(_ p: GuidePoint) -> CGPoint {
+            CGPoint(x: rect.minX + (mirrored ? 1 - p.x : p.x) * rect.width, y: rect.minY + p.y * rect.height)
+        }
+        let going = g.mode == .go
+        let color: Color = going ? .yellow : .green
+        let half = rect.height * 0.18
+        for l in g.lines {
+            let c = pt(GuidePoint(x: l.x, y: l.y))
+            let xs = l.movers.map { pt($0).x } + [c.x]
+            var path = Path()
+            path.move(to: CGPoint(x: (xs.min() ?? c.x) - half, y: c.y))
+            path.addLine(to: CGPoint(x: (xs.max() ?? c.x) + half, y: c.y))
+            ctx.stroke(path, with: .color(color.opacity(going ? blink : 1)),
+                       style: StrokeStyle(lineWidth: 6, lineCap: .round, dash: [16, 10]))
+            for m in l.movers {
+                let p = pt(m)
+                ctx.fill(Path(ellipseIn: CGRect(x: p.x - 12, y: p.y - 12, width: 24, height: 24)), with: .color(color))
+                if going { arrow(from: p, to: CGPoint(x: p.x, y: c.y), color: .yellow, in: &ctx) }
+            }
+        }
     }
 
     private func arrow(from a: CGPoint, to b: CGPoint, color: Color, in ctx: inout GraphicsContext) {

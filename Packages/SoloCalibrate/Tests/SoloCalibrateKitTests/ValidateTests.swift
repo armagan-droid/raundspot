@@ -57,6 +57,16 @@ import Testing
         #expect(report.errors.contains { $0.hasPrefix("source/bad.json: ") })
     }
 
+    @Test func demosAreChecked() throws {
+        let demo = try String(contentsOf: Self.repoExercises.appendingPathComponent("demos/squat.json"), encoding: .utf8)
+        let ok = try makeDirectory(["source/squat.json": try Self.squat, "demos/squat.json": demo])
+        #expect(try Validator.validate(directory: ok).errors == ["demos/squat.json: no template 'squat' in exercises/"])
+        let renamed = try makeDirectory(["demos/lunge.json": demo])
+        #expect(try Validator.validate(directory: renamed).errors.contains("demos/lunge.json: exercise 'squat' does not match the file name"))
+        let broken = try makeDirectory(["demos/squat.json": "{\"formatVersion\": 2}"])
+        #expect(try Validator.validate(directory: broken).errors == ["demos/squat.json: formatVersion must be 1"])
+    }
+
     @Test func unknownFileKindsAreErrors() throws {
         let dir = try makeDirectory(["reflex/muay_thai.json": "{}"])
         let report = try Validator.validate(directory: dir)

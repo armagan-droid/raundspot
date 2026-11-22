@@ -19,6 +19,23 @@
         }
       }
     },
+    "demo.accessibility": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Animation showing the movement"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hareketi gösteren animasyon"
+          }
+        }
+      }
+    },
     "list.draft": {
       "extractionState": "manual",
       "localizations": {
