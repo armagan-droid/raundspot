@@ -81,6 +81,77 @@ enum MetricMath {
     }
 }
 
+/// The specs/04 additions. Image x is scaled by `k` (`Frame.imageAspect`) so
+/// that x and y share a unit (specs/04 "En-boy düzeltmesi").
+enum Metric2D {
+    /// Threshold of shoulder spread / torso length below which the person is turned sideways.
+    static let sidewaysRatio = 0.30
+
+    static func len(_ a: Landmark, _ b: Landmark, _ k: Double) -> Double { JSMath.hypot((a.x - b.x) * k, a.y - b.y) }
+
+    static func angle(_ a: Landmark, _ b: Landmark, _ c: Landmark, _ k: Double) -> Double {
+        let ux = (a.x - b.x) * k, uy = a.y - b.y
+        let vx = (c.x - b.x) * k, vy = c.y - b.y
+        let n = JSMath.hypot(ux, uy) * JSMath.hypot(vx, vy)
+        if n == 0 { return .nan }
+        return acos(JSMath.clampUnit((ux * vx + uy * vy) / n)) * JSMath.degreesPerRadian
+    }
+
+    /// Aspect-corrected shoulder spread / torso length.
+    static func shoulderSpread(_ frame: Frame, _ k: Double) -> Double {
+        let ls = frame[image: .leftShoulder], rs = frame[image: .rightShoulder]
+        let lh = frame[image: .leftHip], rh = frame[image: .rightHip]
+        let torso = JSMath.hypot(((ls.x + rs.x) / 2 - (lh.x + rh.x) / 2) * k, (ls.y + rs.y) / 2 - (lh.y + rh.y) / 2)
+        return JSMath.safeDiv(Swift.abs(ls.x - rs.x) * k, torso)
+    }
+
+    /// Lean of the b→a line toward the person's left, in the image.
+    static func lateralLean(_ frame: Frame, _ a: Landmark, _ b: Landmark, _ k: Double) -> Double {
+        if !(shoulderSpread(frame, k) >= sidewaysRatio) { return .nan }
+        let left = JSMath.sign(frame[image: .leftShoulder].x - frame[image: .rightShoulder].x)
+        return JSMath.safeDiv(left * (a.x - b.x) * k, len(a, b, k))
+    }
+
+    static func chainHeight(_ points: [Landmark], _ k: Double) -> Double {
+        var length = 0.0
+        for i in 1..<points.count { length += len(points[i - 1], points[i], k) }
+        return JSMath.safeDiv(points[points.count - 1].y - points[0].y, length)
+    }
+
+    /// Image "front" in a side view: the side of the nose relative to the near ear.
+    static func imageFront(_ frame: Frame, near: PersonSide) -> Double {
+        let ear = LandmarkName(side: near, joint: "ear")!
+        let front = JSMath.sign(frame[image: .nose].x - frame[image: ear].x)
+        return front == 0 ? .nan : front
+    }
+
+    /// a's distance behind b over |a − b|, side view, in the image.
+    static func sagittalLean2d(_ frame: Frame, _ a: Landmark, _ b: Landmark, near: PersonSide, _ k: Double) -> Double {
+        if !(shoulderSpread(frame, k) < sidewaysRatio) { return .nan }
+        let front = imageFront(frame, near: near)
+        return JSMath.safeDiv(-front * (a.x - b.x) * k, len(a, b, k))
+    }
+
+    /// a's distance behind b over |a − b| in world coordinates. "Front" is
+    /// the horizontal normal of the shoulder line: toward the camera when the
+    /// shoulders face it, else toward the nose side in the image.
+    static func sagittalLean(_ frame: Frame, _ a: Landmark, _ b: Landmark, near: PersonSide) -> Double {
+        let ls = frame[world: .leftShoulder], rs = frame[world: .rightShoulder]
+        let sx = ls.x - rs.x, sz = ls.z - rs.z
+        let h = JSMath.hypot(sx, sz)
+        if !(h > 0) { return .nan }
+        var px = -sz / h, pz = sx / h
+        if !(Swift.abs(sx) < 0.5 * MetricMath.dist3(ls, rs)) {
+            if pz > 0 { px = -px; pz = -pz }
+        } else {
+            let front = imageFront(frame, near: near)
+            if front.isNaN || px == 0 { return .nan }
+            if JSMath.sign(px) != front { px = -px; pz = -pz }
+        }
+        return JSMath.safeDiv(-((a.x - b.x) * px + (a.z - b.z) * pz), MetricMath.dist3(a, b))
+    }
+}
+
 /// Computes a rule pack's metrics for one frame.
 public struct MetricComputer: Sendable {
     /// Metric names in evaluation order (dependencies first).
@@ -152,10 +223,20 @@ public struct MetricComputer: Sendable {
             return MetricMath.lateralLean(frame, wld(a), wld(b))
         case .chainHeight(let chain):
             return MetricMath.chainHeight(chain.map(wld))
-        case .min, .angle2d, .lateralLean2d, .chainHeight2d, .sagittalLean, .sagittalLean2d:
-            // specs/04 additions are implemented with their tests in T2.7
-            // (AC-4.3). Until then they are unknown, which never raises a fault.
-            return .nan
+        case .min(let a, let b):
+            // The pair of `max`: the side that cannot be computed does not count (specs/04).
+            let x = value(a), y = value(b)
+            return x.isNaN ? y : y.isNaN ? x : Swift.min(x, y)
+        case .angle2d(let a, let b, let c):
+            return Metric2D.angle(img(a), img(b), img(c), frame.imageAspect)
+        case .lateralLean2d(let a, let b):
+            return Metric2D.lateralLean(frame, img(a), img(b), frame.imageAspect)
+        case .chainHeight2d(let chain):
+            return Metric2D.chainHeight(chain.map(img), frame.imageAspect)
+        case .sagittalLean(let a, let b):
+            return Metric2D.sagittalLean(frame, wld(a), wld(b), near: near)
+        case .sagittalLean2d(let a, let b):
+            return Metric2D.sagittalLean2d(frame, img(a), img(b), near: near, frame.imageAspect)
         }
     }
 

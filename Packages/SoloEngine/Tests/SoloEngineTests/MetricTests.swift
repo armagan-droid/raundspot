@@ -195,12 +195,6 @@ private func pack(_ id: String) throws -> RulePack {
         let side = c.compute(squatFrame(SquatParams(kneeAngle: 180), FrameOptions(view: .side)), near: .left)
         #expect(side["lean"]!.isNaN)
     }
-
-    @Test func projectFunctionsAreUnknownUntilT27() throws {
-        let c = try computer([("x", .lateralLean2d(lm(.nose), lm(.leftHip))), ("y", .min("x", "x"))])
-        let v = c.compute(squatFrame(SquatParams(kneeAngle: 170), FrameOptions(view: .front)), near: .left)
-        #expect(v["x"]!.isNaN && v["y"]!.isNaN)
-    }
 }
 
 @Suite("landmarksOf") struct LandmarksOfTests {

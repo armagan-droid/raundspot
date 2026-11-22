@@ -35,11 +35,15 @@ public struct Frame: Sendable, Equatable {
     public var image: [Landmark]
     /// Meters, hip-centered (ref 04 axes). All NaN when 3D is unavailable.
     public var world: [Landmark]
+    /// Image width / height, upright (specs/03). The specs/04 2D functions
+    /// scale x by it; 1 for the source's square synthetic images.
+    public var imageAspect: Double
 
-    public init(t: Double, image: [Landmark], world: [Landmark]) {
+    public init(t: Double, image: [Landmark], world: [Landmark], imageAspect: Double = 1) {
         self.t = t
         self.image = image
         self.world = world
+        self.imageAspect = imageAspect
     }
 
     public subscript(image name: LandmarkName) -> Landmark { image[name.index] }
@@ -76,9 +80,11 @@ public struct LandmarkSequence: Sendable, Equatable {
     public var frames: [Frame]
     /// False when a v2 sequence stores `world: null` (no 3D data).
     public var hasWorld: Bool
+    /// Required in v2, 1 in v1; copied into every frame.
+    public var imageAspect: Double
 
     public init(formatVersion: Int, skeleton: Skeleton, exerciseId: String, source: Source, view: CameraView,
-                fps: Double, labels: [RepLabel]?, frames: [Frame], hasWorld: Bool) {
+                fps: Double, labels: [RepLabel]?, frames: [Frame], hasWorld: Bool, imageAspect: Double = 1) {
         self.formatVersion = formatVersion
         self.skeleton = skeleton
         self.exerciseId = exerciseId
@@ -88,6 +94,7 @@ public struct LandmarkSequence: Sendable, Equatable {
         self.labels = labels
         self.frames = frames
         self.hasWorld = hasWorld
+        self.imageAspect = imageAspect
     }
 
     public static func parse(_ json: JSONValue) -> Result<LandmarkSequence, SequenceIssues> {
@@ -114,7 +121,7 @@ public struct LandmarkSequence: Sendable, Equatable {
             return nil
         }
         let v2 = version == 2
-        guard let o = r.object(json, [], keys: v2 ? common + ["skeleton"] : common) else { return nil }
+        guard let o = r.object(json, [], keys: v2 ? common + ["skeleton", "imageAspect"] : common) else { return nil }
 
         var skeleton: Skeleton? = .mediapipe33
         if v2 {
@@ -122,17 +129,23 @@ public struct LandmarkSequence: Sendable, Equatable {
                 ? { r.add(["skeleton"], "skeleton is required in formatVersion 2"); return nil }()
                 : r.enumValue(o["skeleton"], ["skeleton"], Skeleton.self, options: ["mediapipe33", "vision19"])
         }
+        var imageAspect: Double? = 1
+        if v2 {
+            imageAspect = o["imageAspect"] == nil
+                ? { r.add(["imageAspect"], "imageAspect is required in formatVersion 2"); return nil }()
+                : r.number(o["imageAspect"], ["imageAspect"], where: { $0 > 0 && $0.isFinite }, "must be positive")
+        }
         let exerciseId = r.identifier(o["exerciseId"], ["exerciseId"])
         let source = r.enumValue(o["source"], ["source"], Source.self, options: ["synthetic", "calibration", "team"])
         let view = r.enumValue(o["view"], ["view"], CameraView.self, options: ["front", "side"])
         let fps = r.number(o["fps"], ["fps"], where: { $0 > 0 }, "must be positive")
         let labels = o["labels"] == nil ? .some(nil) : readLabels(o["labels"], &r).map { Optional($0) }
 
-        guard let skeleton else { return nil }
+        guard let skeleton, let imageAspect else { return nil }
         var hasWorld = true
         let frames: [Frame]? = r.array(o["frames"], ["frames"], minCount: 1).flatMap { values in
             r.elements(values, ["frames"]) { r, value, path in
-                readFrame(value, path, skeleton: skeleton, v2: v2, hasWorld: &hasWorld, &r)
+                readFrame(value, path, skeleton: skeleton, v2: v2, imageAspect: imageAspect, hasWorld: &hasWorld, &r)
             }
         }
         if let frames {
@@ -144,7 +157,7 @@ public struct LandmarkSequence: Sendable, Equatable {
         guard let exerciseId, let source, let view, let fps, let labels, let frames else { return nil }
         return LandmarkSequence(
             formatVersion: v2 ? 2 : 1, skeleton: skeleton, exerciseId: exerciseId, source: source, view: view,
-            fps: fps, labels: labels, frames: frames, hasWorld: hasWorld)
+            fps: fps, labels: labels, frames: frames, hasWorld: hasWorld, imageAspect: imageAspect)
     }
 
     private static func readLabels(_ v: JSONValue?, _ r: inout SchemaReader) -> [RepLabel]? {
@@ -163,7 +176,8 @@ public struct LandmarkSequence: Sendable, Equatable {
 
     /// `world: null` (v2 only) means no 3D data; it must then be null in every frame.
     private static func readFrame(
-        _ v: JSONValue, _ path: [String], skeleton: Skeleton, v2: Bool, hasWorld: inout Bool, _ r: inout SchemaReader
+        _ v: JSONValue, _ path: [String], skeleton: Skeleton, v2: Bool, imageAspect: Double, hasWorld: inout Bool,
+        _ r: inout SchemaReader
     ) -> Frame? {
         guard let o = r.object(v, path, keys: ["t", "image", "world"]) else { return nil }
         let t = r.number(o["t"], path + ["t"], where: { $0 >= 0 }, "must be non-negative")
@@ -184,7 +198,7 @@ public struct LandmarkSequence: Sendable, Equatable {
             world = readLandmarks(o["world"], path + ["world"], skeleton: skeleton, &r)
         }
         guard let t, let image, let world else { return nil }
-        return Frame(t: t, image: image, world: world)
+        return Frame(t: t, image: image, world: world, imageAspect: imageAspect)
     }
 
     private static func readLandmarks(_ v: JSONValue?, _ path: [String], skeleton: Skeleton, _ r: inout SchemaReader) -> [Landmark]? {
