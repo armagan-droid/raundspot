@@ -35,6 +35,8 @@ import UIKit
     private(set) var targetLine: TargetLineGuide?
     private var lineTracker: TargetLineTracker?
     let demo: ExerciseDemo?
+    /// The template's marks on each demo frame (specs/04).
+    let demoGuides: [(head: HeadGuide?, line: TargetLineGuide?)]
 
     let camera = CameraSession(position: .front)
     private let speech = SpeechOut(language: Lang.code)
@@ -49,6 +51,7 @@ import UIKit
     init(_ loaded: LoadedRulePack) {
         self.loaded = loaded
         demo = ExerciseCatalog.demo(for: loaded.pack.id)
+        demoGuides = demo?.guides(loaded) ?? []
     }
 
     var name: String { Lang.text(loaded.pack.name) }

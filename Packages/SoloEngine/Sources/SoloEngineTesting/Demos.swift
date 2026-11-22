@@ -16,7 +16,10 @@ public enum DemoGenerator {
         SequenceOptions(fps: 1000 / Double(frameMs), leadInMs: 600, restMs: 500, leadOutMs: 500, farSideVisibility: 1)
     }
 
-    public static func sequence(_ id: String) -> LandmarkSequence? {
+    /// Templates whose movement is mostly in depth get a side view too (specs/04 `extra`).
+    public static let extraSideView: Set<String> = ["duck", "bob_weave_left", "bob_weave_right"]
+
+    public static func sequence(_ id: String, view: CameraView = .front) -> LandmarkSequence? {
         let o = options
         func evade(_ p: EvaderParams, _ ms: Double = 900) -> SyntheticRep<EvaderParams> { SyntheticRep(p, durationMs: ms) }
         let dip = EvaderParams(kneeAngle: 110, torsoLean: 25)
@@ -24,13 +27,17 @@ public enum DemoGenerator {
         case "slip_left": return evaderSequence(exerciseId: id, reps: [evade(EvaderParams(slip: 28))], options: o)
         case "slip_right": return evaderSequence(exerciseId: id, reps: [evade(EvaderParams(slip: -28))], options: o)
         case "slip": return evaderSequence(exerciseId: id, reps: [evade(EvaderParams(slip: 28)), evade(EvaderParams(slip: -28))], options: o)
-        case "duck": return evaderSequence(exerciseId: id, reps: [evade(dip, 1100)], options: o)
+        case "duck":
+            // down, a short hold at the bottom, back up
+            let rest = EvaderParams(), deep = EvaderParams(kneeAngle: 100, torsoLean: 30)
+            return keyframes(id, view: view, [(rest, 700), (deep, 600), (deep, 400), (rest, 600), (rest, 300)])
         case "bob_weave_left", "bob_weave_right":
-            // dip first, then move under to the side, then come back up (a weave before the dip is a fault)
+            // a U: dip first, move under to the side, come up there, back to the center
+            // (weaving before the dip is a fault)
             let side: Double = id == "bob_weave_left" ? 20 : -20
             let rest = EvaderParams()
-            return keyframes(id, view: .front, [(rest, 600), (dip, 500), (EvaderParams(slip: side, kneeAngle: 110, torsoLean: 25), 400),
-                                                 (rest, 600), (rest, 500)])
+            return keyframes(id, view: view, [(rest, 700), (dip, 500), (EvaderParams(slip: side, kneeAngle: 110, torsoLean: 25), 500),
+                                               (EvaderParams(slip: side), 500), (rest, 600), (rest, 300)])
         case "lean_back":
             return fighterSequence(exerciseId: id, reps: [SyntheticRep(FighterParams(torsoLean: 32), durationMs: 1200)],
                                    start: FighterParams(kneeAngle: 175), options: o)
@@ -55,7 +62,7 @@ public enum DemoGenerator {
             let n = Int((ms / step).rounded())
             for i in 0..<n {
                 let s = (1 - cos(Double.pi * Double(i + 1) / Double(n))) / 2
-                frames.append(toFrame(P.lerp(from, to, s).body, FrameOptions(view: view, t: t, farSideVisibility: 1)))
+                frames.append(toFrame(P.lerp(from, to, s).body, FrameOptions(view: view, facing: .right, t: t, farSideVisibility: 1)))
                 t += step
             }
             from = to
@@ -66,11 +73,14 @@ public enum DemoGenerator {
 
     public static func demo(_ id: String) -> ExerciseDemo? {
         guard let seq = sequence(id) else { return nil }
-        let frames = seq.frames.map { f in
-            Dictionary(uniqueKeysWithValues: ExerciseDemo.joints.map { n in (n, GuidePoint(x: f[image: n].x, y: f[image: n].y)) })
+        func points(_ seq: LandmarkSequence) -> [[LandmarkName: GuidePoint]] {
+            seq.frames.map { f in
+                Dictionary(uniqueKeysWithValues: ExerciseDemo.joints.map { n in (n, GuidePoint(x: f[image: n].x, y: f[image: n].y)) })
+            }
         }
+        let extra = extraSideView.contains(id) ? sequence(id, view: .side).map { ExerciseDemo.Extra(view: .side, frames: points($0)) } : nil
         // rounded as stored, so the file and the generator agree
-        let demo = ExerciseDemo(exercise: id, view: seq.view ?? .front, aspect: 1, frameMs: frameMs, frames: frames)
+        let demo = ExerciseDemo(exercise: id, view: seq.view ?? .front, aspect: 1, frameMs: frameMs, frames: points(seq), extra: extra)
         return try? ExerciseDemo.parse(JSONValue.parse(demo.json.serialized()))
     }
 }

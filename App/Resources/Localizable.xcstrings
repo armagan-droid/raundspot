@@ -36,6 +36,40 @@
         }
       }
     },
+    "demo.view.front": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Front"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önden"
+          }
+        }
+      }
+    },
+    "demo.view.side": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Side"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yandan"
+          }
+        }
+      }
+    },
     "list.draft": {
       "extractionState": "manual",
       "localizations": {

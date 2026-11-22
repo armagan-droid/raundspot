@@ -52,6 +52,32 @@ private let ids = DemoGenerator.repsPerLoop.keys.sorted()
         #expect(Set(ids.map { "\($0).json" }) == Set(templates))
     }
 
+    @Test func depthMovesHaveASideViewWithTheSameTiming() throws {
+        for id in ids {
+            let demo = try #require(DemoGenerator.demo(id))
+            if DemoGenerator.extraSideView.contains(id) {
+                let extra = try #require(demo.extra, "\(id)")
+                #expect(extra.view == .side && extra.frames.count == demo.frames.count)
+                // the side view shows the forward lean the front view cannot: the nose moves forward of the hips
+                let f0 = extra.frames[0], deep = extra.frames.max { $0[.nose]!.y < $1[.nose]!.y }!
+                #expect(abs(deep[.nose]!.x - deep[.leftHip]!.x) > abs(f0[.nose]!.x - f0[.leftHip]!.x) + 0.03, "\(id)")
+            } else {
+                #expect(demo.extra == nil, "\(id)")
+            }
+        }
+    }
+
+    @Test func guideMarksFollowTheDemo() throws {
+        for id in ["duck", "bob_weave_left", "slip_left", "squat", "jumping_jack"] {
+            let demo = try #require(DemoGenerator.demo(id))
+            let loaded = try RulePackLoader.load(Repo.read(Repo.exercises.appendingPathComponent("\(id).json")), capabilities: .vision19TwoD).get()
+            let g = demo.guides(loaded)
+            #expect(g.count == demo.frames.count)
+            let modes = g.compactMap { $0.head?.mode ?? $0.line?.mode }
+            #expect(modes.count == g.count && modes.contains(.go) && modes.contains(.back), "\(id)")
+        }
+    }
+
     @Test func interpolatesAndLoops() throws {
         let demo = try #require(DemoGenerator.demo("squat"))
         let a = demo.frames[3][.nose]!, b = demo.frames[4][.nose]!
@@ -70,9 +96,11 @@ private let ids = DemoGenerator.repsPerLoop.keys.sorted()
         }
         rejects({ $0["formatVersion"] = 2 }, "formatVersion")
         rejects({ $0["view"] = "top" }, "view")
-        rejects({ $0["extra"] = true }, "unknown field")
+        rejects({ $0["bogus"] = true }, "unknown field")
         rejects({ $0["frameMs"] = 0 }, "frameMs")
         rejects({ $0["frames"]![0]!["left_heel"] = [0.1, 0.2] }, "vision19")
         rejects({ $0["frames"]![0]!["nose"] = [0.1] }, "[x, y]")
+        rejects({ let e: JSONValue = ["view": "side", "frames": []]; $0["extra"] = e }, "as many frames")
+        rejects({ let e: JSONValue = ["view": "side", "frames": $0["frames"]!, "x": 1]; $0["extra"] = e }, "unknown field")
     }
 }

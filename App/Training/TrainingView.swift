@@ -139,8 +139,9 @@ struct TrainingView: SwiftUI.View {
 
     @ViewBuilder private var demoPanel: some SwiftUI.View {
         if let demo = model.demo {
-            DemoFigure(demo: demo, mirrored: model.isFrontCamera)
-                .frame(maxWidth: 160, maxHeight: 160)
+            DemoPanel(demo: demo, guides: model.demoGuides, mirrored: model.isFrontCamera)
+                .frame(maxWidth: demo.extra == nil ? 180 : 300, maxHeight: 180)
+                .padding(6)
                 .background(.white.opacity(0.08), in: .rect(cornerRadius: 12))
         }
     }
