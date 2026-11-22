@@ -18,7 +18,7 @@ Bu proje salon reposundan bağımsızdır; salon reposuna hiçbir görevde yazı
 - [x] T2.3 Metrikler (kaynak kapalı liste), One Euro, görünüm tespiti, yakın taraf — 03
 - [x] T2.4 Tekrar sayıcı, hata değerlendirici, uyarı kuralları, güvenlik duraklatması, takip kaybı; zaman damgalı olaylar; ham metrik geçmişi — 03
 - [ ] T2.5 Kaynak uyumluluğu tüm kaynak golden'larda yeşil (Linux CI); anlık görüntü altyapısı (`UPDATE_SNAPSHOTS`) — 03 (AC-3.2, AC-3.7)
-- [ ] T2.6 Kurulum değerlendirmesi ve kişi seçimi (ref 08 A3, ref 07) — 03, 12
+- [x] T2.6 Kurulum değerlendirmesi ve kişi seçimi (ref 08 A3, ref 07) — 03, 12
 - [ ] T2.7 Yeni metrik fonksiyonları: `min`, `angle2d`, `lateralLean2d`, `chainHeight2d`, `sagittalLean`, `sagittalLean2d`; sentetik vücut aracı ve `toVision19` — 04 (AC-4.3) *Durum: fonksiyonlar, birim testleri, sentetik vücut (eskiv, dövüş duruşu) ve `toVision19` tamam; AC-4.3'ün anlık görüntü kısmı T2.5 altyapısını bekliyor. Önden duck için 04 açık soru 6.*
 - [ ] T2.8 Bu projenin şablonları (draft): `exercises/` altında 2B eskivler, `bob_weave_left/right`, `lean_back` (yandan; `lean_back_front` yalnız H1 doğrulanırsa), `squat`/`pushup` (2B), `reverse_lunge`, `jumping_jack`; `fixtures/equivalence/` kopyaları, testleri ve anlık görüntüleri — 04 (AC-4.4, AC-4.5, AC-4.8)
 - [ ] T2.9 `solo-calibrate report` ve `--sweep` (ref 09 ölçüt tanımları) — 03, 09
