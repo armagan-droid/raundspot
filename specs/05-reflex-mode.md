@@ -87,7 +87,7 @@ Bir denemenin penceresi kapanınca:
 **İşaret anı (`t_cue`):** `PLAY_CUE(at: hostTime)` komutu sesi planlar. `t_cue = hostTime + outputLatency + ioBufferDuration` (AVAudioSession değerleri, işaret anında okunur) + `cueOnsetMs` (ses dosyasının başındaki sessizlik; her dosya için üretimde ölçülür ve dosya adının yanındaki meta veride tutulur). TTS yedeğinde (`AVSpeechSynthesizer`) çıkış anı bilinemediği için deneme `rtApproximate = true` işaretlenir.
 
 **Tepki anı (`t_move`):** ref 04'teki deneme kesinleşme anı (`REP_STARTED`: metrik `start.exit`'ten `attemptMinExcursion` kadar uzaklaşır). İki düzeltme:
-1. **Yumuşatma gecikmesi:** motor yumuşatılmış metrikle karar verir; One Euro filtresi gecikme ekler. Swift motoru her karenin **ham** metrik değerini de tutar. Kesinleşme anından geriye doğru, ham metriğin kesinleşme eşiğini **son** kez geçtiği iki kare bulunur ve zaman doğrusal interpolasyonla hesaplanır. Ham geçiş, deneme başlangıcından önceye düşemez.
+1. **Yumuşatma gecikmesi:** motor yumuşatılmış metrikle karar verir; One Euro filtresi gecikme ekler. Swift motoru her karenin **ham** metrik değerini de tutar (en az şablonun `maxDurationMs` süresi kadar geriye; yan değişiminde temizlenir). Kesinleşme anından geriye doğru, ham metriğin kesinleşme eşiğini **son** kez geçtiği iki kare bulunur ve zaman doğrusal interpolasyonla hesaplanır. Ham geçiş, deneme başlangıcından önceye düşemez.
 2. **Kare zamanı:** kare zamanı, karenin sunum zaman damgasıdır (02 "Saat tabanı"), işlendiği an değil.
 
 `RT = t_move − t_cue`. `missed`, `early`, `feint_*` denemeleri RT istatistiğine girmez. `rtApproximate` denemeler istatistikte ayrı gösterilir.

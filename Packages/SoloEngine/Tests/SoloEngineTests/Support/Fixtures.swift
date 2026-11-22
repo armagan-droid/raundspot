@@ -27,6 +27,20 @@ enum Repo {
     static func squat() throws -> JSONValue {
         try read(sourceExercises.appendingPathComponent("squat.json"))
     }
+
+    /// A source template as JSON (`exercises/source/<id>.json`).
+    static func sourceJSON(_ id: String) throws -> JSONValue {
+        try read(sourceExercises.appendingPathComponent("\(id).json"))
+    }
+
+    /// A loaded source template; fails the test when it does not load.
+    static func load(_ id: String) throws -> LoadedRulePack {
+        try load(json: sourceJSON(id))
+    }
+
+    static func load(json: JSONValue) throws -> LoadedRulePack {
+        try RulePackLoader.load(json).get()
+    }
 }
 
 /// "path: message" strings, like the source test helper `issuesOf`.
