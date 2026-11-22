@@ -20,6 +20,14 @@ $(SRCROOT)/exercises/demos/slip_left.json
 $(SRCROOT)/exercises/demos/slip_right.json
 $(SRCROOT)/exercises/demos/slip.json
 $(SRCROOT)/exercises/demos/squat.json
+$(SRCROOT)/exercises/demos/steps/cooldown.breathing.json
+$(SRCROOT)/exercises/demos/steps/cooldown.hip_stretch.json
+$(SRCROOT)/exercises/demos/steps/cooldown.shoulder_stretch.json
+$(SRCROOT)/exercises/demos/steps/warmup.arm_circles.json
+$(SRCROOT)/exercises/demos/steps/warmup.dynamic_stretch.json
+$(SRCROOT)/exercises/demos/steps/warmup.hip_circles.json
+$(SRCROOT)/exercises/demos/steps/warmup.light_jumps.json
+$(SRCROOT)/exercises/demos/steps/warmup.shadow.json
 $(SRCROOT)/exercises/workouts/eskiv_temeli.json
 $(SRCROOT)/exercises/workouts/kondisyon.json
 $(SRCROOT)/exercises/workouts/refleks.json

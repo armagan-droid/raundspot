@@ -125,12 +125,19 @@ struct TrainingView: SwiftUI.View {
             card {
                 Text(model.state == .warmup ? "training.warmup.title" : "training.cooldown.title").font(.headline)
                 Text(model.stepText).font(.title.bold())
+                if let demo = model.stepDemo {
+                    DemoPanel(demo: demo, guides: [], mirrored: model.isFrontCamera)
+                        .frame(maxWidth: 220, maxHeight: 220)
+                        .padding(6)
+                        .background(.white.opacity(0.08), in: .rect(cornerRadius: 12))
+                }
                 Text("\(model.secondsLeft)").font(.system(size: 56, weight: .bold, design: .rounded)).monospacedDigit()
             }
         case .ready:
             card {
                 Text(model.blockName).font(.title.bold())
                 Text("training.set \(model.setLabel)").font(.headline)
+                if let h = model.hints.first { Text(LocalizedStringKey(h.rawValue)).font(.title2.bold()).foregroundStyle(.yellow) }
                 if !model.howTo.isEmpty { Text(model.howTo).font(.callout) }
                 demoPanel
                 Text("training.ready.prompt").font(.headline)

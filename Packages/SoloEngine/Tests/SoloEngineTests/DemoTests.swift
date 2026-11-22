@@ -23,7 +23,7 @@ private let ids = DemoGenerator.repsPerLoop.keys.sorted()
 
     @Test(arguments: ids) func oneLoopIsCorrectReps(_ id: String) throws {
         let demo = try ExerciseDemo.parse(JSONValue.parse(contentsOf: demosDir.appendingPathComponent("\(id).json")))
-        #expect(demo.exercise == id)
+        #expect(demo.exercise == id && demo.step == nil)
         let loaded = try RulePackLoader.load(Repo.read(Repo.exercises.appendingPathComponent("\(id).json")), capabilities: .vision19TwoD).get()
         #expect(loaded.pack.camera.views.contains(demo.view))
         let n = demo.frames.count
@@ -78,6 +78,48 @@ private let ids = DemoGenerator.repsPerLoop.keys.sorted()
         }
     }
 
+    @Test(arguments: StepDemos.all.keys.sorted()) func stepDemoFileMatchesTheGenerator(_ key: String) throws {
+        let generated = try #require(StepDemos.demo(key))
+        let dir = demosDir.appendingPathComponent("steps", isDirectory: true)
+        let url = dir.appendingPathComponent("\(key).json")
+        if ProcessInfo.processInfo.environment["UPDATE_DEMOS"] == "1" {
+            try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+            try Data((generated.json.serialized() + "\n").utf8).write(to: url, options: .atomic)
+        }
+        let stored = try ExerciseDemo.parse(JSONValue.parse(contentsOf: url))
+        #expect(stored == generated && stored.step == key && stored.exercise == nil)
+        #expect(stored.loopMs >= 1500 && stored.loopMs <= 6000, "a short loop")
+    }
+
+    @Test func everyWorkoutStepHasADemo() throws {
+        let dir = Repo.exercises.appendingPathComponent("workouts")
+        var keys = Set<String>()
+        for f in try FileManager.default.contentsOfDirectory(atPath: dir.path) where f.hasSuffix(".json") {
+            for b in try Workout.parse(Repo.read(dir.appendingPathComponent(f))).blocks { keys.formUnion(b.steps.map(\.textKey)) }
+        }
+        #expect(!keys.isEmpty)
+        let stored = Set(try FileManager.default.contentsOfDirectory(atPath: demosDir.appendingPathComponent("steps").path)
+            .filter { $0.hasSuffix(".json") }.map { String($0.dropLast(5)) })
+        #expect(keys.subtracting(stored).isEmpty, "steps without a demo: \(keys.subtracting(stored).sorted())")
+        #expect(stored.subtracting(keys).isEmpty, "demos for no step: \(stored.subtracting(keys).sorted())")
+    }
+
+    @Test func stepRigMovesWhatTheStepSays() throws {
+        func frames(_ k: String) throws -> [[LandmarkName: GuidePoint]] { try #require(StepDemos.demo(k)).frames }
+        // jumps: the ankles leave the floor
+        let jumps = try frames("warmup.light_jumps")
+        #expect(jumps.map { $0[.leftAnkle]!.y }.min()! < jumps[0][.leftAnkle]!.y - 0.03)
+        // arm circles: the wrist goes above the head
+        let circles = try frames("warmup.arm_circles")
+        #expect(circles.contains { $0[.leftWrist]!.y < $0[.nose]!.y })
+        // breathing: wrists above the shoulders at the top
+        let breathe = try frames("cooldown.breathing")
+        #expect(breathe.contains { $0[.leftWrist]!.y < $0[.leftShoulder]!.y })
+        // leg swings: the right ankle moves well forward and back
+        let swing = try frames("warmup.dynamic_stretch").map { $0[.rightAnkle]!.x }
+        #expect(swing.max()! - swing.min()! > 0.15)
+    }
+
     @Test func interpolatesAndLoops() throws {
         let demo = try #require(DemoGenerator.demo("squat"))
         let a = demo.frames[3][.nose]!, b = demo.frames[4][.nose]!
@@ -100,6 +142,7 @@ private let ids = DemoGenerator.repsPerLoop.keys.sorted()
         rejects({ $0["frameMs"] = 0 }, "frameMs")
         rejects({ $0["frames"]![0]!["left_heel"] = [0.1, 0.2] }, "vision19")
         rejects({ $0["frames"]![0]!["nose"] = [0.1] }, "[x, y]")
+        rejects({ $0["step"] = "warmup.x" }, "exactly one of exercise and step")
         rejects({ let e: JSONValue = ["view": "side", "frames": []]; $0["extra"] = e }, "as many frames")
         rejects({ let e: JSONValue = ["view": "side", "frames": $0["frames"]!, "x": 1]; $0["extra"] = e }, "unknown field")
     }

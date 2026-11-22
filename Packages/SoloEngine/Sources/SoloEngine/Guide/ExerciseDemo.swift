@@ -4,7 +4,10 @@ import Foundation
 /// `exercises/demos/<id>.json`. Image coordinates (y down, unmirrored), the 17
 /// `vision19` joints with MediaPipe names.
 public struct ExerciseDemo: Sendable, Equatable {
-    public var exercise: String
+    /// The template id; nil for a guided step's demo.
+    public var exercise: String?
+    /// The guided step's `textKey` (specs/04 "Adım gösterimleri"); nil for a template's demo.
+    public var step: String? = nil
     public var view: CameraView
     public var aspect: Double
     public var frameMs: Int
@@ -24,8 +27,9 @@ public struct ExerciseDemo: Sendable, Equatable {
 
     public static let joints: [LandmarkName] = LandmarkName.allCases.filter { Skeleton.vision19Landmarks.contains($0) }
 
-    public init(exercise: String, view: CameraView, aspect: Double, frameMs: Int, frames: [[LandmarkName: GuidePoint]],
-                extra: Extra? = nil) {
+    public init(exercise: String?, step: String? = nil, view: CameraView, aspect: Double, frameMs: Int,
+                frames: [[LandmarkName: GuidePoint]], extra: Extra? = nil) {
+        self.step = step
         self.extra = extra
         self.exercise = exercise
         self.view = view
@@ -41,10 +45,13 @@ public struct ExerciseDemo: Sendable, Equatable {
 
     public static func parse(_ json: JSONValue) throws(ParseError) -> ExerciseDemo {
         guard let o = json.objectValue else { throw .invalid("not an object") }
-        let allowed: Set<String> = ["formatVersion", "exercise", "view", "aspect", "frameMs", "frames", "extra"]
+        let allowed: Set<String> = ["formatVersion", "exercise", "step", "view", "aspect", "frameMs", "frames", "extra"]
         if let extra = o.keys.first(where: { !allowed.contains($0) }) { throw .invalid("unknown field '\(extra)'") }
         guard o["formatVersion"]?.numberValue == 1 else { throw .invalid("formatVersion must be 1") }
-        guard let exercise = o["exercise"]?.stringValue, !exercise.isEmpty else { throw .invalid("exercise must be a template id") }
+        let exercise = o["exercise"]?.stringValue, step = o["step"]?.stringValue
+        guard (exercise == nil) != (step == nil) else { throw .invalid("needs exactly one of exercise and step") }
+        if let exercise, exercise.isEmpty { throw .invalid("exercise must be a template id") }
+        if let step, step.isEmpty { throw .invalid("step must be a textKey") }
         guard let v = o["view"]?.stringValue, let view = CameraView(rawValue: v) else { throw .invalid("view must be front or side") }
         guard let aspect = o["aspect"]?.numberValue, aspect > 0 else { throw .invalid("aspect must be positive") }
         guard let ms = o["frameMs"]?.numberValue, ms > 0, ms == ms.rounded() else { throw .invalid("frameMs must be a positive integer") }
@@ -58,7 +65,7 @@ public struct ExerciseDemo: Sendable, Equatable {
             guard let el = eo["frames"]?.arrayValue, el.count == list.count else { throw .invalid("extra.frames must have as many frames as frames") }
             extra = Extra(view: eview, frames: try parseFrames(el, "extra.frames"))
         }
-        return ExerciseDemo(exercise: exercise, view: view, aspect: aspect, frameMs: Int(ms), frames: frames, extra: extra)
+        return ExerciseDemo(exercise: exercise, step: step, view: view, aspect: aspect, frameMs: Int(ms), frames: frames, extra: extra)
     }
 
     private static func parseFrames(_ list: [JSONValue], _ field: String) throws(ParseError) -> [[LandmarkName: GuidePoint]] {
@@ -88,7 +95,7 @@ public struct ExerciseDemo: Sendable, Equatable {
             })
         }
         var pairs: [(String, JSONValue)] = [
-            ("formatVersion", 1), ("exercise", .string(exercise)), ("view", .string(view.rawValue)),
+            ("formatVersion", 1), exercise.map { ("exercise", .string($0)) } ?? ("step", .string(step ?? "")), ("view", .string(view.rawValue)),
             ("aspect", .number(aspect)), ("frameMs", .number(Double(frameMs))), ("frames", list(frames)),
         ]
         if let extra { pairs.append(("extra", .object(JSONObject([("view", .string(extra.view.rawValue)), ("frames", list(extra.frames))])))) }

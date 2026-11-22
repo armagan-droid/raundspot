@@ -49,6 +49,7 @@ ref 03 girdilerine (motor olayları, `USER_ACTION`, `TICK`) eklenenler. Devir ve
 - Komutlar: `SPEAK { key }`, `SHOW { key }`, `PERSIST { record }`. Anahtarlar String Catalog anahtarıdır (00 kural 8). Uyarı anahtarı `cue.<exerciseId>.<faultId>` ve metni şablonun `cue` alanından gelir.
 - Kayıtlar: `session` (`active` / `done` / `aborted`, `warmupSkipped`), `block` (`done` / `partial` / `skipped`, `exerciseVersion`), `set` (`validReps`, `faultyReps`, `target`, `belowTarget`, `mode`), `rep` (`outcome`, `faults`, `durationMs`, `counted`). Kimlikler enjekte edilen üreticiden gelir (ref 03).
 - Kamerasız bloklar (`warmup`, `guided`) `WARMUP` ya da `COOLDOWN` durumunda adım adım yürür: her adımın başında `SPEAK { textKey }`, süre `TICK` ile ilerler. Son blok `guided` ise `COOLDOWN` olur, aradaki `guided` bloklar da aynı durumda yürür.
+- S1 (`SETUP`) ilk kameralı bloğun şablonuyla denetlenir. Bu blok refleks ise kontrol, seviyenin kabul ettiği eskiv şablonlarıyla yapılır (12 "Birden çok şablon"). Görünümü farklı sonraki bloklarda (ör. önden jumping jack'ten sonra yandan squat), `READY`'de o şablonun görünüm ipucu (`turn_side`, `face_camera`) gösterilir ve söylenir. Bütün antrenmanın şablonlarını birlikte denetlemek yanlıştır: önden ve yandan şablonların görünüm kesişimi boştur ve kurulum hiç tamamlanmaz (cihaz denemesinde bulundu, 2026-11-22).
 - Sabitler: geri sayım 3 sn, hareketsizlik 10 / 20 sn, takip kaybı 5 sn, devam önerisi 30 dk (ref 03, E4).
 
 ### Hazır antrenman dosyası (`exercises/workouts/<id>.json`)

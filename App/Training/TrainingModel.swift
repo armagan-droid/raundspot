@@ -51,7 +51,7 @@ import UIKit
     private var bandUntil: Double = 0
     private var ticker: Task<Void, Never>?
     private var observers: [NSObjectProtocol] = []
-    private var demoCache: [String: (ExerciseDemo, [(head: HeadGuide?, line: TargetLineGuide?)])] = [:]
+    @ObservationIgnored private var demoCache: [String: (ExerciseDemo, [(head: HeadGuide?, line: TargetLineGuide?)])] = [:]
 
     init(workout: Workout, packs: [String: LoadedRulePack]) {
         self.workout = workout
@@ -118,6 +118,19 @@ import UIKit
         guard session.s.stepIndex < steps.count else { return "" }
         return String(localized: String.LocalizationValue(steps[session.s.stepIndex].textKey))
     }
+
+    /// The current warm-up or cool-down step's demo.
+    var stepDemo: ExerciseDemo? {
+        let steps = block?.steps ?? []
+        guard session.s.stepIndex < steps.count else { return nil }
+        let key = steps[session.s.stepIndex].textKey
+        if let d = stepDemoCache[key] { return d }
+        let d = ExerciseCatalog.stepDemo(for: key)
+        stepDemoCache[key] = d
+        return d
+    }
+
+    @ObservationIgnored private var stepDemoCache: [String: ExerciseDemo?] = [:]
 
     func demo(for id: String) -> (ExerciseDemo, [(head: HeadGuide?, line: TargetLineGuide?)])? {
         if let d = demoCache[id] { return d }
@@ -193,7 +206,9 @@ import UIKit
     private func afterTransition(from before: SessionSnapshot) {
         let s = session.s
         // a new set starts with a fresh rep counter in the template engine
-        if s.state == .countdown, before.state != .countdown, !s.countdownResumes { engine?.reset() }
+        if s.state == .countdown, before.state != .countdown, !s.countdownResumes {
+            engine = nil  // rebuilt on the next frame with the near side the person shows now
+        }
         if before.state != s.state || before.blockIndex != s.blockIndex {
             band = nil
             bandUntil = 0
@@ -264,6 +279,12 @@ import UIKit
             // back in view: S1 checks met again (specs/06 SETUP_READY)
             if assessSetup(samples.map(\.s), pack: pack.pack, context: context).ready { send(.setupReady) }
         }
+        if session.state == .ready, let pack = currentPack {
+            // a block with another view (squat after jumping jack): say how to stand
+            let a = assessSetup(samples.map(\.s), pack: pack.pack, context: context)
+            if hints.first != a.hints.first, let h = a.hints.first { speech.say(String(localized: String.LocalizationValue(h.rawValue))) }
+            hints = a.hints
+        }
         if let pack = currentPack, [.ready, .countdown, .active, .confirm, .rest, .paused].contains(session.state) {
             run(selection.frame ?? emptyFrame(t), pack)
         } else {
@@ -275,9 +296,23 @@ import UIKit
 
     private var context: SetupContext { SetupContext(verticalFOVDegrees: verticalFOV()) }
 
+    /// S1 checks the first camera block (specs/06 SETUP): a reflex block by the
+    /// eskiv templates its level accepts (here the ones in the bundle, 05),
+    /// otherwise its own template. Later blocks show their view hint in READY.
+    private var setupPacks: [RulePack] {
+        guard let first = workout.blocks.first(where: \.usesCamera) else { return [] }
+        if case .reflex = first {
+            return ["slip_left", "slip_right", "duck"].compactMap { packs[$0]?.pack ?? ExerciseCatalog.pack($0)?.pack }
+        }
+        return first.exerciseId.flatMap { packs[$0]?.pack }.map { [$0] } ?? []
+    }
+
     private func assessForSetup(_ t: Double) {
-        let camPacks = workout.blocks.compactMap { $0.exerciseId.flatMap { packs[$0]?.pack } }
-        guard !camPacks.isEmpty else { return }
+        let camPacks = setupPacks
+        guard !camPacks.isEmpty else {
+            send(.setupReady)  // nothing to check against
+            return
+        }
         let a = assessSetup(samples.map(\.s), packs: camPacks, context: context)
         setupView = a.view
         if hints.first != a.hints.first, let h = a.hints.first { speech.say(String(localized: String.LocalizationValue(h.rawValue))) }
@@ -298,7 +333,9 @@ import UIKit
     private func run(_ f: Frame, _ loaded: LoadedRulePack) {
         if engineBlock != session.s.blockIndex || engine == nil {
             let a = assessSetup(samples.map(\.s), pack: loaded.pack, context: context)
-            let view: View = a.view == .ambiguous ? View(loaded.pack.camera.views[0]) : a.view
+            // the template's view when it has one; the person may still be turning
+            let views = loaded.pack.camera.views
+            let view: View = views.count == 1 ? View(views[0]) : (a.view == .ambiguous ? View(views[0]) : a.view)
             engine = ExerciseEngine(loaded, setup: ExerciseSetup(view: view, nearSide: a.nearSide))
             guideTracker = HeadGuideTracker(loaded.pack, nearSide: a.nearSide)
             lineTracker = TargetLineTracker(loaded.pack, nearSide: a.nearSide)
