@@ -45,6 +45,14 @@ Sıra: **S2 → S1 → S3**. Alan onayı, kullanıcı telefonu yerleştirirken (
 
 Kurulum hazır 1,5 sn kesintisiz sürerse sonraki adıma kendiliğinden geçilir (ref 08 "Otomatik başlama").
 
+### S1 hesapları (`SoloEngine` `assessSetup`, T2.6)
+Kaynak `assessSetup` (ref 08 A3: son ~1 sn'lik örneklerin ≥ %80'i geçer, ipucu sırası, sorunlu kenarlar) ve kişi seçimi (ref 07 "Seçim kuralları"; Vision gözlemleri güvene göre sıralanır, ilk 2 aday değerlendirilir) aynen çevrilir. Ekler:
+- **Mesafe:** yalnız `camera.posture: standing` ve görüntünün dikey görüş açısı (`FOV_v`, kişinin dik göründüğü yönde; `SoloCapture` verir) biliniyorsa. `h` = görünür baş noktalarının (`nose`, gözler, kulaklar) en üstü ile görünür ayak bileklerinin en altı arasındaki dikey fark (görüntü yüksekliği oranı). Bu aralığın gerçek boyu `0,90 × boy` kabul edilir (göz–ayak bileği; boy profilde yoksa 1,70 m). `d = 0,90·boy / (2·tan(FOV_v/2)·h)`. Örnek başına: `d < 2,0 m` → `setup.hint.step_back`, `d > 3,0 m` → `setup.hint.move_closer`; baş ya da bilek görünmüyorsa mesafe hesaplanmaz. Mesafe hesaplanabildiğinde ref 08'in "kutu ≥ %45" kuralı **uygulanmaz**: dikey ön kamerada (~70° görüş) 3 m'deki kişi görüntünün yalnız ~%36'sını kaplar ve iki kural çelişir. Mesafe hesaplanamıyorsa (`horizontal` duruş, görüş açısı yok) %45 kuralı geçerlidir.
+- **Telefon eğimi:** uygulama cihazın dikeyden sapmasını (derece, CoreMotion) verir; > 10° ise `setup.hint.phone_upright`. Son değere bakılır, örnek oranına girmez; kurulumu hazır saydırmaz.
+- **Telefonu çevir:** `camera.posture: horizontal` ve `imageAspect < 1` (dikey görüntü) ise `setup.hint.rotate_phone` (ref 08 "Telefonu çevir"); kurulumu hazır saydırmaz.
+- **Birden çok şablon (refleks modu, seviyenin `accept` şablonları):** gereken landmark'lar `minVisibleLandmarks` birleşimi, kabul edilen görünümler kesişimi, `minVisibility` en büyüğü; `activeFaults` şablon başına. Kesişim boşsa kurulum hazır olmaz (görünüm ipucu `adjust_angle`).
+- **İpucu sırası:** `rotate_phone`, `phone_upright`, `multiple_people`, `show_full_body`, `step_back`, `move_closer`, ardından görünüm ipuçları (`turn_side`, `face_camera`, `adjust_angle`). Hazır değilse en az bir ipucu vardır; hazırsa ipucu yoktur.
+
 ## T) Teknik ve kondisyon seti
 | # | Ekran | İçerik |
 |---|---|---|

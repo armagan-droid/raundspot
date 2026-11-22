@@ -27,6 +27,7 @@ private func v2(_ skeleton: Skeleton) -> JSONValue {
     var s = v1()
     s["formatVersion"] = 2
     s["skeleton"] = .string(skeleton.rawValue)
+    s["imageAspect"] = 0.5625
     s["source"] = "team"
     s["frames"] = [frame(0, skeleton), frame(33, skeleton)]
     return s

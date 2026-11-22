@@ -3,7 +3,7 @@ import SoloEngine
 
 // Synthetic exercise bodies and sequences, translated from the source
 // `testing/exercises.ts` and `testing/timeline.ts` (commit c2fe3fd). Martial
-// arts bodies (evader, fighter) are added when their tests need them (T2.4, T2.7).
+// arts bodies (evader, fighter) are in `Martial.swift`.
 
 private func rad(_ deg: Double) -> Double { deg * Double.pi / 180 }
 private func lerp(_ a: Double, _ b: Double, _ s: Double) -> Double { a + (b - a) * s }
