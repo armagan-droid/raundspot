@@ -50,6 +50,16 @@ private func evade(_ p: EvaderParams, _ ms: Double = 900) -> SyntheticRep<Evader
 private let deepDuck = EvaderParams(kneeAngle: 110, torsoLean: 25)
 
 @Suite("Project templates — packs (specs/04)") struct ProjectPackTests {
+    /// The app bundle gets exactly `exercises/*.json` (specs/02): the build
+    /// script copies the files named in `scripts/build/exercises.xcfilelist`.
+    @Test func theAppBuildListNamesEveryTemplate() throws {
+        let list = try String(contentsOf: Repo.root.appendingPathComponent("scripts/build/exercises.xcfilelist"), encoding: .utf8)
+        let listed = list.split(separator: "\n").map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
+        let files = try FileManager.default.contentsOfDirectory(atPath: Repo.root.appendingPathComponent("exercises").path)
+            .filter { $0.hasSuffix(".json") }
+        #expect(listed.sorted() == files.map { "$(SRCROOT)/exercises/\($0)" }.sorted())
+    }
+
     @Test func everyTemplateRunsOnVision2DOnly() throws {
         let files = Repo.jsonFiles(in: Repo.exercises).map { $0.deletingPathExtension().lastPathComponent }
         #expect(files.sorted() == projectIds.sorted(), "templates not covered by these tests")

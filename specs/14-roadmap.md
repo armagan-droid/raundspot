@@ -30,6 +30,7 @@ Bu proje salon reposundan bağımsızdır; salon reposuna hiçbir görevde yazı
 - [ ] T3.4 Seans motoru (06 Bölüm 1) + hazır antrenman JSON'ları + SwiftData modeli ve göç altyapısı (11 Bölüm 1; seans kayıtları buradan itibaren yazılır) — 06 (AC-6.1–AC-6.5), 11 (AC-11.1, AC-11.2)
 - [ ] T3.5 Ekranlar: S1–S3, T1–T3, Y1; eskiv çizimleri — 12 (AC-12.1, AC-12.2 T2 kısmı; AC-12.3, AC-12.4; AC-12.7 T2 kısmı)
 - [ ] T3.6 Kademeli çalışma ve tanı paneli — 02 (AC-2.6)
+- Durum (2026-11-22, cihaz deneme dilimi): T3.1 ve T3.2'nin çekirdeği ile T3.3 (yalnız TTS yedeği), T3.5 (S2, S1, T1, T2 ve Y1 sade hâli) ve T3.6 (yalnız tanı paneli) kısımları, telefonda bir şablonu baştan sona denemek için kuruldu. Ön kamera; H2, yani yalnız 2B; kişi seçimi ve `assessSetup` motordan. Henüz yok: sahte kamera, saat eşlemesinin testi, planlı ses ve ses dosyaları, seans motoru (T3.4), eskiv hedef çizimleri, telefon eğimi (CoreMotion), arka kamera, kademeli çalışma. Görevler bu kısımlar bitene kadar `[ ]` kalır. Şablonlar uygulamaya `scripts/build/copy-exercises.sh` ile kopyalanır; derleme kum havuzu yalnız bildirilen girdileri okuttuğu için dosyalar `scripts/build/exercises.xcfilelist`'te sayılır ve bir test listeyi `exercises/*.json` ile eşit tutar.
 
 ## Faz 4 — Refleks modu
 - [ ] T4.1 Katalog şeması ve `muay_thai.json` taslağı; southpaw aynalaması — 05 (AC-5.3, AC-5.6, AC-5.8)

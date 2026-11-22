@@ -1,0 +1,29 @@
+import Foundation
+import SoloEngine
+
+/// The templates in the bundle's `exercises/` (copied at build time, specs/02),
+/// loaded for Vision 2D (H2). Templates the pose pipeline cannot serve are
+/// rejected by the loader and not listed (specs/03).
+enum ExerciseCatalog {
+    static func load() -> [LoadedRulePack] {
+        guard let dir = Bundle.main.url(forResource: "exercises", withExtension: nil),
+              let files = try? FileManager.default.contentsOfDirectory(at: dir, includingPropertiesForKeys: nil)
+        else { return [] }
+        return files.filter { $0.pathExtension == "json" }
+            .compactMap { url in (try? Data(contentsOf: url)).flatMap { try? RulePackLoader.load(data: $0, capabilities: .vision19TwoD).get() } }
+            .sorted { order($0.pack.id) < order($1.pack.id) }
+    }
+
+    /// Eskivs first, then conditioning (specs/04 "Şablon seti").
+    private static func order(_ id: String) -> String {
+        let first = ["slip_left", "slip_right", "slip", "duck", "bob_weave_left", "bob_weave_right", "lean_back"]
+        return first.firstIndex(of: id).map { String(format: "0%02d", $0) } ?? "1" + id
+    }
+}
+
+/// The user's language for template texts: Turkish when the system language is Turkish.
+enum Lang {
+    static var isTurkish: Bool { Locale.current.language.languageCode?.identifier == "tr" }
+    static var code: String { isTurkish ? "tr" : "en" }
+    static func text(_ t: LocalizedText) -> String { isTurkish ? t.tr : t.en }
+}

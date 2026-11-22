@@ -1,0 +1,23 @@
+{
+  "sourceLanguage": "en",
+  "version": "1.0",
+  "strings": {
+    "NSCameraUsageDescription": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The camera sees your movement so the app can count and correct it. The image is processed on the phone and never saved or sent."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kamera hareketini görür; uygulama onu sayar ve düzeltir. Görüntü telefonda işlenir, kaydedilmez, gönderilmez."
+          }
+        }
+      }
+    }
+  }
+}
