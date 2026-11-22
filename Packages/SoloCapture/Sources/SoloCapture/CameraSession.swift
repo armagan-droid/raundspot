@@ -7,7 +7,8 @@ public struct CameraFrame {
     public let pixelBuffer: CVPixelBuffer
     /// Presentation time on the host clock, ms (specs/02 "Saat tabanı").
     public let hostTimeMs: Double
-    /// Clockwise turn that makes the buffer upright, degrees (0, 90, 180, 270).
+    /// Clockwise turn that still makes the buffer upright, degrees (0, 90, 180, 270);
+    /// 0 when the connection already rotates the buffers.
     public let rotationDegrees: Double
     public let width: Int
     public let height: Int
@@ -27,7 +28,7 @@ public final class CameraSession: NSObject, @unchecked Sendable {
     private var device: AVCaptureDevice?
     private var coordinator: AVCaptureDevice.RotationCoordinator?
     private let lock = NSLock()
-    private var captureAngle: Double = 90
+    private var captureAngle: Double = 0
     private var droppedCount = 0
     private var handler: ((CameraFrame) -> Void)?
 
@@ -100,8 +101,15 @@ public final class CameraSession: NSObject, @unchecked Sendable {
 
     @MainActor private func refreshRotation() {
         guard let c = coordinator else { return }
+        // buffers are rotated upright on the output connection, so Vision gets `.up`
+        // and nothing downstream has to know the sensor orientation
         let angle = c.videoRotationAngleForHorizonLevelCapture
-        lock.withLock { captureAngle = angle }
+        if let conn = output.connection(with: .video), conn.isVideoRotationAngleSupported(angle) {
+            conn.videoRotationAngle = angle
+            lock.withLock { captureAngle = 0 }
+        } else {
+            lock.withLock { captureAngle = angle }
+        }
         let preview = c.videoRotationAngleForHorizonLevelPreview
         if let conn = previewLayer?.connection, conn.isVideoRotationAngleSupported(preview) {
             conn.videoRotationAngle = preview

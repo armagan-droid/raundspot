@@ -29,6 +29,7 @@ import UIKit
     private(set) var latencyMs = 0.0
     private(set) var metricRows: [(String, Double)] = []
     private(set) var setupView: View = .ambiguous
+    private(set) var candidateCount = 0
 
     let camera = CameraSession(position: .front)
     private let speech = SpeechOut(language: Lang.code)
@@ -114,6 +115,7 @@ import UIKit
         meter.record(t)
         fps = meter.fps
         dropped = camera.dropped
+        candidateCount = candidates.count
         let selection = selectPerson(candidates, track: track)
         track = selection.track
         frame = selection.frame

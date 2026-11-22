@@ -95,6 +95,7 @@ struct TrainingView: SwiftUI.View {
             }
             .multilineTextAlignment(.center)
             .padding().background(.black.opacity(0.55), in: .rect(cornerRadius: 16))
+            .onTapGesture { tapForDiagnostics() }
         case .ready:
             VStack(spacing: 8) {
                 Text(model.name).font(.title.bold())
@@ -120,16 +121,19 @@ struct TrainingView: SwiftUI.View {
                     .monospacedDigit()
                     .shadow(radius: 6)
                     .padding(.trailing, 24)
-                    .onTapGesture {
-                        taps += 1
-                        if taps >= 5 {
-                            taps = 0
-                            model.showDiagnostics.toggle()
-                        }
-                    }
+                    .onTapGesture { tapForDiagnostics() }
                     .accessibilityLabel(Text("training.count.accessibility \(model.count)"))
             }
             Spacer()
+        }
+    }
+
+    /// specs/02 "Tanı paneli": opened by 5 taps.
+    private func tapForDiagnostics() {
+        taps += 1
+        if taps >= 5 {
+            taps = 0
+            model.showDiagnostics.toggle()
         }
     }
 
@@ -166,7 +170,8 @@ struct TrainingView: SwiftUI.View {
     private var diagnostics: some SwiftUI.View {
         VStack(alignment: .leading, spacing: 2) {
             Text(String(format: "FPS %.1f · drop %d · lat %.0f ms", model.fps, model.dropped, model.latencyMs))
-            Text("view \(model.setupView.rawValue) · aspect \(String(format: "%.2f", model.aspect))")
+            Text("view \(model.setupView.rawValue) · aspect \(String(format: "%.2f", model.aspect)) · people \(model.candidateCount)")
+            Text("hints \(model.hints.map { $0.rawValue.replacingOccurrences(of: "setup.hint.", with: "") }.joined(separator: ", "))")
             ForEach(model.metricRows, id: \.0) { row in
                 Text(String(format: "%@ %.3f", row.0, row.1))
             }
