@@ -270,9 +270,9 @@
 			);
 			name = "Copy exercises";
 			outputFileListPaths = (
+				"$(SRCROOT)/scripts/xcode/exercises-out.xcfilelist",
 			);
 			outputPaths = (
-				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/exercises",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -291,9 +291,9 @@
 			);
 			name = "Copy exercises";
 			outputFileListPaths = (
+				"$(SRCROOT)/scripts/xcode/exercises-out.xcfilelist",
 			);
 			outputPaths = (
-				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/exercises",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
