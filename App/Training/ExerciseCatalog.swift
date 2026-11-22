@@ -21,10 +21,23 @@ enum ExerciseCatalog {
         return try? ExerciseDemo.parse(json)
     }
 
+    static let eskivIds = ["slip_left", "slip_right", "slip", "duck", "bob_weave_left", "bob_weave_right", "lean_back"]
+
+    /// Ready-made workouts (specs/06) whose templates all load.
+    static func workouts(_ packs: [LoadedRulePack]) -> [Workout] {
+        guard let dir = Bundle.main.url(forResource: "exercises/workouts", withExtension: nil),
+              let files = try? FileManager.default.contentsOfDirectory(at: dir, includingPropertiesForKeys: nil) else { return [] }
+        let ids = Set(packs.map(\.pack.id))
+        let order = ["eskiv_temeli", "refleks", "kondisyon"]
+        return files.filter { $0.pathExtension == "json" }
+            .compactMap { (try? JSONValue.parse(contentsOf: $0)).flatMap { try? Workout.parse($0) } }
+            .filter { w in w.blocks.allSatisfy { $0.exerciseId.map(ids.contains) ?? true } }
+            .sorted { (order.firstIndex(of: $0.id) ?? 99) < (order.firstIndex(of: $1.id) ?? 99) }
+    }
+
     /// Eskivs first, then conditioning (specs/04 "Şablon seti").
     private static func order(_ id: String) -> String {
-        let first = ["slip_left", "slip_right", "slip", "duck", "bob_weave_left", "bob_weave_right", "lean_back"]
-        return first.firstIndex(of: id).map { String(format: "0%02d", $0) } ?? "1" + id
+        return eskivIds.firstIndex(of: id).map { String(format: "0%02d", $0) } ?? "1" + id
     }
 }
 

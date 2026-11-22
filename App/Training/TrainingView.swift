@@ -1,32 +1,35 @@
 import SoloEngine
 import SwiftUI
 
-/// S2 → S1 → T1 → T2 for one template (specs/12).
+/// A workout through the session engine (specs/12 S2 → S1 → S3 → T1 → T2 → T3 → Y1).
 struct TrainingView: SwiftUI.View {
     @State private var model: TrainingModel
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
+    @Environment(\.scenePhase) private var scenePhase
     @State private var taps = 0
 
-    init(_ loaded: LoadedRulePack) {
-        _model = State(initialValue: TrainingModel(loaded))
+    init(_ model: TrainingModel) {
+        _model = State(initialValue: model)
     }
 
     var body: some SwiftUI.View {
         ZStack {
             Color.black.ignoresSafeArea()
-            switch model.phase {
-            case .safety: safety
+            switch model.screen {
             case .cameraDenied: message("training.camera.denied", button: "training.camera.settings") {
                     if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) }
                 }
             case .cameraFailed: message("training.camera.failed", button: nil) {}
             case .finished: finished
-            default: live
+            case .live: model.spaceConfirmed ? AnyView(live) : AnyView(safety)
             }
         }
         .preferredColorScheme(.dark)
         .onDisappear { model.close() }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .background { model.appWentToBackground() }
+        }
     }
 
     // MARK: S2
@@ -37,87 +40,127 @@ struct TrainingView: SwiftUI.View {
                 Text(model.name).font(.largeTitle.bold())
                 Label("training.safety.medical", systemImage: "cross.case").font(.headline)
                 Label("training.safety.space", systemImage: "square.dashed").font(.body)
-                Text(model.setupHint).font(.callout).foregroundStyle(.secondary)
+                if !model.setupHint.isEmpty { Text(model.setupHint).font(.callout).foregroundStyle(.secondary) }
                 Button {
                     Task { await model.confirmSpace() }
                 } label: {
                     Text("training.safety.confirm").font(.title3.bold()).frame(maxWidth: .infinity, minHeight: 56)
                 }
                 .buttonStyle(.borderedProminent)
-                Button("training.cancel") { dismiss() }.frame(maxWidth: .infinity, minHeight: 44)
+                Button("training.cancel") {
+                    model.act(.abort)
+                    dismiss()
+                }
+                .frame(maxWidth: .infinity, minHeight: 44)
             }
             .padding(24)
             .frame(maxWidth: 560)
         }
     }
 
-    // MARK: S1, T1, T2
+    // MARK: Live screens
 
     private var live: some SwiftUI.View {
         GeometryReader { geo in
             ZStack {
-                CameraPreview(camera: model.camera).ignoresSafeArea()
-                if model.showSkeleton {
-                    SkeletonOverlay(frame: model.frame, aspect: model.aspect, mirrored: model.isFrontCamera,
-                                    minVisibility: model.loaded.pack.camera.minVisibility)
-                        .ignoresSafeArea()
+                if model.workout.usesCamera {
+                    CameraPreview(camera: model.camera).ignoresSafeArea()
+                    if model.showSkeleton {
+                        SkeletonOverlay(frame: model.frame, aspect: model.aspect, mirrored: model.isFrontCamera,
+                                        minVisibility: model.minVisibility)
+                            .ignoresSafeArea()
+                    }
+                    if [.ready, .countdown, .active, .confirm].contains(model.state) {
+                        GuideOverlay(guide: model.guide, line: model.targetLine, aspect: model.aspect, mirrored: model.isFrontCamera)
+                            .ignoresSafeArea()
+                    }
                 }
-                if model.phase == .ready || model.phase == .active {
-                    GuideOverlay(guide: model.guide, line: model.targetLine, aspect: model.aspect, mirrored: model.isFrontCamera)
-                        .ignoresSafeArea()
-                }
-                if model.phase == .paused {
+                if model.state == .paused, model.snapshot.pauseReason == .safety {
                     Rectangle().strokeBorder(.red, lineWidth: 12).ignoresSafeArea()
                 }
                 VStack {
-                    topText
+                    panel
                     Spacer()
-                    if let band = model.band, model.phase == .active || model.phase == .paused {
+                    if let band = model.band {
                         Label(band, systemImage: model.bandIsWarning ? "exclamationmark.triangle.fill" : "checkmark.circle.fill")
                             .font(.title2.bold())
+                            .multilineTextAlignment(.center)
                             .padding(.horizontal, 20).padding(.vertical, 12)
                             .background(model.bandIsWarning ? Color.orange.opacity(0.85) : Color.green.opacity(0.8), in: .capsule)
                     }
                     controls
                 }
                 .padding()
-                if model.phase == .active || model.phase == .paused {
+                if [.active, .confirm].contains(model.state) || (model.state == .paused && model.snapshot.resumeTo == .active) {
                     counter(height: geo.size.height)
+                }
+                if model.state == .countdown {
+                    Text("\(model.secondsLeft)")
+                        .font(.system(size: max(geo.size.height * 0.35, 80), weight: .bold, design: .rounded))
+                        .shadow(radius: 8)
+                        .accessibilityLabel(Text("training.countdown.accessibility \(model.secondsLeft)"))
                 }
                 if model.showDiagnostics { diagnostics }
             }
         }
     }
 
-    @ViewBuilder private var topText: some SwiftUI.View {
-        switch model.phase {
-        case .setup:
-            VStack(spacing: 8) {
-                Text(model.hints.first.map { LocalizedStringKey($0.rawValue) } ?? "training.setup.hold")
-                    .font(.title.bold())
-                Text(model.setupHint).font(.callout)
-                if !model.howTo.isEmpty {
-                    Label(model.howTo, systemImage: "info.circle").font(.callout).padding(.top, 4)
-                }
-                demoPanel
-            }
+    private func card<C: SwiftUI.View>(@ViewBuilder _ content: () -> C) -> some SwiftUI.View {
+        VStack(spacing: 8, content: content)
             .multilineTextAlignment(.center)
-            .padding().background(.black.opacity(0.55), in: .rect(cornerRadius: 16))
+            .padding()
+            .frame(maxWidth: 620)
+            .background(.black.opacity(0.6), in: .rect(cornerRadius: 16))
             .onTapGesture { tapForDiagnostics() }
+    }
+
+    @ViewBuilder private var panel: some SwiftUI.View {
+        switch model.state {
+        case .setup:
+            card {
+                Text(model.hints.first.map { LocalizedStringKey($0.rawValue) } ?? "training.setup.hold").font(.title.bold())
+                Text(model.setupHint).font(.callout)
+            }
+        case .warmup, .cooldown:
+            card {
+                Text(model.state == .warmup ? "training.warmup.title" : "training.cooldown.title").font(.headline)
+                Text(model.stepText).font(.title.bold())
+                Text("\(model.secondsLeft)").font(.system(size: 56, weight: .bold, design: .rounded)).monospacedDigit()
+            }
         case .ready:
-            VStack(spacing: 8) {
-                Text(model.name).font(.title.bold())
-                Text(model.howTo).font(.callout)
+            card {
+                Text(model.blockName).font(.title.bold())
+                Text("training.set \(model.setLabel)").font(.headline)
+                if !model.howTo.isEmpty { Text(model.howTo).font(.callout) }
                 demoPanel
                 Text("training.ready.prompt").font(.headline)
             }
-            .multilineTextAlignment(.center)
-            .padding().background(.black.opacity(0.55), in: .rect(cornerRadius: 16))
+        case .rest:
+            card {
+                Text("training.rest.title").font(.headline)
+                Text("\(model.secondsLeft)").font(.system(size: 64, weight: .bold, design: .rounded)).monospacedDigit()
+                if let last = model.lastSet { Text("training.summary \(last.valid) \(last.faulty)").font(.callout) }
+                Text("training.next \(model.blockName) \(model.setLabel)").font(.callout)
+            }
+        case .confirm:
+            card { Text("prompt.set_confirm").font(.title.bold()) }
         case .paused:
-            Text("training.safety.paused").font(.title.bold()).padding()
-                .background(.red.opacity(0.8), in: .rect(cornerRadius: 16))
+            card {
+                Text(pauseTitle).font(.title.bold())
+                if model.snapshot.pauseReason == .tracking { Text("training.paused.tracking").font(.callout) }
+                if model.snapshot.pauseReason == .safety { Text("training.paused.safety").font(.callout) }
+            }
         default:
             EmptyView()
+        }
+    }
+
+    private var pauseTitle: LocalizedStringKey {
+        switch model.snapshot.pauseReason {
+        case .safety?: "training.safety.paused"
+        case .tracking?: "tracking.lost"
+        case .restored?: "session.resume_offer"
+        default: "session.paused"
         }
     }
 
@@ -125,21 +168,21 @@ struct TrainingView: SwiftUI.View {
         VStack {
             HStack {
                 Spacer()
-                Text("\(model.count)")
+                Text(model.target.map { "\(model.counted)/\($0)" } ?? "\(model.counted)")
                     .font(.system(size: max(height * 0.25, 60), weight: .bold, design: .rounded))
                     .monospacedDigit()
                     .shadow(radius: 6)
                     .padding(.trailing, 24)
                     .onTapGesture { tapForDiagnostics() }
-                    .accessibilityLabel(Text("training.count.accessibility \(model.count)"))
+                    .accessibilityLabel(Text("training.count.accessibility \(model.counted)"))
             }
             Spacer()
         }
     }
 
     @ViewBuilder private var demoPanel: some SwiftUI.View {
-        if let demo = model.demo {
-            DemoPanel(demo: demo, guides: model.demoGuides, mirrored: model.isFrontCamera)
+        if let id = model.block?.exerciseId, let (demo, guides) = model.demo(for: id) {
+            DemoPanel(demo: demo, guides: guides, mirrored: model.isFrontCamera)
                 .frame(maxWidth: demo.extra == nil ? 180 : 300, maxHeight: 180)
                 .padding(6)
                 .background(.white.opacity(0.08), in: .rect(cornerRadius: 12))
@@ -156,29 +199,44 @@ struct TrainingView: SwiftUI.View {
     }
 
     private var controls: some SwiftUI.View {
-        HStack(spacing: 16) {
-            Button {
-                model.soundOn.toggle()
-            } label: {
+        HStack(spacing: 12) {
+            Button { model.soundOn.toggle() } label: {
                 Image(systemName: model.soundOn ? "speaker.wave.2.fill" : "speaker.slash.fill").frame(width: 44, height: 44)
             }
             .accessibilityLabel(Text("training.sound"))
-            Button {
-                model.showSkeleton.toggle()
-            } label: {
-                Image(systemName: "figure.stand").frame(width: 44, height: 44)
+            if model.workout.usesCamera {
+                Button { model.showSkeleton.toggle() } label: {
+                    Image(systemName: "figure.stand").frame(width: 44, height: 44)
+                }
+                .accessibilityLabel(Text("training.skeleton"))
             }
-            .accessibilityLabel(Text("training.skeleton"))
-            if model.phase == .ready {
-                Button("training.start") { model.startNow() }.buttonStyle(.borderedProminent)
+            switch model.state {
+            case .warmup:
+                Button("training.skip_warmup") { model.act(.skipWarmup) }.buttonStyle(.bordered)
+            case .cooldown:
+                Button("training.skip") { model.act(.skipBlock) }.buttonStyle(.bordered)
+            case .ready:
+                Button("training.start") { model.act(.start) }.buttonStyle(.borderedProminent)
+                Button("training.skip") { model.act(.skipBlock) }.buttonStyle(.bordered)
+                if model.snapshot.pendingSkip != nil { Button("training.undo_skip") { model.act(.undoSkip) }.buttonStyle(.bordered) }
+            case .active:
+                Button("training.end_set") { model.act(.endSet) }.buttonStyle(.bordered)
+            case .confirm:
+                Button("training.continue_set") { model.act(.continueSet) }.buttonStyle(.borderedProminent)
+                Button("training.end_set") { model.act(.endSet) }.buttonStyle(.bordered)
+            case .rest:
+                Button("training.ready_now") { model.act(.ready) }.buttonStyle(.borderedProminent)
+                Button("training.skip") { model.act(.skipBlock) }.buttonStyle(.bordered)
+            case .paused:
+                Button("training.resume") { model.act(.resume) }.buttonStyle(.borderedProminent)
+            default:
+                EmptyView()
             }
-            if model.phase == .paused {
-                Button("training.resume") { model.resume() }.buttonStyle(.borderedProminent)
+            if ![.paused, .setup].contains(model.state) {
+                Button { model.act(.pause) } label: { Image(systemName: "pause.fill").frame(width: 44, height: 44) }
+                    .accessibilityLabel(Text("training.pause"))
             }
-            Button(model.phase == .active || model.phase == .paused ? "training.finish" : "training.cancel") {
-                if model.phase == .active || model.phase == .paused { model.finish() } else { dismiss() }
-            }
-            .buttonStyle(.bordered)
+            Button("training.finish") { model.act(.abort) }.buttonStyle(.bordered)
         }
         .font(.title3)
         .padding(10)
@@ -188,6 +246,7 @@ struct TrainingView: SwiftUI.View {
     private var diagnostics: some SwiftUI.View {
         VStack(alignment: .leading, spacing: 2) {
             Text(String(format: "FPS %.1f · drop %d · lat %.0f ms", model.fps, model.dropped, model.latencyMs))
+            Text("state \(model.state.rawValue) · block \(model.snapshot.blockIndex) · set \(model.snapshot.setIndex)")
             Text("view \(model.setupView.rawValue) · aspect \(String(format: "%.2f", model.aspect)) · people \(model.candidateCount)")
             Text("hints \(model.hints.map { $0.rawValue.replacingOccurrences(of: "setup.hint.", with: "") }.joined(separator: ", "))")
             ForEach(model.metricRows, id: \.0) { row in
@@ -205,10 +264,16 @@ struct TrainingView: SwiftUI.View {
     // MARK: Y1 (minimal), E1
 
     private var finished: some SwiftUI.View {
-        VStack(spacing: 20) {
+        let sets = model.records.compactMap { r -> (Int, Int)? in
+            if case .set(_, _, _, let v, let f, _, _, _, _) = r { (v, f) } else { nil }
+        }
+        let valid = sets.map(\.0).reduce(0, +), faulty = sets.map(\.1).reduce(0, +)
+        return VStack(spacing: 20) {
             Text(model.name).font(.title2)
-            Text("\(model.count)").font(.system(size: 96, weight: .bold, design: .rounded))
-            Text("training.summary \(model.count) \(model.faultyCount)").font(.headline)
+            Text(model.state == .aborted ? "training.finished.aborted" : "training.finished.done").font(.headline)
+            Text("\(valid)").font(.system(size: 96, weight: .bold, design: .rounded))
+            Text("training.summary \(valid) \(faulty)").font(.headline)
+            Text("training.finished.sets \(sets.count)").font(.callout)
             Button("training.close") { dismiss() }.buttonStyle(.borderedProminent).frame(minHeight: 44)
         }
         .padding()

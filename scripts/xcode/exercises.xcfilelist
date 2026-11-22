@@ -20,3 +20,6 @@ $(SRCROOT)/exercises/demos/slip_left.json
 $(SRCROOT)/exercises/demos/slip_right.json
 $(SRCROOT)/exercises/demos/slip.json
 $(SRCROOT)/exercises/demos/squat.json
+$(SRCROOT)/exercises/workouts/eskiv_temeli.json
+$(SRCROOT)/exercises/workouts/kondisyon.json
+$(SRCROOT)/exercises/workouts/refleks.json
