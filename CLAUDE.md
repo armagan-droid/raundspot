@@ -43,7 +43,7 @@ Tam liste ve gerekçeler: `specs/00-vision.md` "Değişmez kurallar". Özet:
 - Araç testleri: `swift test --package-path Packages/SoloCalibrate`
 - Şablon doğrulama: `swift run --package-path Packages/SoloCalibrate solo-calibrate validate exercises/` (şema + ifadeler; `exercises/` kökünde `howTo` zorunlu, `source/` hariç; tanınmayan alt dizin hata)
 - Kaynak sağlama toplamı (AC-4.2): `cd exercises/source && shasum -a 256 -c SHA256SUMS`
-- Kalibrasyon raporu (T2.9): `solo-calibrate report --files fixtures/recordings/<şablon> [--sweep <yol>=<değerler>]`
+- Kalibrasyon raporu: `swift run --package-path Packages/SoloCalibrate solo-calibrate report --files fixtures/recordings/<şablon> [--rules exercises] [--exercise <id>] [--sweep <yol>=<v1>,<v2>]` (etiketli `*.json` diziler; şablonlar `--rules` dizininden `<id>.json`)
 - Uygulama testleri (macOS): `xcodebuild test -project GymSpotSolo.xcodeproj -scheme GymSpotSolo -destination 'platform=iOS Simulator,name=…' CODE_SIGNING_ALLOWED=NO`
 - Paket testleri (iOS paketleri): `cd Packages/<Paket> && xcodebuild test -scheme <Paket> -destination 'platform=iOS Simulator,name=…'`
 - Release ikili kontrolü (AC-2.3, AC-2.5): `scripts/ci/check-release-binary.sh <derived-data-dizini>`

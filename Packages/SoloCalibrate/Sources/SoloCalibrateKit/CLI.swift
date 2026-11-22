@@ -5,7 +5,7 @@ import SoloEngine
 public enum CLI {
     public static let usage = """
         usage: solo-calibrate validate <dir>
-               solo-calibrate report --files <dir> [--sweep <path>=<v1>,<v2>,...]
+               solo-calibrate report --files <dir> [--rules <dir>] [--exercise <id>] [--sweep <path>=<v1>,<v2>,...]
                solo-calibrate --version
         """
 
@@ -25,13 +25,20 @@ public enum CLI {
                 output("checked \(report.checkedFiles.count) JSON file(s): \(report.isValid ? "OK" : "\(report.errors.count) error(s)")")
                 return report.isValid ? 0 : 1
             case "report":
-                throw CalibrateError.notImplemented(command: "report", task: "T2.9")
+                output(try Report.run(reportOptions(Array(arguments.dropFirst()))))
+                return 0
             case "--version":
                 output(SoloEngine.generatedBy)
                 return 0
             default:
                 throw CalibrateError.usage(usage)
             }
+        } catch let error as CalibrationError {
+            output("error: \(error.description)")
+            return 1
+        } catch let error as ReportError {
+            output("error: \(error.description)")
+            return 1
         } catch let error as CalibrateError {
             output("error: \(error.description)")
             return 2
@@ -39,5 +46,23 @@ public enum CLI {
             output("error: \(error.localizedDescription)")
             return 2
         }
+    }
+
+    /// `--files <dir> [--rules <dir>] [--exercise <id>] [--sweep <spec>]`; rules default to `exercises`.
+    static func reportOptions(_ args: [String]) throws -> ReportOptions {
+        var values: [String: String] = [:]
+        var i = 0
+        while i < args.count {
+            let key = args[i]
+            guard ["--files", "--rules", "--exercise", "--sweep"].contains(key), i + 1 < args.count, values[key] == nil else {
+                throw CalibrateError.usage(usage)
+            }
+            values[key] = args[i + 1]
+            i += 2
+        }
+        guard let files = values["--files"] else { throw CalibrateError.usage(usage) }
+        return ReportOptions(files: URL(fileURLWithPath: files, isDirectory: true),
+                             rules: URL(fileURLWithPath: values["--rules"] ?? "exercises", isDirectory: true),
+                             exercise: values["--exercise"], sweep: values["--sweep"])
     }
 }

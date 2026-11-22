@@ -1,0 +1,2 @@
+# Generated snapshot inputs (specs/03): large, reviewed through the case files
+fixtures/snapshots/sequences/** -diff linguist-generated=true

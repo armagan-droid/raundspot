@@ -56,7 +56,8 @@ Bir kayıt, kamera akışının tek bir kesintisiz parçasıdır (bir set, bir r
 - **Yalnız landmark verisi** dışa aktarılır: `LandmarkSequence` `formatVersion: 2`, `skeleton: "vision19"`, `source: "team"` (03), notlardaki etiketler `labels.reps` olarak, `meta` (şablon kimlikleri/sürümleri, cihaz, katılımcı kodu, rıza sürümü). Ek olarak refleks kayıtlarında `app.jsonl`'ın işaret ve deneme satırları.
 - Paylaşım sayfası (Dosyalar, AirDrop) ile tek `.json` dosyası (gzip'li). **Video ve kare görüntüsü dışa aktarılamaz** (paylaşım sayfasına hiç verilmez).
 - Her dışa aktarım meta veriye yazılır (ne zaman, hangi dosya adı); rıza geri çekilince operatöre bu liste gösterilir.
-- Repo kullanımı: dışa aktarılan diziler `fixtures/recordings/<şablon>/` altına girer; anlık görüntülere (03) ve kalibrasyon raporuna (`solo-calibrate report --files`) kaynak olur. Repoya girmeden önce dosyada isim, yüz ya da görüntü olmadığı şema ile doğrulanır (katı şema, ref 07 ilkesi).
+- `meta` alanının katı şeması (yalnız yukarıdaki alanlar; isim ya da serbest metin yok) T5.4'te 03'teki dizi şemasına eklenir; o zamana kadar `solo-calibrate` `meta`sız v2 dizilerini okur.
+- Repo kullanımı: dışa aktarılan diziler `fixtures/recordings/<şablon>/` altına **açılmış** (gzip'siz) `.json` olarak girer; anlık görüntülere (03) ve kalibrasyon raporuna (`solo-calibrate report --files`) kaynak olur. Repoya girmeden önce dosyada isim, yüz ya da görüntü olmadığı şema ile doğrulanır (katı şema, ref 07 ilkesi).
 
 ## Salon pilotu akışı
 1. Operatör (geliştirici) katılımcı kodu oluşturur, katılımcı rızayı verir.

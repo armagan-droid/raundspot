@@ -16,7 +16,9 @@ let package = Package(
     targets: [
         .target(name: "SoloCalibrateKit", dependencies: ["SoloEngine"]),
         .executableTarget(name: "solo-calibrate", dependencies: ["SoloCalibrateKit"]),
-        .testTarget(name: "SoloCalibrateKitTests", dependencies: ["SoloCalibrateKit"]),
+        .testTarget(name: "SoloCalibrateKitTests", dependencies: [
+            "SoloCalibrateKit", .product(name: "SoloEngineTesting", package: "SoloEngine"),
+        ]),
     ],
     swiftLanguageModes: [.v6]
 )
