@@ -9,6 +9,8 @@ import SoloEngine
 ///   except `howTo`, which the source format leaves optional.
 /// - `<dir>/demos/*.json`: demo animations (specs/04 "Gösterim animasyonu"):
 ///   format, file name = `exercise`, and the template exists in `<dir>`.
+/// - `<dir>/workouts/*.json`: ready-made workouts (specs/06): format, file
+///   name = `id`, and every technique/conditioning template exists (AC-6.5).
 /// - Any other JSON (e.g. `reflex/`, `workouts/`) is an error until its
 ///   validator exists, so a new file kind cannot slip through unchecked.
 public struct ValidationReport: Sendable, Equatable {
@@ -31,6 +33,8 @@ public enum Validator {
                 report.errors += validateRulePack(file, relative: relative, requireHowTo: true)
             case 2 where parts[0] == "source":
                 report.errors += validateRulePack(file, relative: relative, requireHowTo: false)
+            case 2 where parts[0] == "workouts":
+                report.errors += validateWorkout(file, relative: relative, root: root)
             case 2 where parts[0] == "demos":
                 report.errors += validateDemo(file, relative: relative, root: root)
             default:
@@ -38,6 +42,25 @@ public enum Validator {
             }
         }
         return report
+    }
+
+    static func validateWorkout(_ file: URL, relative: String, root: URL) -> [String] {
+        let workout: Workout
+        do {
+            workout = try Workout.parse(JSONValue.parse(contentsOf: file))
+        } catch {
+            return ["\(relative): \(error)"]
+        }
+        var errors: [String] = []
+        if workout.id != file.deletingPathExtension().lastPathComponent {
+            errors.append("\(relative): id '\(workout.id)' does not match the file name")
+        }
+        for (i, b) in workout.blocks.enumerated() {
+            if let ex = b.exerciseId, !FileManager.default.fileExists(atPath: root.appendingPathComponent("\(ex).json").path) {
+                errors.append("\(relative): blocks[\(i)].exerciseId: no template '\(ex)' in exercises/ (specs/06 AC-6.5)")
+            }
+        }
+        return errors
     }
 
     static func validateDemo(_ file: URL, relative: String, root: URL) -> [String] {
