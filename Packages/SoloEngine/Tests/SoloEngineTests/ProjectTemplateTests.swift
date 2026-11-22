@@ -51,9 +51,9 @@ private let deepDuck = EvaderParams(kneeAngle: 110, torsoLean: 25)
 
 @Suite("Project templates — packs (specs/04)") struct ProjectPackTests {
     /// The app bundle gets exactly `exercises/*.json` and `exercises/demos/*.json` (specs/02, 04): the build
-    /// script copies the files named in `scripts/build/exercises.xcfilelist`.
+    /// script copies the files named in `scripts/xcode/exercises.xcfilelist`.
     @Test func theAppBuildListNamesEveryTemplate() throws {
-        let list = try String(contentsOf: Repo.root.appendingPathComponent("scripts/build/exercises.xcfilelist"), encoding: .utf8)
+        let list = try String(contentsOf: Repo.root.appendingPathComponent("scripts/xcode/exercises.xcfilelist"), encoding: .utf8)
         let listed = list.split(separator: "\n").map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
         func json(_ dir: String) throws -> [String] {
             try FileManager.default.contentsOfDirectory(atPath: Repo.root.appendingPathComponent(dir).path)

@@ -263,10 +263,10 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"$(SRCROOT)/scripts/build/exercises.xcfilelist",
+				"$(SRCROOT)/scripts/xcode/exercises.xcfilelist",
 			);
 			inputPaths = (
-				"$(SRCROOT)/scripts/build/copy-exercises.sh",
+				"$(SRCROOT)/scripts/xcode/copy-exercises.sh",
 			);
 			name = "Copy exercises";
 			outputFileListPaths = (
@@ -276,7 +276,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/scripts/build/copy-exercises.sh\"\n";
+			shellScript = "\"$SRCROOT/scripts/xcode/copy-exercises.sh\"\n";
 		};
 		C0E5A11B0000000000000002 /* Copy exercises */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -284,10 +284,10 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"$(SRCROOT)/scripts/build/exercises.xcfilelist",
+				"$(SRCROOT)/scripts/xcode/exercises.xcfilelist",
 			);
 			inputPaths = (
-				"$(SRCROOT)/scripts/build/copy-exercises.sh",
+				"$(SRCROOT)/scripts/xcode/copy-exercises.sh",
 			);
 			name = "Copy exercises";
 			outputFileListPaths = (
@@ -297,7 +297,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/scripts/build/copy-exercises.sh\"\n";
+			shellScript = "\"$SRCROOT/scripts/xcode/copy-exercises.sh\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
