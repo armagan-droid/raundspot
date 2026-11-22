@@ -159,6 +159,7 @@ import Testing
         ("chainHeight2d", ["nose", "left_shoulder", "left_hip", "left_knee", "left_ankle"]),
         ("sagittalLean", ["nose", "left_hip"]),
         ("sagittalLean2d", ["nose", "near_hip"]),
+        ("heightOverShoulders2d", ["nose", "left_ankle"]),
     ])
     func projectFunctionsAreAccepted(_ fn: String, _ args: [JSONValue]) throws {
         var p = try Repo.squat()
@@ -168,7 +169,8 @@ import Testing
 
     @Test func projectFunctionArityIsEnforced() throws {
         for (fn, args) in [("angle2d", ["left_hip", "left_knee"]), ("lateralLean2d", ["nose"]),
-                           ("chainHeight2d", ["nose"]), ("sagittalLean2d", ["nose", "left_hip", "left_knee"])] {
+                           ("chainHeight2d", ["nose"]), ("sagittalLean2d", ["nose", "left_hip", "left_knee"]),
+                           ("heightOverShoulders2d", ["nose"])] {
             var p = try Repo.squat()
             p["metrics"]!["x"] = .object(JSONObject([(fn, .array(args.map { .string($0) }))]))
             #expect(hasIssue(p, "metrics.x"), "\(fn)")

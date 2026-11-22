@@ -1,0 +1,75 @@
+{
+  "id": "jumping_jack",
+  "version": 1,
+  "status": "draft",
+  "name": {
+    "tr": "Jumping jack",
+    "en": "Jumping jack"
+  },
+  "howTo": {
+    "tr": "Kameraya dönük, kolların yanda dur. Zıplayarak bacaklarını aç ve kollarını yandan başının üstüne kaldır; tekrar zıplayarak başlangıca dön. Kolların her seferinde başının üstüne çıksın.",
+    "en": "Face the camera with your arms at your sides. Jump your feet apart while raising your arms out to the sides and over your head; jump back to the start. Bring your hands above your head every time."
+  },
+  "type": "reps",
+  "camera": {
+    "views": [
+      "front"
+    ],
+    "minVisibleLandmarks": [
+      "nose",
+      "left_shoulder",
+      "right_shoulder",
+      "left_wrist",
+      "right_wrist",
+      "left_hip",
+      "right_hip"
+    ],
+    "minVisibility": 0.5,
+    "posture": "standing",
+    "setupHint": {
+      "tr": "Kamerayı göğüs hizasına, tam karşına koy; 2–3 metre uzaklaş, kolların yukarıdayken de görünsün.",
+      "en": "Place the camera at chest height straight in front of you, step back 2–3 meters so your arms stay visible overhead."
+    }
+  },
+  "metrics": {
+    "arm_l": {
+      "diffY": [
+        "left_wrist",
+        "nose"
+      ]
+    },
+    "arm_r": {
+      "diffY": [
+        "right_wrist",
+        "nose"
+      ]
+    },
+    "arms": {
+      "min": [
+        "arm_l",
+        "arm_r"
+      ]
+    }
+  },
+  "rep": {
+    "metric": "arms",
+    "start": {
+      "enter": -1.0,
+      "exit": -0.8
+    },
+    "target": {
+      "enter": 0.1,
+      "exit": 0.0
+    },
+    "attemptMinExcursion": 0.3,
+    "minDurationMs": 300,
+    "maxDurationMs": 2500
+  },
+  "readyPose": "arms < -0.9 for 800ms",
+  "faults": [],
+  "smoothing": {
+    "method": "one_euro",
+    "minCutoff": 2.0,
+    "beta": 0.7
+  }
+}

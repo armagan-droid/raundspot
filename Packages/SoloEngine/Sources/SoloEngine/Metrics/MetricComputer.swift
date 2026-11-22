@@ -118,6 +118,14 @@ enum Metric2D {
         return JSMath.safeDiv(points[points.count - 1].y - points[0].y, length)
     }
 
+    /// a's height above b in the image over the shoulder width (specs/04).
+    /// Bending forward toward the camera shortens the height but not the
+    /// shoulders, so a front-view duck lowers it; NaN when turned sideways.
+    static func heightOverShoulders(_ frame: Frame, _ a: Landmark, _ b: Landmark, _ k: Double) -> Double {
+        if !(shoulderSpread(frame, k) >= sidewaysRatio) { return .nan }
+        return JSMath.safeDiv(b.y - a.y, len(frame[image: .leftShoulder], frame[image: .rightShoulder], k))
+    }
+
     /// Image "front" in a side view: the side of the nose relative to the near ear.
     static func imageFront(_ frame: Frame, near: PersonSide) -> Double {
         let ear = LandmarkName(side: near, joint: "ear")!
@@ -237,6 +245,8 @@ public struct MetricComputer: Sendable {
             return Metric2D.sagittalLean(frame, wld(a), wld(b), near: near)
         case .sagittalLean2d(let a, let b):
             return Metric2D.sagittalLean2d(frame, img(a), img(b), near: near, frame.imageAspect)
+        case .heightOverShoulders2d(let a, let b):
+            return Metric2D.heightOverShoulders(frame, img(a), img(b), frame.imageAspect)
         }
     }
 

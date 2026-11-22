@@ -22,13 +22,14 @@ Temel: ref 04 (şema, tekrar algılama, ifade dili, görünüm, görünürlük, 
 | `angle2d: [a, b, c]` | b noktasındaki a-b-c açısı, görüntü düzleminde (0–180°). Görüntü en-boy oranı düzeltilir (x, kare genişliği/yüksekliği oranıyla ölçeklenir) | görüntü (2B) |
 | `lateralLean2d: [a, b]` | b→a doğrusunun görüntüde dikeyden işaretli sapması: a'nın b'ye göre kişinin soluna yatay uzaklığı / a–b görüntü uzunluğu. Kişinin solu: görüntüde sol omuzdan sağ omuza x farkının işaretiyle. Omuzların görüntü açıklığı / gövde boyu < 0,30 ise (kişi yan dönmüş) `NaN` | görüntü (2B) |
 | `chainHeight2d: [p1, …, pn]` (2–6) | p1'in pn'den görüntüdeki dikey yüksekliği / zincirin görüntüdeki parça uzunlukları toplamı. 1 = dümdüz ve dik | görüntü (2B) |
+| `heightOverShoulders2d: [a, b]` | a'nın b'den görüntüdeki dikey yüksekliği (`b.y − a.y`, yukarısı pozitif) / omuz genişliği (sol ve sağ omuzun görüntüdeki uzaklığı, x·k ile). Kameraya doğru öne eğilme yüksekliği kısaltır, omuz genişliğini kısaltmaz; önden duck bununla ölçülür (açık soru 6 kararı). Değer kişinin vücut oranına bağlıdır (sentetik vücut ayakta `nose`–`ankle` ≈ 4,3) | görüntü (2B) |
 | `sagittalLean: [a, b]` | a'nın b'ye göre kişinin **arkasına** doğru yatay uzaklığı / a–b uzunluğu (pozitif = geriye). "Ön" yönü: omuz çizgisine dik yatay birim vektör; önden görünümde kameraya doğru, yandan görünümde görüntüde burnun yakın kulağa göre bulunduğu taraf | world (3B) |
 | `sagittalLean2d: [a, b]` | `sagittalLean`'in yan görünüm karşılığı, görüntü düzleminde. Görünüm `side` değilse `NaN` | görüntü (2B) |
 
-- **En-boy düzeltmesi:** yeni 2B fonksiyonlarda (`angle2d`, `lateralLean2d`, `chainHeight2d`, `sagittalLean2d`) her uzunluk ve açı hesabından önce görüntü x'i `k = Frame.imageAspect` (görüntü genişliği / yüksekliği, kişinin dik durduğu yönde; 03 "Landmark dizisi") ile çarpılır, böylece x ve y aynı birimdedir. Kaynak 2B fonksiyonları (`diffY`, `angleFromVertical`, `kneeInwardRatio`, `signedOffset`) kaynak golden uyumu için düzeltilmez.
-- **Omuz açıklığı / gövde boyu:** `|sol_omuz.x − sağ_omuz.x|·k` / düzeltilmiş gövde boyu (omuz ortası–kalça ortası uzaklığı, x·k ile). `lateralLean2d` bu oran < 0,30 ise, `sagittalLean2d` bu oran ≥ 0,30 ise (kişi yan dönmemiş) `NaN` verir; "görünüm" metrik düzeyinde bu geometriyle belirlenir (motorun set görünümü metrik hesabına girmez).
+- **En-boy düzeltmesi:** yeni 2B fonksiyonlarda (`angle2d`, `lateralLean2d`, `chainHeight2d`, `sagittalLean2d`, `heightOverShoulders2d`) her uzunluk ve açı hesabından önce görüntü x'i `k = Frame.imageAspect` (görüntü genişliği / yüksekliği, kişinin dik durduğu yönde; 03 "Landmark dizisi") ile çarpılır, böylece x ve y aynı birimdedir. Kaynak 2B fonksiyonları (`diffY`, `angleFromVertical`, `kneeInwardRatio`, `signedOffset`) kaynak golden uyumu için düzeltilmez.
+- **Omuz açıklığı / gövde boyu:** `|sol_omuz.x − sağ_omuz.x|·k` / düzeltilmiş gövde boyu (omuz ortası–kalça ortası uzaklığı, x·k ile). `lateralLean2d` ve `heightOverShoulders2d` bu oran < 0,30 ise, `sagittalLean2d` bu oran ≥ 0,30 ise (kişi yan dönmemiş) `NaN` verir; "görünüm" metrik düzeyinde bu geometriyle belirlenir (motorun set görünümü metrik hesabına girmez).
 - **İşaret kuralları:** `lateralLean2d`: `sign(sol_omuz.x − sağ_omuz.x) · (a.x − b.x)·k / |a−b|`; ön kamera aynalaması işareti değiştirmez. `sagittalLean2d`: "ön" = `sign(nose.x − near_ear.x)` (görüntüde burnun yakın kulağa göre tarafı), değer `−ön · (a.x − b.x)·k / |a−b|`; ön 0 ise `NaN`. `sagittalLean`: omuz çizgisinin yatay (x–z) izdüşümüne dik birim vektör; omuzlar kameraya dönükse (`|Δx| ≥ 0,5 · omuz 3B uzaklığı`, `lateralLean` ile aynı ölçüt) z'si negatif olan (kameraya doğru) yön, değilse x işareti `sign(nose.x − near_ear.x)` (görüntü) ile aynı olan yön "ön"dür; değer `−((a − b) · ön) / |a − b|₃B`.
-- **Tanımsız geometri:** sıfır uzunluk (açı kolu, a–b, zincir toplamı) `NaN` verir. Fonksiyonların örtük kullandığı noktalar (omuzlar, kalçalar; `sagittal*`'da `nose` ve `near_ear`), kaynaktaki `lateralLean` gibi görünürlük kapısına ve iskelet kontrolüne girmez; hepsi `vision19` 2B'de vardır.
+- **Tanımsız geometri:** sıfır uzunluk (açı kolu, a–b, zincir toplamı, omuz genişliği) `NaN` verir. Fonksiyonların örtük kullandığı noktalar (omuzlar, kalçalar; `sagittal*`'da `nose` ve `near_ear`), kaynaktaki `lateralLean` gibi görünürlük kapısına ve iskelet kontrolüne girmez; hepsi `vision19` 2B'de vardır.
 - 2B fonksiyonlar H2 planının (03) temelidir: world kullanan her MVP şablonu bunlarla yeniden yazılır.
 - `sagittalLean` yalnız 03'te H1 doğrulanırsa kullanılır (`lean_back_front`, önden).
 - Test kapsamı: her yeni fonksiyon için tanımsız geometri (`NaN`), işaret yönü ve aynalama birim testleri + anlık görüntü (03).
@@ -64,7 +65,7 @@ Hatalar `during_hold:` konumuyla yazılır (koşulun alt bozulmaları, ör. kal�
 |---|---|---|---|---|---|
 | `slip_left`, `slip_right` | kaynaktan türetilmiş, 2B | front | teknik, refleks | **MVP** | Baş: `lateralLean2d(nose, …)` |
 | `slip` | kaynaktan türetilmiş, 2B | front | teknik | **MVP** | Yön serbest (`max`); refleks kataloğunda yoktur, çünkü refleks modunda yön ölçülür (05) |
-| `duck` | kaynaktan türetilmiş, 2B | front | teknik, refleks | **MVP** | `chainHeight2d` |
+| `duck` | kaynaktan türetilmiş, 2B | front | teknik, refleks | **MVP** | `heightOverShoulders2d` |
 | `bob_weave_left`, `bob_weave_right` | **yeni** | front | teknik, refleks | **MVP** | aşağıda |
 | `lean_back` | **yeni** | side | teknik | **MVP** (deneysel) | aşağıda |
 | `lean_back_front` | **yeni** (world) | front | refleks | yalnız 03 H1 doğrulanırsa (deneysel) | aşağıda |
@@ -101,8 +102,20 @@ Kaynak şablonun metrik adları ve hata kimlikleri **aynı kalır** (kaynak gold
 ```
 Eşikler (`rep.start`, `rep.target`, `neck_only` eşiği, `overlay.headTarget`) kalibrasyonla yeniden belirlenir (03). Başlangıç değerleri sentetik `vision19` dizilerinden çıkarılır.
 
+**Duck (`duck`, version 2):** metrik adları kaynaktaki gibi; `height_l = heightOverShoulders2d(nose, left_ankle)`, `height_r = heightOverShoulders2d(nose, right_ankle)`, `head_height = avg(height_l, height_r)`. Ölçek kaynaktan farklıdır: sentetik vücutta yeni değer / kaynak `chainHeight` oranı ayakta ve yana eskivde 4,545, derin duck'ta 4,59'dur (neredeyse orantılı). Kaynak eşikleri her eşiğin kendi derinliğindeki oranla taşınır: `start: { enter: 4.23, exit: 4.16 }`, `target: { enter: 3.94, exit: 4.00 }`, `attemptMinExcursion: 0.12` (kaynakta denemenin kesinleştiği 0,885 → 4,04), `readyPose`'ta `head_height > 4.18`, `overlay.headTarget.height: 3.94`. Eşiğe %1'den yakın sentetik durumlarda sonuç kaynaktan ayrılabilir (bu yüzden eşdeğerlik testi eşikten uzak durumlarla yapılır; golden dizileri T1.2'de). Uygulama kesikli çizgiyi `ayak bileği.y − height · omuz genişliği` yüksekliğine çizer (12). **Risk:** ayakta değer kişinin boy / omuz genişliği oranına bağlıdır (kaynak `chainHeight` ise kişiden bağımsızdır, dik = 1). Başlangıç bölgesi ayakta değerin yalnız ~%2,6 altındadır; geniş omuzlu bir kullanıcı ayaktayken başlangıç bölgesine girmeyebilir. Kalibrasyon (03) farklı vücut tiplerinden kayıtla bunu ölçer; sapma bölgeleri aşarsa set başı ayakta duruşa göre oran (açık soru 6 seçenek b) yeniden değerlendirilir.
+
 ## Yeni şablonlar
 Aşağıdaki eşikler sentetik verilerle **başlangıç değerleridir**; hepsi `draft`'tır ve kayıt modunda hocanın etiketli kayıtlarıyla kalibre edilir (03, 09). `howTo` ve `cue` metinleri hoca onayından geçer.
+
+**Ortak başlangıç değerleri (T2.8, bu dosyada ayrıca yazılmayan alanlar):**
+- Bu projenin bütün şablonlarında `camera.minVisibility: 0.5` (Vision güven ölçeği, kalibrasyonla); her şablon `vision19` 2B'de (H2) yüklenir (test).
+- Hatalarda `cooldownMs: 4000`, `minConsecutiveReps: 1`, `affectsValidity: false` (aksi yazılmadıkça); `torso_forward` (lunge) `minConsecutiveReps: 2` (kaynak `excessive_forward_lean` gibi).
+- `smoothing`: eskivler ve jumping jack `one_euro` 2.0 / 0.7 (kaynak eskivler), lunge 1.0 / 0.05 (kaynak squat).
+- `squat` (yandan): kaynak eşikleri aynen; `knee_angle_near` → `angle2d`; `knee_valgus` metrikleri ve hatası **yok** (diz içe kaçma yandan görünmez; önden squat MVP şablon setinde yok). `pushup`: `angle` → `angle2d`, eşikler aynen.
+- `reverse_lunge`: `attemptMinExcursion: 20`, `readyPose: knee_near > 165 for 1500ms`, `minVisibleLandmarks` yalnız yakın taraf (`near_shoulder`, `near_hip`, `near_knee`, `near_ankle`). Tekrar metriği `knee` (`min`) uzak bacak görünmezse yakın bacağı kullanır; ama hata ve `readyPose` ifadesi kullandığı metriklerin bütün noktaları görünmeden değerlendirilmez (ref 04 görünürlük kuralı), yandan uzak bacak çoğu zaman eşiğin altındadır. Bu yüzden derinlik hatası ve hazır duruş yakın bacağın açısıyla (`knee_near`) yazılır (T2.8 bulgusu).
+- `jumping_jack`: `attemptMinExcursion: 0.3`; `minVisibleLandmarks`: burun, omuzlar, bilekler, kalçalar.
+- `bob_weave_*`: `rep` ve `camera` duck ile aynı, `smoothing` eskivlerle aynı.
+- Ad, `howTo`, `setupHint` ve `cue` metinleri taslaktır (hoca onayı, açık soru 1).
 
 ### Lean back (`lean_back`)
 Yüksek tekmeye (ve düz yumruğa) karşı gövdeyi arka bacağın üzerine geriye yatırma; çene içeride, gözler önde, eller yukarıda.
@@ -110,15 +123,15 @@ Yüksek tekmeye (ve düz yumruğa) karşı gövdeyi arka bacağın üzerine geri
 - **Refleks modu: ayrı şablon `lean_back_front`, önden, yalnız H1.** Şablon formatı tek bir metrik seti taşır; yandan 2B ve önden 3B tanım aynı dosyada olamaz, bu yüzden refleks sürümü ayrı bir şablondur. Tekrar metriği world'den: `lean = avg(sagittalLean(nose, left_hip), sagittalLean(nose, right_hip))` (`nose` 3B'de `centerHead` vekilidir, 03 H1). Bölgelerin başlangıç değerleri teknik sürümle aynıdır; kalibrasyonla ayrı belirlenir. Hatalar: `too_far` (aşağıdaki gibi, güvenlik için) ve `guard_dropped` (slip ile aynı, `guard_l`/`guard_r`; önden görünümde `near_` kullanılmaz). `readyPose`: `guard_l > -0.3 and guard_r > -0.3 and lean < 0.08 for 1000ms`. `overlay.headTarget` yoktur (refleks modunda balon çizilmez, 12). H1 doğrulanmazsa şablon dosyası oluşturulmaz; `lean_back_front` ve `high_kick` katalogda yer almaz (05).
 - Hatalar (`lean_back`):
   - `guard_dropped` (minor, `during_rep`, `holdMs: 200`): `guard_near < -0.5` (yandan) — "Ellerin yukarıda kalsın" / "Keep your hands up".
-  - `forward_lean_start` (minor, `at_start`): denemeye öne eğilerek başlama, `lean < -0.05` — "Dik başla, ağırlığın arka bacakta" / "Start upright, weight on the back leg".
+  - ~~`forward_lean_start` (`at_start: lean < -0.05`)~~ **çıkarıldı (T2.8 bulgusu):** `at_start` tekrar metriğinin `start.exit`'i geçtiği karede değerlendirilir (ref 04); o karede `lean` ≈ 0,10 olduğundan koşul hiç sağlanamaz. Yerine `readyPose` öne eğik olmayan duruşu ister (`lean > -0.15`; gardda dik duruşta baş kalçanın biraz önündedir, sentetik vücut ≈ −0,065); set içinde öne eğik başlamayı yakalamak gerekirse ayrı bir metrik (ör. gövde `sagittalLean2d(near_shoulder, near_hip)`) hoca onayıyla eklenir (açık soru 1).
   - `too_far` (major, `at_turn`): `lean > 0.6` — aşırı geriye yatma, denge kaybı riski — "Çok geriye gitme, dengeni koru" / "Don't lean back too far, stay balanced". `major` olduğu için art arda iki denemede güvenlik duraklatması (ref 05).
-- `readyPose` (`lean_back`): `guard_near > -0.3 and lean < 0.08 for 1000ms`.
+- `readyPose` (`lean_back`): `guard_near > -0.3 and lean > -0.15 and lean < 0.08 for 1000ms`.
 - `overlay.headTarget` (`lean_back`): yandan görünüm için `back: 0.30` (yeni opsiyonel alan; yalnız çizim, 12).
 
 ### Bob & weave (`bob_weave_left`, `bob_weave_right`)
 Kroşenin altından eğilip yana geçme: baş aşağı iner, alt noktada yana kayar, karşı tarafta doğrulur. Duck ile slip'in birleşimi. Yön, **başın alt noktada kaydığı taraftır** (kişinin solu/sağı), saldırıya göre değil; saldırı eşlemesi 05'tedir.
 - Görünüm: front. `minVisibleLandmarks`: duck ile aynı (baştan ayağa).
-- Tekrar metriği: duck'ın `head_height = avg(chainHeight2d(nose, l_shoulder, l_hip, l_knee, l_ankle), chainHeight2d(…sağ…))` (azalan). Bölgeler duck ile aynı başlangıç değerleri.
+- Tekrar metriği: duck'ın `head_height = avg(heightOverShoulders2d(nose, left_ankle), heightOverShoulders2d(nose, right_ankle))` (azalan). Bölgeler duck ile aynı başlangıç değerleri.
 - Ek metrikler: `head_left` / `head_right` (`slip_left`'teki `lateralLean2d` tanımları).
 - Hatalar:
   - `no_weave` (minor, **`affectsValidity: true`**, `at_turn`): alt noktada başın yana kayması yetersiz; `bob_weave_left` için `head_left < 0.15`. Yana kaymayan deneme bob & weave sayılmaz (`faulty`); refleks sınıflandırıcısı onu duck olarak değerlendirir (05). Cue: "Eğilirken yana da geç" / "Weave to the side as you dip".
@@ -150,7 +163,7 @@ Bu projenin `teep` şablonuna yeni hata (şablon sürümü artar):
 ### Ters lunge (`reverse_lunge`, MVP)
 Arka bacakla geri adım, iki diz ~90°'ye iner, başlangıca dönülür. Kalça, arka bacak ve tek ayak dengesi için.
 - Görünüm: side. Tekrar metriği: `knee = min(angle2d(left_hip, left_knee, left_ankle), angle2d(right_hip, right_knee, right_ankle))` (azalan). `start: { enter: 160, exit: 150 }`, `target: { enter: 100, exit: 110 }`, `minDurationMs: 800`, `maxDurationMs: 6000`.
-- Hatalar: `insufficient_depth` (`at_turn: knee > 100`, `affectsValidity: true`), `torso_forward` (`at_turn: angleFromVertical(near_hip, near_shoulder) > 30`), `knee_past_toe` **yok** (ayak ucu yok; yerine hoca onayına bağlı bir kural aranır, açık soru).
+- Hatalar: `insufficient_depth` (`at_turn: knee_near > 100`, `affectsValidity: true`; `knee_near = angle2d(near_hip, near_knee, near_ankle)`), `torso_forward` (`at_turn: angleFromVertical(near_hip, near_shoulder) > 30`), `knee_past_toe` **yok** (ayak ucu yok; yerine hoca onayına bağlı bir kural aranır, açık soru).
 - Taraf: kullanıcı bacakları sırayla değiştirir; sayım iki bacağı birlikte sayar.
 
 ### Jumping jack (`jumping_jack`, MVP)
@@ -163,7 +176,7 @@ Isınma ve kondisyon. Kollar yukarı + bacaklar açık, sonra başlangıç.
 - AC-4.1: `exercises/` ve `exercises/source/` altındaki tüm şablonlar Swift doğrulayıcısından geçer (bilinmeyen alan, tanımsız metrik, döngüsel metrik = hata; `solo-calibrate validate`, CI).
 - AC-4.2: `exercises/source/` altındaki dosyalar kaynak commit'teki dosyalarla bayt bayt aynıdır (sağlama toplamı listesi, CI); uygulama paketine girmez.
 - AC-4.3: Her yeni metrik fonksiyonu için Swift'te birim testi ve anlık görüntü vardır: işaret yönü, aynalama (sol↔sağ), tanımsız geometri → `NaN`.
-- AC-4.4: `lateralLean2d` ve `chainHeight2d` ile yazılmış `slip_left`/`duck`'ın **başlangıç sürümü** (`version: 2`, kalibrasyondan önce), kaynak golden dizilerinin `vision19` indirgemesinde kaynak şablonla aynı tekrar ve hata sonucunu verir (eşdeğerlik testi). Bu sürümün dondurulmuş kopyası `fixtures/equivalence/` altında tutulur; kalibrasyonla `exercises/` altındaki sürüm değişince test bu kopyayla çalışmaya devam eder. Kalibre sürümler gerçek kayıtlarla (03 "Kalibrasyon") ve anlık görüntülerle korunur.
+- AC-4.4: `lateralLean2d` ve `heightOverShoulders2d` ile yazılmış `slip_left`/`duck`'ın **başlangıç sürümü** (`version: 2`, kalibrasyondan önce), kaynak golden dizilerinin `vision19` indirgemesinde kaynak şablonla aynı tekrar ve hata sonucunu verir (eşdeğerlik testi). Bu sürümün dondurulmuş kopyası `fixtures/equivalence/` altında tutulur; kalibrasyonla `exercises/` altındaki sürüm değişince test bu kopyayla çalışmaya devam eder. Kalibre sürümler gerçek kayıtlarla (03 "Kalibrasyon") ve anlık görüntülerle korunur.
 - AC-4.5: `bob_weave_left`: yana kaymayan eğilme `faulty` + `no_weave` olur, yana kayan `valid` olur; ters yöne kayan `faulty` (sentetik test).
 - AC-4.6: (v1.0) `sequence:` hatası: diz önce kalkarsa tetiklenmez, bacak önce düzleşirse tetiklenir, iki koşul hiç sağlanmazsa tetiklenmez (sentetik test).
 - AC-4.7: (v1.0) `lead_`/`rear_`: aynı fixture orthodox'ta ve aynalanmış southpaw'da aynı sonucu verir.
@@ -174,5 +187,5 @@ Isınma ve kondisyon. Kollar yukarı + bacaklar açık, sonra başlangıç.
 2. Lunge'da "diz ayak ucunu geçmesin" yerine hangi form kuralı kullanılmalı (Vision'da ayak ucu yok)?
 3. Jumping jack bacak kontrolü için `diffX` (yatay fark) metrik fonksiyonu eklensin mi?
 4. `riseFromBaseline` (durumlu metrik) ip atlama için kabul edilebilir mi, yoksa ip atlama süre bazlı (hold benzeri, "zıplıyor/durdu") mu sayılmalı?
-5. Bob & weave tek tekrar mı (alt noktada yana kayıp dön) yoksa U çizip karşı tarafta mı biter? Seçilen tanım tekrar metriğinin merkeze dönüşünü gerektirir; U hareketinde baş merkezden geçmeden karşı tarafta doğrulursa bu şablon yetmez.
-6. **Önden duck için `chainHeight2d` yetmiyor (T2.7 bulgusu, T2.8'den önce karar).** Önden görünümde duck öne eğilmedir; görüntüde parça uzunlukları yükseklikle birlikte kısaldığı için oran neredeyse sabit kalır (sentetik vücut: ayakta 0,957, derin duck 0,947; world `chainHeight` 0,955 → 0,814). Kaynak eşikleriyle (0,93 / 0,86) duck ve `bob_weave_*` 2B'de sayılmaz, AC-4.4 eşdeğerliği sağlanamaz. Seçenekler: (a) payda olarak öne eğilmeyle kısalmayan bir ölçek: `p1`–`pn` dikey uzaklığı / omuz genişliği (görüntüde, `k` ile); yeni fonksiyon, ör. `heightOverShoulders2d: [p1, pn]`; (b) set başındaki ayakta duruşa göre oran (durumlu metrik, `riseFromBaseline` ile aynı soru); (c) önden duck yalnız H1'de (world). Öneri: (a), durumsuz ve kaynak formatına uygun; önden dönme (omuz genişliği daralması) `lateralLean2d`'deki 0,30 eşiğiyle aynı kuralla `NaN` olur.
+5. Bob & weave tek tekrar mı (alt noktada yana kayıp dön) yoksa U çizip karşı tarafta mı biter? Seçilen tanım tekrar metriğinin merkeze dönüşünü gerektirir; U hareketinde baş merkezden geçmeden karşı tarafta doğrulursa bu şablon yetmez. Ayrıca eğilme ile yana kayma aynı anda yapılırsa (önce eğil, sonra kay değil) baş deneme başlarken eşiğe yakın kaymış olur ve `weave_before_dip` (0,20) sınırda tetiklenir (T2.8 anlık görüntüsü `project_bob_weave_right`, 3. deneme); eşik kalibrasyonda hocanın kayıtlarıyla belirlenir.
+6. ~~Önden duck için `chainHeight2d` yetmiyor~~ — **karar (2026-11-22): seçenek (a)**, yeni durumsuz fonksiyon `heightOverShoulders2d` (yukarıdaki tablo). Bulgu: önden duck öne eğilmedir; görüntüde parça uzunlukları yükseklikle birlikte kısaldığından `chainHeight2d` neredeyse sabit kalır (sentetik vücut: ayakta 0,957, derin duck 0,947; world `chainHeight` 0,955 → 0,814). Yeni fonksiyon aynı vücutta 4,32 → 3,73 (%14 düşüş, world'deki %15'e yakın). Kalan risk (kişiye bağlı ölçek) "Duck (`duck`, version 2)" altında; `chainHeight2d` yandan görünümde kullanılabilir kalır.

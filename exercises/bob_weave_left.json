@@ -1,0 +1,186 @@
+{
+  "id": "bob_weave_left",
+  "version": 1,
+  "status": "draft",
+  "name": {
+    "tr": "Eskiv: bob & weave, sola (boks)",
+    "en": "Bob and weave to the left (boxing)"
+  },
+  "howTo": {
+    "tr": "Gard al. Dizlerini kırıp hafif öne eğilerek başını kesikli çizginin altına indir, alt noktada sola kay ve başını sol taraftaki sarı balona götür. Daire yeşile dönünce sayılır; ok ortayı gösterince doğrulup ortaya dön. Gözlerin önde, ellerin yukarıda kalsın.",
+    "en": "Take your guard. Bend your knees and lean forward slightly to bring your head below the dashed line, then move it to your left, to the yellow bubble on that side. It counts when the circle turns green; when the arrow points to the middle, stand up and come back to the center. Keep your eyes forward and hands up."
+  },
+  "type": "reps",
+  "camera": {
+    "views": [
+      "front"
+    ],
+    "minVisibleLandmarks": [
+      "nose",
+      "left_shoulder",
+      "right_shoulder",
+      "left_wrist",
+      "right_wrist",
+      "left_hip",
+      "right_hip",
+      "left_knee",
+      "right_knee",
+      "left_ankle",
+      "right_ankle"
+    ],
+    "minVisibility": 0.5,
+    "posture": "standing",
+    "setupHint": {
+      "tr": "Kamerayı bel hizasına, tam karşına koy; baştan ayağa görünecek kadar uzaklaş, gard al.",
+      "en": "Place the camera at waist height straight in front of you, step back until you are visible head to toe and take your guard."
+    }
+  },
+  "metrics": {
+    "height_l": {
+      "heightOverShoulders2d": [
+        "nose",
+        "left_ankle"
+      ]
+    },
+    "height_r": {
+      "heightOverShoulders2d": [
+        "nose",
+        "right_ankle"
+      ]
+    },
+    "head_height": {
+      "avg": [
+        "height_l",
+        "height_r"
+      ]
+    },
+    "head_l_lh": {
+      "lateralLean2d": [
+        "nose",
+        "left_hip"
+      ]
+    },
+    "head_l_rh": {
+      "lateralLean2d": [
+        "nose",
+        "right_hip"
+      ]
+    },
+    "head_left": {
+      "avg": [
+        "head_l_lh",
+        "head_l_rh"
+      ]
+    },
+    "head_r_lh": {
+      "lateralLean2d": [
+        "left_hip",
+        "nose"
+      ]
+    },
+    "head_r_rh": {
+      "lateralLean2d": [
+        "right_hip",
+        "nose"
+      ]
+    },
+    "head_right": {
+      "avg": [
+        "head_r_lh",
+        "head_r_rh"
+      ]
+    },
+    "guard_l": {
+      "diffY": [
+        "left_wrist",
+        "left_shoulder"
+      ]
+    },
+    "guard_r": {
+      "diffY": [
+        "right_wrist",
+        "right_shoulder"
+      ]
+    }
+  },
+  "rep": {
+    "metric": "head_height",
+    "start": {
+      "enter": 4.23,
+      "exit": 4.16
+    },
+    "target": {
+      "enter": 3.94,
+      "exit": 4.0
+    },
+    "attemptMinExcursion": 0.12,
+    "minDurationMs": 250,
+    "maxDurationMs": 3000
+  },
+  "readyPose": "guard_l > -0.3 and guard_r > -0.3 and head_height > 4.18 for 1000ms",
+  "faults": [
+    {
+      "id": "no_weave",
+      "name": {
+        "tr": "Yana geçmeme",
+        "en": "No weave"
+      },
+      "severity": "minor",
+      "check": "at_turn: head_left < 0.15",
+      "cue": {
+        "tr": "Eğilirken yana da geç",
+        "en": "Weave to the side as you dip"
+      },
+      "affectsValidity": true,
+      "cooldownMs": 4000,
+      "minConsecutiveReps": 1
+    },
+    {
+      "id": "weave_before_dip",
+      "name": {
+        "tr": "Eğilmeden yana kayma",
+        "en": "Weaving before dipping"
+      },
+      "severity": "minor",
+      "check": "at_start: head_left > 0.2",
+      "cue": {
+        "tr": "Önce eğil, sonra yana geç",
+        "en": "Dip first, then weave"
+      },
+      "affectsValidity": false,
+      "cooldownMs": 4000,
+      "minConsecutiveReps": 1
+    },
+    {
+      "id": "guard_dropped",
+      "name": {
+        "tr": "Gardın düşmesi",
+        "en": "Guard dropped"
+      },
+      "severity": "minor",
+      "check": "during_rep: min(guard_l, guard_r) < -0.5",
+      "cue": {
+        "tr": "Gardını kaldır",
+        "en": "Keep your guard up"
+      },
+      "affectsValidity": false,
+      "cooldownMs": 4000,
+      "minConsecutiveReps": 1,
+      "holdMs": 200
+    }
+  ],
+  "smoothing": {
+    "method": "one_euro",
+    "minCutoff": 2.0,
+    "beta": 0.7
+  },
+  "overlay": {
+    "headTarget": {
+      "height": 3.94,
+      "lateral": 0.15,
+      "sides": [
+        "left"
+      ]
+    }
+  }
+}

@@ -200,6 +200,46 @@ private var fighterSide: FrameOptions { FrameOptions(view: .side) }
     }
 }
 
+@Suite("heightOverShoulders2d (specs/04)") struct HeightOverShoulders2DTests {
+    private let height = MetricDefinition.heightOverShoulders2d(lm(.nose), lm(.leftAnkle))
+    private let duckParams = EvaderParams(kneeAngle: 110, torsoLean: 25)
+
+    /// The open question 6 case: a front-view duck lowers it about as much as the world `chainHeight`.
+    @Test func frontViewDuckLowersIt() {
+        let stand = value(height, evaderFrame(EvaderParams(), evaderFront))
+        let duck = value(height, evaderFrame(duckParams, evaderFront))
+        #expect(stand > 4 && stand < 4.6)
+        #expect(duck < stand * 0.9)
+        // a slip barely changes it, so a slip is not a duck
+        #expect(value(height, evaderFrame(EvaderParams(slip: 25), evaderFront)) > stand * 0.94)
+    }
+
+    @Test func positiveWhenAAboveBAndAspectCorrected() {
+        let pts: [LandmarkName: (Double, Double)] = [.leftShoulder: (0.6, 0.3), .rightShoulder: (0.4, 0.3),
+                                                     .leftHip: (0.58, 0.6), .rightHip: (0.42, 0.6),
+                                                     .nose: (0.5, 0.2), .leftAnkle: (0.55, 0.9)]
+        #expect(close(value(height, imageFrame(pts)), 0.7 / 0.2))
+        #expect(close(value(height, imageFrame(pts, aspect: 0.75)), 0.7 / 0.15))
+        let below = MetricDefinition.heightOverShoulders2d(lm(.leftAnkle), lm(.nose))
+        #expect(close(value(below, imageFrame(pts)), -0.7 / 0.2))
+    }
+
+    @Test func mirroringAndFrontCameraFlip() {
+        let f = evaderFrame(EvaderParams(slip: 10, kneeAngle: 130, torsoLean: 15), evaderFront)
+        let right = MetricDefinition.heightOverShoulders2d(lm(.nose), lm(.rightAnkle))
+        #expect(close(value(height, f), value(right, mirrorFrame(f)), 1e-9))
+        #expect(close(value(height, f), value(height, flipX(f)), 1e-9))
+    }
+
+    @Test func sidewaysOrZeroShoulderWidthIsNaN() {
+        #expect(value(height, fighterFrame(FighterParams(), fighterSide)).isNaN)
+        let pts: [LandmarkName: (Double, Double)] = [.leftShoulder: (0.5, 0.3), .rightShoulder: (0.5, 0.3),
+                                                     .leftHip: (0.5, 0.6), .rightHip: (0.5, 0.6),
+                                                     .nose: (0.5, 0.2), .leftAnkle: (0.5, 0.9)]
+        #expect(value(height, imageFrame(pts)).isNaN)
+    }
+}
+
 @Suite("sagittalLean2d (specs/04)") struct SagittalLean2DTests {
     private let lean = MetricDefinition.sagittalLean2d(lm(.nose), .near(joint: "hip"))
 

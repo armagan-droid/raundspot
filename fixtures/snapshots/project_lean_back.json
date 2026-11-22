@@ -1,0 +1,378 @@
+{
+ "goldenVersion": 1,
+ "generatedBy": "SoloEngine 0.0.1",
+ "rulePack": "lean_back",
+ "rulePackVersion": 1,
+ "rulePackFile": "exercises/lean_back.json",
+ "setup": {
+  "view": "side",
+  "nearSide": "left"
+ },
+ "options": {
+  "safetyPause": true
+ },
+ "cuesEnabled": [],
+ "sequence": "sequences/project_lean_back.json",
+ "expected": {
+  "events": [
+   {
+    "frame": 30,
+    "t": 2000.0000000000002,
+    "type": "READY_POSE_HELD"
+   },
+   {
+    "frame": 35,
+    "t": 2333.3333333333335,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 46,
+    "t": 3066.666666666667,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 800
+   },
+   {
+    "frame": 61,
+    "t": 4066.666666666667,
+    "type": "READY_POSE_HELD"
+   },
+   {
+    "frame": 69,
+    "t": 4600,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 75,
+    "t": 5000,
+    "type": "REP_COMPLETED",
+    "outcome": "incomplete",
+    "faults": [],
+    "durationMs": 533
+   },
+   {
+    "frame": 90,
+    "t": 6000,
+    "type": "READY_POSE_HELD"
+   },
+   {
+    "frame": 94,
+    "t": 6266.666666666667,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 107,
+    "t": 7133.333333333334,
+    "type": "FAULT_DETECTED",
+    "faultId": "too_far"
+   },
+   {
+    "frame": 107,
+    "t": 7133.333333333334,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [
+     "too_far"
+    ],
+    "durationMs": 933
+   },
+   {
+    "frame": 122,
+    "t": 8133.333333333334,
+    "type": "READY_POSE_HELD"
+   },
+   {
+    "frame": 125,
+    "t": 8333.333333333334,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 137,
+    "t": 9133.333333333334,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 867
+   },
+   {
+    "frame": 151,
+    "t": 10066.666666666668,
+    "type": "READY_POSE_HELD"
+   }
+  ],
+  "metrics": {
+   "every": 10,
+   "values": [
+    {
+     "frame": 0,
+     "values": {
+      "lean": -0.05117625870291839,
+      "guard_near": -0.017894812584831526
+     }
+    },
+    {
+     "frame": 10,
+     "values": {
+      "lean": -0.05618465017039034,
+      "guard_near": -0.018589028171830897
+     }
+    },
+    {
+     "frame": 20,
+     "values": {
+      "lean": -0.05833691172712427,
+      "guard_near": -0.015185375146139143
+     }
+    },
+    {
+     "frame": 30,
+     "values": {
+      "lean": -0.06182762547612425,
+      "guard_near": -0.007091811983925543
+     }
+    },
+    {
+     "frame": 40,
+     "values": {
+      "lean": 0.4296439997687024,
+      "guard_near": 0.006038330098924277
+     }
+    },
+    {
+     "frame": 50,
+     "values": {
+      "lean": -0.060129746178309976,
+      "guard_near": -0.020530599902343113
+     }
+    },
+    {
+     "frame": 60,
+     "values": {
+      "lean": -0.06664250071532338,
+      "guard_near": -0.00012081418717176737
+     }
+    },
+    {
+     "frame": 70,
+     "values": {
+      "lean": 0.18217339877477928,
+      "guard_near": -0.025703407317632952
+     }
+    },
+    {
+     "frame": 80,
+     "values": {
+      "lean": -0.061993379611076295,
+      "guard_near": -0.0060531868666883395
+     }
+    },
+    {
+     "frame": 90,
+     "values": {
+      "lean": -0.07143912900569926,
+      "guard_near": -0.002463757060051024
+     }
+    },
+    {
+     "frame": 100,
+     "values": {
+      "lean": 0.9136187556395399,
+      "guard_near": -0.0031558850208379466
+     }
+    },
+    {
+     "frame": 110,
+     "values": {
+      "lean": -0.05861149645157996,
+      "guard_near": -0.009291057882890336
+     }
+    },
+    {
+     "frame": 120,
+     "values": {
+      "lean": -0.061776677377764946,
+      "guard_near": -0.005358296418660137
+     }
+    },
+    {
+     "frame": 130,
+     "values": {
+      "lean": 0.5012053362620551,
+      "guard_near": -0.01441146724633034
+     }
+    },
+    {
+     "frame": 140,
+     "values": {
+      "lean": -0.05387013724635074,
+      "guard_near": 0.005381015773628393
+     }
+    },
+    {
+     "frame": 150,
+     "values": {
+      "lean": -0.06435005395675103,
+      "guard_near": -0.015925483193788975
+     }
+    }
+   ]
+  },
+  "repStates": [
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START"
+  ]
+ }
+}

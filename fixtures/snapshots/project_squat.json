@@ -1,0 +1,348 @@
+{
+ "goldenVersion": 1,
+ "generatedBy": "SoloEngine 0.0.1",
+ "rulePack": "squat",
+ "rulePackVersion": 2,
+ "rulePackFile": "exercises/squat.json",
+ "setup": {
+  "view": "side",
+  "nearSide": "right"
+ },
+ "options": {
+  "safetyPause": true
+ },
+ "cuesEnabled": [],
+ "sequence": "sequences/project_squat.json",
+ "expected": {
+  "events": [
+   {
+    "frame": 38,
+    "t": 2533.3333333333335,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 57,
+    "t": 3800.0000000000005,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 1400
+   },
+   {
+    "frame": 83,
+    "t": 5533.333333333334,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 98,
+    "t": 6533.333333333334,
+    "type": "FAULT_DETECTED",
+    "faultId": "insufficient_depth"
+   },
+   {
+    "frame": 98,
+    "t": 6533.333333333334,
+    "type": "REP_COMPLETED",
+    "outcome": "faulty",
+    "faults": [
+     "insufficient_depth"
+    ],
+    "durationMs": 1200
+   },
+   {
+    "frame": 122,
+    "t": 8133.333333333334,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 141,
+    "t": 9400,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [
+     "excessive_forward_lean"
+    ],
+    "durationMs": 1400
+   }
+  ],
+  "metrics": {
+   "every": 10,
+   "values": [
+    {
+     "frame": 0,
+     "values": {
+      "knee_angle_near": 169.6670417053335,
+      "torso_lean": 5.090177621681778
+     }
+    },
+    {
+     "frame": 10,
+     "values": {
+      "knee_angle_near": 170.37681419583248,
+      "torso_lean": 5.59910232139555
+     }
+    },
+    {
+     "frame": 20,
+     "values": {
+      "knee_angle_near": 171.37378296748784,
+      "torso_lean": 4.543587755448018
+     }
+    },
+    {
+     "frame": 30,
+     "values": {
+      "knee_angle_near": 172.2538046927508,
+      "torso_lean": 5.458902524502433
+     }
+    },
+    {
+     "frame": 40,
+     "values": {
+      "knee_angle_near": 114.06414603309618,
+      "torso_lean": 20.95258740093979
+     }
+    },
+    {
+     "frame": 50,
+     "values": {
+      "knee_angle_near": 108.59582881842313,
+      "torso_lean": 25.337629691060304
+     }
+    },
+    {
+     "frame": 60,
+     "values": {
+      "knee_angle_near": 171.01210691206944,
+      "torso_lean": 5.204786343073392
+     }
+    },
+    {
+     "frame": 70,
+     "values": {
+      "knee_angle_near": 171.77510674432,
+      "torso_lean": 4.832357107019965
+     }
+    },
+    {
+     "frame": 80,
+     "values": {
+      "knee_angle_near": 146.01044865269586,
+      "torso_lean": 17.21515135566019
+     }
+    },
+    {
+     "frame": 90,
+     "values": {
+      "knee_angle_near": 122.6761417209939,
+      "torso_lean": 28.810316130591705
+     }
+    },
+    {
+     "frame": 100,
+     "values": {
+      "knee_angle_near": 167.85766479176579,
+      "torso_lean": 7.004590648775816
+     }
+    },
+    {
+     "frame": 110,
+     "values": {
+      "knee_angle_near": 172.402173852354,
+      "torso_lean": 5.211577975185528
+     }
+    },
+    {
+     "frame": 120,
+     "values": {
+      "knee_angle_near": 144.04462062501403,
+      "torso_lean": 21.45993957843271
+     }
+    },
+    {
+     "frame": 130,
+     "values": {
+      "knee_angle_near": 91.73111584219443,
+      "torso_lean": 59.96753052081533
+     }
+    },
+    {
+     "frame": 140,
+     "values": {
+      "knee_angle_near": 157.3810439808002,
+      "torso_lean": 15.263477759596878
+     }
+    },
+    {
+     "frame": 150,
+     "values": {
+      "knee_angle_near": 172.19340841611557,
+      "torso_lean": 5.456304746436789
+     }
+    }
+   ]
+  },
+  "repStates": [
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START"
+  ]
+ }
+}

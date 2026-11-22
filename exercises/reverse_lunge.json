@@ -1,0 +1,120 @@
+{
+  "id": "reverse_lunge",
+  "version": 1,
+  "status": "draft",
+  "name": {
+    "tr": "Ters lunge",
+    "en": "Reverse lunge"
+  },
+  "howTo": {
+    "tr": "Yan dönerek dik dur. Bir bacağınla geriye büyük bir adım at ve iki dizin de yaklaşık 90 derece olana kadar in; arka dizin yere yaklaşsın, gövden dik kalsın. Ön ayağından iterek başlangıca dön. Bacakları sırayla değiştir.",
+    "en": "Stand tall, side-on to the camera. Take a big step back with one leg and lower until both knees are at about 90 degrees, back knee close to the floor, torso upright. Push through your front foot to return. Alternate legs."
+  },
+  "type": "reps",
+  "camera": {
+    "views": [
+      "side"
+    ],
+    "minVisibleLandmarks": [
+      "near_shoulder",
+      "near_hip",
+      "near_knee",
+      "near_ankle"
+    ],
+    "minVisibility": 0.5,
+    "posture": "standing",
+    "setupHint": {
+      "tr": "Kamerayı kalça hizasına, yan tarafına koy; 2–3 metre uzaklaş, geri adım attığında da tüm vücudun görünsün.",
+      "en": "Place the camera at hip height at your side, step back 2–3 meters so your whole body stays visible when you step back."
+    }
+  },
+  "metrics": {
+    "knee_l": {
+      "angle2d": [
+        "left_hip",
+        "left_knee",
+        "left_ankle"
+      ]
+    },
+    "knee_r": {
+      "angle2d": [
+        "right_hip",
+        "right_knee",
+        "right_ankle"
+      ]
+    },
+    "knee": {
+      "min": [
+        "knee_l",
+        "knee_r"
+      ]
+    },
+    "knee_near": {
+      "angle2d": [
+        "near_hip",
+        "near_knee",
+        "near_ankle"
+      ]
+    },
+    "torso_lean": {
+      "angleFromVertical": [
+        "near_hip",
+        "near_shoulder"
+      ]
+    }
+  },
+  "rep": {
+    "metric": "knee",
+    "start": {
+      "enter": 160,
+      "exit": 150
+    },
+    "target": {
+      "enter": 100,
+      "exit": 110
+    },
+    "attemptMinExcursion": 20,
+    "minDurationMs": 800,
+    "maxDurationMs": 6000
+  },
+  "readyPose": "knee_near > 165 for 1500ms",
+  "faults": [
+    {
+      "id": "insufficient_depth",
+      "name": {
+        "tr": "Yetersiz derinlik",
+        "en": "Insufficient depth"
+      },
+      "severity": "minor",
+      "check": "at_turn: knee_near > 100",
+      "cue": {
+        "tr": "Biraz daha aşağı in",
+        "en": "Go a little lower"
+      },
+      "affectsValidity": true,
+      "cooldownMs": 4000,
+      "minConsecutiveReps": 1
+    },
+    {
+      "id": "torso_forward",
+      "name": {
+        "tr": "Gövdenin öne eğilmesi",
+        "en": "Torso leaning forward"
+      },
+      "severity": "minor",
+      "check": "at_turn: torso_lean > 30",
+      "cue": {
+        "tr": "Gövdeni dik tut",
+        "en": "Keep your torso upright"
+      },
+      "affectsValidity": false,
+      "cooldownMs": 4000,
+      "minConsecutiveReps": 2
+    }
+  ],
+  "smoothing": {
+    "method": "one_euro",
+    "minCutoff": 1.0,
+    "beta": 0.05
+  }
+}
