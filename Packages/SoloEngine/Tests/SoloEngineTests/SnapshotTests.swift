@@ -110,3 +110,73 @@ private func slip(_ s: Double) -> SyntheticRep<EvaderParams> { SyntheticRep(Evad
         #expect(cues([CueSwitch(fromT: 0, enabled: false), CueSwitch(fromT: 4000, enabled: true)]) < all)
     }
 }
+
+// This project's templates (T2.8) on `vision19` 2D sequences, 15 fps to keep the files small.
+private let fifteen = 15.0
+
+private func project(_ id: String, view: ExerciseSetup, sequence: String? = nil,
+                     _ make: @escaping () -> LandmarkSequence) -> Snapshots.Case {
+    Snapshots.Case(name: "project_\(id)", rulePackFile: "exercises/\(id).json", setup: view,
+                   sequenceName: sequence, makeSequence: { toVision19(make(), world: false) })
+}
+
+private let frontSetup = ExerciseSetup(view: .front, nearSide: .left)
+
+private func slipsSequence() -> LandmarkSequence {
+    evaderSequence(exerciseId: "slip", reps: [slip(25), slip(-25), SyntheticRep(EvaderParams(slip: 4, neckTilt: 80), durationMs: 700),
+                                              SyntheticRep(EvaderParams(slip: -25, guardDrop: 1), durationMs: 1000), slip(15)],
+                   start: EvaderParams(dropSide: .right), options: SequenceOptions(fps: fifteen, noise: 0.002, seed: 21))
+}
+
+private func ducksSequence() -> LandmarkSequence {
+    let dip = { (s: Double) in SyntheticRep(EvaderParams(slip: s, kneeAngle: 110, torsoLean: 25), durationMs: 1000) }
+    return evaderSequence(exerciseId: "duck", reps: [dip(0), dip(20), dip(-20), SyntheticRep(EvaderParams(kneeAngle: 130, torsoLean: 10), durationMs: 900)],
+                          start: EvaderParams(dropSide: .right), options: SequenceOptions(fps: fifteen, noise: 0.002, seed: 22))
+}
+
+@Suite("Snapshots — project templates") struct ProjectSnapshotTests {
+    @Test(arguments: ["slip_left", "slip_right", "slip"]) func slips(_ id: String) throws {
+        try Snapshots.check(project(id, view: frontSetup, sequence: "project_slips", slipsSequence))
+    }
+
+    @Test(arguments: ["duck", "bob_weave_left", "bob_weave_right"]) func ducks(_ id: String) throws {
+        try Snapshots.check(project(id, view: frontSetup, sequence: "project_ducks", ducksSequence))
+    }
+
+    @Test func leanBack() throws {
+        try Snapshots.check(project("lean_back", view: ExerciseSetup(view: .side, nearSide: .left)) {
+            let reps = [30.0, 15, 70, 35].map { SyntheticRep(FighterParams(torsoLean: $0), durationMs: 1200) }
+            return fighterSequence(exerciseId: "lean_back", reps: reps, start: FighterParams(kneeAngle: 175),
+                                   options: SequenceOptions(facing: .left, fps: fifteen, noise: 0.002, seed: 23))
+        })
+    }
+
+    @Test func squat() throws {
+        try Snapshots.check(project("squat", view: ExerciseSetup(view: .side, nearSide: .right)) {
+            squatSequence(view: .side, reps: [squatRep(kneeAngle: 90), squatRep(kneeAngle: 120), squatRep(kneeAngle: 90, torsoLean: 60)],
+                          options: SequenceOptions(fps: fifteen, noise: 0.002, seed: 24))
+        })
+    }
+
+    @Test func pushup() throws {
+        try Snapshots.check(project("pushup", view: ExerciseSetup(view: .side, nearSide: .right)) {
+            pushupSequence(reps: [PushupParams(elbowAngle: 80), PushupParams(elbowAngle: 120), PushupParams(elbowAngle: 80, hipOffset: -0.1)]
+                .map { SyntheticRep($0, durationMs: 1500) }, options: SequenceOptions(fps: fifteen, noise: 0.002, seed: 25))
+        })
+    }
+
+    @Test func reverseLunge() throws {
+        try Snapshots.check(project("reverse_lunge", view: ExerciseSetup(view: .side, nearSide: .right)) {
+            lungeSequence(reps: [LungeParams(kneeAngle: 90, backLeg: .right), LungeParams(kneeAngle: 120, backLeg: .left),
+                                 LungeParams(kneeAngle: 90, torsoLean: 40, backLeg: .right)].map { SyntheticRep($0, durationMs: 2000) },
+                          options: SequenceOptions(fps: fifteen, noise: 0.002, seed: 26))
+        })
+    }
+
+    @Test func jumpingJack() throws {
+        try Snapshots.check(project("jumping_jack", view: frontSetup) {
+            jackSequence(reps: [175.0, 175, 100, 175].map { SyntheticRep(JackParams(armRaise: $0, legSpread: 0.25), durationMs: 700) },
+                         options: SequenceOptions(fps: fifteen, noise: 0.002, seed: 27, restMs: 200))
+        })
+    }
+}

@@ -1,0 +1,107 @@
+{
+  "id": "lean_back",
+  "version": 1,
+  "status": "draft",
+  "name": {
+    "tr": "Eskiv: geriye yatma (lean back)",
+    "en": "Lean back"
+  },
+  "howTo": {
+    "tr": "Yan dönerek gard al, ağırlığın arka bacakta olsun. Çeneni içeride, ellerini yukarıda tutarak gövdeni arka bacağının üzerine geriye yatır; başını kesikli çizginin gerisindeki sarı balona götür. Daire yeşile dönünce sayılır; ok ortayı gösterince doğrul. Gözlerin önde kalsın, fazla geriye gitme.",
+    "en": "Stand side-on to the camera in your guard, weight on the back leg. Keeping your chin tucked and hands up, lean your body back over your back leg, taking your head to the yellow bubble behind the dashed line. It counts when the circle turns green; when the arrow points to the middle, come back upright. Keep your eyes forward and don't lean too far."
+  },
+  "type": "reps",
+  "camera": {
+    "views": [
+      "side"
+    ],
+    "minVisibleLandmarks": [
+      "nose",
+      "near_shoulder",
+      "near_wrist",
+      "near_hip",
+      "near_knee",
+      "near_ankle"
+    ],
+    "minVisibility": 0.5,
+    "posture": "standing",
+    "setupHint": {
+      "tr": "Kamerayı göğüs hizasına, yan tarafına koy; 2–3 metre uzaklaş, baştan ayağa görün, gard al.",
+      "en": "Place the camera at chest height at your side, step back 2–3 meters so you are visible head to toe, and take your guard."
+    }
+  },
+  "metrics": {
+    "lean": {
+      "sagittalLean2d": [
+        "nose",
+        "near_hip"
+      ]
+    },
+    "guard_near": {
+      "diffY": [
+        "near_wrist",
+        "near_shoulder"
+      ]
+    }
+  },
+  "rep": {
+    "metric": "lean",
+    "start": {
+      "enter": 0.05,
+      "exit": 0.1
+    },
+    "target": {
+      "enter": 0.3,
+      "exit": 0.25
+    },
+    "attemptMinExcursion": 0.06,
+    "minDurationMs": 250,
+    "maxDurationMs": 2500
+  },
+  "readyPose": "guard_near > -0.3 and lean > -0.15 and lean < 0.08 for 1000ms",
+  "faults": [
+    {
+      "id": "guard_dropped",
+      "name": {
+        "tr": "Gardın düşmesi",
+        "en": "Guard dropped"
+      },
+      "severity": "minor",
+      "check": "during_rep: guard_near < -0.5",
+      "cue": {
+        "tr": "Ellerin yukarıda kalsın",
+        "en": "Keep your hands up"
+      },
+      "affectsValidity": false,
+      "cooldownMs": 4000,
+      "minConsecutiveReps": 1,
+      "holdMs": 200
+    },
+    {
+      "id": "too_far",
+      "name": {
+        "tr": "Aşırı geriye yatma",
+        "en": "Leaning back too far"
+      },
+      "severity": "major",
+      "check": "at_turn: lean > 0.6",
+      "cue": {
+        "tr": "Çok geriye gitme, dengeni koru",
+        "en": "Don't lean back too far, stay balanced"
+      },
+      "affectsValidity": false,
+      "cooldownMs": 4000,
+      "minConsecutiveReps": 1
+    }
+  ],
+  "smoothing": {
+    "method": "one_euro",
+    "minCutoff": 2.0,
+    "beta": 0.7
+  },
+  "overlay": {
+    "headTarget": {
+      "back": 0.3
+    }
+  }
+}

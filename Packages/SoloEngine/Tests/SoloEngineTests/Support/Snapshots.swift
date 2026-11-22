@@ -17,28 +17,33 @@ enum Snapshots {
         var setup: ExerciseSetup
         var options = ExerciseEngineOptions()
         var cuesEnabled: [CueSwitch] = []
+        /// Sequence file name (without `.json`) when several cases share one; default `name`.
+        var sequenceName: String? = nil
         /// Used only when updating.
         var makeSequence: () -> LandmarkSequence
     }
 
     static func check(_ c: Case, sourceLocation: SourceLocation = #_sourceLocation) throws {
         let caseURL = dir.appendingPathComponent("\(c.name).json")
-        let sequencePath = "sequences/\(c.name).json"
+        let sequencePath = "sequences/\(c.sequenceName ?? c.name).json"
         let sequenceURL = dir.appendingPathComponent(sequencePath)
         let packJSON = try JSONValue.parse(contentsOf: Repo.root.appendingPathComponent(c.rulePackFile))
         let loaded = try RulePackLoader.load(packJSON).get()
 
         if updating {
             // stored coordinates are rounded; the outcome is computed from what is stored
-            let seq = rounded(c.makeSequence())
+            // a shared sequence is written by its first case and reused as stored
+            let seq = c.sequenceName != nil && c.sequenceName != c.name && FileManager.default.fileExists(atPath: sequenceURL.path)
+                ? try LandmarkSequence.parse(data: Data(contentsOf: sequenceURL)).get()
+                : rounded(c.makeSequence())
             let outcome = EngineCase.run(loaded, seq, setup: c.setup, options: c.options, cuesEnabled: c.cuesEnabled)
             let snapshot = EngineCase(
                 origin: JSONObject([("generatedBy", .string(SoloEngine.generatedBy))]), rulePack: loaded.pack.id,
                 rulePackVersion: loaded.pack.version, rulePackFile: c.rulePackFile, setup: c.setup, options: c.options,
                 cuesEnabled: c.cuesEnabled, sequence: sequencePath, expected: outcome)
             try FileManager.default.createDirectory(at: sequenceURL.deletingLastPathComponent(), withIntermediateDirectories: true)
-            try Data((seq.json.serialized() + "\n").utf8).write(to: sequenceURL)
-            try Data((snapshot.json.serialized(indent: 1) + "\n").utf8).write(to: caseURL)
+            try Data((seq.json.serialized() + "\n").utf8).write(to: sequenceURL, options: .atomic)
+            try Data((snapshot.json.serialized(indent: 1) + "\n").utf8).write(to: caseURL, options: .atomic)
             return
         }
 

@@ -102,10 +102,20 @@ Kaynak şablonun metrik adları ve hata kimlikleri **aynı kalır** (kaynak gold
 ```
 Eşikler (`rep.start`, `rep.target`, `neck_only` eşiği, `overlay.headTarget`) kalibrasyonla yeniden belirlenir (03). Başlangıç değerleri sentetik `vision19` dizilerinden çıkarılır.
 
-**Duck (`duck`, version 2):** metrik adları kaynaktaki gibi; `height_l = heightOverShoulders2d(nose, left_ankle)`, `height_r = heightOverShoulders2d(nose, right_ankle)`, `head_height = avg(height_l, height_r)`. Ölçek kaynaktan farklıdır (kaynak `chainHeight` ayakta ≈ 0,955, yeni metrik sentetik vücutta ≈ 4,32), bu yüzden kaynak eşikleri bu oranla (× 4,53) taşınır: `start: { enter: 4.21, exit: 4.14 }`, `target: { enter: 3.89, exit: 3.96 }`, `attemptMinExcursion: 0.14`, `readyPose`'ta `head_height > 4.16`, `overlay.headTarget.height: 3.89`. Uygulama kesikli çizgiyi `ayak bileği.y − height · omuz genişliği` yüksekliğine çizer (12). **Risk:** ayakta değer kişinin boy / omuz genişliği oranına bağlıdır (kaynak `chainHeight` ise kişiden bağımsızdır, dik = 1). Başlangıç bölgesi ayakta değerin yalnız ~%2,6 altındadır; geniş omuzlu bir kullanıcı ayaktayken başlangıç bölgesine girmeyebilir. Kalibrasyon (03) farklı vücut tiplerinden kayıtla bunu ölçer; sapma bölgeleri aşarsa set başı ayakta duruşa göre oran (açık soru 6 seçenek b) yeniden değerlendirilir.
+**Duck (`duck`, version 2):** metrik adları kaynaktaki gibi; `height_l = heightOverShoulders2d(nose, left_ankle)`, `height_r = heightOverShoulders2d(nose, right_ankle)`, `head_height = avg(height_l, height_r)`. Ölçek kaynaktan farklıdır: sentetik vücutta yeni değer / kaynak `chainHeight` oranı ayakta ve yana eskivde 4,545, derin duck'ta 4,59'dur (neredeyse orantılı). Kaynak eşikleri her eşiğin kendi derinliğindeki oranla taşınır: `start: { enter: 4.23, exit: 4.16 }`, `target: { enter: 3.94, exit: 4.00 }`, `attemptMinExcursion: 0.12` (kaynakta denemenin kesinleştiği 0,885 → 4,04), `readyPose`'ta `head_height > 4.18`, `overlay.headTarget.height: 3.94`. Eşiğe %1'den yakın sentetik durumlarda sonuç kaynaktan ayrılabilir (bu yüzden eşdeğerlik testi eşikten uzak durumlarla yapılır; golden dizileri T1.2'de). Uygulama kesikli çizgiyi `ayak bileği.y − height · omuz genişliği` yüksekliğine çizer (12). **Risk:** ayakta değer kişinin boy / omuz genişliği oranına bağlıdır (kaynak `chainHeight` ise kişiden bağımsızdır, dik = 1). Başlangıç bölgesi ayakta değerin yalnız ~%2,6 altındadır; geniş omuzlu bir kullanıcı ayaktayken başlangıç bölgesine girmeyebilir. Kalibrasyon (03) farklı vücut tiplerinden kayıtla bunu ölçer; sapma bölgeleri aşarsa set başı ayakta duruşa göre oran (açık soru 6 seçenek b) yeniden değerlendirilir.
 
 ## Yeni şablonlar
 Aşağıdaki eşikler sentetik verilerle **başlangıç değerleridir**; hepsi `draft`'tır ve kayıt modunda hocanın etiketli kayıtlarıyla kalibre edilir (03, 09). `howTo` ve `cue` metinleri hoca onayından geçer.
+
+**Ortak başlangıç değerleri (T2.8, bu dosyada ayrıca yazılmayan alanlar):**
+- Bu projenin bütün şablonlarında `camera.minVisibility: 0.5` (Vision güven ölçeği, kalibrasyonla); her şablon `vision19` 2B'de (H2) yüklenir (test).
+- Hatalarda `cooldownMs: 4000`, `minConsecutiveReps: 1`, `affectsValidity: false` (aksi yazılmadıkça); `torso_forward` (lunge) `minConsecutiveReps: 2` (kaynak `excessive_forward_lean` gibi).
+- `smoothing`: eskivler ve jumping jack `one_euro` 2.0 / 0.7 (kaynak eskivler), lunge 1.0 / 0.05 (kaynak squat).
+- `squat` (yandan): kaynak eşikleri aynen; `knee_angle_near` → `angle2d`; `knee_valgus` metrikleri ve hatası **yok** (diz içe kaçma yandan görünmez; önden squat MVP şablon setinde yok). `pushup`: `angle` → `angle2d`, eşikler aynen.
+- `reverse_lunge`: `attemptMinExcursion: 20`, `readyPose: knee_near > 165 for 1500ms`, `minVisibleLandmarks` yalnız yakın taraf (`near_shoulder`, `near_hip`, `near_knee`, `near_ankle`). Tekrar metriği `knee` (`min`) uzak bacak görünmezse yakın bacağı kullanır; ama hata ve `readyPose` ifadesi kullandığı metriklerin bütün noktaları görünmeden değerlendirilmez (ref 04 görünürlük kuralı), yandan uzak bacak çoğu zaman eşiğin altındadır. Bu yüzden derinlik hatası ve hazır duruş yakın bacağın açısıyla (`knee_near`) yazılır (T2.8 bulgusu).
+- `jumping_jack`: `attemptMinExcursion: 0.3`; `minVisibleLandmarks`: burun, omuzlar, bilekler, kalçalar.
+- `bob_weave_*`: `rep` ve `camera` duck ile aynı, `smoothing` eskivlerle aynı.
+- Ad, `howTo`, `setupHint` ve `cue` metinleri taslaktır (hoca onayı, açık soru 1).
 
 ### Lean back (`lean_back`)
 Yüksek tekmeye (ve düz yumruğa) karşı gövdeyi arka bacağın üzerine geriye yatırma; çene içeride, gözler önde, eller yukarıda.
@@ -113,9 +123,9 @@ Yüksek tekmeye (ve düz yumruğa) karşı gövdeyi arka bacağın üzerine geri
 - **Refleks modu: ayrı şablon `lean_back_front`, önden, yalnız H1.** Şablon formatı tek bir metrik seti taşır; yandan 2B ve önden 3B tanım aynı dosyada olamaz, bu yüzden refleks sürümü ayrı bir şablondur. Tekrar metriği world'den: `lean = avg(sagittalLean(nose, left_hip), sagittalLean(nose, right_hip))` (`nose` 3B'de `centerHead` vekilidir, 03 H1). Bölgelerin başlangıç değerleri teknik sürümle aynıdır; kalibrasyonla ayrı belirlenir. Hatalar: `too_far` (aşağıdaki gibi, güvenlik için) ve `guard_dropped` (slip ile aynı, `guard_l`/`guard_r`; önden görünümde `near_` kullanılmaz). `readyPose`: `guard_l > -0.3 and guard_r > -0.3 and lean < 0.08 for 1000ms`. `overlay.headTarget` yoktur (refleks modunda balon çizilmez, 12). H1 doğrulanmazsa şablon dosyası oluşturulmaz; `lean_back_front` ve `high_kick` katalogda yer almaz (05).
 - Hatalar (`lean_back`):
   - `guard_dropped` (minor, `during_rep`, `holdMs: 200`): `guard_near < -0.5` (yandan) — "Ellerin yukarıda kalsın" / "Keep your hands up".
-  - `forward_lean_start` (minor, `at_start`): denemeye öne eğilerek başlama, `lean < -0.05` — "Dik başla, ağırlığın arka bacakta" / "Start upright, weight on the back leg".
+  - ~~`forward_lean_start` (`at_start: lean < -0.05`)~~ **çıkarıldı (T2.8 bulgusu):** `at_start` tekrar metriğinin `start.exit`'i geçtiği karede değerlendirilir (ref 04); o karede `lean` ≈ 0,10 olduğundan koşul hiç sağlanamaz. Yerine `readyPose` öne eğik olmayan duruşu ister (`lean > -0.15`; gardda dik duruşta baş kalçanın biraz önündedir, sentetik vücut ≈ −0,065); set içinde öne eğik başlamayı yakalamak gerekirse ayrı bir metrik (ör. gövde `sagittalLean2d(near_shoulder, near_hip)`) hoca onayıyla eklenir (açık soru 1).
   - `too_far` (major, `at_turn`): `lean > 0.6` — aşırı geriye yatma, denge kaybı riski — "Çok geriye gitme, dengeni koru" / "Don't lean back too far, stay balanced". `major` olduğu için art arda iki denemede güvenlik duraklatması (ref 05).
-- `readyPose` (`lean_back`): `guard_near > -0.3 and lean < 0.08 for 1000ms`.
+- `readyPose` (`lean_back`): `guard_near > -0.3 and lean > -0.15 and lean < 0.08 for 1000ms`.
 - `overlay.headTarget` (`lean_back`): yandan görünüm için `back: 0.30` (yeni opsiyonel alan; yalnız çizim, 12).
 
 ### Bob & weave (`bob_weave_left`, `bob_weave_right`)
@@ -153,7 +163,7 @@ Bu projenin `teep` şablonuna yeni hata (şablon sürümü artar):
 ### Ters lunge (`reverse_lunge`, MVP)
 Arka bacakla geri adım, iki diz ~90°'ye iner, başlangıca dönülür. Kalça, arka bacak ve tek ayak dengesi için.
 - Görünüm: side. Tekrar metriği: `knee = min(angle2d(left_hip, left_knee, left_ankle), angle2d(right_hip, right_knee, right_ankle))` (azalan). `start: { enter: 160, exit: 150 }`, `target: { enter: 100, exit: 110 }`, `minDurationMs: 800`, `maxDurationMs: 6000`.
-- Hatalar: `insufficient_depth` (`at_turn: knee > 100`, `affectsValidity: true`), `torso_forward` (`at_turn: angleFromVertical(near_hip, near_shoulder) > 30`), `knee_past_toe` **yok** (ayak ucu yok; yerine hoca onayına bağlı bir kural aranır, açık soru).
+- Hatalar: `insufficient_depth` (`at_turn: knee_near > 100`, `affectsValidity: true`; `knee_near = angle2d(near_hip, near_knee, near_ankle)`), `torso_forward` (`at_turn: angleFromVertical(near_hip, near_shoulder) > 30`), `knee_past_toe` **yok** (ayak ucu yok; yerine hoca onayına bağlı bir kural aranır, açık soru).
 - Taraf: kullanıcı bacakları sırayla değiştirir; sayım iki bacağı birlikte sayar.
 
 ### Jumping jack (`jumping_jack`, MVP)
@@ -177,5 +187,5 @@ Isınma ve kondisyon. Kollar yukarı + bacaklar açık, sonra başlangıç.
 2. Lunge'da "diz ayak ucunu geçmesin" yerine hangi form kuralı kullanılmalı (Vision'da ayak ucu yok)?
 3. Jumping jack bacak kontrolü için `diffX` (yatay fark) metrik fonksiyonu eklensin mi?
 4. `riseFromBaseline` (durumlu metrik) ip atlama için kabul edilebilir mi, yoksa ip atlama süre bazlı (hold benzeri, "zıplıyor/durdu") mu sayılmalı?
-5. Bob & weave tek tekrar mı (alt noktada yana kayıp dön) yoksa U çizip karşı tarafta mı biter? Seçilen tanım tekrar metriğinin merkeze dönüşünü gerektirir; U hareketinde baş merkezden geçmeden karşı tarafta doğrulursa bu şablon yetmez.
+5. Bob & weave tek tekrar mı (alt noktada yana kayıp dön) yoksa U çizip karşı tarafta mı biter? Seçilen tanım tekrar metriğinin merkeze dönüşünü gerektirir; U hareketinde baş merkezden geçmeden karşı tarafta doğrulursa bu şablon yetmez. Ayrıca eğilme ile yana kayma aynı anda yapılırsa (önce eğil, sonra kay değil) baş deneme başlarken eşiğe yakın kaymış olur ve `weave_before_dip` (0,20) sınırda tetiklenir (T2.8 anlık görüntüsü `project_bob_weave_right`, 3. deneme); eşik kalibrasyonda hocanın kayıtlarıyla belirlenir.
 6. ~~Önden duck için `chainHeight2d` yetmiyor~~ — **karar (2026-11-22): seçenek (a)**, yeni durumsuz fonksiyon `heightOverShoulders2d` (yukarıdaki tablo). Bulgu: önden duck öne eğilmedir; görüntüde parça uzunlukları yükseklikle birlikte kısaldığından `chainHeight2d` neredeyse sabit kalır (sentetik vücut: ayakta 0,957, derin duck 0,947; world `chainHeight` 0,955 → 0,814). Yeni fonksiyon aynı vücutta 4,32 → 3,73 (%14 düşüş, world'deki %15'e yakın). Kalan risk (kişiye bağlı ölçek) "Duck (`duck`, version 2)" altında; `chainHeight2d` yandan görünümde kullanılabilir kalır.

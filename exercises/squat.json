@@ -1,0 +1,107 @@
+{
+  "id": "squat",
+  "version": 2,
+  "status": "draft",
+  "derivedFrom": {
+    "id": "squat",
+    "version": 1,
+    "commit": "c2fe3fd"
+  },
+  "name": {
+    "tr": "Squat",
+    "en": "Squat"
+  },
+  "howTo": {
+    "tr": "Yan dönerek ayaklarını omuz genişliğinde aç. Kalçanı geriye itip dizlerini kırarak uyluğun yere paralel olana kadar in, göğsün dik kalsın; sonra topuklarından iterek kalk.",
+    "en": "Stand side-on to the camera, feet shoulder-width apart. Push your hips back and bend your knees until your thighs are parallel to the floor, chest up; then drive up through your heels."
+  },
+  "type": "reps",
+  "camera": {
+    "views": [
+      "side"
+    ],
+    "minVisibleLandmarks": [
+      "near_hip",
+      "near_knee",
+      "near_ankle",
+      "near_shoulder"
+    ],
+    "minVisibility": 0.5,
+    "setupHint": {
+      "tr": "Kamerayı kalça hizasına, yan tarafına koy; 2–3 metre uzaklaş, tüm vücudun görünsün.",
+      "en": "Place the camera at hip height at your side, step back 2–3 meters so your whole body is visible."
+    }
+  },
+  "metrics": {
+    "knee_angle_near": {
+      "angle2d": [
+        "near_hip",
+        "near_knee",
+        "near_ankle"
+      ]
+    },
+    "torso_lean": {
+      "angleFromVertical": [
+        "near_hip",
+        "near_shoulder"
+      ]
+    }
+  },
+  "rep": {
+    "metric": "knee_angle_near",
+    "start": {
+      "enter": 160,
+      "exit": 150
+    },
+    "target": {
+      "enter": 100,
+      "exit": 110
+    },
+    "attemptMinExcursion": 20,
+    "minDurationMs": 800,
+    "maxDurationMs": 8000
+  },
+  "readyPose": "knee_angle_near > 165 for 1500ms",
+  "faults": [
+    {
+      "id": "insufficient_depth",
+      "name": {
+        "tr": "Yetersiz derinlik",
+        "en": "Insufficient depth"
+      },
+      "severity": "minor",
+      "check": "at_turn: knee_angle_near > 100",
+      "cue": {
+        "tr": "Biraz daha aşağı in",
+        "en": "Go a little lower"
+      },
+      "affectsValidity": true,
+      "cooldownMs": 4000,
+      "minConsecutiveReps": 1
+    },
+    {
+      "id": "excessive_forward_lean",
+      "name": {
+        "tr": "Gövdenin aşırı öne eğilmesi",
+        "en": "Excessive forward lean"
+      },
+      "severity": "minor",
+      "check": "at_turn: torso_lean > 55",
+      "views": [
+        "side"
+      ],
+      "cue": {
+        "tr": "Göğsünü dik tut",
+        "en": "Keep your chest up"
+      },
+      "affectsValidity": false,
+      "cooldownMs": 4000,
+      "minConsecutiveReps": 2
+    }
+  ],
+  "smoothing": {
+    "method": "one_euro",
+    "minCutoff": 1.0,
+    "beta": 0.05
+  }
+}

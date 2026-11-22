@@ -1,0 +1,325 @@
+{
+ "goldenVersion": 1,
+ "generatedBy": "SoloEngine 0.0.1",
+ "rulePack": "pushup",
+ "rulePackVersion": 2,
+ "rulePackFile": "exercises/pushup.json",
+ "setup": {
+  "view": "side",
+  "nearSide": "right"
+ },
+ "options": {
+  "safetyPause": true
+ },
+ "cuesEnabled": [],
+ "sequence": "sequences/project_pushup.json",
+ "expected": {
+  "events": [
+   {
+    "frame": 36,
+    "t": 2400,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 51,
+    "t": 3400.0000000000005,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 1067
+   },
+   {
+    "frame": 75,
+    "t": 5000,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 84,
+    "t": 5600,
+    "type": "FAULT_DETECTED",
+    "faultId": "partial_range"
+   },
+   {
+    "frame": 84,
+    "t": 5600,
+    "type": "REP_COMPLETED",
+    "outcome": "faulty",
+    "faults": [
+     "partial_range"
+    ],
+    "durationMs": 933
+   },
+   {
+    "frame": 106,
+    "t": 7066.666666666667,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 119,
+    "t": 7933.333333333334,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [
+     "hip_sag"
+    ],
+    "durationMs": 1000
+   }
+  ],
+  "metrics": {
+   "every": 10,
+   "values": [
+    {
+     "frame": 0,
+     "values": {
+      "elbow_angle": 167.7227213737342,
+      "body_line_angle": 179.43942793944393,
+      "hip_offset": 0.0022946513396758933
+     }
+    },
+    {
+     "frame": 10,
+     "values": {
+      "elbow_angle": 167.10695940370127,
+      "body_line_angle": 179.02883317103735,
+      "hip_offset": 0.0019884676240809573
+     }
+    },
+    {
+     "frame": 20,
+     "values": {
+      "elbow_angle": 165.8318795007654,
+      "body_line_angle": 178.93308290821324,
+      "hip_offset": 0.0022268183852103764
+     }
+    },
+    {
+     "frame": 30,
+     "values": {
+      "elbow_angle": 166.421302871325,
+      "body_line_angle": 179.3125408130421,
+      "hip_offset": 0.0014313581375552569
+     }
+    },
+    {
+     "frame": 40,
+     "values": {
+      "elbow_angle": 88.57619622365671,
+      "body_line_angle": 179.02974595200357,
+      "hip_offset": -0.001533503973797398
+     }
+    },
+    {
+     "frame": 50,
+     "values": {
+      "elbow_angle": 154.7592605670545,
+      "body_line_angle": 179.2330531903829,
+      "hip_offset": 0.0023788647900967234
+     }
+    },
+    {
+     "frame": 60,
+     "values": {
+      "elbow_angle": 167.13639200784948,
+      "body_line_angle": 179.22205086189626,
+      "hip_offset": -0.000395289083097489
+     }
+    },
+    {
+     "frame": 70,
+     "values": {
+      "elbow_angle": 144.5583764564415,
+      "body_line_angle": 178.8022206319436,
+      "hip_offset": 0.00136892733569635
+     }
+    },
+    {
+     "frame": 80,
+     "values": {
+      "elbow_angle": 131.46331087759398,
+      "body_line_angle": 178.87410703890072,
+      "hip_offset": -0.003970268331790315
+     }
+    },
+    {
+     "frame": 90,
+     "values": {
+      "elbow_angle": 165.25285558510367,
+      "body_line_angle": 179.27795271923662,
+      "hip_offset": -0.000624424087227948
+     }
+    },
+    {
+     "frame": 100,
+     "values": {
+      "elbow_angle": 166.7939181979934,
+      "body_line_angle": 178.68722918784792,
+      "hip_offset": 0.0030732045161182588
+     }
+    },
+    {
+     "frame": 110,
+     "values": {
+      "elbow_angle": 79.94405433325338,
+      "body_line_angle": 156.09986178214672,
+      "hip_offset": -0.08377396848686686
+     }
+    },
+    {
+     "frame": 120,
+     "values": {
+      "elbow_angle": 166.99938189961338,
+      "body_line_angle": 177.67686434724635,
+      "hip_offset": -0.026314910122980026
+     }
+    },
+    {
+     "frame": 130,
+     "values": {
+      "elbow_angle": 166.95425524835844,
+      "body_line_angle": 179.35336556567762,
+      "hip_offset": -0.0014786964933538385
+     }
+    }
+   ]
+  },
+  "repStates": [
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START"
+  ]
+ }
+}
