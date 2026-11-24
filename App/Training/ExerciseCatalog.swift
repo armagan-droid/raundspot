@@ -21,6 +21,8 @@ enum ExerciseCatalog {
         return try? ExerciseDemo.parse(json)
     }
 
+    static func pack(_ id: String) -> LoadedRulePack? { load().first { $0.pack.id == id } }
+
     static let eskivIds = ["slip_left", "slip_right", "slip", "duck", "bob_weave_left", "bob_weave_right", "lean_back"]
 
     /// Ready-made workouts (specs/06) whose templates all load.
@@ -33,6 +35,13 @@ enum ExerciseCatalog {
             .compactMap { (try? JSONValue.parse(contentsOf: $0)).flatMap { try? Workout.parse($0) } }
             .filter { w in w.blocks.allSatisfy { $0.exerciseId.map(ids.contains) ?? true } }
             .sorted { (order.firstIndex(of: $0.id) ?? 99) < (order.firstIndex(of: $1.id) ?? 99) }
+    }
+
+    /// A guided step's demo (specs/04 "Adım gösterimleri").
+    static func stepDemo(for key: String) -> ExerciseDemo? {
+        guard let url = Bundle.main.url(forResource: key, withExtension: "json", subdirectory: "exercises/demos/steps"),
+              let json = try? JSONValue.parse(contentsOf: url) else { return nil }
+        return try? ExerciseDemo.parse(json)
     }
 
     /// Eskivs first, then conditioning (specs/04 "Şablon seti").

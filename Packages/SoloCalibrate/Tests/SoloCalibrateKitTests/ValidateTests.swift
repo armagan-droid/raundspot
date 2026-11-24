@@ -75,6 +75,15 @@ import Testing
         #expect(errors.contains { $0.hasPrefix("workouts/bad.json: id") })
     }
 
+    @Test func stepDemosAreChecked() throws {
+        let demo = try String(contentsOf: Self.repoExercises.appendingPathComponent("demos/steps/warmup.shadow.json"), encoding: .utf8)
+        let template = try String(contentsOf: Self.repoExercises.appendingPathComponent("demos/squat.json"), encoding: .utf8)
+        let dir = try makeDirectory(["demos/steps/warmup.shadow.json": demo, "demos/steps/x.json": demo, "demos/steps/squat.json": template])
+        let errors = try Validator.validate(directory: dir).errors
+        #expect(errors.sorted() == ["demos/steps/squat.json: a step demo needs step, not exercise",
+                                    "demos/steps/x.json: step 'warmup.shadow' does not match the file name"])
+    }
+
     @Test func unknownFileKindsAreErrors() throws {
         let dir = try makeDirectory(["reflex/muay_thai.json": "{}"])
         let report = try Validator.validate(directory: dir)

@@ -5,13 +5,15 @@
 # and write only declared outputs, so both are listed file by file:
 # scripts/xcode/exercises.xcfilelist (inputs) and exercises-out.xcfilelist
 # (outputs, the same names in the bundle). A SoloEngine test keeps both in sync
-# with exercises/*.json, exercises/demos/*.json and exercises/workouts/*.json.
+# with exercises/*.json, exercises/demos/*.json, exercises/demos/steps/*.json and
+# exercises/workouts/*.json.
 set -eu
 dest="${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/exercises"
-mkdir -p "$dest/demos" "$dest/workouts"
+mkdir -p "$dest/demos/steps" "$dest/workouts"
 while IFS= read -r f; do
   [ -n "$f" ] || continue
   case "$f" in
+    */exercises/demos/steps/*) cp "$f" "$dest/demos/steps/" ;;
     */exercises/demos/*) cp "$f" "$dest/demos/" ;;
     */exercises/workouts/*) cp "$f" "$dest/workouts/" ;;
     *) cp "$f" "$dest/" ;;

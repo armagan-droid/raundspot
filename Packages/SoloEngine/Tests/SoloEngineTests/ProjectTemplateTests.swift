@@ -59,7 +59,7 @@ private let deepDuck = EvaderParams(kneeAngle: 110, torsoLean: 25)
             try FileManager.default.contentsOfDirectory(atPath: Repo.root.appendingPathComponent(dir).path)
                 .filter { $0.hasSuffix(".json") }.map { "$(SRCROOT)/\(dir)/\($0)" }
         }
-        #expect(listed.sorted() == (try json("exercises") + json("exercises/demos") + json("exercises/workouts")).sorted())
+        #expect(listed.sorted() == (try json("exercises") + json("exercises/demos") + json("exercises/demos/steps") + json("exercises/workouts")).sorted())
         let out = try String(contentsOf: Repo.root.appendingPathComponent("scripts/xcode/exercises-out.xcfilelist"), encoding: .utf8)
             .split(separator: "\n").map { String($0) }.filter { !$0.isEmpty }
         #expect(out.sorted() == listed.map {
