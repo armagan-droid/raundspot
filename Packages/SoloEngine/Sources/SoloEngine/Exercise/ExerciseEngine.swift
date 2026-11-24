@@ -113,6 +113,31 @@ public final class ExerciseEngine {
     public var repState: RepCounterState { counter.state }
     /// Where the attempt in progress left the start zone (smoothed metric).
     public var attemptStart: Snapshot? { counter.attemptStart }
+    /// Since when the ready pose has held without a break (nil: not held), and how long it must (specs/05 "Hazır olma").
+    public var readyPoseHeldSince: Double? { readySince }
+    public var readyPoseDurationMs: Double { readyPose.durationMs }
+    /// The last completed attempt: how far its turn went toward the target (specs/05 tie-break).
+    public private(set) var lastTurnProgress: Double?
+
+    /// The movement start of the attempt confirmed at `confirmedAt` (specs/05 "Tepki anı"): going back from
+    /// confirmation, the last pair of frames where the **raw** rep metric crossed the confirmation threshold,
+    /// interpolated linearly; never before the attempt left the start zone. Call while the attempt is in progress.
+    public func rawConfirmCrossing(confirmedAt t: Double) -> Double? {
+        guard let start = counter.attemptStart else { return nil }
+        let metric = loaded.pack.rep.metric
+        let frames = Array(rawHistory.frames(since: start.t).filter { $0.t <= t })
+        var i = frames.count - 1
+        while i > 0 {
+            guard let v = frames[i].values[metric], let u = frames[i - 1].values[metric], !v.isNaN, !u.isNaN else { i -= 1; continue }
+            if counter.isBeyondConfirm(v), !counter.isBeyondConfirm(u) {
+                let thr = counter.confirmThreshold
+                let s = v == u ? 0 : (thr - u) / (v - u)
+                return Swift.max(start.t, frames[i - 1].t + s * (frames[i].t - frames[i - 1].t))
+            }
+            i -= 1
+        }
+        return start.t
+    }
 
     public init(_ loaded: LoadedRulePack, setup: ExerciseSetup, options: ExerciseEngineOptions = .init()) {
         let pack = loaded.pack
@@ -253,6 +278,7 @@ public final class ExerciseEngine {
                 let outcome = classifyAttempt(reachedTarget: a.reachedTarget, durationMs: a.durationMs,
                                               hasValidityFault: hasValidityFault,
                                               minDurationMs: rep.minDurationMs, maxDurationMs: rep.maxDurationMs)
+                lastTurnProgress = counter.progress(a.turn.value)
                 events.append(.repCompleted(outcome: outcome, faults: detected.map { faults[$0].fault.fault.id },
                                             durationMs: Int(jsRound(a.durationMs))))
                 checkSafety(detected, &events)

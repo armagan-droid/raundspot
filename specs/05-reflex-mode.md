@@ -98,6 +98,15 @@ Bir denemenin penceresi kapanınca:
 
 Örnek: kullanıcı "sol kroşe"ye eğilip yana kaymadan doğrulursa `bob_weave_left` `faulty` (`no_weave`) olur, `duck` `valid` olur → seçim `duck` → kabul edilen tepki → `correct`, istatistikte "tercih edilmeyen tepki".
 
+### Uygulama ayrıntıları (T4.2, 2026-11-24)
+- **Bekleme sırasında hareket:** bekleme sırasında bir motor `REP_STARTED` üretirse döngü Hazırlık'a döner. Ön süre, kullanıcı yeniden hazır olunca baştan çekilir.
+- **Hazır olma:** tüm motorlar `AT_START` durumundadır ve her motorun `readyPose`'u tutuluyordur. Hepsinin birlikte tutulduğu süre, en uzun `for` süresine ulaşmalıdır.
+- **Kombinasyon ve aldatma:** her kombinasyon için önce uzunluk seçilir. Sonra `feintRate` olasılıkla kombinasyonun son işareti aldatma olur (uzunluk 1 ise tek başına aldatma). Saldırılar seviyenin listesinden, ardışık tekrarsız seçilir. Aldatma da bir işarettir ve setin işaret sayısına girer. Kombinasyon setin kalan işaret sayısını aşmaz.
+- **Atama:** bir motorun denemesi, başlangıcını (`t_move`) içeren ve o motordan henüz deneme almamış en erken açık pencereye atanır. Böylece bir pencerede motor başına en fazla bir aday olur ve bir deneme yalnız bir pencereye girer.
+- **Sonuçlanma:** bir pencere, `t_cue + window` geçtikten sonra şu iki koşuldan biri sağlanınca sonuçlanır: atanmış tüm denemeler tamamlanmıştır, ya da yanıt şablonlarının en büyük `maxDurationMs`'i kadar daha süre geçmiştir. Tamamlanmayan deneme aday değildir.
+- **Kayıt:** `cueAtMs`, `t_cue`'dur. `reactionMs` yalnız `correct`, `correct_faulty`, `wrong` ve `partial` denemelerde, seçilen adayın `t_move − t_cue`'su olarak yazılır.
+- **Rastgelelik:** tohumlu SplitMix64 üreteci kullanılır.
+
 ### Tepki süresi
 **İşaret anı (`t_cue`):** `PLAY_CUE(at: hostTime)` komutu sesi planlar. `t_cue = hostTime + outputLatency + ioBufferDuration` (AVAudioSession değerleri, işaret anında okunur) + `cueOnsetMs` (ses dosyasının başındaki sessizlik; her dosya için üretimde ölçülür ve dosya adının yanındaki meta veride tutulur). TTS yedeğinde (`AVSpeechSynthesizer`) çıkış anı bilinemediği için deneme `rtApproximate = true` işaretlenir.
 
