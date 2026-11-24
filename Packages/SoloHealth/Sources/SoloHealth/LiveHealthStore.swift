@@ -26,6 +26,18 @@ public final class LiveHealthStore: HealthStore, @unchecked Sendable {
         return (try? await store.requestAuthorization(toShare: write, read: read)) != nil
     }
 
+    /// The latest body mass and its date (specs/08 "Kilo"); read each time, never stored by the app.
+    public func latestBodyMass() async -> (kg: Double, date: Date)? {
+        await withCheckedContinuation { c in
+            let q = HKSampleQuery(sampleType: HKQuantityType(.bodyMass), predicate: nil, limit: 1,
+                                  sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)]) { _, samples, _ in
+                guard let s = samples?.first as? HKQuantitySample else { return c.resume(returning: nil) }
+                c.resume(returning: (s.quantity.doubleValue(for: .gramUnit(with: .kilo)), s.endDate))
+            }
+            store.execute(q)
+        }
+    }
+
     private static func configuration(_ type: HealthActivity) -> HKWorkoutConfiguration {
         let c = HKWorkoutConfiguration()
         c.activityType = switch type {

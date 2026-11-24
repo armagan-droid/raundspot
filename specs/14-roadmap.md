@@ -92,7 +92,7 @@ Bu proje salon reposundan bağımsızdır; salon reposuna hiçbir görevde yazı
   - *Yapıldı: `SoloHealth` `HealthWorkout` (blok başına etkinlik ve net enerji örneği, ana tür en uzun blok, 3 dk'dan kısa iptal atılır, kilo yoksa enerji örneği yok; AC-8.2 ve AC-8.5 sahte depoyla testli). `LiveHealthStore` (`HKWorkoutSession` ve canlı builder, builder'ın enerji toplaması kapalı, kapalı alan) derleniyor.*
   - *Uygulamaya bağlandı (2026-11-25): HealthKit yetkisi (`GymSpotSolo.entitlements`), izin metinleri TR/EN, O6 ve Ayarlar'da izin. Antrenman boyunca enerji zaman çizelgesi tutulur; blok bitince o bloğun etkinliği ve net kalorisi yazılır. Y1'de "≈ … kcal (tahmin)" ve yöntem gösterilir. İzin yoksa hiçbir akış kesilmez. Test: `HealthFlowTests` (sahte depo).*
   - *Kalan:*
-    - *HealthKit'ten kilo okuma (şimdilik profil kilosu kullanılıyor);*
+    - *~~HealthKit'ten kilo okuma~~ (2026-11-25: liste açılınca son `bodyMass` okunur, 90 günden yeniyse profilden önce gelir, saklanmaz);*
     - *silmede "Sağlık'taki kaydı da sil?" sorusu;*
     - *oturum türünün en uzun bloğa göre seçilmesi (oturum türü başta sabitlenir; antrenman planından önceden hesaplanmalı);*
     - *cihaz testi (AC-8.4) ve AC-8.6.*
