@@ -34,3 +34,31 @@ public struct FrameRateMeter: Sendable, Equatable {
         return Double(times.count - 1) / ((last - first) / 1000)
     }
 }
+
+/// The time source the app runs on (specs/02 "Saat tabanı", AC-2.2): the host
+/// clock live, a manual clock in tests and the Debug fake camera.
+public protocol SoloClock: AnyObject, Sendable {
+    /// Host time, ms.
+    var nowMs: Double { get }
+}
+
+public final class LiveClock: SoloClock {
+    public static let shared = LiveClock()
+    public init() {}
+    public var nowMs: Double { HostClock.nowMs }
+}
+
+/// A clock that moves only when told to.
+public final class ManualClock: SoloClock, @unchecked Sendable {
+    private let lock = NSLock()
+    private var t: Double
+
+    public init(startMs: Double = 1_000_000) { t = startMs }
+
+    public var nowMs: Double { lock.withLock { t } }
+
+    public func advance(byMs ms: Double) {
+        precondition(ms >= 0, "time does not go back")
+        lock.withLock { t += ms }
+    }
+}

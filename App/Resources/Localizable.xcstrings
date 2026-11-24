@@ -121,6 +121,74 @@
         }
       }
     },
+    "debug.fake_camera.off": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use the camera again"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeniden kamerayı kullan"
+          }
+        }
+      }
+    },
+    "debug.fake_camera.on %@ %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fake camera: %1$@, %2$lld frames, looping"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sahte kamera: %1$@, %2$lld kare, döngüde"
+          }
+        }
+      }
+    },
+    "debug.fake_camera.pick": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fake camera: choose a landmark sequence"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sahte kamera: landmark dizisi seç"
+          }
+        }
+      }
+    },
+    "debug.section": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Debug"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hata ayıklama"
+          }
+        }
+      }
+    },
     "demo.accessibility": {
       "extractionState": "manual",
       "localizations": {
