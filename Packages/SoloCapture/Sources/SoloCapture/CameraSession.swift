@@ -116,6 +116,16 @@ public final class CameraSession: NSObject, @unchecked Sendable {
         }
     }
 
+    /// Degraded operation (specs/02): a lower frame rate, e.g. 24 when the phone runs hot.
+    public func setFrameRate(_ fps: Int32) {
+        queue.async { [device] in
+            guard let device, (try? device.lockForConfiguration()) != nil else { return }
+            device.activeVideoMinFrameDuration = CMTime(value: 1, timescale: fps)
+            device.activeVideoMaxFrameDuration = CMTime(value: 1, timescale: fps)
+            device.unlockForConfiguration()
+        }
+    }
+
     public func start() { queue.async { [session] in session.startRunning() } }
     public func stop() { queue.async { [session] in session.stopRunning() } }
 }

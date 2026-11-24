@@ -34,6 +34,9 @@ import UIKit
     private(set) var metricRows: [(String, Double)] = []
     private(set) var setupView: View = .ambiguous
     private(set) var candidateCount = 0
+    private(set) var thermal: ProcessInfo.ThermalState = .nominal
+    /// Degradation steps taken (specs/02 "Kademeli çalışma"); also in the session record.
+    private(set) var degradations: [String] = []
     private(set) var guide: HeadGuide?
     private(set) var targetLine: TargetLineGuide?
 
@@ -580,10 +583,36 @@ import UIKit
         return (session.s.attempts, c ?? SessionMachine.defaultReflexCues)
     }
 
+    // MARK: - Degraded operation (specs/02, AC-2.6; specs/12 E4)
+
+    /// `serious`: 24 fps, nothing shown to the user, the workout goes on. `critical`: also a short break (E4).
+    func thermalChanged(_ state: ProcessInfo.ThermalState) {
+        thermal = state
+        guard state == .serious || state == .critical else { return }
+        if !degradations.contains("fps24") {
+            degradations.append("fps24")
+            source.limitFrameRate(24)
+            recorder?.noteDegradation("fps24")
+        }
+        if state == .critical, !session.state.isTerminal, session.state != .paused, session.state != .idle {
+            send(.user(.pause))
+            // after the pause's own prompt, so the reason stays on screen
+            showBand(String(localized: "thermal.critical"), warning: true, sticky: true)
+            speech.say(String(localized: "thermal.critical"))
+        }
+    }
+
     // MARK: - Interruptions (specs/06 INTERRUPTED, E2)
 
     private func observeInterruptions() {
         let nc = NotificationCenter.default
+        observers.append(nc.addObserver(forName: ProcessInfo.thermalStateDidChangeNotification, object: nil, queue: .main) { [weak self] _ in
+            let state = ProcessInfo.processInfo.thermalState
+            MainActor.assumeIsolated { self?.thermalChanged(state) }
+        })
+        if ProcessInfo.processInfo.thermalState.rawValue >= ProcessInfo.ThermalState.serious.rawValue {
+            thermalChanged(ProcessInfo.processInfo.thermalState)
+        }
         if let session = source.captureSession {
             observers.append(nc.addObserver(forName: AVCaptureSession.wasInterruptedNotification, object: session, queue: .main) {
                 [weak self] _ in MainActor.assumeIsolated { self?.send(.interrupted(.camera)) }
