@@ -655,7 +655,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Has a doctor said you have a heart condition and should exercise only with medical advice?"
+            "value": "Has a doctor said you have a heart problem and should exercise only with medical advice?"
           }
         },
         "tr": {
@@ -2468,7 +2468,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Diagnostics: tap the counter five times during a workout."
+            "value": "Developer panel: tap the counter five times during a workout."
           }
         },
         "tr": {

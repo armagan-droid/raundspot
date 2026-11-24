@@ -11,7 +11,7 @@ Postür ekranlarında, seslerinde ve mağaza metninde:
 | "observation", "alignment", "difference", "tendency", "we added … to your plan" | "diagnosis", "disorder", "condition", "scoliosis", "kyphosis", "lordosis", "text neck", "treat", "cure", "fix", "corrects", "heals", "relieves pain", "abnormal" |
 
 - Her sonuç ekranında: "Bu bir sağlık değerlendirmesi değildir. Ağrın, uyuşman ya da hareket kısıtlılığın varsa bir sağlık profesyoneline danış."
-- Yasaklı ifade listesi String Catalog'a karşı otomatik test edilir (TR ve EN, büyük/küçük harf ve çekim ekleri dahil kök eşleşmesi).
+- Yasaklı ifade listesi String Catalog'a karşı otomatik test edilir (TR ve EN, büyük/küçük harf ve çekim ekleri dahil kök eşleşmesi). Kural 6 gereği test tüm katalogda çalışır (`ForbiddenPhraseTests`). Kökle başlayıp yasaklı kelime olmayan tek istisna "Conditioning"dir: ürünün antrenman türüdür (kondisyon), tıbbi "condition" değildir.
 
 ## Ölçüm protokolü
 1. **Hazırlık ekranı:** dar ya da vücuda oturan kıyafet, saç toplu, ayakkabısız, 2–3 m mesafe, düz zemin, telefon bel hizasında ve dik. Bunlar kullanıcı onayıdır; kamera yalnız mesafe ve tüm vücudun göründüğünü denetler.

@@ -101,6 +101,7 @@ Bu proje salon reposundan bağımsızdır; salon reposuna hiçbir görevde yazı
   - *`PrivacyTests`: bir antrenman boyunca `URLProtocol` sayacı 0, bildirim paket içinde.*
   - *AC-10.1'in "Release UI test akışları" kısmı UI test hedefi gelince (T7.4) aynı sayaçla genişletilir.*
 - [ ] T7.4 TR/EN gözden geçirme, erişilebilirlik — 12 (AC-12.5, AC-12.6)
+- Durum (2026-11-25, T7.4 kısmı): kural 6'nın yasaklı ifade testi tüm String Catalog'da (TR/EN, kök eşleşmesi; `ForbiddenPhraseTests`). İki metin değişti ("heart condition" → "heart problem", "Diagnostics" → "Developer panel"). Kalan: metinlerin insan gözüyle gözden geçirilmesi, VoiceOver ile O1–O7, O9 ve A akışları (AC-12.6), koyu/açık tema kontrolü.
 - [ ] T7.5 TestFlight dağıtımı, pilot (hafta 0 kalibrasyon kayıtları → eşik taraması → şablon ve katalog güncellemesi) — 13, 11 (AC-11.6)
 - [ ] T7.6 Pilot değerlendirmesi, geri bildirim listesi, v1.0 kapsam güncellemesi — 13
 
