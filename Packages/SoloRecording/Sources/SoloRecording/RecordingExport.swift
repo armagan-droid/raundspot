@@ -35,8 +35,10 @@ public enum RecordingExport {
         guard frames.count > 1 else { throw ExportError.empty }
         let fps = Double(frames.count - 1) / ((frames.last!.t - frames.first!.t) / 1000)
         let exercise = meta.templates.keys.sorted().first ?? "free"
+        // the labels of the notes, when every attempt has one (specs/09)
+        let labels = RecordingNotes.labels(RecordingNotes.load(dir), attempts: RecordingNotes.attempts(package: dir, template: exercise))
         var seq = LandmarkSequence(formatVersion: 2, skeleton: .vision19, exerciseId: exercise, source: .team,
-                                   view: meta.mode == "side" ? .side : .front, fps: (fps * 100).rounded() / 100, labels: nil,
+                                   view: meta.mode == "side" ? .side : .front, fps: (fps * 100).rounded() / 100, labels: labels,
                                    frames: frames, hasWorld: false, imageAspect: aspect)
         seq.meta = ExportMeta(recordingId: meta.recordingId.uuidString, participant: meta.participant, consentVersion: consentVersion,
                               device: meta.device, osVersion: meta.osVersion, appVersion: meta.appVersion,

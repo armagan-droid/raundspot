@@ -1701,6 +1701,222 @@
         }
       }
     },
+    "rec.export": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dışa aktar"
+          }
+        }
+      }
+    },
+    "rec.export.make": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export landmarks"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklem verisini dışa aktar"
+          }
+        }
+      }
+    },
+    "rec.export.note": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Only joint coordinates leave the phone; the video never does."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telefondan yalnız eklem koordinatları çıkar; video asla çıkmaz."
+          }
+        }
+      }
+    },
+    "rec.export.share": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share the landmark file"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eklem dosyasını paylaş"
+          }
+        }
+      }
+    },
+    "rec.note.add": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add note here"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buraya not ekle"
+          }
+        }
+      }
+    },
+    "rec.note.author": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Written by"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yazan"
+          }
+        }
+      }
+    },
+    "rec.note.coach": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coach"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hoca"
+          }
+        }
+      }
+    },
+    "rec.note.developer": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Developer"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geliştirici"
+          }
+        }
+      }
+    },
+    "rec.note.no_label": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No label"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etiket yok"
+          }
+        }
+      }
+    },
+    "rec.note.outcome": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Label"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etiket"
+          }
+        }
+      }
+    },
+    "rec.note.text": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Note"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not"
+          }
+        }
+      }
+    },
+    "rec.notes": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notes"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notlar"
+          }
+        }
+      }
+    },
     "rec.participant": {
       "comment": "Recording mode, Beta only (specs/09).",
       "extractionState": "manual",
@@ -1755,6 +1971,114 @@
         }
       }
     },
+    "rec.play.frame_back": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "One frame back"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir kare geri"
+          }
+        }
+      }
+    },
+    "rec.play.frame_forward": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "One frame forward"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir kare ileri"
+          }
+        }
+      }
+    },
+    "rec.play.next_marker": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next marker"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sonraki işaret"
+          }
+        }
+      }
+    },
+    "rec.play.play_pause": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Play or pause"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oynat ya da durdur"
+          }
+        }
+      }
+    },
+    "rec.play.previous_marker": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous marker"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önceki işaret"
+          }
+        }
+      }
+    },
+    "rec.play.speed": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Speed"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hız"
+          }
+        }
+      }
+    },
     "rec.recordings": {
       "comment": "Recording mode, Beta only (specs/09).",
       "extractionState": "manual",
@@ -1769,6 +2093,114 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kayıtlar"
+          }
+        }
+      }
+    },
+    "rec.replay": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Replay with new thresholds"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeni eşiklerle yeniden oynat"
+          }
+        }
+      }
+    },
+    "rec.replay.copy": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kopyala"
+          }
+        }
+      }
+    },
+    "rec.replay.path": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parameter, e.g. rep.target.enter"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parametre, örn. rep.target.enter"
+          }
+        }
+      }
+    },
+    "rec.replay.run": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çalıştır"
+          }
+        }
+      }
+    },
+    "rec.replay.unavailable": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This recording cannot be replayed."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu kayıt yeniden oynatılamıyor."
+          }
+        }
+      }
+    },
+    "rec.replay.values": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Values, e.g. 0.26, 0.28, 0.30"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Değerler, örn. 0.26, 0.28, 0.30"
           }
         }
       }
