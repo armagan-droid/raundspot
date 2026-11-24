@@ -3,6 +3,7 @@ import Foundation
 import Observation
 import SoloCapture
 import SoloEngine
+import SoloHealth
 import UIKit
 
 /// A workout run by the session engine (specs/06 Bölüm 1; specs/12 S2 → S1 →
@@ -58,6 +59,16 @@ import UIKit
 
     private let recorder: SessionRecorder?
     let settings: TrainingSettings
+
+    // energy and Apple Health (specs/08)
+    private let metTable = ExerciseCatalog.metTable()
+    private var energy = EnergyTimeline()
+    private var energyKind: String?
+    /// The block being timed: its index, its first segment and when it started (host ms).
+    private var energyBlock: (index: Int, firstSegment: Int, at: Double)?
+    private let health: HealthWorkout?
+    /// The session's net kcal estimate (Y1), nil without a weight.
+    private(set) var sessionKcal: Double?
     private var activeSince: Double?
     private var activeMs = 0.0
     private var lastDurationMs: Double?
@@ -91,8 +102,9 @@ import UIKit
     init(workout: Workout, packs: [String: LoadedRulePack], recorder: SessionRecorder? = nil,
          source: FrameSource = CameraFrameSource(), clock: SoloClock = LiveClock.shared,
          reflexCatalog: ReflexCatalog? = ExerciseCatalog.reflexCatalog(), stance: Stance = .orthodox, reflexLevel: Int = 1,
-         settings: TrainingSettings = TrainingSettings()) {
+         settings: TrainingSettings = TrainingSettings(), health: HealthStore? = nil) {
         self.settings = settings
+        self.health = health.map { HealthWorkout(store: $0, sport: workout.sport) }
         let usable = reflexCatalog?.isUsable(release: ExerciseCatalog.isReleaseBuild) ?? false
         self.workout = Self.resolveReflexBlocks(workout, catalog: reflexCatalog, chosen: reflexLevel)
         var packs = packs
@@ -124,13 +136,13 @@ import UIKit
     /// One template from the list: one set of 10 (specs/12 H2).
     convenience init(single loaded: LoadedRulePack, recorder: SessionRecorder? = nil,
                      source: FrameSource = CameraFrameSource(), clock: SoloClock = LiveClock.shared,
-                     settings: TrainingSettings = TrainingSettings()) {
+                     settings: TrainingSettings = TrainingSettings(), health: HealthStore? = nil) {
         let id = loaded.pack.id
         let block: Block = ExerciseCatalog.eskivIds.contains(id)
             ? .technique(exerciseId: id, sets: 1, reps: 10, restSec: 0, mode: .lenient)
             : .conditioning(exerciseId: id, sets: 1, reps: 10, durationSec: nil, restSec: 0, mode: .lenient)
         self.init(workout: Workout(id: "single_\(id)", name: loaded.pack.name, estimatedMinutes: 3, blocks: [block]),
-                  packs: [id: loaded], recorder: recorder, source: source, clock: clock, settings: settings)
+                  packs: [id: loaded], recorder: recorder, source: source, clock: clock, settings: settings, health: health)
     }
 
     /// Reflex blocks with a fixed level and cue count before the session starts: the machine and the set
@@ -311,6 +323,7 @@ import UIKit
             bandUntil = 0
         }
         reflexTransition(from: before)
+        energyTransition(from: before)
         if s.state.isTerminal, screen == .live {
             screen = .finished
             ticker?.cancel()
@@ -593,6 +606,64 @@ import UIKit
         return (session.s.attempts, c ?? SessionMachine.defaultReflexCues)
     }
 
+    // MARK: - Energy and Apple Health (specs/08)
+
+    /// The timeline kind of a session state: warm-up, cool-down, the block's kind in a set, rest between.
+    private func energyKind(_ s: SessionSnapshot) -> String? {
+        switch s.state {
+        case .warmup: "warmup"
+        case .cooldown: "cooldown"
+        case .active, .confirm: workout.blocks[safe: s.blockIndex].map { $0.kind == "guided" ? "cooldown" : $0.kind }
+        case .ready, .countdown, .rest: "rest"
+        default: nil
+        }
+    }
+
+    private func date(_ ms: Double) -> Date { Date().addingTimeInterval((ms - clock.nowMs) / 1000) }
+
+    private func energyTransition(from before: SessionSnapshot) {
+        let s = session.s
+        let t = clock.nowMs
+        // the workout starts with the first block (setup time is not part of it)
+        if before.state == .setup || before.state == .idle, s.state != .setup, s.state != .idle, !s.state.isTerminal {
+            health?.begin(at: date(t))
+        }
+        if s.state == .paused, before.state != .paused {
+            energy.pause(at: t)
+            health?.pause(at: date(t))
+        } else if before.state == .paused, s.state != .paused, !s.state.isTerminal {
+            energy.resume(at: t)
+            health?.resume(at: date(t))
+        }
+        // a block ended: its kcal and its activity
+        if let b = energyBlock, b.index != s.blockIndex || s.state.isTerminal {
+            closeEnergyBlock(b, at: t)
+            energyBlock = nil
+        }
+        if energyBlock == nil, !s.state.isTerminal, energyKind(s) != nil {
+            energyBlock = (s.blockIndex, energy.segments.count, t)
+        }
+        let kind = s.state == .paused ? energyKind : energyKind(s)
+        if s.state != .paused, kind != energyKind {
+            if let kind { energy.enter(kind, at: t) } else { energy.finish(at: t) }
+            energyKind = kind
+        }
+        if s.state.isTerminal {
+            energy.finish(at: t)
+            if let table = metTable { sessionKcal = (try? Energy.netKcal(energy.segments, weightKg: settings.weightKg, table: table)) ?? nil }
+            health?.finish(at: date(t), aborted: s.state == .aborted, activeMs: Int(currentActiveMs))
+        }
+    }
+
+    private func closeEnergyBlock(_ b: (index: Int, firstSegment: Int, at: Double), at t: Double) {
+        var line = energy
+        line.finish(at: t)  // a copy: the segments up to now
+        let segs = Array(line.segments.dropFirst(b.firstSegment))
+        let kcal = metTable.flatMap { (try? Energy.netKcal(segs, weightKg: settings.weightKg, table: $0)) ?? nil }
+        let kind = workout.blocks[safe: b.index]?.kind ?? "technique"
+        health?.block(kind, start: date(b.at), end: date(t), kcal: kcal)
+    }
+
     // MARK: - Degraded operation (specs/02, AC-2.6; specs/12 E4)
 
     /// `serious`: 24 fps, nothing shown to the user, the workout goes on. `critical`: also a short break (E4).
@@ -658,16 +729,19 @@ struct TrainingSettings {
     var resultTones = true
     var faultCueVoice = true
     var backCamera = false
+    /// For the calorie estimate (specs/08 "Kilo"): the profile's; HealthKit's comes with T6.2's reading.
+    var weightKg: Double?
 
-    init(slowTempo: Bool = true, resultTones: Bool = true, faultCueVoice: Bool = true, backCamera: Bool = false) {
+    init(slowTempo: Bool = true, resultTones: Bool = true, faultCueVoice: Bool = true, backCamera: Bool = false, weightKg: Double? = nil) {
         self.slowTempo = slowTempo
         self.resultTones = resultTones
         self.faultCueVoice = faultCueVoice
         self.backCamera = backCamera
+        self.weightKg = weightKg
     }
 
     init(_ p: Profile?) {
         self.init(slowTempo: (p?.techniqueTempo ?? "slow") == "slow", resultTones: p?.resultTones ?? true,
-                  faultCueVoice: p?.faultCueVoice ?? true, backCamera: p?.camera == "back")
+                  faultCueVoice: p?.faultCueVoice ?? true, backCamera: p?.camera == "back", weightKg: p?.weightKg)
     }
 }

@@ -1,5 +1,6 @@
 import SoloCapture
 import SoloEngine
+import SoloHealth
 import SwiftData
 import SwiftUI
 import UniformTypeIdentifiers
@@ -47,7 +48,8 @@ struct RootView: SwiftUI.View {
                 Section("list.single") {
                     ForEach(packs, id: \.pack.id) { loaded in
                         Button {
-                            running = Running(model: TrainingModel(single: loaded, recorder: recorder(for: nil), source: frameSource(), settings: TrainingSettings(profiles.first)))
+                            running = Running(model: TrainingModel(single: loaded, recorder: recorder(for: nil), source: frameSource(), settings: TrainingSettings(profiles.first),
+                                                                           health: healthStore()))
                         } label: { row(loaded) }
                             .foregroundStyle(.primary)
                     }
@@ -140,7 +142,7 @@ struct RootView: SwiftUI.View {
     private func start(_ w: Workout, packs: [String: LoadedRulePack], level: Int) {
         running = Running(model: TrainingModel(workout: w, packs: packs, recorder: recorder(for: w), source: frameSource(),
                                                reflexCatalog: reflexCatalog, stance: stance, reflexLevel: level,
-                                               settings: TrainingSettings(profiles.first)))
+                                               settings: TrainingSettings(profiles.first), health: healthStore()))
     }
 
     /// The picked level becomes the next suggestion (specs/11 `Profile.reflexLevel`).
@@ -153,6 +155,9 @@ struct RootView: SwiftUI.View {
         p.reflexLevel = level
         try? context.save()
     }
+
+    /// Apple Health when the user allowed workouts (specs/08); nil otherwise, and nothing stops.
+    private func healthStore() -> HealthStore? { LiveHealthStore.canWriteWorkouts ? LiveHealthStore() : nil }
 
     /// The camera, or in Debug the chosen sequence file replayed on the host clock.
     private func frameSource() -> FrameSource {

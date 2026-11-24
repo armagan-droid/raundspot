@@ -1,3 +1,4 @@
+import SoloHealth
 import SwiftData
 import SwiftUI
 
@@ -92,7 +93,10 @@ struct SettingsView: SwiftUI.View {
             }
         }
         Section("settings.health") {
-            Text("settings.health.later").font(.callout)
+            Text(LiveHealthStore.canWriteWorkouts ? "settings.health.on" : "settings.health.off").font(.callout)
+            Button("onboarding.healthkit.allow") { Task { _ = await LiveHealthStore().requestAuthorization() } }
+                .disabled(!LiveHealthStore.isAvailable)
+            Button("settings.health.system") { if let url = URL(string: "x-apple-health://") { openURL(url) } }
         }
     }
 
