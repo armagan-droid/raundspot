@@ -40,7 +40,7 @@ Bu proje salon reposundan bağımsızdır; salon reposuna hiçbir görevde yazı
   - *Veri: `exercises/reflex/muay_thai.json` (`draft`, 6 seviye, H1 doğrulanmadığı için `high_kick` yok). Uygulama paketine kopyalanır. Saldırı anahtarları TR/EN String Catalog'da.*
   - *Doğrulama: `solo-calibrate validate` katalogları, `comboGapMs` kuralını ve antrenmanlardaki `catalogId`'yi denetler.*
   - *AC-5.8'in ekran kısmı (TestFlight'ta "taslak eşleme" ibaresi) T4.4'te gelir.*
-- [ ] T4.2 Deneme döngüsü, sınıflandırma, tepki süresi (ham metrik interpolasyonu), kombinasyon, aldatma, seviye önerisi — 05 (AC-5.1, AC-5.2, AC-5.4, AC-5.5)
+- [x] T4.2 Deneme döngüsü, sınıflandırma, tepki süresi (ham metrik interpolasyonu), kombinasyon, aldatma, seviye önerisi — 05 (AC-5.1, AC-5.2, AC-5.4, AC-5.5) *Durum (2026-11-24): `SoloEngine/Reflex/ReflexSet` (deneme döngüsü, `classifyReflexTrial`, `ReflexSetSummary`, `ReflexLevelAdvice`, tohumlu `ReflexRandom`); motora ham eşik geçişi (`rawConfirmCrossing`), dönüş ilerlemesi ve hazır duruş süresi eklendi. Uygulama ayrıntıları 05'te. Sentetik boksörle testler: RT bir kare içinde, aynı tohum aynı set. Ses önceliği ve sonuç tonları T4.3'te.*
 - [ ] T4.3 Refleks geri bildirimi ve ses önceliği (konuşma–işaret çakışmaması) — 05 (AC-5.7)
 - [ ] T4.4 Ekranlar R1–R3, H3; "Hızlı karma" antrenmanı ve seçim gösterimi (06) — 12 (AC-12.1, AC-12.2 R2 kısmı; AC-12.7 R2 kısmı), 06
 - [ ] T4.5 Cihazda RT doğrulaması (ağır çekim yöntemi) — 05 (AC-5.9)

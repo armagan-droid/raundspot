@@ -68,6 +68,15 @@ public struct RepCounter: Sendable {
     /// Frame where the current attempt left the start zone, while in a rep.
     public var attemptStart: Snapshot? { state == .inRep ? start : nil }
 
+    /// The metric value at which an attempt is confirmed (`REP_STARTED`): `start.exit` moved by `attemptMinExcursion`.
+    public var confirmThreshold: Double { confirmAt / sign }
+
+    /// Whether a metric value is at or beyond the confirmation threshold.
+    public func isBeyondConfirm(_ v: Double) -> Bool { sign * v <= confirmAt }
+
+    /// How far a value went toward the target: 0 at `start.exit`, 1 at `target.enter` (specs/05 tie-break).
+    public func progress(_ v: Double) -> Double { (v - rep.start.exit) / (rep.target.enter - rep.start.exit) }
+
     public mutating func reset() {
         state = .waiting
         start = nil
