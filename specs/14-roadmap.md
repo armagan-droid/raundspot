@@ -70,7 +70,11 @@ Bu proje salon reposundan bağımsızdır; salon reposuna hiçbir görevde yazı
 ## Faz 7 — MVP tamamlama ve pilot
 - [ ] T7.1 İlk açılış O1–O7, O9; Ayarlar; dışa aktarma ve silme — 12, 10 (AC-10.3, AC-10.4, AC-10.6, AC-10.7)
 - [ ] T7.2 İlerleme G1–G3 — 12
-- [ ] T7.3 Gizlilik: ağ isteği testi, bağımlılık listesi, `PrivacyInfo.xcprivacy` — 10 (AC-10.1, AC-10.2, AC-10.5)
+- [x] T7.3 Gizlilik: ağ isteği testi, bağımlılık listesi, `PrivacyInfo.xcprivacy` — 10 (AC-10.1, AC-10.2, AC-10.5) *Durum (2026-11-24):*
+  - *`App/Resources/PrivacyInfo.xcprivacy`: izleme yok, toplanan veri yok, `SystemBootTime` (35F9.1, `HostClock`).*
+  - *`scripts/ci/check-privacy.sh` (Linux CI) gerekçe isteyen API'leri bildirime karşı tarar; uzak paket ve ağ API'si kullanılırsa kırılır.*
+  - *`PrivacyTests`: bir antrenman boyunca `URLProtocol` sayacı 0, bildirim paket içinde.*
+  - *AC-10.1'in "Release UI test akışları" kısmı UI test hedefi gelince (T7.4) aynı sayaçla genişletilir.*
 - [ ] T7.4 TR/EN gözden geçirme, erişilebilirlik — 12 (AC-12.5, AC-12.6)
 - [ ] T7.5 TestFlight dağıtımı, pilot (hafta 0 kalibrasyon kayıtları → eşik taraması → şablon ve katalog güncellemesi) — 13, 11 (AC-11.6)
 - [ ] T7.6 Pilot değerlendirmesi, geri bildirim listesi, v1.0 kapsam güncellemesi — 13

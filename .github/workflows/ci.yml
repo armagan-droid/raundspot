@@ -22,6 +22,8 @@ jobs:
         run: cd exercises/source && sha256sum -c SHA256SUMS
       - name: Source golden unchanged (AC-3.7)
         run: scripts/ci/check-source-golden.sh
+      - name: Privacy manifest, dependencies, no networking (AC-10.1, AC-10.2, AC-10.5)
+        run: scripts/ci/check-privacy.sh
       - name: SoloEngine tests (AC-2.1)
         run: swift test --package-path Packages/SoloEngine
       - name: SoloCalibrate tests
