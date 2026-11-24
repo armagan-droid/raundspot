@@ -47,7 +47,7 @@ struct RootView: SwiftUI.View {
                 Section("list.single") {
                     ForEach(packs, id: \.pack.id) { loaded in
                         Button {
-                            running = Running(model: TrainingModel(single: loaded, recorder: recorder(for: nil), source: frameSource()))
+                            running = Running(model: TrainingModel(single: loaded, recorder: recorder(for: nil), source: frameSource(), settings: TrainingSettings(profiles.first)))
                         } label: { row(loaded) }
                             .foregroundStyle(.primary)
                     }
@@ -139,7 +139,8 @@ struct RootView: SwiftUI.View {
 
     private func start(_ w: Workout, packs: [String: LoadedRulePack], level: Int) {
         running = Running(model: TrainingModel(workout: w, packs: packs, recorder: recorder(for: w), source: frameSource(),
-                                               reflexCatalog: reflexCatalog, stance: stance, reflexLevel: level))
+                                               reflexCatalog: reflexCatalog, stance: stance, reflexLevel: level,
+                                               settings: TrainingSettings(profiles.first)))
     }
 
     /// The picked level becomes the next suggestion (specs/11 `Profile.reflexLevel`).
@@ -156,7 +157,7 @@ struct RootView: SwiftUI.View {
     /// The camera, or in Debug the chosen sequence file replayed on the host clock.
     private func frameSource() -> FrameSource {
         if let seq = fakeSequence { return SequenceFrameSource(sequence: seq, clock: LiveClock.shared, autoPump: true) }
-        return CameraFrameSource()
+        return CameraFrameSource(position: profiles.first?.camera == "back" ? .back : .front)
     }
 
     /// Writes the workout's records to the store (specs/11).

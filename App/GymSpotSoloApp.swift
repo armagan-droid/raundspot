@@ -21,7 +21,7 @@ struct GymSpotSoloApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootView()
+            AppRoot()
         }
         .modelContainer(store)
     }
