@@ -13,6 +13,11 @@ public final class LiveHealthStore: HealthStore, @unchecked Sendable {
 
     public static var isAvailable: Bool { HKHealthStore.isHealthDataAvailable() }
 
+    /// Workouts can be written (the user allowed it); without it the app runs as before (specs/08 "İzinler").
+    public static var canWriteWorkouts: Bool {
+        isAvailable && HKHealthStore().authorizationStatus(for: HKObjectType.workoutType()) == .sharingAuthorized
+    }
+
     /// Write: workouts, active energy, heart rate. Read: body mass, heart rate, date of birth, sex (specs/08 "İzinler").
     public func requestAuthorization() async -> Bool {
         let write: Set<HKSampleType> = [HKObjectType.workoutType(), HKQuantityType(.activeEnergyBurned), HKQuantityType(.heartRate)]

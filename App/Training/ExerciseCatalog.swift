@@ -47,6 +47,13 @@ enum ExerciseCatalog {
         return try? ReflexCatalog.parse(json).get()
     }
 
+    /// The MET table (specs/08), nil if missing.
+    static func metTable() -> METTable? {
+        guard let url = Bundle.main.url(forResource: "met", withExtension: "json", subdirectory: "exercises/energy"),
+              let json = try? JSONValue.parse(contentsOf: url) else { return nil }
+        return try? METTable.parse(json)
+    }
+
     /// AC-5.8: TestFlight and development builds run a draft catalog (labelled); the App Store build only an approved one.
     static var isReleaseBuild: Bool {
         #if DEBUG || BETA

@@ -18,6 +18,40 @@
           }
         }
       }
+    },
+    "NSHealthShareUsageDescription": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your weight, heart rate, age and sex improve the calorie estimate. They are read on the phone and not stored."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kilon, nabzın, yaşın ve cinsiyetin kalori tahminini iyileştirir. Telefonda okunur ve saklanmaz."
+          }
+        }
+      }
+    },
+    "NSHealthUpdateUsageDescription": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your workouts and their estimated active energy are saved to Apple Health."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antrenmanların ve tahmini aktif enerjileri Apple Sağlık'a kaydedilir."
+          }
+        }
+      }
     }
   }
 }

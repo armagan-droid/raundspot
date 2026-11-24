@@ -1,5 +1,6 @@
 import AVFoundation
 import SoloCapture
+import SoloHealth
 import SwiftData
 import SwiftUI
 
@@ -87,6 +88,11 @@ struct OnboardingView: SwiftUI.View {
         case .health:
             Text("onboarding.healthkit.title").font(.title.bold())
             Text("onboarding.healthkit.body").font(.callout)
+            Button("onboarding.healthkit.allow") {
+                Task { _ = await LiveHealthStore().requestAuthorization() }
+            }
+            .buttonStyle(.borderedProminent)
+            .disabled(!LiveHealthStore.isAvailable)
             Text("onboarding.healthkit.later").font(.caption).foregroundStyle(.secondary)
         case .camera:
             Text("onboarding.camera.title").font(.title.bold())

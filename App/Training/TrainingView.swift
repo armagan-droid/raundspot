@@ -379,6 +379,13 @@ struct TrainingView: SwiftUI.View {
             Text("\(valid)").font(.system(size: 96, weight: .bold, design: .rounded))
             Text("training.summary \(valid) \(faulty)").font(.headline)
             Text("training.finished.sets \(sets.count)").font(.callout)
+            // specs/08 "Gösterim": always an estimate, with its method
+            if let kcal = model.sessionKcal {
+                Text("energy.estimate \(Energy.display(kcal))").font(.title3.bold())
+                Text("energy.method.met").font(.caption).foregroundStyle(.secondary)
+            } else {
+                Text("energy.no_weight").font(.caption).foregroundStyle(.secondary)
+            }
             Button("training.close") { dismiss() }.buttonStyle(.borderedProminent).frame(minHeight: 44)
         }
         .padding()

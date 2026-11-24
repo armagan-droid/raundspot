@@ -275,6 +275,60 @@
         }
       }
     },
+    "energy.estimate %lld": {
+      "comment": "specs/08 Gösterim",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "≈ %lld kcal (estimate)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "≈ %lld kcal (tahmin)"
+          }
+        }
+      }
+    },
+    "energy.method.met": {
+      "comment": "specs/08 Gösterim",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Estimate: movement type and duration"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tahmin: hareket türü ve süre"
+          }
+        }
+      }
+    },
+    "energy.no_weight": {
+      "comment": "specs/08 Gösterim",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter your weight to see a calorie estimate."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kilonu girersen kalori tahmini görürsün."
+          }
+        }
+      }
+    },
     "goal.balanced": {
       "extractionState": "manual",
       "localizations": {
@@ -713,6 +767,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Üç kısa soru (yanıtlar saklanmaz)"
+          }
+        }
+      }
+    },
+    "onboarding.healthkit.allow": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow Apple Health"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Sağlık'a izin ver"
           }
         }
       }
@@ -2547,19 +2618,53 @@
         }
       }
     },
-    "settings.health.later": {
+    "settings.health.off": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Apple Health comes in a later version."
+            "value": "Workouts are not saved to Apple Health."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Apple Sağlık sonraki bir sürümde gelecek."
+            "value": "Antrenmanlar Apple Sağlık'a kaydedilmiyor."
+          }
+        }
+      }
+    },
+    "settings.health.on": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Workouts are saved to Apple Health."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Antrenmanlar Apple Sağlık'a kaydediliyor."
+          }
+        }
+      }
+    },
+    "settings.health.system": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Health"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sağlık'ı aç"
           }
         }
       }

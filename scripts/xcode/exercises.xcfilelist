@@ -33,3 +33,5 @@ $(SRCROOT)/exercises/workouts/kondisyon.json
 $(SRCROOT)/exercises/workouts/refleks.json
 $(SRCROOT)/exercises/reflex/muay_thai.json
 $(SRCROOT)/exercises/workouts/hizli_karma.json
+$(SRCROOT)/exercises/energy/keytel.json
+$(SRCROOT)/exercises/energy/met.json

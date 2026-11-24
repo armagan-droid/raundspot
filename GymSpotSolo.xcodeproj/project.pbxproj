@@ -362,6 +362,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "The camera sees your movement so the app can count and correct it. The image is processed on the phone and never saved or sent.";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Your weight, heart rate, age and sex improve the calorie estimate. They are read on the phone and not stored.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Your workouts and their estimated active energy are saved to Apple Health.";
+				CODE_SIGN_ENTITLEMENTS = GymSpotSolo.entitlements;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
@@ -404,6 +407,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "The camera sees your movement so the app can count and correct it. The image is processed on the phone and never saved or sent.";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Your weight, heart rate, age and sex improve the calorie estimate. They are read on the phone and not stored.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Your workouts and their estimated active energy are saved to Apple Health.";
+				CODE_SIGN_ENTITLEMENTS = GymSpotSolo.entitlements;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
@@ -448,6 +454,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "The camera sees your movement so the app can count and correct it. The image is processed on the phone and never saved or sent.";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Your weight, heart rate, age and sex improve the calorie estimate. They are read on the phone and not stored.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Your workouts and their estimated active energy are saved to Apple Health.";
+				CODE_SIGN_ENTITLEMENTS = GymSpotSolo.entitlements;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
@@ -473,6 +482,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "The camera sees your movement so the app can count and correct it. The image is processed on the phone and never saved or sent.";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Your weight, heart rate, age and sex improve the calorie estimate. They are read on the phone and not stored.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Your workouts and their estimated active energy are saved to Apple Health.";
+				CODE_SIGN_ENTITLEMENTS = GymSpotSolo.entitlements;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
@@ -516,6 +528,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "The camera sees your movement so the app can count and correct it. The image is processed on the phone and never saved or sent.";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Your weight, heart rate, age and sex improve the calorie estimate. They are read on the phone and not stored.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Your workouts and their estimated active energy are saved to Apple Health.";
+				CODE_SIGN_ENTITLEMENTS = GymSpotSolo.entitlements;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
@@ -558,6 +573,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "The camera sees your movement so the app can count and correct it. The image is processed on the phone and never saved or sent.";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Your weight, heart rate, age and sex improve the calorie estimate. They are read on the phone and not stored.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Your workouts and their estimated active energy are saved to Apple Health.";
+				CODE_SIGN_ENTITLEMENTS = GymSpotSolo.entitlements;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
