@@ -62,6 +62,13 @@ Bu proje salon reposundan bağımsızdır; salon reposuna hiçbir görevde yazı
 
 ## Faz 5 — Kayıt modu (Beta)
 - [ ] T5.1 Rıza, katılımcılar, kayıt paketi yazımı (video + poz + motor + uygulama akışları, PTS eşleme), depolama güvenliği — 09 (AC-9.1–AC-9.3, AC-9.7–AC-9.9)
+- Durum (2026-11-25, T5.1 kısmı):
+  - *Yapıldı: `SoloRecording`'de `RecordingLibrary` ve `RecordingWriter`.*
+    - *Katılımcı kodu, rıza (18+ zorunlu, sürümlü), geri çekmede tüm paketlerin silinmesi.*
+    - *Paket: video ses izsiz HEVC ve her karesine aynı PTS'li poz satırı; `engine.jsonl`, `app.jsonl`, `meta.json`.*
+    - *Depolama: yedekten hariç, `NSFileProtectionComplete`; boş alan eşikleri; 11/12 ay saklama.*
+    - *Testler AC-9.2, AC-9.3, AC-9.7 ve AC-9.9'u gerçek `AVAssetWriter` videosuyla kapsar. Koruma sınıfı simülatörde raporlanmadığı için o kısım cihazda denetlenir (AC-9.8).*
+  - *Kalan: Beta arayüzü (Ayarlar → Geliştirici → onaylı açma, X2 katılımcılar, X3 rıza, X4 kırmızı KAYIT bandı), kamera karelerinin, motor ve uygulama satırlarının antrenman sırasında yazıcıya bağlanması, cihazda 10 dakikalık AC-9.3 testi.*
 - [ ] T5.2 Oynatma ekranı ve notlar — 09 (AC-9.4)
 - [ ] T5.3 Yeniden oynatma ve değer taraması — 09 (AC-9.5)
 - [ ] T5.4 Landmark dışa aktarma; örnek dosyanın `solo-calibrate` ile okunması (CI) — 09 (AC-9.6)
