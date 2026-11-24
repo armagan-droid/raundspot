@@ -5,13 +5,13 @@ import SwiftData
 import SwiftUI
 import UniformTypeIdentifiers
 
-/// H1/H2 (specs/12), trial form: ready-made workouts, then single templates.
-/// The tab bar (Antrenman · İlerleme · Ayarlar) arrives with the screen tasks.
+/// H1/H2 (specs/12): today's suggestion, then technique, reflex, conditioning and the ready-made workouts.
 struct RootView: SwiftUI.View {
     private let packs = ExerciseCatalog.load()
     @State private var running: Running?
     @Environment(\.modelContext) private var context
     @Query private var profiles: [Profile]
+    @Query(sort: \StoredSession.startedAt, order: .reverse) private var sessions: [StoredSession]
     /// Debug: the fake camera's landmark sequence (specs/02 "Derleme yapılandırmaları").
     @State private var fakeSequence: LandmarkSequence?
     @State private var pickingSequence = false
@@ -33,28 +33,45 @@ struct RootView: SwiftUI.View {
         let byId = Dictionary(uniqueKeysWithValues: packs.map { ($0.pack.id, $0) })
         NavigationStack {
             List {
-                Section("list.workouts") {
-                    ForEach(ExerciseCatalog.workouts(packs), id: \.id) { w in
-                        Button {
-                            prepare(w, packs: byId)
-                        } label: {
+                let workouts = ExerciseCatalog.workouts(packs)
+                // H1: today's suggestion (MVP: from the last workout), then the four cards (specs/12)
+                if let today = HomeSuggestion.pick(last: sessions.first?.workoutId, workouts: workouts, packs: byId) {
+                    Section("home.today") {
+                        Button { start(today, byId) } label: {
                             VStack(alignment: .leading, spacing: 4) {
-                                Text(Lang.text(w.name)).font(.headline)
-                                Text("list.workout.minutes \(w.estimatedMinutes)").font(.caption).foregroundStyle(.secondary)
+                                Text(today.title).font(.title3.bold())
+                                Text(sessions.isEmpty ? "home.today.first" : "home.today.again").font(.caption).foregroundStyle(.secondary)
                             }
                             .frame(minHeight: 44)
                         }
                         .foregroundStyle(.primary)
                     }
                 }
-                Section("list.single") {
-                    ForEach(packs, id: \.pack.id) { loaded in
-                        Button {
-                            running = Running(model: TrainingModel(single: loaded, recorder: recorder(for: nil), source: frameSource(), settings: trainingSettings,
-                                                                           health: healthStore()))
-                        } label: { row(loaded) }
-                            .foregroundStyle(.primary)
+                Section("home.technique") {
+                    ForEach(packs.filter { ExerciseCatalog.eskivIds.contains($0.pack.id) }, id: \.pack.id) { loaded in
+                        Button { startSingle(loaded) } label: { row(loaded) }.foregroundStyle(.primary)
                     }
+                }
+                if let reflex = workouts.first(where: { $0.id == "refleks" }) {
+                    Section("home.reflex") {
+                        Button { prepare(reflex, packs: byId) } label: {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(Lang.text(reflex.name)).font(.headline)
+                                if let rt = lastReflexMedianMs { Text("home.reflex.last_rt \(rt)").font(.caption).foregroundStyle(.secondary) }
+                            }
+                            .frame(minHeight: 44)
+                        }
+                        .foregroundStyle(.primary)
+                    }
+                }
+                Section("home.conditioning") {
+                    ForEach(workouts.filter { $0.id == "kondisyon" }, id: \.id) { w in workoutRow(w, byId) }
+                    ForEach(packs.filter { !ExerciseCatalog.eskivIds.contains($0.pack.id) }, id: \.pack.id) { loaded in
+                        Button { startSingle(loaded) } label: { row(loaded) }.foregroundStyle(.primary)
+                    }
+                }
+                Section("list.workouts") {
+                    ForEach(workouts, id: \.id) { w in workoutRow(w, byId) }
                 }
                 #if DEBUG
                 Section("debug.section") {
@@ -104,6 +121,40 @@ struct RootView: SwiftUI.View {
                 }
             }
         }
+    }
+
+    private func workoutRow(_ w: Workout, _ byId: [String: LoadedRulePack]) -> some SwiftUI.View {
+        Button { prepare(w, packs: byId) } label: {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(Lang.text(w.name)).font(.headline)
+                Text("list.workout.minutes \(w.estimatedMinutes)").font(.caption).foregroundStyle(.secondary)
+            }
+            .frame(minHeight: 44)
+        }
+        .foregroundStyle(.primary)
+    }
+
+    private func startSingle(_ loaded: LoadedRulePack) {
+        running = Running(model: TrainingModel(single: loaded, recorder: recorder(for: nil), source: frameSource(), settings: trainingSettings,
+                                               health: healthStore()))
+    }
+
+    private func start(_ s: HomeSuggestion, _ byId: [String: LoadedRulePack]) {
+        switch s {
+        case .workout(let w): prepare(w, packs: byId)
+        case .single(let p): startSingle(p)
+        }
+    }
+
+    /// The last reflex set's median reaction time (H1 reflex card).
+    private var lastReflexMedianMs: Int? {
+        for s in sessions {
+            for b in s.blocks where b.kind == "reflex" {
+                let rts = b.sets.flatMap(\.trials).compactMap { $0.reactionMs.map(Double.init) }
+                if let m = ProgressStats.median(rts) { return Int(m.rounded()) }
+            }
+        }
+        return nil
     }
 
     private func row(_ loaded: LoadedRulePack) -> some SwiftUI.View {
@@ -193,3 +244,24 @@ struct RootView: SwiftUI.View {
 }
 
 extension Workout: @retroactive Identifiable {}
+
+/// H1's suggestion in the MVP (specs/12): the last workout again, else "Eskiv temeli" for a first workout.
+enum HomeSuggestion {
+    case workout(Workout)
+    case single(LoadedRulePack)
+
+    var title: String {
+        switch self {
+        case .workout(let w): Lang.text(w.name)
+        case .single(let p): Lang.text(p.pack.name)
+        }
+    }
+
+    static func pick(last: String?, workouts: [Workout], packs: [String: LoadedRulePack]) -> HomeSuggestion? {
+        if let last {
+            if last.hasPrefix("single_"), let p = packs[String(last.dropFirst(7))] { return .single(p) }
+            if let w = workouts.first(where: { $0.id == last }) { return .workout(w) }
+        }
+        return workouts.first { $0.id == "eskiv_temeli" }.map { .workout($0) } ?? workouts.first.map { .workout($0) }
+    }
+}
