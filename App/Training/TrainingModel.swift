@@ -7,7 +7,7 @@ import UIKit
 
 /// A workout run by the session engine (specs/06 Bölüm 1; specs/12 S2 → S1 →
 /// S3 → T1 → T2 → T3 → Y1). A single template from the list runs as a
-/// one-block workout. Records stay in memory until the SwiftData model (T3.4).
+/// one-block workout. Records go to the store through `SessionRecorder` (specs/11).
 @Observable final class TrainingModel {
     enum Screen: Equatable { case live, cameraDenied, cameraFailed, finished }
 
@@ -53,9 +53,14 @@ import UIKit
     private var observers: [NSObjectProtocol] = []
     @ObservationIgnored private var demoCache: [String: (ExerciseDemo, [(head: HeadGuide?, line: TargetLineGuide?)])] = [:]
 
-    init(workout: Workout, packs: [String: LoadedRulePack]) {
+    private let recorder: SessionRecorder?
+    private var activeSince: Double?
+    private var activeMs = 0.0
+
+    init(workout: Workout, packs: [String: LoadedRulePack], recorder: SessionRecorder? = nil) {
         self.workout = workout
         self.packs = packs
+        self.recorder = recorder
         var versions: [String: Int] = [:]
         for (id, p) in packs { versions[id] = p.pack.version }
         session = SessionMachine(workout: workout, exerciseVersions: versions, makeId: { UUID().uuidString })
@@ -63,13 +68,13 @@ import UIKit
     }
 
     /// One template from the list: one set of 10 (specs/12 H2).
-    convenience init(single loaded: LoadedRulePack) {
+    convenience init(single loaded: LoadedRulePack, recorder: SessionRecorder? = nil) {
         let id = loaded.pack.id
         let block: Block = ExerciseCatalog.eskivIds.contains(id)
             ? .technique(exerciseId: id, sets: 1, reps: 10, restSec: 0, mode: .lenient)
             : .conditioning(exerciseId: id, sets: 1, reps: 10, durationSec: nil, restSec: 0, mode: .lenient)
         self.init(workout: Workout(id: "single_\(id)", name: loaded.pack.name, estimatedMinutes: 3, blocks: [block]),
-                  packs: [id: loaded])
+                  packs: [id: loaded], recorder: recorder)
     }
 
     // MARK: - What the screen shows
@@ -203,8 +208,19 @@ import UIKit
         }
     }
 
+    /// Time spent in sets (specs/11 `activeMs`).
+    private var currentActiveMs: Double { activeMs + (activeSince.map { HostClock.nowMs - $0 } ?? 0) }
+
     private func afterTransition(from before: SessionSnapshot) {
         let s = session.s
+        let inSet = { (st: SessionState) in st == .active || st == .confirm }
+        if inSet(s.state), !inSet(before.state) {
+            activeSince = HostClock.nowMs
+            if let setId = s.setId { recorder?.setStarted(setId, at: Date()) }
+        } else if !inSet(s.state), inSet(before.state), let since = activeSince {
+            activeMs += HostClock.nowMs - since
+            activeSince = nil
+        }
         // a new set starts with a fresh rep counter in the template engine
         if s.state == .countdown, before.state != .countdown, !s.countdownResumes {
             engine = nil  // rebuilt on the next frame with the near side the person shows now
@@ -236,6 +252,11 @@ import UIKit
                 showBand(text(key), warning: warning, sticky: key == "tracking.lost" || key == "prompt.set_confirm")
             case .persist(let r):
                 records.append(r)
+                do {
+                    try recorder?.write(r, now: Date(), view: setupView.rawValue, activeMs: Int(currentActiveMs))
+                } catch {
+                    assertionFailure("store write failed: \(error)")
+                }
                 if case .set(_, _, _, let v, let f, _, _, _, _) = r { lastSet = (v, f) }
             }
         }

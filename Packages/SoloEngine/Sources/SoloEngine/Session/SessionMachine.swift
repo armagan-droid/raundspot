@@ -466,8 +466,16 @@ public struct SessionMachine {
         out.append(.speak("prompt.set_done"))
         s.setIndex += 1
         if s.setIndex >= (block?.sets ?? 1) {
+            let rest = workout.restAfterBlock[s.blockIndex] ?? 0
             writeBlock(.done, &out)
             enterBlock(s.blockIndex + 1, &out)
+            // between circuit rounds (specs/06 "Devre"): rest, then the next round's first move
+            if rest > 0, s.state == .ready {
+                s.state = .rest
+                s.phaseStartedAt = s.now
+                s.restRemainingMs = Double(rest) * 1000
+                out.append(.show("prompt.rest"))
+            }
         } else {
             s.state = .rest
             s.phaseStartedAt = s.now

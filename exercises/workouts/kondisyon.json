@@ -34,36 +34,31 @@
       ]
     },
     {
-      "type": "conditioning",
-      "exerciseId": "jumping_jack",
-      "sets": 3,
-      "reps": 20,
+      "type": "circuit",
+      "rounds": 3,
       "restSec": 60,
-      "mode": "lenient"
-    },
-    {
-      "type": "conditioning",
-      "exerciseId": "squat",
-      "sets": 3,
-      "reps": 12,
-      "restSec": 60,
-      "mode": "lenient"
-    },
-    {
-      "type": "conditioning",
-      "exerciseId": "pushup",
-      "sets": 3,
-      "reps": 8,
-      "restSec": 60,
-      "mode": "lenient"
-    },
-    {
-      "type": "conditioning",
-      "exerciseId": "reverse_lunge",
-      "sets": 3,
-      "reps": 20,
-      "restSec": 60,
-      "mode": "lenient"
+      "blocks": [
+        {
+          "type": "conditioning",
+          "exerciseId": "jumping_jack",
+          "reps": 20
+        },
+        {
+          "type": "conditioning",
+          "exerciseId": "squat",
+          "reps": 12
+        },
+        {
+          "type": "conditioning",
+          "exerciseId": "pushup",
+          "reps": 8
+        },
+        {
+          "type": "conditioning",
+          "exerciseId": "reverse_lunge",
+          "reps": 20
+        }
+      ]
     },
     {
       "type": "guided",
