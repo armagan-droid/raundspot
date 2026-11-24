@@ -75,6 +75,13 @@ Bu proje salon reposundan bağımsızdır; salon reposuna hiçbir görevde yazı
     - *Keytel katsayıları makalenin tam metniyle doğrulanmalı. `keytel.json` `verified: false` olduğu sürece nabız yöntemi kapalı, MET kullanılır;*
     - *AC-8.7 "tahmin" ibaresi Y1 ve T6.2 ile gelir.*
 - [ ] T6.2 `SoloHealth`: izinler, `HKWorkoutSession`/`HKLiveWorkoutBuilder`, blok etkinlikleri, enerji örnekleri, iptal/silme — 08 (AC-8.2, AC-8.4–AC-8.6)
+- Durum (2026-11-25, T6.2 kısmı):
+  - *Yapıldı: `SoloHealth` `HealthWorkout` (blok başına etkinlik ve net enerji örneği, ana tür en uzun blok, 3 dk'dan kısa iptal atılır, kilo yoksa enerji örneği yok; AC-8.2 ve AC-8.5 sahte depoyla testli). `LiveHealthStore` (`HKWorkoutSession` ve canlı builder, builder'ın enerji toplaması kapalı, kapalı alan) derleniyor.*
+  - *Kalan:*
+    - *uygulamaya bağlama: HealthKit yetkisi (entitlement), `NSHealthShareUsageDescription` ve `NSHealthUpdateUsageDescription` TR/EN, O6 ve Ayarlar'da izin, Y1'de kalori ve "tahmin" ibaresi;*
+    - *silmede "Sağlık'taki kaydı da sil?" sorusu;*
+    - *oturum türünün en uzun bloğa göre seçilmesi (oturum türü başta sabitlenir; antrenman planından önceden hesaplanmalı);*
+    - *cihaz testi (AC-8.4) ve AC-8.6.*
 
 ## Faz 7 — MVP tamamlama ve pilot
 - [ ] T7.1 İlk açılış O1–O7, O9; Ayarlar; dışa aktarma ve silme — 12, 10 (AC-10.3, AC-10.4, AC-10.6, AC-10.7)
