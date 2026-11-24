@@ -123,7 +123,7 @@ private let deepDuck = EvaderParams(kneeAngle: 110, torsoLean: 25)
     }
 }
 
-// MARK: - AC-4.4 equivalence (synthetic part; the golden part waits for T1.2)
+// MARK: - AC-4.4 equivalence (synthetic sequences and the source golden's)
 
 @Suite("Project templates — AC-4.4 equivalence") struct EquivalenceTests {
     static let dir = Repo.root.appendingPathComponent("fixtures/equivalence", isDirectory: true)
@@ -165,6 +165,37 @@ private let deepDuck = EvaderParams(kneeAngle: 110, torsoLean: 25)
                 let actual = completed(run(v2, vision(seq), view: .front))
                 #expect(actual == expected, "\(id) case \(i) seed \(seed)")
             }
+        }
+    }
+
+    /// The source golden sequences of the template, reduced to vision19 without world: the frozen v2 gives the
+    /// source engine's rep outcomes and faults, as the golden records them (specs/04 AC-4.4).
+    /// Known differences, open question 7 of specs/04 (noisy ducks, the slip threshold oscillation). Each must still
+    /// differ: a case that starts to agree is reported and leaves the list.
+    static let goldenDivergences: Set<String> = [
+        "duck.clean_noisy_seed7.json", "duck.faulty_2.json", "duck.low_visibility.json", "duck.mirrored_seed3.json",
+        "duck.oscillation.json", "duck.tracking_lost.json", "slip_left.oscillation.json",
+    ]
+
+    static func goldenCases(_ id: String) -> [String] { SourceGolden.caseFiles.filter { $0.hasPrefix("\(id).") } }
+
+    @Test(arguments: goldenCases("slip_left") + goldenCases("duck")) func sourceGolden(_ file: String) throws {
+        let golden = try EngineCase(json: Repo.read(SourceGolden.dir.appendingPathComponent(file)))
+        let seq = try LandmarkSequence.parse(data: Data(contentsOf: SourceGolden.dir.appendingPathComponent(golden.sequence))).get()
+        let expected = golden.expected.events.compactMap { e -> Completed? in
+            if case .repCompleted(let o, let f, _) = e.event { Completed(outcome: o, faults: f) } else { nil }
+        }
+        let engine = ExerciseEngine(try Self.frozen(golden.rulePack), setup: golden.setup, options: golden.options)
+        var switches = golden.cuesEnabled[...]
+        let events = vision(seq).frames.flatMap { frame in
+            while let s = switches.first, frame.t >= s.fromT { engine.setCuesEnabled(s.enabled); switches.removeFirst() }
+            return engine.push(frame).map(\.event)
+        }
+        let check = { #expect(completed(events) == expected, "\(file): source \(expected), v2 \(completed(events))") }
+        if Self.goldenDivergences.contains(file) {
+            withKnownIssue("specs/04 open question 7: the 2D template differs on this golden sequence", check)
+        } else {
+            check()
         }
     }
 

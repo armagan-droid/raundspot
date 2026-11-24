@@ -1,0 +1,6069 @@
+{
+ "goldenVersion": 1,
+ "source": {
+  "repo": "armagan-droid/gymspot",
+  "commit": "c2fe3fd"
+ },
+ "nullMeans": "NaN",
+ "expressions": [
+  {
+   "form": "expression",
+   "src": "knee_angle_avg > 160",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "knee_angle_avg > 160",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "hip_offset < -0.06",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "hip_offset < -0.06",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 10",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 10",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean >= 10",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean >= 10",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean < 10",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean < 10",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean <= 10",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean <= 10",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 1 or torso_lean > 2 and torso_lean > 3",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 1 or torso_lean > 2 and torso_lean > 3",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "not torso_lean > 1 and torso_lean > 2",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "not torso_lean > 1 and torso_lean > 2",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "(torso_lean > 1 or torso_lean > 2) and torso_lean > 3",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "(torso_lean > 1 or torso_lean > 2) and torso_lean > 3",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 1 and hip_offset > 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 1 and hip_offset > 1",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 1 or hip_offset > 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 1 or hip_offset > 1",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "not torso_lean > 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "not torso_lean > 1",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "not not torso_lean > 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "not not torso_lean > 1",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "abs(hip_offset) > 0.05",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "abs(hip_offset) > 0.05",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "max(knee_valgus_l, knee_valgus_r) > 0.15",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": "unknown"
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "max(knee_valgus_l, knee_valgus_r) > 0.15",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": "unknown"
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "min(knee_valgus_l, knee_valgus_r) > 0.1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": "unknown"
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "min(knee_valgus_l, knee_valgus_r) > 0.1",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": "unknown"
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "avg(knee_valgus_l, knee_valgus_r) > 0.1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": "unknown"
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "avg(knee_valgus_l, knee_valgus_r) > 0.1",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": "unknown"
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "avg(min(torso_lean, 3), 4) < 5",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "avg(min(torso_lean, 3), 4) < 5",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "max(knee_valgus_l, knee_valgus_r, hip_offset, 0.12) >= 0.15",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": "unknown"
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "max(knee_valgus_l, knee_valgus_r, hip_offset, 0.12) >= 0.15",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": "unknown"
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "abs(-1) > hip_offset",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "abs(-1) > hip_offset",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "0.5 < knee_valgus_r",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "0.5 < knee_valgus_r",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "  torso_lean>=1and(not torso_lean<2)",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "  torso_lean>=1and(not torso_lean<2)",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "knee_valgus_l > 0.15 or knee_valgus_r > 0.15",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "knee_valgus_l > 0.15 or knee_valgus_r > 0.15",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "constructor > 0",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "constructor > 0",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > .5",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected character '.'",
+    "column": 14
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > .5",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected character '.'",
+    "column": 14
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 5.",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected character '.'",
+    "column": 15
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 5.",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected character '.'",
+    "column": 15
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 1e3",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected input",
+    "column": 15
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 1e3",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected input",
+    "column": 15
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > -0",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > -0",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "expected a number, metric or function",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "",
+   "metrics": null,
+   "error": {
+    "reason": "expected a number, metric or function",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "expected a comparison operator",
+    "column": 11
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean",
+   "metrics": null,
+   "error": {
+    "reason": "expected a comparison operator",
+    "column": 11
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean >",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "expected a number, metric or function",
+    "column": 13
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean >",
+   "metrics": null,
+   "error": {
+    "reason": "expected a number, metric or function",
+    "column": 13
+   }
+  },
+  {
+   "form": "expression",
+   "src": "> 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "expected a number, metric or function",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "> 1",
+   "metrics": null,
+   "error": {
+    "reason": "expected a number, metric or function",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 1 >",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "comparisons cannot be chained",
+    "column": 16
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 1 >",
+   "metrics": null,
+   "error": {
+    "reason": "comparisons cannot be chained",
+    "column": 16
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean < 1 < 2",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "comparisons cannot be chained",
+    "column": 16
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean < 1 < 2",
+   "metrics": null,
+   "error": {
+    "reason": "comparisons cannot be chained",
+    "column": 16
+   }
+  },
+  {
+   "form": "expression",
+   "src": "(torso_lean > 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "expected ')'",
+    "column": 16
+   }
+  },
+  {
+   "form": "expression",
+   "src": "(torso_lean > 1",
+   "metrics": null,
+   "error": {
+    "reason": "expected ')'",
+    "column": 16
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 1)",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected input",
+    "column": 15
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 1)",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected input",
+    "column": 15
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 1 and",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "expected a number, metric or function",
+    "column": 19
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 1 and",
+   "metrics": null,
+   "error": {
+    "reason": "expected a number, metric or function",
+    "column": 19
+   }
+  },
+  {
+   "form": "expression",
+   "src": "abs() > 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "expected a number, metric or function",
+    "column": 5
+   }
+  },
+  {
+   "form": "expression",
+   "src": "abs() > 1",
+   "metrics": null,
+   "error": {
+    "reason": "expected a number, metric or function",
+    "column": 5
+   }
+  },
+  {
+   "form": "expression",
+   "src": "abs(torso_lean, hip_offset) > 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "abs takes exactly 1 argument",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "abs(torso_lean, hip_offset) > 1",
+   "metrics": null,
+   "error": {
+    "reason": "abs takes exactly 1 argument",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "avg(torso_lean,) > 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "expected a number, metric or function",
+    "column": 16
+   }
+  },
+  {
+   "form": "expression",
+   "src": "avg(torso_lean,) > 1",
+   "metrics": null,
+   "error": {
+    "reason": "expected a number, metric or function",
+    "column": 16
+   }
+  },
+  {
+   "form": "expression",
+   "src": "min(torso_lean) > 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "min(torso_lean) > 1",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "1.5.2 > 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected character '.'",
+    "column": 4
+   }
+  },
+  {
+   "form": "expression",
+   "src": "1.5.2 > 1",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected character '.'",
+    "column": 4
+   }
+  },
+  {
+   "form": "expression",
+   "src": "- 1 > torso_lean",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected character '-'",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "- 1 > torso_lean",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected character '-'",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 1 & 2",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected character '&'",
+    "column": 16
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 1 & 2",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected character '&'",
+    "column": 16
+   }
+  },
+  {
+   "form": "expression",
+   "src": "hip_angle > 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unknown metric 'hip_angle'",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "hip_angle > 1",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": "unknown"
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "sqrt(torso_lean) > 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unknown function 'sqrt'",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "sqrt(torso_lean) > 1",
+   "metrics": null,
+   "error": {
+    "reason": "unknown function 'sqrt'",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "knee_angle_avg > 165 for 1500ms",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected input",
+    "column": 22
+   }
+  },
+  {
+   "form": "expression",
+   "src": "knee_angle_avg > 165 for 1500ms",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected input",
+    "column": 22
+   }
+  },
+  {
+   "form": "expression",
+   "src": "eval(\"1\")",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected character '\"'",
+    "column": 6
+   }
+  },
+  {
+   "form": "expression",
+   "src": "eval(\"1\")",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected character '\"'",
+    "column": 6
+   }
+  },
+  {
+   "form": "expression",
+   "src": "eval(1) > 0",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unknown function 'eval'",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "eval(1) > 0",
+   "metrics": null,
+   "error": {
+    "reason": "unknown function 'eval'",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "Function('return 1')() > 0",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected character 'F'",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "Function('return 1')() > 0",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected character 'F'",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "process.exit(1)",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected character '.'",
+    "column": 8
+   }
+  },
+  {
+   "form": "expression",
+   "src": "process.exit(1)",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected character '.'",
+    "column": 8
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 1; process.exit(1)",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected character ';'",
+    "column": 15
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 1; process.exit(1)",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected character ';'",
+    "column": 15
+   }
+  },
+  {
+   "form": "expression",
+   "src": "__proto__ > 0",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unknown metric '__proto__'",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "__proto__ > 0",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": "unknown"
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean.constructor > 0",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected character '.'",
+    "column": 11
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean.constructor > 0",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected character '.'",
+    "column": 11
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean['x'] > 0",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected character '['",
+    "column": 11
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean['x'] > 0",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected character '['",
+    "column": 11
+   }
+  },
+  {
+   "form": "expression",
+   "src": "`x` > 0",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected character '`'",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "`x` > 0",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected character '`'",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "\"1\" > 0",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected character '\"'",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "\"1\" > 0",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected character '\"'",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean == 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected character '='",
+    "column": 12
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean == 1",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected character '='",
+    "column": 12
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean = 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected character '='",
+    "column": 12
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean = 1",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected character '='",
+    "column": 12
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean != 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected character '!'",
+    "column": 12
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean != 1",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected character '!'",
+    "column": 12
+   }
+  },
+  {
+   "form": "expression",
+   "src": "!(torso_lean > 1)",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected character '!'",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "!(torso_lean > 1)",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected character '!'",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 1 && torso_lean < 2",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected character '&'",
+    "column": 16
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 1 && torso_lean < 2",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected character '&'",
+    "column": 16
+   }
+  },
+  {
+   "form": "expression",
+   "src": "() => 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected character '='",
+    "column": 4
+   }
+  },
+  {
+   "form": "expression",
+   "src": "() => 1",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected character '='",
+    "column": 4
+   }
+  },
+  {
+   "form": "expression",
+   "src": "TORSO_LEAN > 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected character 'T'",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "TORSO_LEAN > 1",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected character 'T'",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 1 and or hip_offset > 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected keyword 'or'",
+    "column": 20
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 1 and or hip_offset > 1",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected keyword 'or'",
+    "column": 20
+   }
+  },
+  {
+   "form": "expression",
+   "src": "not > 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "expected a number, metric or function",
+    "column": 5
+   }
+  },
+  {
+   "form": "expression",
+   "src": "not > 1",
+   "metrics": null,
+   "error": {
+    "reason": "expected a number, metric or function",
+    "column": 5
+   }
+  },
+  {
+   "form": "expression",
+   "src": "and > 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected keyword 'and'",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "and > 1",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected keyword 'and'",
+    "column": 1
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > abs",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unknown metric 'abs'",
+    "column": 14
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > abs",
+   "metrics": null,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": "unknown"
+    }
+   ]
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean ≥ 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected character '≥'",
+    "column": 12
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean ≥ 1",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected character '≥'",
+    "column": 12
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 1 ğ",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected character 'ğ'",
+    "column": 16
+   }
+  },
+  {
+   "form": "expression",
+   "src": "torso_lean > 1 ğ",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected character 'ğ'",
+    "column": 16
+   }
+  },
+  {
+   "form": "check",
+   "src": "at_turn: knee_angle_avg > 100",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "position": "at_turn",
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "check",
+   "src": "at_turn: knee_angle_avg > 100",
+   "metrics": null,
+   "position": "at_turn",
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "check",
+   "src": "during_rep: torso_lean > 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "position": "during_rep",
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "check",
+   "src": "during_rep: torso_lean > 1",
+   "metrics": null,
+   "position": "during_rep",
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "check",
+   "src": "at_start: torso_lean > 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "position": "at_start",
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "check",
+   "src": "at_start: torso_lean > 1",
+   "metrics": null,
+   "position": "at_start",
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": false
+    }
+   ]
+  },
+  {
+   "form": "check",
+   "src": "during_rep: knee_valgus_l > 0.15 or knee_valgus_r > 0.15",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "position": "during_rep",
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "check",
+   "src": "during_rep: knee_valgus_l > 0.15 or knee_valgus_r > 0.15",
+   "metrics": null,
+   "position": "during_rep",
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "check",
+   "src": "at_phase_bottom: torso_lean > 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "check must start with one of at_turn, at_start, during_rep",
+    "column": 1
+   }
+  },
+  {
+   "form": "check",
+   "src": "at_phase_bottom: torso_lean > 1",
+   "metrics": null,
+   "error": {
+    "reason": "check must start with one of at_turn, at_start, during_rep",
+    "column": 1
+   }
+  },
+  {
+   "form": "check",
+   "src": "torso_lean > 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "check must start with one of at_turn, at_start, during_rep",
+    "column": 1
+   }
+  },
+  {
+   "form": "check",
+   "src": "torso_lean > 1",
+   "metrics": null,
+   "error": {
+    "reason": "check must start with one of at_turn, at_start, during_rep",
+    "column": 1
+   }
+  },
+  {
+   "form": "check",
+   "src": "at_turn torso_lean > 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "expected ':' after check position",
+    "column": 9
+   }
+  },
+  {
+   "form": "check",
+   "src": "at_turn torso_lean > 1",
+   "metrics": null,
+   "error": {
+    "reason": "expected ':' after check position",
+    "column": 9
+   }
+  },
+  {
+   "form": "check",
+   "src": "at_turn:",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "expected a number, metric or function",
+    "column": 9
+   }
+  },
+  {
+   "form": "check",
+   "src": "at_turn:",
+   "metrics": null,
+   "error": {
+    "reason": "expected a number, metric or function",
+    "column": 9
+   }
+  },
+  {
+   "form": "check",
+   "src": ": torso_lean > 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "check must start with one of at_turn, at_start, during_rep",
+    "column": 1
+   }
+  },
+  {
+   "form": "check",
+   "src": ": torso_lean > 1",
+   "metrics": null,
+   "error": {
+    "reason": "check must start with one of at_turn, at_start, during_rep",
+    "column": 1
+   }
+  },
+  {
+   "form": "check",
+   "src": "at_turn: torso_lean > 1 for 100ms",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected input",
+    "column": 25
+   }
+  },
+  {
+   "form": "check",
+   "src": "at_turn: torso_lean > 1 for 100ms",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected input",
+    "column": 25
+   }
+  },
+  {
+   "form": "readyPose",
+   "src": "knee_angle_avg > 165 for 1500ms",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "durationMs": 1500,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "readyPose",
+   "src": "knee_angle_avg > 165 for 1500ms",
+   "metrics": null,
+   "durationMs": 1500,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "readyPose",
+   "src": "torso_lean < 10 and hip_offset > -0.3 for 1000ms",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "durationMs": 1000,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "readyPose",
+   "src": "torso_lean < 10 and hip_offset > -0.3 for 1000ms",
+   "metrics": null,
+   "durationMs": 1000,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": true
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "readyPose",
+   "src": "knee_angle_avg > 165",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "expected 'for'",
+    "column": 21
+   }
+  },
+  {
+   "form": "readyPose",
+   "src": "knee_angle_avg > 165",
+   "metrics": null,
+   "error": {
+    "reason": "expected 'for'",
+    "column": 21
+   }
+  },
+  {
+   "form": "readyPose",
+   "src": "knee_angle_avg > 165 for 1.5ms",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "expected a positive integer duration",
+    "column": 26
+   }
+  },
+  {
+   "form": "readyPose",
+   "src": "knee_angle_avg > 165 for 1.5ms",
+   "metrics": null,
+   "error": {
+    "reason": "expected a positive integer duration",
+    "column": 26
+   }
+  },
+  {
+   "form": "readyPose",
+   "src": "knee_angle_avg > 165 for 1500",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "expected 'ms'",
+    "column": 30
+   }
+  },
+  {
+   "form": "readyPose",
+   "src": "knee_angle_avg > 165 for 1500",
+   "metrics": null,
+   "error": {
+    "reason": "expected 'ms'",
+    "column": 30
+   }
+  },
+  {
+   "form": "readyPose",
+   "src": "knee_angle_avg > 165 for -5ms",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "expected a positive integer duration",
+    "column": 26
+   }
+  },
+  {
+   "form": "readyPose",
+   "src": "knee_angle_avg > 165 for -5ms",
+   "metrics": null,
+   "error": {
+    "reason": "expected a positive integer duration",
+    "column": 26
+   }
+  },
+  {
+   "form": "readyPose",
+   "src": "knee_angle_avg > 165 for 0ms",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "expected a positive integer duration",
+    "column": 26
+   }
+  },
+  {
+   "form": "readyPose",
+   "src": "knee_angle_avg > 165 for 0ms",
+   "metrics": null,
+   "error": {
+    "reason": "expected a positive integer duration",
+    "column": 26
+   }
+  },
+  {
+   "form": "readyPose",
+   "src": "knee_angle_avg > 165 for 1500 ms",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "durationMs": 1500,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "readyPose",
+   "src": "knee_angle_avg > 165 for 1500 ms",
+   "metrics": null,
+   "durationMs": 1500,
+   "results": [
+    {
+     "values": {},
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 11,
+      "hip_offset": -0.06,
+      "knee_angle_avg": 165,
+      "knee_valgus_l": 0.05,
+      "knee_valgus_r": 0.2
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 10,
+      "hip_offset": 0,
+      "knee_angle_avg": 100,
+      "knee_valgus_l": 0.2,
+      "knee_valgus_r": 0.05
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": 0,
+      "hip_offset": 0.1
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": 2,
+      "knee_valgus_l": 0.5
+     },
+     "truth": "unknown"
+    },
+    {
+     "values": {
+      "torso_lean": null,
+      "hip_offset": 1.5,
+      "knee_angle_avg": 0
+     },
+     "truth": false
+    },
+    {
+     "values": {
+      "torso_lean": -3.5,
+      "hip_offset": -1e-9,
+      "knee_angle_avg": 170,
+      "knee_valgus_l": null,
+      "knee_valgus_r": 0.16,
+      "constructor": 1
+     },
+     "truth": true
+    }
+   ]
+  },
+  {
+   "form": "readyPose",
+   "src": "knee_angle_avg > 165 for 1500ms and torso_lean > 1",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "unexpected input",
+    "column": 33
+   }
+  },
+  {
+   "form": "readyPose",
+   "src": "knee_angle_avg > 165 for 1500ms and torso_lean > 1",
+   "metrics": null,
+   "error": {
+    "reason": "unexpected input",
+    "column": 33
+   }
+  },
+  {
+   "form": "readyPose",
+   "src": "knee_angle_avg > 165 for ms",
+   "metrics": [
+    "knee_angle_avg",
+    "torso_lean",
+    "knee_valgus_l",
+    "knee_valgus_r",
+    "hip_offset",
+    "constructor"
+   ],
+   "error": {
+    "reason": "expected a positive integer duration",
+    "column": 26
+   }
+  },
+  {
+   "form": "readyPose",
+   "src": "knee_angle_avg > 165 for ms",
+   "metrics": null,
+   "error": {
+    "reason": "expected a positive integer duration",
+    "column": 26
+   }
+  }
+ ]
+}

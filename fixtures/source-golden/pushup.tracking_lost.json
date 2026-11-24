@@ -1,0 +1,371 @@
+{
+ "goldenVersion": 1,
+ "source": {
+  "repo": "armagan-droid/gymspot",
+  "commit": "c2fe3fd"
+ },
+ "rulePack": "pushup",
+ "rulePackVersion": 1,
+ "setup": {
+  "view": "side",
+  "nearSide": "left"
+ },
+ "options": {
+  "safetyPause": true
+ },
+ "cuesEnabled": [],
+ "sequence": "sequences/pushup/tracking_lost.json",
+ "expected": {
+  "events": [
+   {
+    "frame": 26,
+    "t": 1733.3333333333335,
+    "type": "READY_POSE_HELD"
+   },
+   {
+    "frame": 39,
+    "t": 2600,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 57,
+    "t": 3800.0000000000005,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 1400
+   },
+   {
+    "frame": 68,
+    "t": 4533.333333333334,
+    "type": "TRACKING_LOST"
+   },
+   {
+    "frame": 80,
+    "t": 5333.333333333334,
+    "type": "TRACKING_RESTORED"
+   },
+   {
+    "frame": 81,
+    "t": 5400,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 99,
+    "t": 6600.000000000001,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 1333
+   },
+   {
+    "frame": 121,
+    "t": 8066.666666666667,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 141,
+    "t": 9400,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 1467
+   }
+  ],
+  "metrics": {
+   "every": 10,
+   "values": [
+    {
+     "frame": 0,
+     "values": {
+      "elbow_angle": 157.5883428948992,
+      "body_line_angle": 174.09184859593066,
+      "hip_offset": -0.015023754838363374
+     }
+    },
+    {
+     "frame": 10,
+     "values": {
+      "elbow_angle": 163.55822170201293,
+      "body_line_angle": 177.4522505697519,
+      "hip_offset": 0.00029869295105032327
+     }
+    },
+    {
+     "frame": 20,
+     "values": {
+      "elbow_angle": 168.32520064744017,
+      "body_line_angle": 174.32923367852106,
+      "hip_offset": -0.006425549698469842
+     }
+    },
+    {
+     "frame": 30,
+     "values": {
+      "elbow_angle": 163.09740350282263,
+      "body_line_angle": 174.453857070749,
+      "hip_offset": 0.0023023767972302402
+     }
+    },
+    {
+     "frame": 40,
+     "values": {
+      "elbow_angle": 100.91317360631808,
+      "body_line_angle": 176.6271639863462,
+      "hip_offset": 0.014271119282617132
+     }
+    },
+    {
+     "frame": 50,
+     "values": {
+      "elbow_angle": 93.6439344594769,
+      "body_line_angle": 175.31145208438454,
+      "hip_offset": 0.002903038110529161
+     }
+    },
+    {
+     "frame": 60,
+     "values": {
+      "elbow_angle": 173.05134734487066,
+      "body_line_angle": 174.93637748640953,
+      "hip_offset": -0.0034893689917920765
+     }
+    },
+    {
+     "frame": 70,
+     "values": {
+      "elbow_angle": 172.3703501133741,
+      "body_line_angle": 174.64883745908742,
+      "hip_offset": -0.0013576787672405248
+     }
+    },
+    {
+     "frame": 80,
+     "values": {
+      "elbow_angle": 128.88718429454872,
+      "body_line_angle": 176.7482272491568,
+      "hip_offset": -0.006345495703731458
+     }
+    },
+    {
+     "frame": 90,
+     "values": {
+      "elbow_angle": 92.28321784948646,
+      "body_line_angle": 176.18110005915923,
+      "hip_offset": -0.007805914262526252
+     }
+    },
+    {
+     "frame": 100,
+     "values": {
+      "elbow_angle": 160.95982169850117,
+      "body_line_angle": 175.29869193310003,
+      "hip_offset": -0.0024156101479991254
+     }
+    },
+    {
+     "frame": 110,
+     "values": {
+      "elbow_angle": 166.63496810333555,
+      "body_line_angle": 175.44697275516864,
+      "hip_offset": 0.00391004710696707
+     }
+    },
+    {
+     "frame": 120,
+     "values": {
+      "elbow_angle": 142.77627036050862,
+      "body_line_angle": 176.78056542735106,
+      "hip_offset": 0.002031333508774114
+     }
+    },
+    {
+     "frame": 130,
+     "values": {
+      "elbow_angle": 80.81792431987608,
+      "body_line_angle": 176.37437951285582,
+      "hip_offset": 0.0031614387580693576
+     }
+    },
+    {
+     "frame": 140,
+     "values": {
+      "elbow_angle": 147.4586939005531,
+      "body_line_angle": 175.30601619996511,
+      "hip_offset": 0.0030024462247785597
+     }
+    },
+    {
+     "frame": 150,
+     "values": {
+      "elbow_angle": 165.74931562850867,
+      "body_line_angle": 176.89299085499192,
+      "hip_offset": -0.0006477963665109596
+     }
+    }
+   ]
+  },
+  "repStates": [
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START"
+  ]
+ }
+}

@@ -1,0 +1,305 @@
+{
+ "goldenVersion": 1,
+ "source": {
+  "repo": "armagan-droid/gymspot",
+  "commit": "c2fe3fd"
+ },
+ "rulePack": "duck",
+ "rulePackVersion": 1,
+ "setup": {
+  "view": "front",
+  "nearSide": "left"
+ },
+ "options": {
+  "safetyPause": true
+ },
+ "cuesEnabled": [],
+ "sequence": "sequences/duck/faulty_2.json",
+ "expected": {
+  "events": [
+   {
+    "frame": 15,
+    "t": 1000.0000000000001,
+    "type": "READY_POSE_HELD"
+   },
+   {
+    "frame": 56,
+    "t": 3733.3333333333335,
+    "type": "READY_POSE_HELD"
+   },
+   {
+    "frame": 63,
+    "t": 4200,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 65,
+    "t": 4333.333333333334,
+    "type": "FAULT_DETECTED",
+    "faultId": "guard_dropped"
+   },
+   {
+    "frame": 74,
+    "t": 4933.333333333334,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [
+     "guard_dropped"
+    ],
+    "durationMs": 800
+   },
+   {
+    "frame": 89,
+    "t": 5933.333333333334,
+    "type": "READY_POSE_HELD"
+   },
+   {
+    "frame": 112,
+    "t": 7466.666666666667,
+    "type": "READY_POSE_HELD"
+   }
+  ],
+  "metrics": {
+   "every": 10,
+   "values": [
+    {
+     "frame": 0,
+     "values": {
+      "height_l": 0.9482070365424398,
+      "height_r": 0.9460531147039117,
+      "head_height": 0.9471300756231757,
+      "guard_l": -0.011471025003523925,
+      "guard_r": -0.006388335062938395
+     }
+    },
+    {
+     "frame": 10,
+     "values": {
+      "height_l": 0.9514948283794664,
+      "height_r": 0.9534793251885091,
+      "head_height": 0.9524850344377911,
+      "guard_l": 0.014628688433810346,
+      "guard_r": 0.01527742801127106
+     }
+    },
+    {
+     "frame": 20,
+     "values": {
+      "height_l": 0.9483602290015716,
+      "height_r": 0.9518163881508614,
+      "head_height": 0.9500859573055621,
+      "guard_l": 0.0002911316733712225,
+      "guard_r": -0.004118062790399132
+     }
+    },
+    {
+     "frame": 30,
+     "values": {
+      "height_l": 0.9509472658649882,
+      "height_r": 0.9515825176719173,
+      "head_height": 0.9512634863811107,
+      "guard_l": -0.00046606969253484647,
+      "guard_r": -0.005522593787869233
+     }
+    },
+    {
+     "frame": 40,
+     "values": {
+      "height_l": 0.9036537709806369,
+      "height_r": 0.9082723648084193,
+      "head_height": 0.9059618903601607,
+      "guard_l": 0.004085368549575159,
+      "guard_r": 0.003229137962883145
+     }
+    },
+    {
+     "frame": 50,
+     "values": {
+      "height_l": 0.9496821677996343,
+      "height_r": 0.9510317316407134,
+      "head_height": 0.9503531452921695,
+      "guard_l": 0.008621070098159019,
+      "guard_r": 0.004041881220802895
+     }
+    },
+    {
+     "frame": 60,
+     "values": {
+      "height_l": 0.9291511231292795,
+      "height_r": 0.9335277746373822,
+      "head_height": 0.9313523448807106,
+      "guard_l": -0.33298857385900515,
+      "guard_r": 0.0007444714210092956
+     }
+    },
+    {
+     "frame": 70,
+     "values": {
+      "height_l": 0.858175818513961,
+      "height_r": 0.8536874779479453,
+      "head_height": 0.8559266570062516,
+      "guard_l": -0.8988095718144762,
+      "guard_r": 0.004051498251498413
+     }
+    },
+    {
+     "frame": 80,
+     "values": {
+      "height_l": 0.9484880578256312,
+      "height_r": 0.9482061435404987,
+      "head_height": 0.9483423634546435,
+      "guard_l": -0.0049072583555366395,
+      "guard_r": 0.002933159615446827
+     }
+    },
+    {
+     "frame": 90,
+     "values": {
+      "height_l": 0.9531518126102854,
+      "height_r": 0.9475859787687135,
+      "head_height": 0.9503687537227938,
+      "guard_l": 0.003009344020921742,
+      "guard_r": 0.008114059123477787
+     }
+    },
+    {
+     "frame": 100,
+     "values": {
+      "height_l": 0.9485693762104781,
+      "height_r": 0.9465315178492775,
+      "head_height": 0.9473913843204971,
+      "guard_l": 0.00634924750407587,
+      "guard_r": 0.011607892324005234
+     }
+    },
+    {
+     "frame": 110,
+     "values": {
+      "height_l": 0.9495562982376615,
+      "height_r": 0.9513959288658379,
+      "head_height": 0.9504737963876708,
+      "guard_l": -0.0014380253898917056,
+      "guard_r": -0.004402044687297462
+     }
+    }
+   ]
+  },
+  "repStates": [
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START"
+  ]
+ }
+}
