@@ -32,3 +32,4 @@ $(SRCROOT)/exercises/workouts/eskiv_temeli.json
 $(SRCROOT)/exercises/workouts/kondisyon.json
 $(SRCROOT)/exercises/workouts/refleks.json
 $(SRCROOT)/exercises/reflex/muay_thai.json
+$(SRCROOT)/exercises/workouts/hizli_karma.json

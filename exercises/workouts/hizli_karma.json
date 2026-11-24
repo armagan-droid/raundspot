@@ -1,0 +1,104 @@
+{
+  "formatVersion": 1,
+  "id": "hizli_karma",
+  "name": {
+    "tr": "Hızlı karma",
+    "en": "Quick mix"
+  },
+  "sport": "muay_thai",
+  "estimatedMinutes": 20,
+  "blocks": [
+    {
+      "type": "warmup",
+      "steps": [
+        {
+          "textKey": "warmup.light_jumps",
+          "durationSec": 30
+        },
+        {
+          "textKey": "warmup.arm_circles",
+          "durationSec": 30
+        },
+        {
+          "textKey": "warmup.hip_circles",
+          "durationSec": 30
+        },
+        {
+          "textKey": "warmup.shadow",
+          "durationSec": 60
+        },
+        {
+          "textKey": "warmup.dynamic_stretch",
+          "durationSec": 30
+        }
+      ]
+    },
+    {
+      "type": "technique",
+      "choose": {
+        "from": [
+          "slip_left",
+          "slip_right",
+          "duck",
+          "bob_weave_left",
+          "bob_weave_right"
+        ],
+        "count": 2
+      },
+      "sets": 2,
+      "reps": 8,
+      "restSec": 45
+    },
+    {
+      "type": "reflex",
+      "catalogId": "muay_thai",
+      "level": "chosen",
+      "sets": 2,
+      "restSec": 60
+    },
+    {
+      "type": "circuit",
+      "rounds": 2,
+      "restSec": 60,
+      "blocks": [
+        {
+          "type": "conditioning",
+          "exerciseId": "jumping_jack",
+          "reps": 20
+        },
+        {
+          "type": "conditioning",
+          "exerciseId": "squat",
+          "reps": 12
+        },
+        {
+          "type": "conditioning",
+          "exerciseId": "pushup",
+          "reps": 8
+        },
+        {
+          "type": "conditioning",
+          "exerciseId": "reverse_lunge",
+          "reps": 20
+        }
+      ]
+    },
+    {
+      "type": "guided",
+      "steps": [
+        {
+          "textKey": "cooldown.breathing",
+          "durationSec": 30
+        },
+        {
+          "textKey": "cooldown.hip_stretch",
+          "durationSec": 45
+        },
+        {
+          "textKey": "cooldown.shoulder_stretch",
+          "durationSec": 45
+        }
+      ]
+    }
+  ]
+}

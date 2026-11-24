@@ -281,6 +281,7 @@ struct RecordContext {
     private let info: RecordContext
     private var session: StoredSession?
     private var pendingReps: [String: [SessionRecord]] = [:]
+    private var pendingTrials: [String: [ReflexTrialRecord]] = [:]
     private var pendingSets: [String: [StoredSet]] = [:]
     private var setStarts: [String: Date] = [:]
     private var written: Set<String> = []
@@ -294,6 +295,15 @@ struct RecordContext {
     func setStarted(_ setId: String, at: Date) {
         if setStarts[setId] == nil { setStarts[setId] = at }
     }
+
+    /// A reflex trial of the set in progress (specs/05 "Set özeti ve kayıt"); written with its set.
+    func writeReflexTrial(_ r: ReflexTrialRecord, setId: String, at: Date) {
+        pendingTrials[setId, default: []].append(r)
+        setStarted(setId, at: at)
+    }
+
+    /// Host time the session started (ms), for `ReflexTrial.cueAtMs` (specs/11).
+    var sessionStartMs: Double = 0
 
     /// - Parameters:
     ///   - now: when the record was emitted.
@@ -319,9 +329,11 @@ struct RecordContext {
         case .set(let id, let blockId, let index, let valid, let faulty, let attempts, let target, let below, _):
             guard written.insert(id).inserted else { return }
             let reps = pendingReps.removeValue(forKey: id) ?? []
+            // a reflex set's attempts are its trials, not incomplete reps
+            let isReflex = pendingTrials[id] != nil
             let set = StoredSet(id: UUID(uuidString: id) ?? UUID(), setIndex: index, startedAt: setStarts.removeValue(forKey: id) ?? now,
                                 endedAt: now, plannedReps: target, validReps: valid, faultyReps: faulty,
-                                incompleteReps: max(0, attempts - valid - faulty), view: view, belowTarget: below)
+                                incompleteReps: isReflex ? 0 : max(0, attempts - valid - faulty), view: view, belowTarget: below)
             context.insert(set)
             for (i, r) in reps.enumerated() {
                 guard case .rep(let rid, _, let outcome, let faults, let durationMs, _) = r else { continue }
@@ -329,6 +341,15 @@ struct RecordContext {
                                       faults: faults)
                 context.insert(a)
                 a.set = set
+            }
+            for r in pendingTrials.removeValue(forKey: id) ?? [] {
+                let trial = StoredReflexTrial(
+                    id: UUID(), index: r.index, comboId: r.comboId.map { "\($0)" }, comboIndex: r.comboIndex, strikeId: r.strikeId,
+                    isFeint: r.isFeint, cueAtMs: Int((r.cueAt - sessionStartMs).rounded()), result: r.result.rawValue,
+                    responseExerciseId: r.responseExerciseId, preferred: r.preferred, reactionMs: r.reactionMs.map { Int($0.rounded()) },
+                    rtApproximate: r.rtApproximate, faults: r.faults)
+                context.insert(trial)
+                trial.set = set
             }
             pendingSets[blockId, default: []].append(set)
         case .block(let id, _, let index, let exerciseId, let exerciseVersion, let status):

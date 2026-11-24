@@ -118,6 +118,8 @@ public enum ReflexCommand: Sendable, Equatable {
     case trial(ReflexTrialRecord)
     /// A response engine stopped the set; planned cues are dropped and not recorded.
     case safetyPause(faultId: String)
+    /// Tracking lost or restored (one response engine's view; the session pauses on it, ref 03 rule 10).
+    case tracking(lost: Bool)
     /// Spoken set summary (≤ 8 s): cues, hits, mean RT (ms, rounded) and the hardest strike's name key.
     case speakSetSummary(cues: Int, hits: Int, meanRtMs: Int?, hardestNameKey: String?)
     case setDone
@@ -251,10 +253,13 @@ public final class ReflexSet {
         guard phase != .stopped, phase != .done else { return [] }
         now = Swift.max(now, frame.t)
         var out: [ReflexCommand] = []
+        let tracker = engines.keys.sorted().first
         for id in engines.keys.sorted() {
             let e = engines[id]!
             for te in e.push(frame) {
                 switch te.event {
+                case .trackingLost where id == tracker: out.append(.tracking(lost: true))
+                case .trackingRestored where id == tracker: out.append(.tracking(lost: false))
                 case .repStarted:
                     let move = e.rawConfirmCrossing(confirmedAt: te.t) ?? te.t
                     moving[id] = move
@@ -277,6 +282,22 @@ public final class ReflexSet {
             }
         }
         out += step()
+        return out
+    }
+
+    /// The session paused (manual, tracking, interruption): planned cues are cancelled and their trials dropped;
+    /// the set goes back to preparing and goes on when frames come again.
+    public func pause() -> [ReflexCommand] {
+        guard phase != .stopped, phase != .done else { return [] }
+        var out: [ReflexCommand] = []
+        if !plannedCues.isEmpty || !windows.isEmpty { out.append(.cancelCues) }
+        cuesUsed -= windows.count
+        plannedCues.removeAll()
+        windows.removeAll()
+        queuedSpeech.removeAll()
+        moving.removeAll()
+        phase = .preparing
+        preparingSince = now
         return out
     }
 

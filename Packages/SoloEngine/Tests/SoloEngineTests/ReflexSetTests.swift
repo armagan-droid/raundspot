@@ -475,3 +475,44 @@ private struct Timeline {
         #expect(!b.commands.contains(.setDone))
     }
 }
+
+@Suite("Reflex — pause and tracking") struct ReflexPauseTests {
+    let raw = try! catalog().0
+    let cat = try! catalog().1
+
+    /// A pause while a cue is planned cancels it; its trial is not recorded and the set still gives all its cues.
+    @Test func aPauseCancelsThePlannedCueAndTheSetGoesOn() {
+        var b = Boxer(level: raw.level(1)!, cat: cat, cues: 2)
+        // up to the first cue, then a pause before it is answered
+        while b.cues.isEmpty, b.t < 200_000 {
+            b.t += 1000 / b.fps
+            for case .playCue(let k, let at) in b.reflex.push(Boxer.frame(b.pose(at: b.t), b.t)) { b.cues.append((k, at)) }
+        }
+        #expect(b.reflex.pause().contains(.cancelCues))
+        #expect(b.reflex.phase == .preparing && b.reflex.trials.isEmpty)
+        // the cancelled cue does not count: two more cues, both answered
+        b.run(60_000) { key, at, moves in if let m = answer(key, at: at + 300) { moves.append(m) } }
+        #expect(b.reflex.phase == .done)
+        #expect(b.reflex.trials.count == 2 && b.reflex.trials.allSatisfy { $0.result == .correct })
+        #expect(b.cues.count == 3)
+    }
+
+    @Test func trackingLossIsPassedOnOnce() {
+        var b = Boxer(level: raw.level(1)!, cat: cat, cues: 1)
+        b.run(1000)
+        var out: [ReflexCommand] = []
+        var t = b.t
+        let none = Frame(t: 0, image: Array(repeating: .missing, count: LandmarkName.count),
+                         world: Array(repeating: .missing, count: LandmarkName.count))
+        for _ in 0..<60 {
+            t += 1000 / 30
+            var f = none
+            f.t = t
+            out += b.reflex.push(f)
+        }
+        #expect(out.filter { $0 == .tracking(lost: true) }.count == 1)
+        t += 1000 / 30
+        out = b.reflex.push(Boxer.frame(EvaderParams(), t))
+        #expect(out.contains(.tracking(lost: false)))
+    }
+}

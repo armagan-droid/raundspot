@@ -19,6 +19,41 @@
         }
       }
     },
+    "choose.continue": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Devam"
+          }
+        }
+      }
+    },
+    "choose.title %lld": {
+      "comment": "H3 first step (specs/06 choice).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pick %lld eskivs"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld eskiv seç"
+          }
+        }
+      }
+    },
     "cooldown.breathing": {
       "extractionState": "manual",
       "localizations": {
@@ -444,6 +479,94 @@
         }
       }
     },
+    "reflex.advice.higher": {
+      "comment": "specs/05 level advice; never automatic.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try the next level"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir üst seviyeyi dene"
+          }
+        }
+      }
+    },
+    "reflex.advice.lower": {
+      "comment": "specs/05 level advice; never automatic.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try the level below"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir alt seviyeyi dene"
+          }
+        }
+      }
+    },
+    "reflex.count.accessibility %lld %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cue %1$lld of %2$lld"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%2$lld işaretten %1$lld."
+          }
+        }
+      }
+    },
+    "reflex.cues %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld cues"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld işaret"
+          }
+        }
+      }
+    },
+    "reflex.draft": {
+      "comment": "AC-5.8: TestFlight label of a draft reflex catalog.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Draft mapping"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taslak eşleme"
+          }
+        }
+      }
+    },
     "reflex.get_ready": {
       "comment": "Reflex mode (specs/05), spoken.",
       "extractionState": "manual",
@@ -606,6 +729,323 @@
         }
       }
     },
+    "reflex.level %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Level %lld"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seviye %lld"
+          }
+        }
+      }
+    },
+    "reflex.level.card.combo %lld %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Combos of %1$lld–%2$lld"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld–%2$lld işaretlik kombinasyon"
+          }
+        }
+      }
+    },
+    "reflex.level.card.feint %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Feints %lld%%"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aldatma %%%lld"
+          }
+        }
+      }
+    },
+    "reflex.level.card.single": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Single cues"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tek işaret"
+          }
+        }
+      }
+    },
+    "reflex.level.card.strikes %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld strikes"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld saldırı"
+          }
+        }
+      }
+    },
+    "reflex.level.card.window %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reaction window %@ s"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tepki penceresi %@ sn"
+          }
+        }
+      }
+    },
+    "reflex.level.suggested": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suggested"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önerilen"
+          }
+        }
+      }
+    },
+    "reflex.level.title": {
+      "comment": "H3 title.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reflex level"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Refleks seviyesi"
+          }
+        }
+      }
+    },
+    "reflex.result.correct": {
+      "comment": "Trial result (R2 accessibility).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Correct"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doğru"
+          }
+        }
+      }
+    },
+    "reflex.result.correct_faulty": {
+      "comment": "Trial result (R2 accessibility).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Correct, with a form fault"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doğru, form hatalı"
+          }
+        }
+      }
+    },
+    "reflex.result.early": {
+      "comment": "Trial result (R2 accessibility).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Too early"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erken"
+          }
+        }
+      }
+    },
+    "reflex.result.feint_bitten": {
+      "comment": "Trial result (R2 accessibility).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fell for the feint"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aldatmaya gelindi"
+          }
+        }
+      }
+    },
+    "reflex.result.feint_ok": {
+      "comment": "Trial result (R2 accessibility).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Held on the feint"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aldatmada beklendi"
+          }
+        }
+      }
+    },
+    "reflex.result.missed": {
+      "comment": "Trial result (R2 accessibility).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Missed"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaçırıldı"
+          }
+        }
+      }
+    },
+    "reflex.result.partial": {
+      "comment": "Trial result (R2 accessibility).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Half a response"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yarım tepki"
+          }
+        }
+      }
+    },
+    "reflex.result.wrong": {
+      "comment": "Trial result (R2 accessibility).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wrong response"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yanlış tepki"
+          }
+        }
+      }
+    },
+    "reflex.rt %lld": {
+      "comment": "Reaction time after a trial (R2).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ms"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ms"
+          }
+        }
+      }
+    },
+    "reflex.rt_approximate": {
+      "comment": "specs/05: TTS cue or Bluetooth output.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reaction time is approximate"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tepki süresi yaklaşık"
+          }
+        }
+      }
+    },
     "reflex.set_summary %lld %lld %lld": {
       "comment": "Spoken reflex set summary (specs/05).",
       "extractionState": "manual",
@@ -638,6 +1078,144 @@
           "stringUnit": {
             "state": "translated",
             "value": "En zor: %@."
+          }
+        }
+      }
+    },
+    "reflex.summary.fault %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Most frequent fault: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En sık hata: %@"
+          }
+        }
+      }
+    },
+    "reflex.summary.feints %lld %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Feints held: %1$lld of %2$lld"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aldatmada beklenen: %2$lld'den %1$lld"
+          }
+        }
+      }
+    },
+    "reflex.summary.hits %lld %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld of %2$lld right"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%2$lld işaretten %1$lld isabet"
+          }
+        }
+      }
+    },
+    "reflex.summary.preferred %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preferred response: %lld%%"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tercih edilen tepki: %%%lld"
+          }
+        }
+      }
+    },
+    "reflex.summary.rt %lld %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Median %1$lld ms · p90 %2$lld ms"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Medyan %1$lld ms · p90 %2$lld ms"
+          }
+        }
+      }
+    },
+    "reflex.summary.strike %@ %lld %lld %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@: %2$lld/%3$lld, median %4$lld ms"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@: %2$lld/%3$lld, medyan %4$lld ms"
+          }
+        }
+      }
+    },
+    "reflex.summary.title": {
+      "comment": "R3 title.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reflex set"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Refleks seti"
+          }
+        }
+      }
+    },
+    "reflex.unavailable": {
+      "comment": "AC-5.8: App Store build with a draft catalog.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The reflex mapping is not approved yet; this block is skipped."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Refleks eşlemesi henüz onaylanmadı; bu blok atlanıyor."
           }
         }
       }
@@ -1498,23 +2076,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hazırım"
-          }
-        }
-      }
-    },
-    "training.reflex.later": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reflex sets come in the next build; this block was skipped"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Refleks seti bir sonraki sürümde; bu blok atlandı"
           }
         }
       }
