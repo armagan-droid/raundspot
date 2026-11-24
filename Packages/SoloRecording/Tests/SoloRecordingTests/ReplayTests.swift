@@ -79,4 +79,29 @@ import Testing
         let d = RecordingReplay.diff(old: replay, new: stricter)
         #expect(!d.added.isEmpty || !d.removed.isEmpty)
     }
+
+    /// specs/09 notes: a note belongs to the attempt that holds its time; labelled notes on every attempt
+    /// become the export's `labels.reps`, which the calibration report reads.
+    @Test func notesLabelTheAttemptsAndReachTheExport() async throws {
+        let dir = FileManager.default.temporaryDirectory.appendingPathComponent("notes-\(UUID().uuidString)", isDirectory: true)
+        try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        let started = #"{"type":"REP_STARTED"}"#, done = #"{"type":"REP_COMPLETED","outcome":"valid","faults":[],"durationMs":400}"#
+        let lines = [(1000, started), (1400, done), (3000, started), (3500, done)].map { t, e in
+            #"{"t":\#(t),"template":"slip_left","events":[\#(e)]}"#
+        }
+        try lines.joined(separator: "\n").write(to: dir.appendingPathComponent("engine.jsonl"), atomically: true, encoding: .utf8)
+        let attempts = RecordingNotes.attempts(package: dir, template: "slip_left")
+        #expect(attempts == [RecordedAttempt(start: 1000, end: 1400, outcome: "valid"), RecordedAttempt(start: 3000, end: 3500, outcome: "valid")])
+
+        var notes = [RecordingNote(t: 1200, text: "iyi", author: .coach, label: .init(outcome: "valid", faults: [])),
+                     RecordingNote(t: 2000, text: "arada", author: .developer)]
+        #expect(RecordingNotes.attempt(for: notes[1], in: attempts) == nil)
+        #expect(RecordingNotes.labels(notes, attempts: attempts) == nil)  // the second attempt has no label yet
+        notes.append(RecordingNote(t: 3100, text: "boyunla", author: .coach, label: .init(outcome: "faulty", faults: ["neck_only"])))
+        try RecordingNotes.save(notes, dir)
+        let loaded = RecordingNotes.load(dir)
+        #expect(loaded.count == 3 && loaded.map(\.t) == [1200, 2000, 3100])
+        #expect(RecordingNotes.labels(loaded, attempts: attempts) == [RepLabel(outcome: .valid, faults: []),
+                                                                       RepLabel(outcome: .faulty, faults: ["neck_only"])])
+    }
 }

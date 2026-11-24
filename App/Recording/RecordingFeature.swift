@@ -129,9 +129,11 @@ struct RecordingHome: SwiftUI.View {
     private func recordingsSection(_ lib: RecordingLibrary) -> some SwiftUI.View {
         Section("rec.recordings") {
             ForEach(lib.packages(), id: \.meta.recordingId) { p in
-                VStack(alignment: .leading) {
-                    Text("\(p.meta.participant) · \(p.meta.mode)").font(.headline)
-                    Text(p.meta.createdAt, style: .date).font(.caption)
+                NavigationLink { PlaybackView(package: p) } label: {
+                    VStack(alignment: .leading) {
+                        Text("\(p.meta.participant) · \(p.meta.templates.keys.sorted().joined(separator: ", "))").font(.headline)
+                        Text(p.meta.createdAt, style: .date).font(.caption)
+                    }
                 }
             }
         }
