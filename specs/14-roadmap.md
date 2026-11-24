@@ -72,6 +72,7 @@ Bu proje salon reposundan bağımsızdır; salon reposuna hiçbir görevde yazı
   - *Kalan: AC-9.2 UI testi (UI test hedefi yok), cihazda 10 dakikalık AC-9.3 testi ve koruma sınıfı (AC-9.8), hukuki rıza metni (09 açık soru 1).*
 - [ ] T5.2 Oynatma ekranı ve notlar — 09 (AC-9.4)
 - [ ] T5.3 Yeniden oynatma ve değer taraması — 09 (AC-9.5)
+- Durum (2026-11-25, T5.3 kısmı): `RecordingReplay` (kayıttaki olaylar, aynı karelerde yeniden koşu, parametre yoluyla değişiklik, eski/yeni farkı, değer taraması `Calibration.sweep` ile). AC-9.5 testli: sentetik bir kayıtta değişmemiş eşiklerle yeniden oynatma kayıttaki olayların aynısını verir. Olaylar artık yapılandırılmış JSON (`EngineEvent.jsonObject`); videonun alamadığı kare de poz satırı alır (`inVideo: false`). Kalan: X6 ekranı (parametre seçimi, iki şerit, sonuç tablosu, "Kopyala (JSON)").
 - [x] T5.4 Landmark dışa aktarma; örnek dosyanın `solo-calibrate` ile okunması (CI) — 09 (AC-9.6) *Durum (2026-11-25):*
   - *`RecordingExport`: `poses.jsonl` → `LandmarkSequence` v2 `vision19` `team`, katı `meta` (03). Dosya gzip'li `.json.gz`, adı meta'daki dışa aktarım listesine yazılır; video ve görüntü girmez.*
   - *`fixtures/export-sample/slip_left.json` CI'da katı şemayla ve `solo-calibrate report` ile okunur.*

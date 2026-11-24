@@ -15,7 +15,7 @@ let package = Package(
     targets: [
         .target(name: "SoloRecording", dependencies: [.product(name: "SoloEngine", package: "SoloEngine"),
                                                       .product(name: "SoloPose", package: "SoloPose")]),
-        .testTarget(name: "SoloRecordingTests", dependencies: ["SoloRecording"]),
+        .testTarget(name: "SoloRecordingTests", dependencies: ["SoloRecording", .product(name: "SoloEngineTesting", package: "SoloEngine")]),
     ],
     swiftLanguageModes: [.v6]
 )

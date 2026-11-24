@@ -78,7 +78,7 @@ import SoloEngine
         await w.finish()
 
         let lines = try String(contentsOf: w.dir.appendingPathComponent("poses.jsonl"), encoding: .utf8).split(separator: "\n")
-        let posePTS = try lines.map { l -> CMTime in
+        let posePTS = try lines.filter { !$0.contains("\"inVideo\":false") }.map { l -> CMTime in
             let o = try #require(try JSONSerialization.jsonObject(with: Data(l.utf8)) as? [String: Any])
             return CMTime(value: (o["videoValue"] as! NSNumber).int64Value, timescale: (o["videoScale"] as! NSNumber).int32Value)
         }
@@ -187,7 +187,7 @@ import SoloEngine
         let seq = try LandmarkSequence.parse(data: json).get()
         #expect(seq.formatVersion == 2 && seq.skeleton == .vision19 && seq.source == .team && !seq.hasWorld)
         #expect(seq.meta?.participant == "P03" && seq.meta?.templates == [.init(id: "slip_left", version: 2)])
-        #expect(seq.frames.count == w.framesWritten && seq.imageAspect == 0.75)
+        #expect(seq.frames.count == 30 && seq.imageAspect == 0.75)
         #expect(seq.frames[4].image[LandmarkName.nose.index].visibility == 0)  // skipped by Vision
         #expect(abs(seq.frames[0].image[LandmarkName.nose.index].y - 0.2) < 1e-9)  // y flipped to image coordinates
         // the export is listed in the package's meta (shown on withdrawal)

@@ -134,6 +134,19 @@ public struct EngineCase: Sendable, Equatable {
 // MARK: - JSON
 
 extension EngineEvent {
+    /// `{ "type": …, fields }`, as golden files and recordings write events (specs/03, specs/09).
+    public var jsonObject: JSONValue {
+        var o: JSONValue = ["type": .string(type)]
+        for (k, v) in jsonFields { o[k] = v }
+        return o
+    }
+
+    /// The inverse of `jsonObject`.
+    public init?(jsonObject o: JSONValue) {
+        guard let type = o["type"]?.stringValue else { return nil }
+        self.init(type: type, o)
+    }
+
     var jsonFields: [(String, JSONValue)] {
         switch self {
         case .repCompleted(let outcome, let faults, let durationMs):

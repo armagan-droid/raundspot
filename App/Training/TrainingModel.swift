@@ -474,7 +474,9 @@ import UIKit
             var line: [String: Any] = ["t": f.t, "template": loaded.pack.id, "rep": engine.repState.rawValue,
                                        "near": engine.nearSide.rawValue]
             line["metrics"] = engine.metrics.mapValues { $0.isNaN ? NSNull() as Any : $0 as Any }
-            if !events.isEmpty { line["events"] = events.map { "\($0.event)" } }
+            if !events.isEmpty {
+                line["events"] = events.map { (try? JSONSerialization.jsonObject(with: Data($0.event.jsonObject.serialized().utf8))) ?? [:] }
+            }
             r.engineLine(line)
         }
         let m = engine.metrics[loaded.pack.rep.metric]
