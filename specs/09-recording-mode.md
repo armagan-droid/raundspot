@@ -30,7 +30,7 @@ Bir kayıt, kamera akışının tek bir kesintisiz parçasıdır (bir set, bir r
 
 - **Eş zaman:** video yazıcısı ve poz akışı **aynı `CMSampleBuffer`'ları** kullanır; her kayıt satırı karenin PTS'sini taşır. Videodaki kare ile poz satırı PTS ile birebir eşlenir. Vision'ın atladığı kare (kuyrukta atılan) videoda vardır, pozda `"skipped": true` satırı olarak yer alır.
 - Kayıt paketi: `Recordings/<recordingId>.gsrec/` (yukarıdaki dosyalar). `recordingId` UUID.
-- **Poz satırı (T5.1, 2026-11-25):** `{ "ptsValue", "ptsScale", "t", "videoValue", "videoScale", "people", "selected", "joints": { "<eklem>": [x, y, güven] } }`. Atlanan karede `"skipped": true` olur. `pts*` karenin host saatindeki zamanıdır. `video*` ise aynı karenin videodaki zamanıdır (ilk kareden itibaren, yuvarlamasız; video ve parça zaman ölçeği kameranınkidir). Video yazıcısının almadığı kareye poz satırı yazılmaz; böylece her video karesinin tam bir satırı olur (AC-9.3).
+- **Poz satırı (T5.1, 2026-11-25):** `{ "ptsValue", "ptsScale", "t", "videoValue", "videoScale", "people", "selected", "joints": { "<eklem>": [x, y, güven] } }`. Atlanan karede `"skipped": true` olur. `pts*` karenin host saatindeki zamanıdır. `video*` ise aynı karenin videodaki zamanıdır (ilk kareden itibaren, yuvarlamasız; video ve parça zaman ölçeği kameranınkidir). İşlenen her karenin satırı yazılır; böylece her video karesinin bir satırı olur (AC-9.3). Video yazıcısının alamadığı kare `"inVideo": false` ile işaretlenir ve yeniden oynatmaya yine girer, çünkü canlı motor da o kareyi görmüştür (AC-9.5).
 - Boyut: dakikada yaklaşık 4–6 MB video + 1 MB poz/motor. Boş alan < 2 GB ise kayıt başlamadan uyarı; < 500 MB ise kayıt başlatılmaz.
 
 ## Depolama ve güvenlik

@@ -24,8 +24,8 @@ public struct PoseLine: Sendable {
 }
 
 /// Writes one recording package `<id>.gsrec/` (specs/09): `video.mov` without audio, and `poses.jsonl`,
-/// `engine.jsonl`, `app.jsonl`, `meta.json`. A pose line is written only for a frame the video took, with the
-/// same PTS, so every video frame has its line (AC-9.3).
+/// `engine.jsonl`, `app.jsonl`, `meta.json`. Every processed frame gets a pose line with its PTS, so every video
+/// frame has its line (AC-9.3); a frame the video could not take is marked `inVideo: false`.
 public final class RecordingWriter: @unchecked Sendable {
     public let dir: URL
     public private(set) var meta: RecordingMeta
@@ -61,15 +61,15 @@ public final class RecordingWriter: @unchecked Sendable {
     /// One camera frame: into the video, then its pose line with the same PTS.
     public func frame(_ pixelBuffer: CVPixelBuffer, pts: CMTime, pose: PoseLine) {
         if !started { start(pixelBuffer, at: pts) }
-        guard let input, let adaptor, input.isReadyForMoreMediaData, adaptor.append(pixelBuffer, withPresentationTime: pts) else {
-            framesDropped += 1  // not in the video: no pose line either
-            return
-        }
-        framesWritten += 1
+        // every processed frame gets its line (the engine saw it, AC-9.5); one the video could not take is marked
+        var inVideo = false
+        if let input, let adaptor, input.isReadyForMoreMediaData, adaptor.append(pixelBuffer, withPresentationTime: pts) { inVideo = true }
+        if inVideo { framesWritten += 1 } else { framesDropped += 1 }
         // host PTS, and the frame's time in the video (from its first frame), exact in the same timescale
         let v = CMTimeSubtract(pts, startPTS)
         var line: [String: Any] = ["ptsValue": pts.value, "ptsScale": pts.timescale, "t": CMTimeGetSeconds(pts) * 1000,
                                    "videoValue": v.value, "videoScale": v.timescale, "aspect": pose.aspect]
+        if !inVideo { line["inVideo"] = false }
         if pose.skipped {
             line["skipped"] = true
         } else {
