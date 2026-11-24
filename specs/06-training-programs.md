@@ -60,12 +60,15 @@ ref 03 girdilerine (motor olayları, `USER_ACTION`, `TICK`) eklenenler. Devir ve
     { "type": "technique", "exerciseId": "slip_left", "sets": 2, "reps": 8, "restSec": 45, "mode": "lenient" },
     { "type": "reflex", "catalogId": "muay_thai", "level": 1, "cues": 15, "restSec": 60 },
     { "type": "conditioning", "exerciseId": "squat", "sets": 3, "reps": 12, "restSec": 60, "mode": "lenient" },
+    { "type": "circuit", "rounds": 3, "restSec": 60,
+      "blocks": [ { "type": "conditioning", "exerciseId": "jumping_jack", "reps": 20 }, { "type": "conditioning", "exerciseId": "squat", "reps": 12 } ] },
     { "type": "guided", "steps": [ … ] } ] }
 ```
 - `level` bir tam sayı ya da `"chosen"`: kullanıcı seviyeyi antrenman başında seçer (H3). `conditioning` bloğu `reps` ya da `durationSec`'ten tam olarak birini taşır. `mode` öntanımlı `lenient`.
 - `technique` ve `conditioning` bloklarının `exerciseId`'si `exercises/` altında bir şablon olmalıdır (AC-6.5, `solo-calibrate validate`). `reflex` bloğunun `catalogId`'si `exercises/reflex/` altında bir katalog olmalıdır (`solo-calibrate validate`, 05).
 - `reflex` bloğu `sets` taşıyabilir (öntanımlı 1); `cues` yoksa seviyenin işaret sayısı geçerlidir (05, öntanımlı 20).
-- "Hızlı karma" (seçilen 2 eskiv) için bloklarda seçim gösterimi gerekir. Kondisyon **devresi** için de (blokların sırayla tekrarı, devreler arası dinlenme) format eklemesi gerekir. İkisi de formata sonra eklenecek. O zamana kadar "Kondisyon" antrenmanı her hareketi düz setlerle yazar (3 set, 60 sn dinlenme) ve "Hızlı karma" dosyası yoktur. `reverse_lunge` 20 tekrar = her bacak 10.
+- **Devre** (`circuit`, 2026-11-24): iç bloklar sırayla, her biri bir set olarak yürür; bu `rounds` kez tekrarlanır. Devreler arasında `restSec` dinlenme olur (son devreden sonra olmaz). Hareketler arasında dinlenme yoktur: sıradaki set `READY`'de başlar, görünümü farklıysa görünüm ipucuyla birlikte (S1 kuralı yukarıda). İç bloklar yalnız `conditioning`'dir ve `sets` ile `restSec` taşımaz (`reps` ya da `durationSec`, isteğe bağlı `mode`). Yükleyici devreyi düz bloklara açar: devre r, hareket i → `sets: 1`, `restSec: 0` olan bir `conditioning` bloğu. Devreler arası dinlenme, turun son hareketinin bloğuna "bloktan sonra dinlenme" (`restAfterBlock`) olarak yazılır. Makine bir bloğun son seti bitip sıradaki kameralı bloğa geçerken bu süre kadar `REST`'e girer. Bloklar arasında başka dinlenme yoktur; `restSec` yalnız aynı bloğun setleri arasındadır. Kayıtlarda her hareket ayrı bir bloktur (`kind: conditioning`, 11).
+- "Hızlı karma" (seçilen 2 eskiv) için bloklarda seçim gösterimi gerekir; bu, refleks modu (Faz 4) ile birlikte formata eklenecek. O zamana kadar "Hızlı karma" dosyası yoktur. `reverse_lunge` 20 tekrar = her bacak 10.
 - Ref 03 kural 5'teki "`CONTINUE_SET` → sayaç sıfırlanır" ifadesi, bu projede **hareketsizlik sayacı** olarak okunur. Tekrar sayacı korunur, çünkü sıfırlamak yapılan tekrarları silerdi.
 
 ### MVP hazır antrenmanları (taslak, hoca onayına bağlı)

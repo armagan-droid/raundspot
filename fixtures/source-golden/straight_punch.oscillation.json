@@ -1,0 +1,310 @@
+{
+ "goldenVersion": 1,
+ "source": {
+  "repo": "armagan-droid/gymspot",
+  "commit": "c2fe3fd"
+ },
+ "rulePack": "straight_punch",
+ "rulePackVersion": 1,
+ "setup": {
+  "view": "side",
+  "nearSide": "left"
+ },
+ "options": {
+  "safetyPause": true
+ },
+ "cuesEnabled": [],
+ "sequence": "sequences/straight_punch/oscillation.json",
+ "expected": {
+  "events": [
+   {
+    "frame": 20,
+    "t": 1000,
+    "type": "READY_POSE_HELD"
+   },
+   {
+    "frame": 42,
+    "t": 2100,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 47,
+    "t": 2350,
+    "type": "REP_COMPLETED",
+    "outcome": "incomplete",
+    "faults": [],
+    "durationMs": 250
+   },
+   {
+    "frame": 66,
+    "t": 3300,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 72,
+    "t": 3600,
+    "type": "REP_COMPLETED",
+    "outcome": "incomplete",
+    "faults": [],
+    "durationMs": 300
+   },
+   {
+    "frame": 90,
+    "t": 4500,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 95,
+    "t": 4750,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 300
+   }
+  ],
+  "metrics": {
+   "every": 10,
+   "values": [
+    {
+     "frame": 0,
+     "values": {
+      "arm_lift_l": 30.257992565731207,
+      "arm_lift_r": 27.16321377133707,
+      "arm_lift": 30.257992565731207,
+      "guard_near": -0.047407286660115164,
+      "torso_lean": 3.153847551974916
+     }
+    },
+    {
+     "frame": 10,
+     "values": {
+      "arm_lift_l": 29.14445273066601,
+      "arm_lift_r": 20.5911033715326,
+      "arm_lift": 27.507134620503344,
+      "guard_near": -0.06779950351857078,
+      "torso_lean": 5.585738557722725
+     }
+    },
+    {
+     "frame": 20,
+     "values": {
+      "arm_lift_l": 26.700028065989095,
+      "arm_lift_r": 27.557256377034644,
+      "arm_lift": 27.78271875659601,
+      "guard_near": 0.0015407228831011716,
+      "torso_lean": 7.343915723324955
+     }
+    },
+    {
+     "frame": 30,
+     "values": {
+      "arm_lift_l": 31.762727613838837,
+      "arm_lift_r": 21.746970303741584,
+      "arm_lift": 31.90839385697783,
+      "guard_near": -0.07767880675368821,
+      "torso_lean": 0.6017511848000436
+     }
+    },
+    {
+     "frame": 40,
+     "values": {
+      "arm_lift_l": 30.38857927502871,
+      "arm_lift_r": 30.326491673857273,
+      "arm_lift": 29.506118665608206,
+      "guard_near": -0.005537136518585511,
+      "torso_lean": 2.4199273400619927
+     }
+    },
+    {
+     "frame": 50,
+     "values": {
+      "arm_lift_l": 22.493397398731844,
+      "arm_lift_r": 29.48224545698066,
+      "arm_lift": 30.5603763311251,
+      "guard_near": -0.005001619139174994,
+      "torso_lean": 3.3812748538230264
+     }
+    },
+    {
+     "frame": 60,
+     "values": {
+      "arm_lift_l": 24.73528707575398,
+      "arm_lift_r": 24.6204433229966,
+      "arm_lift": 26.493985701690914,
+      "guard_near": -0.03978644816431088,
+      "torso_lean": 1.2173748045240302
+     }
+    },
+    {
+     "frame": 70,
+     "values": {
+      "arm_lift_l": 28.16579247354663,
+      "arm_lift_r": 49.48045827659882,
+      "arm_lift": 49.28183719499474,
+      "guard_near": 0.001425669039633354,
+      "torso_lean": 4.2536993273708195
+     }
+    },
+    {
+     "frame": 80,
+     "values": {
+      "arm_lift_l": 33.30232476785753,
+      "arm_lift_r": 26.688237467534186,
+      "arm_lift": 33.08211084399569,
+      "guard_near": -0.018841078761154463,
+      "torso_lean": 2.5406759180874956
+     }
+    },
+    {
+     "frame": 90,
+     "values": {
+      "arm_lift_l": 29.159082221147152,
+      "arm_lift_r": 61.45743615298412,
+      "arm_lift": 61.420966700754825,
+      "guard_near": -0.03178124677805562,
+      "torso_lean": 1.340563886319347
+     }
+    },
+    {
+     "frame": 100,
+     "values": {
+      "arm_lift_l": 31.13356232163929,
+      "arm_lift_r": 27.864685250101033,
+      "arm_lift": 31.060891288316938,
+      "guard_near": 0.03826484567455166,
+      "torso_lean": 2.6183032490244553
+     }
+    },
+    {
+     "frame": 110,
+     "values": {
+      "arm_lift_l": 30.842811855879994,
+      "arm_lift_r": 24.932273347818775,
+      "arm_lift": 30.70575805041167,
+      "guard_near": -0.003428217129333255,
+      "torso_lean": 1.155072339887058
+     }
+    }
+   ]
+  },
+  "repStates": [
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START"
+  ]
+ }
+}

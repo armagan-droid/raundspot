@@ -1,0 +1,134 @@
+squat.clean_seed1: READY_POSE_HELD valid valid valid
+squat.clean_noisy_seed7: READY_POSE_HELD valid valid valid
+squat.mirrored_seed3: READY_POSE_HELD valid valid valid
+squat.faulty_1: READY_POSE_HELD FAULT_DETECTED:knee_valgus valid[knee_valgus] SAFETY_PAUSE:knee_valgus valid[knee_valgus] valid
+squat.faulty_2: READY_POSE_HELD FAULT_DETECTED:insufficient_depth faulty[insufficient_depth] faulty[insufficient_depth] valid
+squat.faulty_3: READY_POSE_HELD valid[excessive_forward_lean] FAULT_DETECTED:excessive_forward_lean valid[excessive_forward_lean] valid
+squat.faulty_1_cues_off_midway: READY_POSE_HELD FAULT_DETECTED:knee_valgus valid[knee_valgus] SAFETY_PAUSE:knee_valgus valid[knee_valgus] valid
+squat.faulty_1_no_safety_pause: READY_POSE_HELD FAULT_DETECTED:knee_valgus valid[knee_valgus] valid[knee_valgus] valid
+squat.faulty_1_ambiguous_view: READY_POSE_HELD valid valid valid
+squat.oscillation: valid valid valid
+squat.tracking_lost: valid TRACKING_LOST TRACKING_RESTORED valid valid
+squat.low_visibility: READY_POSE_HELD valid valid valid
+squat.side_clean: READY_POSE_HELD valid valid
+pushup.clean_seed1: READY_POSE_HELD valid valid valid
+pushup.clean_noisy_seed7: valid valid valid
+pushup.mirrored_seed3: valid valid valid
+pushup.faulty_1: READY_POSE_HELD valid[hip_sag] FAULT_DETECTED:hip_sag SAFETY_PAUSE:hip_sag valid[hip_sag] valid
+pushup.faulty_2: READY_POSE_HELD valid[hip_pike] FAULT_DETECTED:partial_range faulty[partial_range] faulty[partial_range]
+pushup.faulty_3: READY_POSE_HELD valid FAULT_DETECTED:partial_range faulty[partial_range] valid[hip_sag]
+pushup.faulty_1_cues_off_midway: READY_POSE_HELD valid[hip_sag] SAFETY_PAUSE:hip_sag valid[hip_sag] valid
+pushup.faulty_1_no_safety_pause: READY_POSE_HELD valid[hip_sag] FAULT_DETECTED:hip_sag valid[hip_sag] valid
+pushup.faulty_1_ambiguous_view: READY_POSE_HELD valid valid valid
+pushup.oscillation: FAULT_DETECTED:partial_range faulty[partial_range] valid
+pushup.tracking_lost: READY_POSE_HELD valid TRACKING_LOST TRACKING_RESTORED valid valid
+pushup.low_visibility: READY_POSE_HELD valid valid valid
+shoulder_press.clean_seed1: READY_POSE_HELD valid valid valid
+shoulder_press.clean_noisy_seed7: READY_POSE_HELD valid valid valid
+shoulder_press.mirrored_seed3: READY_POSE_HELD valid valid valid
+shoulder_press.faulty_1: READY_POSE_HELD valid[uneven_arms] FAULT_DETECTED:uneven_arms valid[uneven_arms] valid
+shoulder_press.faulty_2: READY_POSE_HELD valid[back_arch] FAULT_DETECTED:back_arch SAFETY_PAUSE:back_arch valid[back_arch] valid
+shoulder_press.faulty_3: READY_POSE_HELD FAULT_DETECTED:incomplete_lockout faulty[incomplete_lockout] valid valid
+shoulder_press.faulty_1_cues_off_midway: READY_POSE_HELD valid[uneven_arms] valid[uneven_arms] valid
+shoulder_press.faulty_1_no_safety_pause: READY_POSE_HELD valid[uneven_arms] FAULT_DETECTED:uneven_arms valid[uneven_arms] valid
+shoulder_press.faulty_1_ambiguous_view: READY_POSE_HELD valid valid valid
+shoulder_press.oscillation: READY_POSE_HELD valid valid
+shoulder_press.tracking_lost: READY_POSE_HELD valid TRACKING_LOST TRACKING_RESTORED valid valid
+shoulder_press.low_visibility: READY_POSE_HELD valid valid valid
+slip.clean_seed1: READY_POSE_HELD valid valid valid READY_POSE_HELD
+slip.clean_noisy_seed7: READY_POSE_HELD valid valid valid READY_POSE_HELD
+slip.mirrored_seed3: READY_POSE_HELD valid valid valid READY_POSE_HELD
+slip.faulty_1: READY_POSE_HELD valid[neck_only] FAULT_DETECTED:neck_only valid[neck_only] valid READY_POSE_HELD
+slip.faulty_2: READY_POSE_HELD FAULT_DETECTED:guard_dropped valid[guard_dropped] READY_POSE_HELD valid READY_POSE_HELD valid[guard_dropped] READY_POSE_HELD
+slip.faulty_3: READY_POSE_HELD incomplete valid READY_POSE_HELD
+slip.faulty_1_cues_off_midway: READY_POSE_HELD valid[neck_only] FAULT_DETECTED:neck_only valid[neck_only] valid READY_POSE_HELD
+slip.faulty_1_no_safety_pause: READY_POSE_HELD valid[neck_only] FAULT_DETECTED:neck_only valid[neck_only] valid READY_POSE_HELD
+slip.faulty_1_ambiguous_view: READY_POSE_HELD valid valid valid READY_POSE_HELD
+slip.oscillation: READY_POSE_HELD incomplete READY_POSE_HELD incomplete READY_POSE_HELD incomplete READY_POSE_HELD READY_POSE_HELD
+slip.tracking_lost: READY_POSE_HELD valid valid TRACKING_LOST TRACKING_RESTORED valid READY_POSE_HELD
+slip.low_visibility: READY_POSE_HELD valid valid valid READY_POSE_HELD
+slip_left.clean_seed1: READY_POSE_HELD valid valid valid READY_POSE_HELD
+slip_left.clean_noisy_seed7: READY_POSE_HELD valid valid valid READY_POSE_HELD
+slip_left.mirrored_seed3: READY_POSE_HELD READY_POSE_HELD READY_POSE_HELD
+slip_left.faulty_1: READY_POSE_HELD valid[neck_only] FAULT_DETECTED:neck_only valid[neck_only] valid READY_POSE_HELD
+slip_left.faulty_2: READY_POSE_HELD FAULT_DETECTED:guard_dropped valid[guard_dropped] READY_POSE_HELD valid READY_POSE_HELD valid[guard_dropped] READY_POSE_HELD
+slip_left.faulty_3: READY_POSE_HELD incomplete valid READY_POSE_HELD
+slip_left.faulty_1_cues_off_midway: READY_POSE_HELD valid[neck_only] FAULT_DETECTED:neck_only valid[neck_only] valid READY_POSE_HELD
+slip_left.faulty_1_no_safety_pause: READY_POSE_HELD valid[neck_only] FAULT_DETECTED:neck_only valid[neck_only] valid READY_POSE_HELD
+slip_left.faulty_1_ambiguous_view: READY_POSE_HELD valid valid valid READY_POSE_HELD
+slip_left.oscillation: READY_POSE_HELD incomplete READY_POSE_HELD incomplete READY_POSE_HELD incomplete READY_POSE_HELD READY_POSE_HELD
+slip_left.tracking_lost: READY_POSE_HELD valid valid TRACKING_LOST TRACKING_RESTORED valid READY_POSE_HELD
+slip_left.low_visibility: READY_POSE_HELD valid valid valid READY_POSE_HELD
+slip_right.clean_seed1: READY_POSE_HELD valid valid valid READY_POSE_HELD
+slip_right.clean_noisy_seed7: READY_POSE_HELD valid valid valid READY_POSE_HELD
+slip_right.mirrored_seed3: READY_POSE_HELD
+slip_right.faulty_1: READY_POSE_HELD valid[neck_only] FAULT_DETECTED:neck_only valid[neck_only] valid READY_POSE_HELD
+slip_right.faulty_2: READY_POSE_HELD FAULT_DETECTED:guard_dropped valid[guard_dropped] READY_POSE_HELD valid READY_POSE_HELD valid[guard_dropped] READY_POSE_HELD
+slip_right.faulty_3: READY_POSE_HELD incomplete valid READY_POSE_HELD
+slip_right.faulty_1_cues_off_midway: READY_POSE_HELD valid[neck_only] FAULT_DETECTED:neck_only valid[neck_only] valid READY_POSE_HELD
+slip_right.faulty_1_no_safety_pause: READY_POSE_HELD valid[neck_only] FAULT_DETECTED:neck_only valid[neck_only] valid READY_POSE_HELD
+slip_right.faulty_1_ambiguous_view: READY_POSE_HELD valid valid valid READY_POSE_HELD
+slip_right.oscillation: READY_POSE_HELD valid READY_POSE_HELD incomplete READY_POSE_HELD valid READY_POSE_HELD READY_POSE_HELD
+slip_right.tracking_lost: READY_POSE_HELD valid valid TRACKING_LOST TRACKING_RESTORED valid READY_POSE_HELD
+slip_right.low_visibility: READY_POSE_HELD valid valid valid READY_POSE_HELD
+duck.clean_seed1: READY_POSE_HELD valid READY_POSE_HELD valid READY_POSE_HELD valid READY_POSE_HELD
+duck.clean_noisy_seed7: READY_POSE_HELD valid READY_POSE_HELD valid READY_POSE_HELD valid READY_POSE_HELD
+duck.mirrored_seed3: READY_POSE_HELD valid READY_POSE_HELD valid READY_POSE_HELD valid READY_POSE_HELD
+duck.faulty_1: READY_POSE_HELD FAULT_DETECTED:guard_dropped valid[guard_dropped] READY_POSE_HELD valid[guard_dropped] READY_POSE_HELD valid READY_POSE_HELD
+duck.faulty_2: READY_POSE_HELD READY_POSE_HELD FAULT_DETECTED:guard_dropped valid[guard_dropped] READY_POSE_HELD READY_POSE_HELD
+duck.faulty_3: READY_POSE_HELD valid READY_POSE_HELD valid READY_POSE_HELD
+duck.faulty_1_cues_off_midway: READY_POSE_HELD FAULT_DETECTED:guard_dropped valid[guard_dropped] READY_POSE_HELD valid[guard_dropped] READY_POSE_HELD valid READY_POSE_HELD
+duck.faulty_1_no_safety_pause: READY_POSE_HELD FAULT_DETECTED:guard_dropped valid[guard_dropped] READY_POSE_HELD valid[guard_dropped] READY_POSE_HELD valid READY_POSE_HELD
+duck.faulty_1_ambiguous_view: READY_POSE_HELD valid READY_POSE_HELD valid READY_POSE_HELD valid READY_POSE_HELD
+duck.oscillation: READY_POSE_HELD incomplete READY_POSE_HELD incomplete READY_POSE_HELD valid READY_POSE_HELD
+duck.tracking_lost: READY_POSE_HELD valid TRACKING_LOST valid TRACKING_RESTORED valid READY_POSE_HELD
+duck.low_visibility: READY_POSE_HELD valid valid valid READY_POSE_HELD
+teep.clean_seed1: READY_POSE_HELD valid valid valid
+teep.clean_noisy_seed7: READY_POSE_HELD valid valid valid
+teep.mirrored_seed3: READY_POSE_HELD valid valid valid
+teep.faulty_1: READY_POSE_HELD valid[excessive_lean] FAULT_DETECTED:excessive_lean valid[excessive_lean] valid
+teep.faulty_2: READY_POSE_HELD FAULT_DETECTED:guard_dropped valid[guard_dropped] READY_POSE_HELD valid valid[guard_dropped] READY_POSE_HELD
+teep.faulty_3: READY_POSE_HELD incomplete incomplete valid
+teep.faulty_1_cues_off_midway: READY_POSE_HELD valid[excessive_lean] FAULT_DETECTED:excessive_lean valid[excessive_lean] valid
+teep.faulty_1_no_safety_pause: READY_POSE_HELD valid[excessive_lean] FAULT_DETECTED:excessive_lean valid[excessive_lean] valid
+teep.faulty_1_ambiguous_view: READY_POSE_HELD valid valid valid
+teep.oscillation: READY_POSE_HELD incomplete incomplete valid
+teep.tracking_lost: READY_POSE_HELD valid incomplete TRACKING_LOST TRACKING_RESTORED valid READY_POSE_HELD
+teep.low_visibility: READY_POSE_HELD incomplete valid valid
+mae_geri.clean_seed1: READY_POSE_HELD valid valid valid
+mae_geri.clean_noisy_seed7: READY_POSE_HELD valid valid valid
+mae_geri.mirrored_seed3: READY_POSE_HELD valid valid valid
+mae_geri.faulty_1: READY_POSE_HELD valid[excessive_lean] FAULT_DETECTED:excessive_lean valid[excessive_lean] valid
+mae_geri.faulty_2: READY_POSE_HELD FAULT_DETECTED:guard_dropped valid[guard_dropped] READY_POSE_HELD valid valid[guard_dropped] READY_POSE_HELD
+mae_geri.faulty_3: READY_POSE_HELD incomplete incomplete valid
+mae_geri.faulty_1_cues_off_midway: READY_POSE_HELD valid[excessive_lean] FAULT_DETECTED:excessive_lean valid[excessive_lean] valid
+mae_geri.faulty_1_no_safety_pause: READY_POSE_HELD valid[excessive_lean] FAULT_DETECTED:excessive_lean valid[excessive_lean] valid
+mae_geri.faulty_1_ambiguous_view: READY_POSE_HELD valid valid valid
+mae_geri.oscillation: READY_POSE_HELD incomplete incomplete valid
+mae_geri.tracking_lost: READY_POSE_HELD valid incomplete TRACKING_LOST TRACKING_RESTORED valid READY_POSE_HELD
+mae_geri.low_visibility: READY_POSE_HELD incomplete valid valid
+knee_strike.clean_seed1: READY_POSE_HELD valid valid valid
+knee_strike.clean_noisy_seed7: READY_POSE_HELD valid valid valid
+knee_strike.mirrored_seed3: READY_POSE_HELD valid valid valid
+knee_strike.faulty_1: READY_POSE_HELD valid[excessive_lean] FAULT_DETECTED:excessive_lean valid[excessive_lean] valid
+knee_strike.faulty_2: READY_POSE_HELD FAULT_DETECTED:guard_dropped valid[guard_dropped] READY_POSE_HELD valid valid[guard_dropped] READY_POSE_HELD
+knee_strike.faulty_3: READY_POSE_HELD incomplete incomplete valid
+knee_strike.faulty_1_cues_off_midway: READY_POSE_HELD valid[excessive_lean] FAULT_DETECTED:excessive_lean valid[excessive_lean] valid
+knee_strike.faulty_1_no_safety_pause: READY_POSE_HELD valid[excessive_lean] FAULT_DETECTED:excessive_lean valid[excessive_lean] valid
+knee_strike.faulty_1_ambiguous_view: READY_POSE_HELD valid valid valid
+knee_strike.oscillation: READY_POSE_HELD valid valid valid
+knee_strike.tracking_lost: READY_POSE_HELD valid valid TRACKING_LOST TRACKING_RESTORED valid READY_POSE_HELD
+knee_strike.low_visibility: READY_POSE_HELD valid valid valid
+straight_punch.clean_seed1: READY_POSE_HELD valid valid valid valid
+straight_punch.clean_noisy_seed7: READY_POSE_HELD valid valid valid valid
+straight_punch.mirrored_seed3: READY_POSE_HELD valid valid valid valid
+straight_punch.faulty_1: READY_POSE_HELD incomplete[excessive_lean] FAULT_DETECTED:excessive_lean incomplete[excessive_lean] valid
+straight_punch.faulty_2: READY_POSE_HELD FAULT_DETECTED:guard_dropped valid[guard_dropped] READY_POSE_HELD valid valid[guard_dropped] READY_POSE_HELD
+straight_punch.faulty_3: READY_POSE_HELD incomplete valid
+straight_punch.faulty_1_cues_off_midway: READY_POSE_HELD incomplete[excessive_lean] FAULT_DETECTED:excessive_lean incomplete[excessive_lean] valid
+straight_punch.faulty_1_no_safety_pause: READY_POSE_HELD incomplete[excessive_lean] FAULT_DETECTED:excessive_lean incomplete[excessive_lean] valid
+straight_punch.faulty_1_ambiguous_view: READY_POSE_HELD incomplete incomplete valid
+straight_punch.oscillation: READY_POSE_HELD incomplete incomplete valid
+straight_punch.tracking_lost: READY_POSE_HELD valid valid TRACKING_LOST valid TRACKING_RESTORED valid READY_POSE_HELD
+straight_punch.low_visibility: READY_POSE_HELD valid valid valid valid READY_POSE_HELD
+133 engine cases, 180 expression entries

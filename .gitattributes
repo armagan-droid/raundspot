@@ -1,2 +1,4 @@
 # Generated snapshot inputs (specs/03): large, reviewed through the case files
 fixtures/snapshots/sequences/** -diff linguist-generated=true
+# One-time source golden (specs/03): never edited, checked by scripts/ci/check-source-golden.sh
+fixtures/source-golden/sequences/** -diff linguist-generated=true

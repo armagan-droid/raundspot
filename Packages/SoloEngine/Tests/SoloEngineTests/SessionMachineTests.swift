@@ -547,6 +547,64 @@ private func sessionStatuses(_ d: Driver) -> [SessionStatus] {
         #expect(Array(firstSet) == ["countdown.3", "countdown.2", "countdown.1", "set.go"] + Array(firstSet.suffix(2)))
     }
 
+    private func circuitWorkout(_ circuit: JSONValue) throws -> Workout {
+        try Workout.parse(["formatVersion": 1, "id": "c", "name": ["tr": "c", "en": "c"], "sport": "muay_thai",
+                           "estimatedMinutes": 5, "blocks": [circuit]])
+    }
+
+    /// specs/06 "Devre": the loader opens a circuit into one-set blocks; rest only between rounds.
+    @Test func aCircuitOpensIntoOneSetBlocks() throws {
+        let w = try circuitWorkout(["type": "circuit", "rounds": 2, "restSec": 60, "blocks": [
+            ["type": "conditioning", "exerciseId": "jumping_jack", "reps": 20],
+            ["type": "conditioning", "exerciseId": "squat", "durationSec": 30, "mode": "strict"],
+        ]])
+        let jj = { (rest: Int) in Block.conditioning(exerciseId: "jumping_jack", sets: 1, reps: 20, durationSec: nil, restSec: rest, mode: .lenient) }
+        let sq = { (rest: Int) in Block.conditioning(exerciseId: "squat", sets: 1, reps: nil, durationSec: 30, restSec: rest, mode: .strict) }
+        #expect(w.blocks == [jj(0), sq(0), jj(0), sq(0)])
+        #expect(w.restAfterBlock == [1: 60])
+    }
+
+    @Test func malformedCircuitsAreRejected() throws {
+        let item: JSONValue = ["type": "conditioning", "exerciseId": "squat", "reps": 12]
+        for bad: JSONValue in [
+            ["type": "circuit", "rounds": 0, "restSec": 60, "blocks": [item]],
+            ["type": "circuit", "rounds": 2, "blocks": [item]],
+            ["type": "circuit", "rounds": 2, "restSec": 60, "blocks": []],
+            ["type": "circuit", "rounds": 2, "restSec": 60, "blocks": [["type": "conditioning", "exerciseId": "squat", "reps": 12, "sets": 3]]],
+            ["type": "circuit", "rounds": 2, "restSec": 60, "blocks": [["type": "conditioning", "exerciseId": "squat", "reps": 12, "restSec": 5]]],
+            ["type": "circuit", "rounds": 2, "restSec": 60, "blocks": [["type": "technique", "exerciseId": "slip_left", "reps": 8]]],
+            ["type": "circuit", "rounds": 2, "restSec": 60, "blocks": [["type": "circuit", "rounds": 2, "restSec": 0, "blocks": [item]]]],
+            ["type": "circuit", "rounds": 2, "restSec": 60, "blocks": [["type": "conditioning", "exerciseId": "squat"]]],
+        ] {
+            #expect(throws: Workout.ParseError.self, "\(bad)") { try circuitWorkout(bad) }
+        }
+    }
+
+    /// Kondisyon (specs/06 table): circuit ×3 of four moves, 60 s rest between rounds.
+    @Test func kondisyonRunsThreeRounds() throws {
+        let w = try load("kondisyon")
+        let moves = w.blocks.compactMap(\.exerciseId)
+        #expect(moves == Array(repeating: ["jumping_jack", "squat", "pushup", "reverse_lunge"], count: 3).flatMap { $0 })
+        #expect(w.blocks.allSatisfy { $0.restSec == 0 } && w.restAfterBlock == [4: 60, 8: 60])
+        var d = Driver(w, versions: ["jumping_jack": 1, "squat": 1, "pushup": 1, "reverse_lunge": 1])
+        d.begin()
+        d.wait(Double(w.blocks[0].steps.map(\.durationSec).reduce(0, +)) * 1000)
+        var rests = 0
+        while d.state != .sessionDone {
+            switch d.state {
+            case .ready: d.countdown()
+            case .active: d.rep()
+            case .rest: rests += 1; d.user(.ready)
+            case .cooldown: d.wait(1000)
+            default: Issue.record("unexpected state \(d.state)"); return
+            }
+            if d.log.count > 20_000 { Issue.record("runaway"); return }
+        }
+        #expect(setRecords(d).count == 12)
+        #expect(rests == 2)
+        #expect(sessionStatuses(d) == [.active, .done])
+    }
+
     @Test func malformedWorkoutsAreRejected() throws {
         var j = try Repo.read(Repo.exercises.appendingPathComponent("workouts/kondisyon.json"))
         j["blocks"]![1]!["durationSec"] = 30

@@ -1,0 +1,270 @@
+{
+ "goldenVersion": 1,
+ "source": {
+  "repo": "armagan-droid/gymspot",
+  "commit": "c2fe3fd"
+ },
+ "rulePack": "mae_geri",
+ "rulePackVersion": 1,
+ "setup": {
+  "view": "side",
+  "nearSide": "left"
+ },
+ "options": {
+  "safetyPause": true
+ },
+ "cuesEnabled": [],
+ "sequence": "sequences/mae_geri/clean_seed1.json",
+ "expected": {
+  "events": [
+   {
+    "frame": 15,
+    "t": 1000.0000000000001,
+    "type": "READY_POSE_HELD"
+   },
+   {
+    "frame": 33,
+    "t": 2200,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 38,
+    "t": 2533.3333333333335,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 333
+   },
+   {
+    "frame": 54,
+    "t": 3600.0000000000005,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 59,
+    "t": 3933.3333333333335,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 333
+   },
+   {
+    "frame": 75,
+    "t": 5000,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 80,
+    "t": 5333.333333333334,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 333
+   }
+  ],
+  "metrics": {
+   "every": 10,
+   "values": [
+    {
+     "frame": 0,
+     "values": {
+      "kick_height_l": -1.6938982790965558,
+      "kick_height_r": -1.7046292048156695,
+      "kick_height": -1.6938982790965558,
+      "guard_near": -0.01101965017792431,
+      "torso_lean": 0.504648996579406
+     }
+    },
+    {
+     "frame": 10,
+     "values": {
+      "kick_height_l": -1.6958660656104472,
+      "kick_height_r": -1.6973299535906765,
+      "kick_height": -1.6925476111827467,
+      "guard_near": -0.005146218976620644,
+      "torso_lean": 0.41304813061641144
+     }
+    },
+    {
+     "frame": 20,
+     "values": {
+      "kick_height_l": -1.7056077703348014,
+      "kick_height_r": -1.6882693039024281,
+      "kick_height": -1.6878165176634234,
+      "guard_near": -0.00938408365637093,
+      "torso_lean": 0.5189488159445494
+     }
+    },
+    {
+     "frame": 30,
+     "values": {
+      "kick_height_l": -1.6895286031304426,
+      "kick_height_r": -1.667488368931957,
+      "kick_height": -1.6660464002915811,
+      "guard_near": 0.001514752117453104,
+      "torso_lean": 1.0226471222874878
+     }
+    },
+    {
+     "frame": 40,
+     "values": {
+      "kick_height_l": -1.6994101786386602,
+      "kick_height_r": -1.6765873309407733,
+      "kick_height": -1.6712855407147538,
+      "guard_near": -0.025468824511322298,
+      "torso_lean": 0.6817680189985058
+     }
+    },
+    {
+     "frame": 50,
+     "values": {
+      "kick_height_l": -1.6854469977144717,
+      "kick_height_r": -1.670891378294256,
+      "kick_height": -1.6708542289148718,
+      "guard_near": -0.022575152783430863,
+      "torso_lean": 0.47350913400987626
+     }
+    },
+    {
+     "frame": 60,
+     "values": {
+      "kick_height_l": -1.715071792864515,
+      "kick_height_r": -1.6484451203930484,
+      "kick_height": -1.6484478802684106,
+      "guard_near": -0.016724602392676213,
+      "torso_lean": 0.856828964513579
+     }
+    },
+    {
+     "frame": 70,
+     "values": {
+      "kick_height_l": -1.6920463020526504,
+      "kick_height_r": -1.6902003302504438,
+      "kick_height": -1.6860246671818186,
+      "guard_near": -0.017762405691205768,
+      "torso_lean": 1.4908307376087562
+     }
+    },
+    {
+     "frame": 80,
+     "values": {
+      "kick_height_l": -1.6726070940290398,
+      "kick_height_r": -1.5088891157241875,
+      "kick_height": -1.5089540688864813,
+      "guard_near": -0.019151890153026353,
+      "torso_lean": 1.117665096237786
+     }
+    },
+    {
+     "frame": 90,
+     "values": {
+      "kick_height_l": -1.6887060451915779,
+      "kick_height_r": -1.6918315975370903,
+      "kick_height": -1.6845573754736645,
+      "guard_near": -0.01113175924886394,
+      "torso_lean": 0.22838904248812025
+     }
+    }
+   ]
+  },
+  "repStates": [
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START"
+  ]
+ }
+}

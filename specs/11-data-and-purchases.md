@@ -13,7 +13,7 @@ Profile            (tekil)
   reflexLevel Int, sportPack String
 
 Session
-  id, workoutId, workoutVersion, sport, startedAt, endedAt?, status[active|paused|done|aborted],
+  id, workoutId, workoutVersion?, sport, startedAt, endedAt?, status[active|paused|done|aborted],
   warmupSkipped bool, activeMs, energyKcal?, energyMethod[met|heart_rate]?,
   healthKitWorkoutUUID?, stance, appVersion, degradations [no3d|fps24]   // boş = kademeli çalışma yok (02)
 
@@ -45,6 +45,8 @@ WeekPlan (v1.0)
 EntitlementCache (v1.0)
   productId, expiresAt?, verifiedAt        // yalnız çevrimdışı açılış için önbellek; doğruluk kaynağı StoreKit
 ```
+- `workoutVersion` isteğe bağlıdır: hazır antrenman dosyaları (06) henüz sürüm taşımaz. Hareketin sürümü blokta (`exerciseVersion`) tutulur.
+- **Yazım (T3.4):** motor kayıtları kesinleşince yazılır. Seans satırı başlangıçta `active` olarak açılır ve sonunda son durumunu alır. Tekrarlar setleri yazılınca, setler blokları yazılınca depoya girer. Aynı kimlikle ikinci kez gelen motor kaydı yok sayılır. Bunu uygulamadaki `SessionRecorder` yapar; motor kayıtlarının özellikleri dışarıdan yazılamaz (AC-11.2). Depo dosyası `NSFileProtectionCompleteUntilFirstUserAuthentication` ile korunur (10). v1.0 varlıkları kendi şema sürümleriyle gelir.
 - **Kayıt modu** verisi bu depoda değildir; dosya paketleri olarak ayrı tutulur (09).
 - **Türetilmiş istatistikler** (haftalık toplam, saldırı bazında medyan RT, en sık hata) saklanmaz, sorguyla hesaplanır. Performans gerekirse önbellek eklenir, doğruluk kaynağı ham kayıtlardır.
 - **Göç:** SwiftData şema sürümleri (`VersionedSchema`) ve göç planı ilk sürümden itibaren tanımlanır; her şema değişikliği göç testi ister.
