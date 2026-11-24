@@ -70,3 +70,14 @@ import Testing
         #expect(d[0].topFaults.map(\.id) == ["neck_only", "guard_dropped"] && d[0].topFaults.map(\.count) == [3, 2])
     }
 }
+
+/// H1's MVP suggestion (specs/12): the last workout again, else Eskiv temeli.
+@MainActor @Suite struct HomeSuggestionTests {
+    @Test func suggestion() throws {
+        let packs = Dictionary(uniqueKeysWithValues: ExerciseCatalog.load().map { ($0.pack.id, $0) })
+        let workouts = ExerciseCatalog.workouts(Array(packs.values))
+        #expect(HomeSuggestion.pick(last: nil, workouts: workouts, packs: packs)?.title == Lang.text(workouts.first { $0.id == "eskiv_temeli" }!.name))
+        #expect(HomeSuggestion.pick(last: "kondisyon", workouts: workouts, packs: packs)?.title == Lang.text(workouts.first { $0.id == "kondisyon" }!.name))
+        #expect(HomeSuggestion.pick(last: "single_duck", workouts: workouts, packs: packs)?.title == Lang.text(packs["duck"]!.pack.name))
+    }
+}
