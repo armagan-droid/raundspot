@@ -62,6 +62,11 @@ public enum Validator {
         if workout.id != file.deletingPathExtension().lastPathComponent {
             errors.append("\(relative): id '\(workout.id)' does not match the file name")
         }
+        for (i, c) in workout.choices.enumerated() {
+            for ex in c.from where !FileManager.default.fileExists(atPath: root.appendingPathComponent("\(ex).json").path) {
+                errors.append("\(relative): choices[\(i)].from: no template '\(ex)' in exercises/ (specs/06 \"Seçim\")")
+            }
+        }
         for (i, b) in workout.blocks.enumerated() {
             if let ex = b.exerciseId, !FileManager.default.fileExists(atPath: root.appendingPathComponent("\(ex).json").path) {
                 errors.append("\(relative): blocks[\(i)].exerciseId: no template '\(ex)' in exercises/ (specs/06 AC-6.5)")

@@ -14,6 +14,12 @@ struct RootView: SwiftUI.View {
     /// Debug: the fake camera's landmark sequence (specs/02 "Derleme yapılandırmaları").
     @State private var fakeSequence: LandmarkSequence?
     @State private var pickingSequence = false
+    /// H3: a workout waiting for its reflex level.
+    @State private var levelFor: Workout?
+    /// H3, first step: a workout waiting for its eskiv picks (specs/06 "Seçim").
+    @State private var choiceFor: Workout?
+    @State private var resolvedChoice: Workout?
+    private let reflexCatalog = ExerciseCatalog.reflexCatalog()
 
     struct Running: Identifiable {
         let id = UUID()
@@ -27,7 +33,7 @@ struct RootView: SwiftUI.View {
                 Section("list.workouts") {
                     ForEach(ExerciseCatalog.workouts(packs), id: \.id) { w in
                         Button {
-                            running = Running(model: TrainingModel(workout: w, packs: byId, recorder: recorder(for: w), source: frameSource()))
+                            prepare(w, packs: byId)
                         } label: {
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(Lang.text(w.name)).font(.headline)
@@ -69,6 +75,28 @@ struct RootView: SwiftUI.View {
             .navigationTitle(AppBrand.name)
         }
         .fullScreenCover(item: $running) { TrainingView($0.model) }
+        .sheet(item: $choiceFor, onDismiss: {
+            // the next step opens once this sheet is gone
+            if let w = resolvedChoice {
+                resolvedChoice = nil
+                prepare(w, packs: Dictionary(uniqueKeysWithValues: packs.map { ($0.pack.id, $0) }))
+            }
+        }) { w in
+            if let c = w.choices.first {
+                TechniquePicker(choice: c, packs: Dictionary(uniqueKeysWithValues: packs.map { ($0.pack.id, $0) })) { picks in
+                    // one choice per workout today (Hızlı karma); more would be asked in turn
+                    resolvedChoice = try? w.resolving(picks: [picks])
+                }
+            }
+        }
+        .sheet(item: $levelFor) { w in
+            if let catalog = reflexCatalog {
+                LevelPicker(catalog: catalog, suggested: profiles.first?.reflexLevel ?? 1) { n in
+                    remember(level: n)
+                    start(w, packs: Dictionary(uniqueKeysWithValues: packs.map { ($0.pack.id, $0) }), level: n)
+                }
+            }
+        }
     }
 
     private func row(_ loaded: LoadedRulePack) -> some SwiftUI.View {
@@ -92,6 +120,39 @@ struct RootView: SwiftUI.View {
         .frame(minHeight: 44)
     }
 
+    /// H3: the start's questions in order (eskivs, then the reflex level), then the workout.
+    private func prepare(_ w: Workout, packs: [String: LoadedRulePack]) {
+        if w.choices.count == 1 {
+            choiceFor = w
+        } else if Self.choosesLevel(w), reflexCatalog != nil {
+            levelFor = w
+        } else {
+            start(w, packs: packs, level: profiles.first?.reflexLevel ?? 1)
+        }
+    }
+
+    private static func choosesLevel(_ w: Workout) -> Bool {
+        w.blocks.contains { if case .reflex(_, .chosen, _, _, _) = $0 { true } else { false } }
+    }
+
+    private var stance: Stance { profiles.first.flatMap { Stance(rawValue: $0.stance) } ?? .orthodox }
+
+    private func start(_ w: Workout, packs: [String: LoadedRulePack], level: Int) {
+        running = Running(model: TrainingModel(workout: w, packs: packs, recorder: recorder(for: w), source: frameSource(),
+                                               reflexCatalog: reflexCatalog, stance: stance, reflexLevel: level))
+    }
+
+    /// The picked level becomes the next suggestion (specs/11 `Profile.reflexLevel`).
+    private func remember(level: Int) {
+        let p = profiles.first ?? {
+            let p = Profile(createdAt: Date())
+            context.insert(p)
+            return p
+        }()
+        p.reflexLevel = level
+        try? context.save()
+    }
+
     /// The camera, or in Debug the chosen sequence file replayed on the host clock.
     private func frameSource() -> FrameSource {
         if let seq = fakeSequence { return SequenceFrameSource(sequence: seq, clock: LiveClock.shared, autoPump: true) }
@@ -112,3 +173,5 @@ struct RootView: SwiftUI.View {
         return SessionRecorder(context: context, info: info)
     }
 }
+
+extension Workout: @retroactive Identifiable {}

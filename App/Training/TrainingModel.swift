@@ -57,20 +57,52 @@ import UIKit
     private var activeSince: Double?
     private var activeMs = 0.0
 
+    // reflex (specs/05, specs/12 R1–R3)
+    let reflexCatalog: ResolvedCatalog?
+    /// The catalog is a draft (TestFlight label, AC-5.8).
+    let reflexIsDraft: Bool
+    private let reflexUsable: Bool
+    private(set) var reflex: ReflexSet?
+    private(set) var reflexLevel: ReflexCatalog.Level?
+    /// R2: the strike name shown large until a host time.
+    private(set) var shownStrike: (text: String, until: Double)?
+    /// R2: the last trial's result, shown for a second.
+    private(set) var lastTrial: (record: ReflexTrialRecord, until: Double)?
+    /// R3: the last reflex set.
+    private(set) var reflexSummary: ReflexSetSummary?
+    private(set) var reflexAdvice: ReflexLevelAdvice?
+    /// The reaction times are approximate (TTS cue fallback; specs/05).
+    let reflexRTApproximate = true
+    private var reflexSets: [[ReflexTrialRecord]] = []
+    private let tones = ToneOut()
+    @ObservationIgnored private var cueTasks: [Task<Void, Never>] = []
+
     /// - Parameters:
     ///   - source: the camera by default; a sequence file for the fake camera (AC-2.2).
     ///   - clock: the host clock by default; frames, ticks and records all use it.
+    ///   - reflexLevel: the level picked in H3 for blocks with `level: "chosen"`.
     init(workout: Workout, packs: [String: LoadedRulePack], recorder: SessionRecorder? = nil,
-         source: FrameSource = CameraFrameSource(), clock: SoloClock = LiveClock.shared) {
-        self.workout = workout
+         source: FrameSource = CameraFrameSource(), clock: SoloClock = LiveClock.shared,
+         reflexCatalog: ReflexCatalog? = ExerciseCatalog.reflexCatalog(), stance: Stance = .orthodox, reflexLevel: Int = 1) {
+        let usable = reflexCatalog?.isUsable(release: ExerciseCatalog.isReleaseBuild) ?? false
+        self.workout = Self.resolveReflexBlocks(workout, catalog: reflexCatalog, chosen: reflexLevel)
+        var packs = packs
+        // the reflex response templates (specs/05 "Tepki motorları")
+        for id in reflexCatalog?.responses ?? [] where packs[id] == nil { packs[id] = ExerciseCatalog.pack(id) }
         self.packs = packs
+        self.reflexCatalog = reflexCatalog?.resolved(for: stance)
+        reflexIsDraft = reflexCatalog?.status == .draft
+        reflexUsable = usable
         self.recorder = recorder
         self.source = source
         self.clock = clock
-        now = clock.nowMs
+        let start = clock.nowMs
+        now = start
+        recorder?.sessionStartMs = start
         var versions: [String: Int] = [:]
         for (id, p) in packs { versions[id] = p.pack.version }
-        session = SessionMachine(workout: workout, exerciseVersions: versions, makeId: { UUID().uuidString })
+        session = SessionMachine(workout: Self.resolveReflexBlocks(workout, catalog: reflexCatalog, chosen: reflexLevel),
+                                 exerciseVersions: versions, makeId: { UUID().uuidString })
         apply(session.handle(.user(.start)))
     }
 
@@ -83,6 +115,19 @@ import UIKit
             : .conditioning(exerciseId: id, sets: 1, reps: 10, durationSec: nil, restSec: 0, mode: .lenient)
         self.init(workout: Workout(id: "single_\(id)", name: loaded.pack.name, estimatedMinutes: 3, blocks: [block]),
                   packs: [id: loaded], recorder: recorder, source: source, clock: clock)
+    }
+
+    /// Reflex blocks with a fixed level and cue count before the session starts: the machine and the set
+    /// count the same cues (specs/05: the block's `cues`, else the level's).
+    static func resolveReflexBlocks(_ w: Workout, catalog: ReflexCatalog?, chosen: Int) -> Workout {
+        var out = w
+        out.blocks = w.blocks.map { b in
+            guard case .reflex(let id, let level, let cues, let rest, let sets) = b else { return b }
+            let n: Int = if case .fixed(let k) = level { k } else { chosen }
+            let lv = catalog?.level(n) ?? catalog?.levels.first
+            return .reflex(catalogId: id, level: .fixed(lv?.level ?? n), cues: cues ?? lv?.cues, restSec: rest, sets: sets)
+        }
+        return out
     }
 
     // MARK: - What the screen shows
@@ -191,6 +236,8 @@ import UIKit
 
     func close() {
         ticker?.cancel()
+        cancelCues()
+        tones.stop()
         source.stop()
         speech.deactivate()
         for o in observers { NotificationCenter.default.removeObserver(o) }
@@ -221,6 +268,7 @@ import UIKit
     func tick() {
         now = clock.nowMs
         send(.tick(now: now))
+        if let r = reflex, session.state == .active { handleReflex(r.tick(now)) }
         if now > bandUntil, bandUntil > 0 { band = nil }
     }
 
@@ -245,12 +293,7 @@ import UIKit
             band = nil
             bandUntil = 0
         }
-        // reflex sets need the attempt loop (05, Phase 4): skipped in this build
-        if s.state == .ready, case .reflex? = block {
-            showBand(String(localized: "training.reflex.later"), warning: false)
-            speech.say(String(localized: "training.reflex.later"))
-            send(.user(.skipBlock))
-        }
+        reflexTransition(from: before)
         if s.state.isTerminal, screen == .live {
             screen = .finished
             ticker?.cancel()
@@ -322,7 +365,9 @@ import UIKit
             if hints.first != a.hints.first, let h = a.hints.first { speech.say(String(localized: String.LocalizationValue(h.rawValue))) }
             hints = a.hints
         }
-        if let pack = currentPack, [.ready, .countdown, .active, .confirm, .rest, .paused].contains(session.state) {
+        if case .reflex? = block, session.state == .active, let r = reflex {
+            handleReflex(r.push(selection.frame ?? emptyFrame(t)))
+        } else if let pack = currentPack, [.ready, .countdown, .active, .confirm, .rest, .paused].contains(session.state) {
             run(selection.frame ?? emptyFrame(t), pack)
         } else {
             guide = nil
@@ -409,6 +454,114 @@ import UIKit
         }
     }
 
+    // MARK: - Reflex (specs/05, T4.4)
+
+    private func reflexTransition(from before: SessionSnapshot) {
+        let s = session.s
+        let wasReflex = workout.blocks[safe: before.blockIndex].map { if case .reflex = $0 { true } else { false } } ?? false
+        guard case .reflex(_, let level, let cues, _, _)? = block else {
+            if wasReflex { endReflexSet(before, s) }
+            return
+        }
+        if s.state == .ready, !reflexUsable || reflexCatalog == nil {
+            // AC-5.8: the App Store build runs an approved catalog only
+            showBand(String(localized: "reflex.unavailable"), warning: false)
+            speech.say(String(localized: "reflex.unavailable"))
+            send(.user(.skipBlock))
+            return
+        }
+        // a new set: a new reflex set; a resumed one keeps it
+        if s.state == .active, before.state != .active, reflex == nil, let cat = reflexCatalog,
+           case .fixed(let n) = level, let lv = cat.levels.first(where: { $0.level == n }) {
+            var options = ReflexSet.Options()
+            options.cueDelay = { _ in (0, true) }  // TTS: onset unknown (specs/05 "İşaret anı")
+            options.speechMs = { key in Double(String(localized: String.LocalizationValue(key)).count) * 70 + 400 }
+            reflexLevel = lv
+            reflexSummary = nil
+            reflex = ReflexSet(catalog: cat, level: lv, packs: packs, cues: cues, seed: UInt64.random(in: 0...UInt64.max), now: now,
+                               options: options)
+        }
+        if s.state == .paused, before.state == .active, let r = reflex { handleReflex(r.pause()) }
+        if wasReflex { endReflexSet(before, s) }
+    }
+
+    /// The set ended (rest, next block, cool-down, end): R3 shows its summary.
+    private func endReflexSet(_ before: SessionSnapshot, _ s: SessionSnapshot) {
+        guard before.state == .active, s.state != .active, s.state != .paused, let r = reflex else { return }
+        reflexSets.append(r.trials)
+        reflexSummary = ReflexSetSummary(r.trials)
+        reflexAdvice = reflexSets.count >= 2
+            ? ReflexLevelAdvice.advise(lastTwoSets: Array(reflexSets.suffix(2)), windowMs: r.level.windowMs) : nil
+        reflex = nil
+    }
+
+    private func handleReflex(_ commands: [ReflexCommand]) {
+        for c in commands {
+            switch c {
+            case .playCue(let key, let at):
+                let text = text(key)
+                let delay = max(0, at - clock.nowMs)
+                cueTasks.append(Task { @MainActor [weak self] in
+                    try? await Task.sleep(for: .milliseconds(Int(delay)))
+                    guard let self, !Task.isCancelled else { return }
+                    self.speech.say(text)
+                    self.shownStrike = (text, self.clock.nowMs + 600)
+                })
+            case .cancelCues:
+                cancelCues()
+            case .speak(let key):
+                speech.say(text(key))
+            case .tone(let t):
+                tones.play(t == .correct ? .correct : t == .wrong ? .wrong : .doubleWrong)
+            case .trial(let r):
+                lastTrial = (r, now + 1000)
+                if let setId = session.s.setId { recorder?.writeReflexTrial(r, setId: setId, at: Date()) }
+                if r.result == .correctFaulty, let ex = r.responseExerciseId, let p = packs[ex] {
+                    let names = r.faults.compactMap { id in p.pack.faults.first { $0.id == id }.map { Lang.text($0.name) } }
+                    showBand(String(localized: "training.rep.faulty \(names.joined(separator: ", "))"), warning: true)
+                }
+                send(.reflexAttemptDone)
+            case .safetyPause(let fault):
+                send(.engine(.safetyPause(faultId: fault)))
+            case .tracking(let lost):
+                send(.engine(lost ? .trackingLost : .trackingRestored))
+            case .speakSetSummary(let cues, let hits, let mean, let hardest):
+                var line = String(localized: "reflex.set_summary \(cues) \(hits) \(mean ?? 0)")
+                if let hardest { line += " " + String(localized: "reflex.set_summary.hardest \(text(hardest))") }
+                speech.say(line)
+            case .setDone:
+                break
+            }
+        }
+    }
+
+    private func cancelCues() {
+        for t in cueTasks { t.cancel() }
+        cueTasks = []
+    }
+
+    var reflexLevelNumber: Int? {
+        if case .reflex(_, .fixed(let n), _, _, _)? = block { n } else { nil }
+    }
+
+    /// A strike's spoken name in the stance's words (summary rows).
+    func strikeName(_ id: String) -> String {
+        guard let say = reflexCatalog?.strikes.first(where: { $0.id == id })?.say else { return id }
+        return text(say.replacingOccurrences(of: "strike.", with: "strike.name."))
+    }
+
+    /// A fault id's name from any response template.
+    func faultName(_ id: String) -> String {
+        for p in packs.values { if let f = p.pack.faults.first(where: { $0.id == id }) { return Lang.text(f.name) } }
+        return id
+    }
+
+    /// R2 counter: cues done / cues of the set.
+    var reflexCount: (done: Int, total: Int)? {
+        guard case .reflex(_, _, let c, _, _)? = block else { return nil }
+        return (session.s.attempts, c ?? SessionMachine.defaultReflexCues)
+    }
+
     // MARK: - Interruptions (specs/06 INTERRUPTED, E2)
 
     private func observeInterruptions() {
@@ -436,4 +589,8 @@ import UIKit
         let half = tan(h * .pi / 360) / aspect
         return 2 * atan(half) * 180 / .pi
     }
+}
+
+extension Array {
+    subscript(safe i: Int) -> Element? { indices.contains(i) ? self[i] : nil }
 }

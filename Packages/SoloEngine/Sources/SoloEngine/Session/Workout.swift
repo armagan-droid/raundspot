@@ -73,15 +73,57 @@ public struct Workout: Sendable, Equatable {
     public var blocks: [Block]
     /// Rest in seconds after a block's last set, by block index: the rest between circuit rounds (specs/06 "Devre").
     public var restAfterBlock: [Int: Int]
+    /// Technique blocks the user picks at the start (specs/06 "Seçim"), in order; not in `blocks` until resolved.
+    public var choices: [Choice]
+
+    /// `count` eskivs from `from`, inserted as technique blocks at `position` of `blocks`.
+    public struct Choice: Sendable, Equatable {
+        public var position: Int
+        public var from: [String]
+        public var count: Int
+        public var sets: Int
+        public var reps: Int
+        public var restSec: Int
+        public var mode: SetMode
+
+        public init(position: Int, from: [String], count: Int, sets: Int, reps: Int, restSec: Int, mode: SetMode) {
+            self.position = position
+            self.from = from
+            self.count = count
+            self.sets = sets
+            self.reps = reps
+            self.restSec = restSec
+            self.mode = mode
+        }
+    }
 
     public init(id: String, name: LocalizedText, sport: String = "muay_thai", estimatedMinutes: Int, blocks: [Block],
-                restAfterBlock: [Int: Int] = [:]) {
+                restAfterBlock: [Int: Int] = [:], choices: [Choice] = []) {
         self.id = id
         self.name = name
         self.sport = sport
         self.estimatedMinutes = estimatedMinutes
         self.blocks = blocks
         self.restAfterBlock = restAfterBlock
+        self.choices = choices
+    }
+
+    /// The workout with the user's picks in place, one list per choice in order (specs/06 "Seçim").
+    public func resolving(picks: [[String]]) throws(ParseError) -> Workout {
+        guard picks.count == choices.count else { throw ParseError(path: "choices", message: "needs one pick list per choice") }
+        var out = self
+        out.choices = []
+        // from the last choice back, so earlier positions stay valid
+        for (i, c) in choices.enumerated().reversed() {
+            let p = picks[i]
+            guard p.count == c.count, Set(p).count == p.count, p.allSatisfy(c.from.contains) else {
+                throw ParseError(path: "choices[\(i)]", message: "pick exactly \(c.count) different eskivs from the list")
+            }
+            out.blocks.insert(contentsOf: p.map { .technique(exerciseId: $0, sets: c.sets, reps: c.reps, restSec: c.restSec, mode: c.mode) },
+                              at: c.position)
+            out.restAfterBlock = Dictionary(uniqueKeysWithValues: out.restAfterBlock.map { ($0.key >= c.position ? $0.key + p.count : $0.key, $0.value) })
+        }
+        return out
     }
 
     public var usesCamera: Bool { blocks.contains(where: \.usesCamera) }
@@ -148,6 +190,7 @@ public struct Workout: Sendable, Equatable {
         guard let list = o["blocks"]?.arrayValue, !list.isEmpty else { throw fail("blocks", "needs at least one block") }
         var blocks: [Block] = []
         var restAfter: [Int: Int] = [:]
+        var choices: [Choice] = []
         for (i, e) in list.enumerated() {
             let p = "blocks[\(i)]"
             guard let type = e["type"]?.stringValue else { throw fail(p + ".type", "missing") }
@@ -156,6 +199,18 @@ public struct Workout: Sendable, Equatable {
                 let b = try object(e, p, ["type", "steps"])
                 let s = try steps(b["steps"], p + ".steps")
                 blocks.append(type == "warmup" ? .warmup(steps: s) : .guided(steps: s))
+            case "technique" where e["choose"] != nil:
+                let b = try object(e, p, ["type", "choose", "sets", "reps", "restSec", "mode"])
+                let c = try object(b["choose"], p + ".choose", ["from", "count"])
+                guard let from = c["from"]?.arrayValue, !from.isEmpty else { throw fail(p + ".choose.from", "needs at least one template") }
+                var ids: [String] = []
+                for (k, v) in from.enumerated() { ids.append(try string(v, "\(p).choose.from[\(k)]")) }
+                guard Set(ids).count == ids.count else { throw fail(p + ".choose.from", "must not repeat") }
+                let count = try int(c["count"], p + ".choose.count", min: 1)
+                guard count <= ids.count else { throw fail(p + ".choose.count", "must not exceed the list") }
+                choices.append(Choice(position: blocks.count, from: ids, count: count, sets: try int(b["sets"], p + ".sets", min: 1),
+                                      reps: try int(b["reps"], p + ".reps", min: 1), restSec: try int(b["restSec"], p + ".restSec", min: 0),
+                                      mode: try mode(b["mode"], p + ".mode")))
             case "technique":
                 let b = try object(e, p, ["type", "exerciseId", "sets", "reps", "restSec", "mode"])
                 blocks.append(.technique(exerciseId: try string(b["exerciseId"], p + ".exerciseId"), sets: try int(b["sets"], p + ".sets", min: 1),
@@ -198,6 +253,6 @@ public struct Workout: Sendable, Equatable {
                 throw fail(p + ".type", "unknown block type '\(type)'")
             }
         }
-        return Workout(id: id, name: name, sport: sport, estimatedMinutes: minutes, blocks: blocks, restAfterBlock: restAfter)
+        return Workout(id: id, name: name, sport: sport, estimatedMinutes: minutes, blocks: blocks, restAfterBlock: restAfter, choices: choices)
     }
 }

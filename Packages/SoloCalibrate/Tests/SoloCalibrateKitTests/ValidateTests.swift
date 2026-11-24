@@ -90,6 +90,13 @@ import Testing
         #expect(try Validator.validate(directory: broken).errors.contains { $0.hasPrefix("reflex/muay_thai.json: ") })
     }
 
+    @Test func aWorkoutsChoiceNamesTemplates() throws {
+        let w = #"{"formatVersion": 1, "id": "w", "name": {"tr": "a", "en": "b"}, "sport": "muay_thai", "estimatedMinutes": 5, "blocks": [{"type": "technique", "choose": {"from": ["nope", "duck"], "count": 1}, "sets": 1, "reps": 5, "restSec": 0}]}"#
+        let errors = try Validator.validate(directory: makeDirectory(["workouts/w.json": w])).errors
+        #expect(errors.contains { $0.contains("choices[0].from: no template 'nope'") })
+        #expect(errors.contains { $0.contains("choices[0].from: no template 'duck'") })
+    }
+
     @Test func aWorkoutsReflexCatalogMustExist() throws {
         let w = #"{"formatVersion": 1, "id": "w", "name": {"tr": "a", "en": "b"}, "sport": "muay_thai", "estimatedMinutes": 5, "blocks": [{"type": "reflex", "catalogId": "boxing", "level": 1, "restSec": 0}]}"#
         let errors = try Validator.validate(directory: makeDirectory(["workouts/w.json": w])).errors

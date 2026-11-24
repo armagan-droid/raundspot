@@ -30,11 +30,27 @@ enum ExerciseCatalog {
         guard let dir = Bundle.main.url(forResource: "exercises/workouts", withExtension: nil),
               let files = try? FileManager.default.contentsOfDirectory(at: dir, includingPropertiesForKeys: nil) else { return [] }
         let ids = Set(packs.map(\.pack.id))
-        let order = ["eskiv_temeli", "refleks", "kondisyon"]
+        let order = ["eskiv_temeli", "refleks", "kondisyon", "hizli_karma"]
         return files.filter { $0.pathExtension == "json" }
             .compactMap { (try? JSONValue.parse(contentsOf: $0)).flatMap { try? Workout.parse($0) } }
-            .filter { w in w.blocks.allSatisfy { $0.exerciseId.map(ids.contains) ?? true } }
+            .filter { w in w.blocks.allSatisfy { $0.exerciseId.map(ids.contains) ?? true } && w.choices.allSatisfy { $0.from.allSatisfy(ids.contains) } }
             .sorted { (order.firstIndex(of: $0.id) ?? 99) < (order.firstIndex(of: $1.id) ?? 99) }
+    }
+
+    /// The bundle's reflex catalog (specs/05), nil if missing or invalid.
+    static func reflexCatalog(_ id: String = "muay_thai") -> ReflexCatalog? {
+        guard let url = Bundle.main.url(forResource: id, withExtension: "json", subdirectory: "exercises/reflex"),
+              let json = try? JSONValue.parse(contentsOf: url) else { return nil }
+        return try? ReflexCatalog.parse(json).get()
+    }
+
+    /// AC-5.8: TestFlight and development builds run a draft catalog (labelled); the App Store build only an approved one.
+    static var isReleaseBuild: Bool {
+        #if DEBUG || BETA
+        false
+        #else
+        true
+        #endif
     }
 
     /// A guided step's demo (specs/04 "Adım gösterimleri").

@@ -31,7 +31,7 @@ Alt sekme çubuğu (antrenman dışında): **Antrenman** · **İlerleme** · **A
 |---|---|---|
 | H1 | Antrenman | Üstte: bugünün önerisi (v1.0: haftalık plandan; MVP: son yapılana göre). Kartlar: **Teknik** (eskiv seçimi), **Refleks** (seviye seçimi, son medyan RT), **Kondisyon**, **Hazır antrenmanlar**. Kilitli içerik kilit ikonuyla (v1.0) |
 | H2 | Eskiv seçimi | Şablon listesi: ad, kısa `howTo`, kamera yönü (önden/yandan) ikonu, "taslak" etiketi (`draft`) TestFlight'ta |
-| H3 | Refleks seviyesi | Seviye kartları (05 tablosu sade dille: "Tek işaret, yavaş", "2'li kombinasyon" …), önerilen seviye vurgulu |
+| H3 | Refleks seviyesi ve antrenman başı seçimleri | Seviye kartları (05 tablosu sade dille: "Tek işaret, yavaş", "2'li kombinasyon" …), önerilen seviye vurgulu. Antrenmanda eskiv seçimi varsa (06 "Seçim") önce o sorulur: listeden tam sayıda eskiv işaretlenir, sonra "Devam" |
 | H4 | Haftalık plan (v1.0) | 7 gün şeridi, gün türü (teknik / kondisyon / mobilite / dinlenme), bugünün antrenmanı |
 
 ## S) Kurulum ve güvenlik (her antrenmanın başında, ilk bloktan önce; 06 `SETUP`)

@@ -505,7 +505,7 @@ private func sessionStatuses(_ d: Driver) -> [SessionStatus] {
     }
 
     @Test func filesParseAndUseExistingTemplates() throws {
-        for id in ["eskiv_temeli", "refleks", "kondisyon"] {
+        for id in ["eskiv_temeli", "refleks", "kondisyon", "hizli_karma"] {
             let w = try load(id)
             #expect(w.id == id)
             for b in w.blocks {
@@ -578,6 +578,54 @@ private func sessionStatuses(_ d: Driver) -> [SessionStatus] {
         ] {
             #expect(throws: Workout.ParseError.self, "\(bad)") { try circuitWorkout(bad) }
         }
+    }
+
+    /// specs/06 "Seçim": a technique block with `choose` is kept apart and filled at the start.
+    @Test func aChoiceIsResolvedAtTheStart() throws {
+        let w = try Workout.parse(["formatVersion": 1, "id": "c", "name": ["tr": "c", "en": "c"], "sport": "muay_thai", "estimatedMinutes": 5,
+            "blocks": [
+                ["type": "warmup", "steps": [["textKey": "warmup.arm_circles", "durationSec": 30]]],
+                ["type": "technique", "choose": ["from": ["slip_left", "slip_right", "duck"], "count": 2], "sets": 2, "reps": 8, "restSec": 45],
+                ["type": "circuit", "rounds": 2, "restSec": 60, "blocks": [["type": "conditioning", "exerciseId": "squat", "reps": 12]]],
+            ]])
+        #expect(w.blocks.count == 3)  // warm-up and the two circuit rounds; the choice is apart
+        #expect(w.choices == [Workout.Choice(position: 1, from: ["slip_left", "slip_right", "duck"], count: 2, sets: 2, reps: 8,
+                                              restSec: 45, mode: .lenient)])
+        #expect(w.restAfterBlock == [1: 60])
+        let r = try w.resolving(picks: [["duck", "slip_left"]])
+        #expect(r.choices.isEmpty)
+        #expect(r.blocks.compactMap(\.exerciseId) == ["duck", "slip_left", "squat", "squat"])
+        #expect(r.blocks[1] == .technique(exerciseId: "duck", sets: 2, reps: 8, restSec: 45, mode: .lenient))
+        #expect(r.restAfterBlock == [3: 60])
+        #expect(throws: Workout.ParseError.self) { try w.resolving(picks: [["duck"]]) }
+        #expect(throws: Workout.ParseError.self) { try w.resolving(picks: [["duck", "lean_back"]]) }
+        #expect(throws: Workout.ParseError.self) { try w.resolving(picks: [["duck", "duck"]]) }
+        #expect(throws: Workout.ParseError.self) { try w.resolving(picks: []) }
+    }
+
+    @Test func malformedChoicesAreRejected() throws {
+        let base: JSONValue = ["type": "technique", "choose": ["from": ["slip_left", "duck"], "count": 2], "sets": 1, "reps": 5, "restSec": 0]
+        var both = base; both["exerciseId"] = "duck"
+        var none = base; none["choose"] = nil
+        var many = base; many["choose"]!["count"] = 3
+        var zero = base; zero["choose"]!["count"] = 0
+        var twice = base; twice["choose"]!["from"] = ["duck", "duck"]
+        var extra = base; extra["choose"]!["pick"] = 1
+        for bad in [both, none, many, zero, twice, extra] {
+            #expect(throws: Workout.ParseError.self, "\(bad)") {
+                try Workout.parse(["formatVersion": 1, "id": "c", "name": ["tr": "c", "en": "c"], "sport": "muay_thai", "estimatedMinutes": 5,
+                                   "blocks": [bad]])
+            }
+        }
+    }
+
+    @Test func hizliKarmaFollowsTheTable() throws {
+        let w = try load("hizli_karma")
+        #expect(w.choices.count == 1 && w.choices[0].count == 2)
+        #expect(Set(w.choices[0].from) == ["slip_left", "slip_right", "duck", "bob_weave_left", "bob_weave_right"])
+        #expect(w.blocks.contains { if case .reflex(_, .chosen, _, 60, 2) = $0 { true } else { false } })
+        #expect(w.blocks.filter { $0.exerciseId != nil }.count == 8)  // the circuit ×2 of four moves
+        #expect(w.blocks.last?.steps.isEmpty == false)
     }
 
     /// Kondisyon (specs/06 table): circuit ×3 of four moves, 60 s rest between rounds.

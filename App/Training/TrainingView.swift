@@ -96,8 +96,9 @@ struct TrainingView: SwiftUI.View {
                 }
                 .padding()
                 if [.active, .confirm].contains(model.state) || (model.state == .paused && model.snapshot.resumeTo == .active) {
-                    counter(height: geo.size.height)
+                    if model.reflexCount == nil { counter(height: geo.size.height) } else { reflexCounter }
                 }
+                if model.state == .active, model.reflexCount != nil { reflexLive(height: geo.size.height) }
                 if model.state == .countdown {
                     Text("\(model.secondsLeft)")
                         .font(.system(size: max(geo.size.height * 0.35, 80), weight: .bold, design: .rounded))
@@ -143,14 +144,25 @@ struct TrainingView: SwiftUI.View {
                 Text("training.set \(model.setLabel)").font(.headline)
                 if let h = model.hints.first { Text(LocalizedStringKey(h.rawValue)).font(.title2.bold()).foregroundStyle(.yellow) }
                 if !model.howTo.isEmpty { Text(model.howTo).font(.callout) }
+                if model.reflexCount != nil { reflexInfo }
                 demoPanel
                 Text("training.ready.prompt").font(.headline)
+            }
+        case .active where model.reflex?.phase == .preparing:
+            // R1
+            card {
+                Text("reflex.get_ready").font(.title.bold())
+                reflexInfo
             }
         case .rest:
             card {
                 Text("training.rest.title").font(.headline)
                 Text("\(model.secondsLeft)").font(.system(size: 64, weight: .bold, design: .rounded)).monospacedDigit()
-                if let last = model.lastSet { Text("training.summary \(last.valid) \(last.faulty)").font(.callout) }
+                if let summary = model.reflexSummary {
+                    reflexSummary(summary)
+                } else if let last = model.lastSet {
+                    Text("training.summary \(last.valid) \(last.faulty)").font(.callout)
+                }
                 Text("training.next \(model.blockName) \(model.setLabel)").font(.callout)
             }
         case .confirm:
@@ -163,6 +175,87 @@ struct TrainingView: SwiftUI.View {
             }
         default:
             EmptyView()
+        }
+    }
+
+    // MARK: R1–R3 (specs/12)
+
+    @ViewBuilder private var reflexInfo: some SwiftUI.View {
+        if let count = model.reflexCount {
+            HStack(spacing: 12) {
+                if let n = model.reflexLevelNumber { Text("reflex.level \(n)") }
+                Text("reflex.cues \(count.total)")
+            }
+            .font(.headline)
+        }
+        if model.reflexRTApproximate { Text("reflex.rt_approximate").font(.caption) }
+        if model.reflexIsDraft {
+            Text("reflex.draft").font(.caption.bold()).padding(.horizontal, 8).padding(.vertical, 2)
+                .background(.yellow.opacity(0.3), in: .capsule)
+        }
+    }
+
+    private var reflexCounter: some SwiftUI.View {
+        VStack {
+            HStack {
+                Spacer()
+                if let c = model.reflexCount {
+                    Text("\(c.done)/\(c.total)").font(.system(size: 44, weight: .bold, design: .rounded)).monospacedDigit()
+                        .shadow(radius: 6).padding(.trailing, 24)
+                        .accessibilityLabel(Text("reflex.count.accessibility \(c.done) \(c.total)"))
+                }
+            }
+            Spacer()
+        }
+    }
+
+    /// R2: the strike's name large at the cue (≥ 20 % of the height, 600 ms), then the result and RT for a second.
+    @ViewBuilder private func reflexLive(height: CGFloat) -> some SwiftUI.View {
+        if let s = model.shownStrike, model.now < s.until {
+            Text(s.text)
+                .font(.system(size: max(height * 0.22, 56), weight: .heavy, design: .rounded))
+                .minimumScaleFactor(0.5).lineLimit(1)
+                .shadow(radius: 10)
+                .allowsHitTesting(false)
+        } else if let t = model.lastTrial, model.now < t.until {
+            VStack(spacing: 4) {
+                Image(systemName: Self.icon(t.record.result)).font(.system(size: max(height * 0.14, 44)))
+                    .foregroundStyle(t.record.result.isHit ? .green : .orange)
+                if let rt = t.record.reactionMs { Text("reflex.rt \(Int(rt.rounded()))").font(.title.bold()).monospacedDigit() }
+            }
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(Text(LocalizedStringKey("reflex.result.\(t.record.result.rawValue)")))
+            .allowsHitTesting(false)
+        }
+    }
+
+    static func icon(_ r: ReflexResult) -> String {
+        switch r {
+        case .correct, .correctFaulty, .feintOk: "checkmark.circle.fill"
+        case .missed: "timer"
+        case .early: "bolt.fill"
+        case .wrong, .partial, .feintBitten: "xmark.circle.fill"
+        }
+    }
+
+    /// R3: hits, median and p90 RT, per strike, preferred responses, feints, the most frequent fault, the level advice.
+    @ViewBuilder private func reflexSummary(_ s: ReflexSetSummary) -> some SwiftUI.View {
+        Text("reflex.summary.title").font(.headline)
+        Text("reflex.summary.hits \(s.hits) \(s.total)").font(.title2.bold())
+        if let m = s.medianRtMs { Text("reflex.summary.rt \(Int(m.rounded())) \(Int((s.p90RtMs ?? m).rounded()))").font(.callout) }
+        ForEach(s.byStrike.keys.sorted(), id: \.self) { id in
+            if let row = s.byStrike[id] {
+                Text("reflex.summary.strike \(model.strikeName(id)) \(row.hits) \(row.total) \(Int((row.medianRtMs ?? 0).rounded()))")
+                    .font(.caption)
+            }
+        }
+        if let p = s.preferredRatio { Text("reflex.summary.preferred \(Int((p * 100).rounded()))").font(.caption) }
+        if s.feints > 0 { Text("reflex.summary.feints \(s.feintsOk) \(s.feints)").font(.caption) }
+        if let f = s.mostFrequentFault { Text("reflex.summary.fault \(model.faultName(f))").font(.caption) }
+        switch model.reflexAdvice {
+        case .tryHigher?: Text("reflex.advice.higher").font(.callout.bold()).foregroundStyle(.green)
+        case .tryLower?: Text("reflex.advice.lower").font(.callout.bold()).foregroundStyle(.orange)
+        case nil: EmptyView()
         }
     }
 
