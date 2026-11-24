@@ -54,8 +54,10 @@ import UIKit
     @ObservationIgnored private var demoCache: [String: (ExerciseDemo, [(head: HeadGuide?, line: TargetLineGuide?)])] = [:]
 
     private let recorder: SessionRecorder?
+    let settings: TrainingSettings
     private var activeSince: Double?
     private var activeMs = 0.0
+    private var lastDurationMs: Double?
 
     // reflex (specs/05, specs/12 R1–R3)
     let reflexCatalog: ResolvedCatalog?
@@ -83,10 +85,18 @@ import UIKit
     ///   - reflexLevel: the level picked in H3 for blocks with `level: "chosen"`.
     init(workout: Workout, packs: [String: LoadedRulePack], recorder: SessionRecorder? = nil,
          source: FrameSource = CameraFrameSource(), clock: SoloClock = LiveClock.shared,
-         reflexCatalog: ReflexCatalog? = ExerciseCatalog.reflexCatalog(), stance: Stance = .orthodox, reflexLevel: Int = 1) {
+         reflexCatalog: ReflexCatalog? = ExerciseCatalog.reflexCatalog(), stance: Stance = .orthodox, reflexLevel: Int = 1,
+         settings: TrainingSettings = TrainingSettings()) {
+        self.settings = settings
         let usable = reflexCatalog?.isUsable(release: ExerciseCatalog.isReleaseBuild) ?? false
         self.workout = Self.resolveReflexBlocks(workout, catalog: reflexCatalog, chosen: reflexLevel)
         var packs = packs
+        // slow tempo: twice the eskiv's minimum duration in technique blocks (specs/05 "Yavaş tempo")
+        if settings.slowTempo {
+            for case .technique(let id, _, _, _, _) in workout.blocks {
+                if var p = packs[id] { p.pack.rep.minDurationMs *= 2; packs[id] = p }
+            }
+        }
         // the reflex response templates (specs/05 "Tepki motorları")
         for id in reflexCatalog?.responses ?? [] where packs[id] == nil { packs[id] = ExerciseCatalog.pack(id) }
         self.packs = packs
@@ -108,13 +118,14 @@ import UIKit
 
     /// One template from the list: one set of 10 (specs/12 H2).
     convenience init(single loaded: LoadedRulePack, recorder: SessionRecorder? = nil,
-                     source: FrameSource = CameraFrameSource(), clock: SoloClock = LiveClock.shared) {
+                     source: FrameSource = CameraFrameSource(), clock: SoloClock = LiveClock.shared,
+                     settings: TrainingSettings = TrainingSettings()) {
         let id = loaded.pack.id
         let block: Block = ExerciseCatalog.eskivIds.contains(id)
             ? .technique(exerciseId: id, sets: 1, reps: 10, restSec: 0, mode: .lenient)
             : .conditioning(exerciseId: id, sets: 1, reps: 10, durationSec: nil, restSec: 0, mode: .lenient)
         self.init(workout: Workout(id: "single_\(id)", name: loaded.pack.name, estimatedMinutes: 3, blocks: [block]),
-                  packs: [id: loaded], recorder: recorder, source: source, clock: clock)
+                  packs: [id: loaded], recorder: recorder, source: source, clock: clock, settings: settings)
     }
 
     /// Reflex blocks with a fixed level and cue count before the session starts: the machine and the set
@@ -433,7 +444,8 @@ import UIKit
             let wasActive = session.state == .active || session.state == .confirm
             let countedBefore = session.s.counted
             send(.engine(e.event))
-            if case .repCompleted(let outcome, let faults, _) = e.event, wasActive {
+            if case .repCompleted(let outcome, let faults, let d) = e.event, wasActive {
+                lastDurationMs = Double(d)
                 repFeedback(outcome, faults, counted: session.s.counted > countedBefore, loaded)
             }
         }
@@ -451,6 +463,10 @@ import UIKit
             showBand(String(localized: "training.rep.faulty \(names.joined(separator: ", "))"), warning: true)
         case .incomplete:
             showBand(String(localized: "training.rep.incomplete"), warning: true)
+            // too fast for the slow tempo (specs/05)
+            if settings.slowTempo, case .technique? = block, let d = lastDurationMs, d < Double(loaded.pack.rep.minDurationMs) {
+                speech.say(String(localized: "technique.slow_down"))
+            }
         }
     }
 
@@ -475,6 +491,8 @@ import UIKit
            case .fixed(let n) = level, let lv = cat.levels.first(where: { $0.level == n }) {
             var options = ReflexSet.Options()
             options.cueDelay = { _ in (0, true) }  // TTS: onset unknown (specs/05 "İşaret anı")
+            options.resultTones = settings.resultTones
+            options.faultCueVoice = settings.faultCueVoice
             options.speechMs = { key in Double(String(localized: String.LocalizationValue(key)).count) * 70 + 400 }
             reflexLevel = lv
             reflexSummary = nil
@@ -593,4 +611,24 @@ import UIKit
 
 extension Array {
     subscript(safe i: Int) -> Element? { indices.contains(i) ? self[i] : nil }
+}
+
+/// Profile settings a workout uses (specs/11 Profile, specs/12 A).
+struct TrainingSettings {
+    var slowTempo = true
+    var resultTones = true
+    var faultCueVoice = true
+    var backCamera = false
+
+    init(slowTempo: Bool = true, resultTones: Bool = true, faultCueVoice: Bool = true, backCamera: Bool = false) {
+        self.slowTempo = slowTempo
+        self.resultTones = resultTones
+        self.faultCueVoice = faultCueVoice
+        self.backCamera = backCamera
+    }
+
+    init(_ p: Profile?) {
+        self.init(slowTempo: (p?.techniqueTempo ?? "slow") == "slow", resultTones: p?.resultTones ?? true,
+                  faultCueVoice: p?.faultCueVoice ?? true, backCamera: p?.camera == "back")
+    }
 }

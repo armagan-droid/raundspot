@@ -103,6 +103,22 @@ public struct ReflexTrialRecord: Sendable, Equatable {
     public var reactionMs: Double?
     public var rtApproximate: Bool
     public var faults: [String]
+
+    public init(index: Int, comboId: Int?, comboIndex: Int?, strikeId: String, isFeint: Bool, cueAt: Double, result: ReflexResult,
+                responseExerciseId: String?, preferred: Bool?, reactionMs: Double?, rtApproximate: Bool, faults: [String]) {
+        self.index = index
+        self.comboId = comboId
+        self.comboIndex = comboIndex
+        self.strikeId = strikeId
+        self.isFeint = isFeint
+        self.cueAt = cueAt
+        self.result = result
+        self.responseExerciseId = responseExerciseId
+        self.preferred = preferred
+        self.reactionMs = reactionMs
+        self.rtApproximate = rtApproximate
+        self.faults = faults
+    }
 }
 
 /// Result tones (specs/05 "Sonuç sesi"): no speech.

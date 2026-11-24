@@ -52,7 +52,7 @@ enum SoloSchemaV1: VersionedSchema {
             camera = "front"
             faultCueVoice = true
             resultTones = true
-            techniqueTempo = "normal"
+            techniqueTempo = "slow"  // specs/05: slow by default
             reflexLevel = 1
             sportPack = "muay_thai"
         }
