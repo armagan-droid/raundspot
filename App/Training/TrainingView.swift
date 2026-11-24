@@ -106,6 +106,7 @@ struct TrainingView: SwiftUI.View {
                         .accessibilityLabel(Text("training.countdown.accessibility \(model.secondsLeft)"))
                 }
                 if model.showDiagnostics { diagnostics }
+                if model.isRecording { recordingBand }
             }
         }
     }
@@ -175,6 +176,20 @@ struct TrainingView: SwiftUI.View {
             }
         default:
             EmptyView()
+        }
+    }
+
+    /// specs/09 X4: always visible while recording, with the time; a red frame around the preview.
+    private var recordingBand: some SwiftUI.View {
+        ZStack(alignment: .top) {
+            Rectangle().strokeBorder(.red, lineWidth: 6).ignoresSafeArea().allowsHitTesting(false)
+            let secs = Int(max(0, model.now - (model.recordingStartedAt ?? model.now)) / 1000)
+            Text("rec.band \(String(format: "%d:%02d", secs / 60, secs % 60))")
+                .font(.headline.monospacedDigit()).foregroundStyle(.white)
+                .padding(.horizontal, 12).padding(.vertical, 4)
+                .background(.red, in: .capsule)
+                .padding(.top, 4)
+                .accessibilityLabel(Text("rec.band.accessibility"))
         }
     }
 

@@ -9,13 +9,27 @@ import Testing
 
     func library() throws -> RecordingLibrary {
         let dir = FileManager.default.temporaryDirectory.appendingPathComponent("rec-\(UUID().uuidString)", isDirectory: true)
-        return try RecordingLibrary(root: dir)
+        let lib = try RecordingLibrary(root: dir)
+        try lib.setEnabled(true)
+        return lib
     }
 
     func meta(_ lib: RecordingLibrary, _ code: String) throws -> RecordingMeta {
         let c = try #require(lib.activeConsent(code))
         return RecordingMeta(participant: code, consentId: c.id, createdAt: now, device: "test", osVersion: "26", appVersion: "t",
                              mode: "technique", stance: "orthodox", camera: "front", pose3D: false, templates: ["slip_left": "{}"])
+    }
+
+    /// AC-9.1 (Beta side): no recording until the mode is turned on.
+    @Test func offUntilTurnedOn() throws {
+        let dir = FileManager.default.temporaryDirectory.appendingPathComponent("rec-\(UUID().uuidString)", isDirectory: true)
+        let lib = try RecordingLibrary(root: dir)
+        #expect(!lib.isEnabled)
+        try lib.addParticipant("P01", at: now)
+        try lib.consent("P01", adultConfirmed: true, at: now)
+        #expect(throws: RecordingError.disabled) { try lib.newPackage(try meta(lib, "P01"), freeBytes: 10_000_000_000) }
+        try lib.setEnabled(true)
+        #expect(try RecordingLibrary(root: dir).isEnabled)
     }
 
     @Test func consentRules() throws {

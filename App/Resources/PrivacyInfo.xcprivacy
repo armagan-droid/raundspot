@@ -21,6 +21,15 @@
 				<string>35F9.1</string>
 			</array>
 		</dict>
+		<dict>
+			<!-- Recording mode (Beta): free space before a recording starts (specs/09) -->
+			<key>NSPrivacyAccessedAPIType</key>
+			<string>NSPrivacyAccessedAPICategoryDiskSpace</string>
+			<key>NSPrivacyAccessedAPITypeReasons</key>
+			<array>
+				<string>E174.1</string>
+			</array>
+		</dict>
 	</array>
 </dict>
 </plist>

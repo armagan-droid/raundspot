@@ -2,6 +2,7 @@ import AVFoundation
 import Foundation
 import SoloCapture
 import SoloEngine
+import SoloPose
 
 /// Where the training screen's pose frames come from (specs/02 "Akış"): the
 /// camera through Vision, or a landmark sequence file replayed on a clock (the
@@ -33,8 +34,12 @@ final class CameraFrameSource: FrameSource {
     var horizontalFOVDegrees: Double? { camera.horizontalFOVDegrees }
     var captureSession: AVCaptureSession? { camera.session }
 
+    /// Recording mode's hook (Beta): every processed frame with its poses.
+    var record: (@Sendable (CVPixelBuffer, CMTime, [DetectedPose]) -> Void)?
+
     func start(deliver: @escaping @Sendable ([Frame], Double) -> Void) throws {
         let pipeline = FramePipeline(deliver: deliver)
+        pipeline.record = record
         self.pipeline = pipeline
         try camera.configure { frame in pipeline.process(frame) }
         camera.start()
