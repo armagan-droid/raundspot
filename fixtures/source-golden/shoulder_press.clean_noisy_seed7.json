@@ -1,0 +1,393 @@
+{
+ "goldenVersion": 1,
+ "source": {
+  "repo": "armagan-droid/gymspot",
+  "commit": "c2fe3fd"
+ },
+ "rulePack": "shoulder_press",
+ "rulePackVersion": 1,
+ "setup": {
+  "view": "front",
+  "nearSide": "left"
+ },
+ "options": {
+  "safetyPause": true
+ },
+ "cuesEnabled": [],
+ "sequence": "sequences/shoulder_press/clean_noisy_seed7.json",
+ "expected": {
+  "events": [
+   {
+    "frame": 23,
+    "t": 1533.3333333333335,
+    "type": "READY_POSE_HELD"
+   },
+   {
+    "frame": 37,
+    "t": 2466.666666666667,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 58,
+    "t": 3866.666666666667,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 1533
+   },
+   {
+    "frame": 80,
+    "t": 5333.333333333334,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 99,
+    "t": 6600.000000000001,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 1400
+   },
+   {
+    "frame": 123,
+    "t": 8200,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 142,
+    "t": 9466.666666666668,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 1400
+   }
+  ],
+  "metrics": {
+   "every": 10,
+   "values": [
+    {
+     "frame": 0,
+     "values": {
+      "elbow_angle_l": 85.76136416314633,
+      "elbow_angle_r": 71.54139120217735,
+      "elbow_angle_near": 85.76136416314633,
+      "torso_lean": 7.262476919836862,
+      "arm_symmetry": 14.219972960968974
+     }
+    },
+    {
+     "frame": 10,
+     "values": {
+      "elbow_angle_l": 81.73051050792932,
+      "elbow_angle_r": 80.97138313565819,
+      "elbow_angle_near": 81.73051050792932,
+      "torso_lean": 8.641820048185249,
+      "arm_symmetry": 2.7439645943702056
+     }
+    },
+    {
+     "frame": 20,
+     "values": {
+      "elbow_angle_l": 87.01533963815803,
+      "elbow_angle_r": 77.7713560303275,
+      "elbow_angle_near": 87.01533963815803,
+      "torso_lean": 8.337989944198618,
+      "arm_symmetry": 7.268966772744411
+     }
+    },
+    {
+     "frame": 30,
+     "values": {
+      "elbow_angle_l": 84.71120048900812,
+      "elbow_angle_r": 83.39315962289163,
+      "elbow_angle_near": 84.71120048900812,
+      "torso_lean": 8.525211859468797,
+      "arm_symmetry": 3.0156604472161326
+     }
+    },
+    {
+     "frame": 40,
+     "values": {
+      "elbow_angle_l": 147.3472037517616,
+      "elbow_angle_r": 152.62499342715466,
+      "elbow_angle_near": 147.3472037517616,
+      "torso_lean": 7.082185081667957,
+      "arm_symmetry": 6.24501364868159
+     }
+    },
+    {
+     "frame": 50,
+     "values": {
+      "elbow_angle_l": 154.20086798760045,
+      "elbow_angle_r": 158.74139337049783,
+      "elbow_angle_near": 154.20086798760045,
+      "torso_lean": 12.17017493702259,
+      "arm_symmetry": 5.099715864810573
+     }
+    },
+    {
+     "frame": 60,
+     "values": {
+      "elbow_angle_l": 80.25907343189559,
+      "elbow_angle_r": 84.5120746938825,
+      "elbow_angle_near": 80.25907343189559,
+      "torso_lean": 9.493506455960134,
+      "arm_symmetry": 6.38321059494144
+     }
+    },
+    {
+     "frame": 70,
+     "values": {
+      "elbow_angle_l": 84.7943894029581,
+      "elbow_angle_r": 88.36928606117354,
+      "elbow_angle_near": 84.7943894029581,
+      "torso_lean": 9.54357956121882,
+      "arm_symmetry": 9.143520081001462
+     }
+    },
+    {
+     "frame": 80,
+     "values": {
+      "elbow_angle_l": 137.09644364343347,
+      "elbow_angle_r": 137.08169224284785,
+      "elbow_angle_near": 137.09644364343347,
+      "torso_lean": 6.798636077306464,
+      "arm_symmetry": 6.094762629446276
+     }
+    },
+    {
+     "frame": 90,
+     "values": {
+      "elbow_angle_l": 167.2187747737828,
+      "elbow_angle_r": 172.78558011126853,
+      "elbow_angle_near": 167.2187747737828,
+      "torso_lean": 8.087215519676779,
+      "arm_symmetry": 9.937526986166914
+     }
+    },
+    {
+     "frame": 100,
+     "values": {
+      "elbow_angle_l": 83.04397131698828,
+      "elbow_angle_r": 81.17553274165918,
+      "elbow_angle_near": 83.04397131698828,
+      "torso_lean": 10.125161135927339,
+      "arm_symmetry": 5.286272340266656
+     }
+    },
+    {
+     "frame": 110,
+     "values": {
+      "elbow_angle_l": 82.8742318370387,
+      "elbow_angle_r": 78.07952272910748,
+      "elbow_angle_near": 82.8742318370387,
+      "torso_lean": 8.813694092604868,
+      "arm_symmetry": 4.848896405207849
+     }
+    },
+    {
+     "frame": 120,
+     "values": {
+      "elbow_angle_l": 99.11610473667669,
+      "elbow_angle_r": 104.0007402518252,
+      "elbow_angle_near": 99.11610473667669,
+      "torso_lean": 8.142118027808882,
+      "arm_symmetry": 4.0861758787491755
+     }
+    },
+    {
+     "frame": 130,
+     "values": {
+      "elbow_angle_l": 172.9861794104629,
+      "elbow_angle_r": 172.87912313987619,
+      "elbow_angle_near": 172.9861794104629,
+      "torso_lean": 9.44410196284733,
+      "arm_symmetry": 2.385874451719882
+     }
+    },
+    {
+     "frame": 140,
+     "values": {
+      "elbow_angle_l": 113.88731398355252,
+      "elbow_angle_r": 105.18851972466452,
+      "elbow_angle_near": 113.88731398355252,
+      "torso_lean": 7.688201841202046,
+      "arm_symmetry": 8.004089348582845
+     }
+    },
+    {
+     "frame": 150,
+     "values": {
+      "elbow_angle_l": 85.26750205552432,
+      "elbow_angle_r": 85.95565094480149,
+      "elbow_angle_near": 85.26750205552432,
+      "torso_lean": 9.329770190848423,
+      "arm_symmetry": 2.3270037786539444
+     }
+    }
+   ]
+  },
+  "repStates": [
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START"
+  ]
+ }
+}

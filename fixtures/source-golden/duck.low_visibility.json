@@ -1,0 +1,298 @@
+{
+ "goldenVersion": 1,
+ "source": {
+  "repo": "armagan-droid/gymspot",
+  "commit": "c2fe3fd"
+ },
+ "rulePack": "duck",
+ "rulePackVersion": 1,
+ "setup": {
+  "view": "front",
+  "nearSide": "left"
+ },
+ "options": {
+  "safetyPause": true
+ },
+ "cuesEnabled": [],
+ "sequence": "sequences/duck/low_visibility.json",
+ "expected": {
+  "events": [
+   {
+    "frame": 15,
+    "t": 1000.0000000000001,
+    "type": "READY_POSE_HELD"
+   },
+   {
+    "frame": 35,
+    "t": 2333.3333333333335,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 43,
+    "t": 2866.666666666667,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 600
+   },
+   {
+    "frame": 61,
+    "t": 4066.666666666667,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 69,
+    "t": 4600,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 600
+   },
+   {
+    "frame": 86,
+    "t": 5733.333333333334,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 94,
+    "t": 6266.666666666667,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 600
+   },
+   {
+    "frame": 108,
+    "t": 7200.000000000001,
+    "type": "READY_POSE_HELD"
+   }
+  ],
+  "metrics": {
+   "every": 10,
+   "values": [
+    {
+     "frame": 0,
+     "values": {
+      "height_l": 0.9436938573413124,
+      "height_r": 0.948083603125489,
+      "head_height": 0.9458887302334007,
+      "guard_l": -0.03964110807322963,
+      "guard_r": 0.04964854467014793
+     }
+    },
+    {
+     "frame": 10,
+     "values": {
+      "height_l": 0.9501248716228416,
+      "height_r": 0.9567046201868271,
+      "head_height": 0.9533977640153628,
+      "guard_l": -0.005579173944373192,
+      "guard_r": -0.0270137977658585
+     }
+    },
+    {
+     "frame": 20,
+     "values": {
+      "height_l": 0.9489924435873478,
+      "height_r": 0.9505593060491264,
+      "head_height": 0.9497299238856296,
+      "guard_l": 0.02316381972921927,
+      "guard_r": -0.024770374828216438
+     }
+    },
+    {
+     "frame": 30,
+     "values": {
+      "height_l": 0.9451137489399697,
+      "height_r": 0.9394051427996738,
+      "head_height": 0.9422977188081272,
+      "guard_l": 0.00765990726034704,
+      "guard_r": 0.03497568581978021
+     }
+    },
+    {
+     "frame": 40,
+     "values": {
+      "height_l": 0.8686773945369177,
+      "height_r": 0.8604361223693897,
+      "head_height": 0.8646148545535407,
+      "guard_l": -0.01408669425240303,
+      "guard_r": -0.0196322270406518
+     }
+    },
+    {
+     "frame": 50,
+     "values": {
+      "height_l": 0.9495385819661879,
+      "height_r": 0.9528240328806347,
+      "head_height": 0.9511695685124328,
+      "guard_l": -0.0019979330242510356,
+      "guard_r": 0.03901082104444026
+     }
+    },
+    {
+     "frame": 60,
+     "values": {
+      "height_l": 0.8933528209915911,
+      "height_r": 0.894191318757052,
+      "head_height": 0.8938003074329737,
+      "guard_l": 0.01518321148944122,
+      "guard_r": -0.037399789557152216
+     }
+    },
+    {
+     "frame": 70,
+     "values": {
+      "height_l": 0.9428594626074025,
+      "height_r": 0.9557703962161723,
+      "head_height": 0.9492965814583583,
+      "guard_l": 0.03942007713861902,
+      "guard_r": 0.027499595810886693
+     }
+    },
+    {
+     "frame": 80,
+     "values": {
+      "height_l": 0.9343774280413106,
+      "height_r": 0.956218198350937,
+      "head_height": 0.9452941675701305,
+      "guard_l": -0.006883869145233822,
+      "guard_r": 0.023204628399171486
+     }
+    },
+    {
+     "frame": 90,
+     "values": {
+      "height_l": 0.8502339733973681,
+      "height_r": 0.8374665031505358,
+      "head_height": 0.8439299198110842,
+      "guard_l": 0.012157379322005835,
+      "guard_r": 0.029840379821888703
+     }
+    },
+    {
+     "frame": 100,
+     "values": {
+      "height_l": 0.9396209547100802,
+      "height_r": 0.9540425890476689,
+      "head_height": 0.9467022164754217,
+      "guard_l": -0.005320586279145411,
+      "guard_r": 0.035728301206261956
+     }
+    }
+   ]
+  },
+  "repStates": [
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START"
+  ]
+ }
+}

@@ -1,0 +1,292 @@
+{
+ "goldenVersion": 1,
+ "source": {
+  "repo": "armagan-droid/gymspot",
+  "commit": "c2fe3fd"
+ },
+ "rulePack": "straight_punch",
+ "rulePackVersion": 1,
+ "setup": {
+  "view": "side",
+  "nearSide": "left"
+ },
+ "options": {
+  "safetyPause": true
+ },
+ "cuesEnabled": [],
+ "sequence": "sequences/straight_punch/faulty_3.json",
+ "expected": {
+  "events": [
+   {
+    "frame": 15,
+    "t": 1000.0000000000001,
+    "type": "READY_POSE_HELD"
+   },
+   {
+    "frame": 32,
+    "t": 2133.3333333333335,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 35,
+    "t": 2333.3333333333335,
+    "type": "REP_COMPLETED",
+    "outcome": "incomplete",
+    "faults": [],
+    "durationMs": 200
+   },
+   {
+    "frame": 50,
+    "t": 3333.3333333333335,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 54,
+    "t": 3600.0000000000005,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 267
+   }
+  ],
+  "metrics": {
+   "every": 10,
+   "values": [
+    {
+     "frame": 0,
+     "values": {
+      "arm_lift_l": 24.48494243858247,
+      "arm_lift_r": 24.984642976708486,
+      "arm_lift": 24.984642976708486,
+      "guard_near": 0.003638214918949703,
+      "torso_lean": 0.5403000070269034
+     }
+    },
+    {
+     "frame": 10,
+     "values": {
+      "arm_lift_l": 25.136374501549334,
+      "arm_lift_r": 25.599812195571403,
+      "arm_lift": 26.070567807477524,
+      "guard_near": -0.01874639338006069,
+      "torso_lean": 0.858747868401772
+     }
+    },
+    {
+     "frame": 20,
+     "values": {
+      "arm_lift_l": 26.12576372919765,
+      "arm_lift_r": 26.538693921105374,
+      "arm_lift": 26.54426432843126,
+      "guard_near": -0.0037243613917072958,
+      "torso_lean": 1.0229678287653414
+     }
+    },
+    {
+     "frame": 30,
+     "values": {
+      "arm_lift_l": 25.146787842723036,
+      "arm_lift_r": 27.567310498216134,
+      "arm_lift": 27.547353144704108,
+      "guard_near": -0.002336533798032731,
+      "torso_lean": 1.1697486926641654
+     }
+    },
+    {
+     "frame": 40,
+     "values": {
+      "arm_lift_l": 27.122655502583548,
+      "arm_lift_r": 26.692247011501976,
+      "arm_lift": 27.201392377387986,
+      "guard_near": -0.00679509104115992,
+      "torso_lean": 0.834339739414703
+     }
+    },
+    {
+     "frame": 50,
+     "values": {
+      "arm_lift_l": 69.10301021792202,
+      "arm_lift_r": 25.03559036768849,
+      "arm_lift": 69.09684171423389,
+      "guard_near": -0.012140796864455393,
+      "torso_lean": 0.6321552862158768
+     }
+    },
+    {
+     "frame": 60,
+     "values": {
+      "arm_lift_l": 27.651805331337712,
+      "arm_lift_r": 27.70240968251595,
+      "arm_lift": 27.880779625679097,
+      "guard_near": -0.005623486070470936,
+      "torso_lean": 0.25106666974697717
+     }
+    },
+    {
+     "frame": 70,
+     "values": {
+      "arm_lift_l": 26.324435197050356,
+      "arm_lift_r": 22.596959572474166,
+      "arm_lift": 26.27641589783761,
+      "guard_near": -0.03637498088285188,
+      "torso_lean": 0.6506269420446149
+     }
+    },
+    {
+     "frame": 80,
+     "values": {
+      "arm_lift_l": 27.546227848715922,
+      "arm_lift_r": 9.548470168249867,
+      "arm_lift": 27.546234397190492,
+      "guard_near": -0.00918157099971966,
+      "torso_lean": 0.6531039473061108
+     }
+    },
+    {
+     "frame": 90,
+     "values": {
+      "arm_lift_l": 25.51159898643691,
+      "arm_lift_r": 20.882653552737036,
+      "arm_lift": 25.511599013092532,
+      "guard_near": 0.004550831767503455,
+      "torso_lean": 0.4502145235568522
+     }
+    },
+    {
+     "frame": 100,
+     "values": {
+      "arm_lift_l": 23.979579268458572,
+      "arm_lift_r": 27.064615209229746,
+      "arm_lift": 26.95569072685504,
+      "guard_near": -0.017673553791508957,
+      "torso_lean": 0.47475990435663984
+     }
+    },
+    {
+     "frame": 110,
+     "values": {
+      "arm_lift_l": 26.15885032327396,
+      "arm_lift_r": 25.73404992932658,
+      "arm_lift": 26.288898006670372,
+      "guard_near": -0.007354532397399777,
+      "torso_lean": 0.6142381708034268
+     }
+    }
+   ]
+  },
+  "repStates": [
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START"
+  ]
+ }
+}

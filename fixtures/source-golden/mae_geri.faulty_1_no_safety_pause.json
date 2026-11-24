@@ -1,0 +1,280 @@
+{
+ "goldenVersion": 1,
+ "source": {
+  "repo": "armagan-droid/gymspot",
+  "commit": "c2fe3fd"
+ },
+ "rulePack": "mae_geri",
+ "rulePackVersion": 1,
+ "setup": {
+  "view": "side",
+  "nearSide": "left"
+ },
+ "options": {
+  "safetyPause": false
+ },
+ "cuesEnabled": [],
+ "sequence": "sequences/mae_geri/faulty_1.json",
+ "expected": {
+  "events": [
+   {
+    "frame": 15,
+    "t": 1000.0000000000001,
+    "type": "READY_POSE_HELD"
+   },
+   {
+    "frame": 33,
+    "t": 2200,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 38,
+    "t": 2533.3333333333335,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [
+     "excessive_lean"
+    ],
+    "durationMs": 333
+   },
+   {
+    "frame": 54,
+    "t": 3600.0000000000005,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 59,
+    "t": 3933.3333333333335,
+    "type": "FAULT_DETECTED",
+    "faultId": "excessive_lean"
+   },
+   {
+    "frame": 59,
+    "t": 3933.3333333333335,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [
+     "excessive_lean"
+    ],
+    "durationMs": 333
+   },
+   {
+    "frame": 75,
+    "t": 5000,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 80,
+    "t": 5333.333333333334,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 333
+   }
+  ],
+  "metrics": {
+   "every": 10,
+   "values": [
+    {
+     "frame": 0,
+     "values": {
+      "kick_height_l": -1.718793072603157,
+      "kick_height_r": -1.7057560068838584,
+      "kick_height": -1.7057560068838584,
+      "guard_near": -0.009082000838163466,
+      "torso_lean": 0.6477784317019688
+     }
+    },
+    {
+     "frame": 10,
+     "values": {
+      "kick_height_l": -1.6805117684625945,
+      "kick_height_r": -1.6748682696554122,
+      "kick_height": -1.6738265168989734,
+      "guard_near": 0.002452672705981623,
+      "torso_lean": 0.4539775261911395
+     }
+    },
+    {
+     "frame": 20,
+     "values": {
+      "kick_height_l": -1.6966045354104313,
+      "kick_height_r": -1.6800082633841429,
+      "kick_height": -1.6793605912778813,
+      "guard_near": -0.0045702266357787735,
+      "torso_lean": 0.9472775523886221
+     }
+    },
+    {
+     "frame": 30,
+     "values": {
+      "kick_height_l": -1.6891866346355044,
+      "kick_height_r": -1.6918195947997345,
+      "kick_height": -1.6852496655918627,
+      "guard_near": -0.012763273413724966,
+      "torso_lean": 0.40672951019457526
+     }
+    },
+    {
+     "frame": 40,
+     "values": {
+      "kick_height_l": -1.698785388463935,
+      "kick_height_r": -1.693566434828898,
+      "kick_height": -1.6872528528910993,
+      "guard_near": -0.013882684853983196,
+      "torso_lean": 0.7304229840882392
+     }
+    },
+    {
+     "frame": 50,
+     "values": {
+      "kick_height_l": -1.727456355398592,
+      "kick_height_r": -1.712195514874947,
+      "kick_height": -1.7119286781181398,
+      "guard_near": -0.002558930605569952,
+      "torso_lean": 0.3915612094575293
+     }
+    },
+    {
+     "frame": 60,
+     "values": {
+      "kick_height_l": -1.696448188864362,
+      "kick_height_r": -1.6800201782817583,
+      "kick_height": -1.6590808900714322,
+      "guard_near": 0.0017757065160414112,
+      "torso_lean": 0.8350755069163636
+     }
+    },
+    {
+     "frame": 70,
+     "values": {
+      "kick_height_l": -1.6814867584699997,
+      "kick_height_r": -1.689234381331071,
+      "kick_height": -1.677788017701451,
+      "guard_near": -0.011475300064508281,
+      "torso_lean": 0.2615469915202719
+     }
+    },
+    {
+     "frame": 80,
+     "values": {
+      "kick_height_l": -1.7105717691586237,
+      "kick_height_r": -1.5685511582225757,
+      "kick_height": -1.5686662291845999,
+      "guard_near": -0.007855005211189127,
+      "torso_lean": 1.1966258119558413
+     }
+    },
+    {
+     "frame": 90,
+     "values": {
+      "kick_height_l": -1.6929322669411146,
+      "kick_height_r": -1.677277188953476,
+      "kick_height": -1.6740442511263582,
+      "guard_near": -0.010783073855208873,
+      "torso_lean": 0.4174350276734754
+     }
+    }
+   ]
+  },
+  "repStates": [
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START"
+  ]
+ }
+}
