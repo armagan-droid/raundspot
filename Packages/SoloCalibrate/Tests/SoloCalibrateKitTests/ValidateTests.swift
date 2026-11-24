@@ -67,6 +67,35 @@ import Testing
         #expect(try Validator.validate(directory: broken).errors == ["demos/squat.json: formatVersion must be 1"])
     }
 
+    /// specs/05 "Seviye kaydı ve doğrulama": schema, file name = id, templates and the combo gap (AC-5.6).
+    @Test func reflexCatalogsAreChecked() throws {
+        let catalog = try String(contentsOf: Self.repoExercises.appendingPathComponent("reflex/muay_thai.json"), encoding: .utf8)
+        let template = { (id: String) in try String(contentsOf: Self.repoExercises.appendingPathComponent("\(id).json"), encoding: .utf8) }
+        var files: [String: String] = ["reflex/muay_thai.json": catalog]
+        for id in ["slip_left", "slip_right", "duck", "bob_weave_left", "bob_weave_right"] { files["\(id).json"] = try template(id) }
+        #expect(try Validator.validate(directory: makeDirectory(files)).errors == [])
+
+        var noDuck = files
+        noDuck["duck.json"] = nil
+        #expect(try Validator.validate(directory: makeDirectory(noDuck)).errors
+            == ["reflex/muay_thai.json: responses.2: no front-view template 'duck' in exercises/"])
+
+        var short = files
+        short["reflex/muay_thai.json"] = catalog.replacingOccurrences(of: "\"comboGapMs\": 450", with: "\"comboGapMs\": 100")
+        #expect(try Validator.validate(directory: makeDirectory(short)).errors.contains { $0.hasPrefix("reflex/muay_thai.json: levels.5.comboGapMs") })
+
+        let renamed = try makeDirectory(["reflex/kick.json": catalog])
+        #expect(try Validator.validate(directory: renamed).errors.contains("reflex/kick.json: id 'muay_thai' does not match the file name"))
+        let broken = try makeDirectory(["reflex/muay_thai.json": "{\"id\": 1}"])
+        #expect(try Validator.validate(directory: broken).errors.contains { $0.hasPrefix("reflex/muay_thai.json: ") })
+    }
+
+    @Test func aWorkoutsReflexCatalogMustExist() throws {
+        let w = #"{"formatVersion": 1, "id": "w", "name": {"tr": "a", "en": "b"}, "sport": "muay_thai", "estimatedMinutes": 5, "blocks": [{"type": "reflex", "catalogId": "boxing", "level": 1, "restSec": 0}]}"#
+        let errors = try Validator.validate(directory: makeDirectory(["workouts/w.json": w])).errors
+        #expect(errors == ["workouts/w.json: blocks[0].catalogId: no catalog 'boxing' in exercises/reflex/ (specs/06)"])
+    }
+
     @Test func workoutsAreChecked() throws {
         let w = #"{"formatVersion": 1, "id": "w", "name": {"tr": "a", "en": "b"}, "sport": "muay_thai", "estimatedMinutes": 5, "blocks": [{"type": "technique", "exerciseId": "nope", "sets": 1, "reps": 5, "restSec": 0}]}"#
         let dir = try makeDirectory(["workouts/w.json": w, "workouts/bad.json": "{\"formatVersion\": 1}"])
@@ -85,9 +114,9 @@ import Testing
     }
 
     @Test func unknownFileKindsAreErrors() throws {
-        let dir = try makeDirectory(["reflex/muay_thai.json": "{}"])
+        let dir = try makeDirectory(["programs/week.json": "{}"])
         let report = try Validator.validate(directory: dir)
-        #expect(report.errors == ["reflex/muay_thai.json: no validator for this file kind yet"])
+        #expect(report.errors == ["programs/week.json: no validator for this file kind yet"])
     }
 
     @Test func exitCodes() throws {

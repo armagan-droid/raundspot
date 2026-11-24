@@ -63,7 +63,7 @@ ref 03 girdilerine (motor olayları, `USER_ACTION`, `TICK`) eklenenler. Devir ve
     { "type": "guided", "steps": [ … ] } ] }
 ```
 - `level` bir tam sayı ya da `"chosen"`: kullanıcı seviyeyi antrenman başında seçer (H3). `conditioning` bloğu `reps` ya da `durationSec`'ten tam olarak birini taşır. `mode` öntanımlı `lenient`.
-- `technique` ve `conditioning` bloklarının `exerciseId`'si `exercises/` altında bir şablon olmalıdır (AC-6.5, `solo-calibrate validate`). Refleks katalogları (`exercises/reflex/`) Faz 4'te gelir; o zamana kadar `catalogId` denetlenmez.
+- `technique` ve `conditioning` bloklarının `exerciseId`'si `exercises/` altında bir şablon olmalıdır (AC-6.5, `solo-calibrate validate`). `reflex` bloğunun `catalogId`'si `exercises/reflex/` altında bir katalog olmalıdır (`solo-calibrate validate`, 05).
 - `reflex` bloğu `sets` taşıyabilir (öntanımlı 1); `cues` yoksa seviyenin işaret sayısı geçerlidir (05, öntanımlı 20).
 - "Hızlı karma" (seçilen 2 eskiv) için bloklarda seçim gösterimi gerekir. Kondisyon **devresi** için de (blokların sırayla tekrarı, devreler arası dinlenme) format eklemesi gerekir. İkisi de formata sonra eklenecek. O zamana kadar "Kondisyon" antrenmanı her hareketi düz setlerle yazar (3 set, 60 sn dinlenme) ve "Hızlı karma" dosyası yoktur. `reverse_lunge` 20 tekrar = her bacak 10.
 - Ref 03 kural 5'teki "`CONTINUE_SET` → sayaç sıfırlanır" ifadesi, bu projede **hareketsizlik sayacı** olarak okunur. Tekrar sayacı korunur, çünkü sıfırlamak yapılan tekrarları silerdi.

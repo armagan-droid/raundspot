@@ -699,6 +699,96 @@
         }
       }
     },
+    "strike.cross": {
+      "comment": "Reflex cue, spoken (specs/05 catalog, draft until the coach approves).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cross!"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düz!"
+          }
+        }
+      }
+    },
+    "strike.jab": {
+      "comment": "Reflex cue, spoken (specs/05 catalog, draft until the coach approves).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jab!"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jab!"
+          }
+        }
+      }
+    },
+    "strike.left_hook": {
+      "comment": "Reflex cue, spoken (specs/05 catalog, draft until the coach approves).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Left hook!"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sol kroşe!"
+          }
+        }
+      }
+    },
+    "strike.right_hook": {
+      "comment": "Reflex cue, spoken (specs/05 catalog, draft until the coach approves).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Right hook!"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sağ kroşe!"
+          }
+        }
+      }
+    },
+    "strike.stop": {
+      "comment": "Reflex feint: no response expected (specs/05).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hold!"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dur!"
+          }
+        }
+      }
+    },
     "tracking.lost": {
       "extractionState": "manual",
       "localizations": {

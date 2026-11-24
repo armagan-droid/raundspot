@@ -35,7 +35,11 @@ Bu proje salon reposundan bağımsızdır; salon reposuna hiçbir görevde yazı
 - Durum (2026-11-22, cihaz deneme dilimi): T3.1 ve T3.2'nin çekirdeği ile T3.3 (yalnız TTS yedeği), T3.5 (S2, S1, T1, T2 ve Y1 sade hâli; eskiv hedef dairesi, balonlar, kesikli çizgiler ve ok, geometrisi `SoloEngine` `HeadGuideTracker`; eğilme çizgisi o anki omuz genişliğiyle çizilir, böylece baş çizgiyi metrik eşiği geçtiğinde geçer; kondisyon şablonlarında hedef çizgisi `TargetLineTracker`; S1 ve T1'de gösterim animasyonu, `exercises/demos/`) ve T3.6 (yalnız tanı paneli) kısımları, telefonda bir şablonu baştan sona denemek için kuruldu. Ön kamera; H2, yani yalnız 2B; kişi seçimi ve `assessSetup` motordan. Henüz yok: sahte kamera, saat eşlemesinin testi, planlı ses ve ses dosyaları, seans motoru (T3.4), telefon eğimi (CoreMotion), arka kamera, kademeli çalışma. Görevler bu kısımlar bitene kadar `[ ]` kalır. Şablonlar uygulamaya `scripts/xcode/copy-exercises.sh` ile kopyalanır; derleme kum havuzu yalnız bildirilen girdileri okuttuğu için dosyalar `scripts/xcode/exercises.xcfilelist`'te sayılır ve bir test listeyi `exercises/*.json` ile eşit tutar.
 
 ## Faz 4 — Refleks modu
-- [ ] T4.1 Katalog şeması ve `muay_thai.json` taslağı; southpaw aynalaması — 05 (AC-5.3, AC-5.6, AC-5.8)
+- [x] T4.1 Katalog şeması ve `muay_thai.json` taslağı; southpaw aynalaması — 05 (AC-5.3, AC-5.6, AC-5.8) *Durum (2026-11-24):*
+  - *Katalog: `SoloEngine/Reflex/ReflexCatalog` (katı yükleyici, `resolved(for:)`, `templateIssues`, `isUsable(release:)`); biçimi 05 "Seviye kaydı ve doğrulama"da.*
+  - *Veri: `exercises/reflex/muay_thai.json` (`draft`, 6 seviye, H1 doğrulanmadığı için `high_kick` yok). Uygulama paketine kopyalanır. Saldırı anahtarları TR/EN String Catalog'da.*
+  - *Doğrulama: `solo-calibrate validate` katalogları, `comboGapMs` kuralını ve antrenmanlardaki `catalogId`'yi denetler.*
+  - *AC-5.8'in ekran kısmı (TestFlight'ta "taslak eşleme" ibaresi) T4.4'te gelir.*
 - [ ] T4.2 Deneme döngüsü, sınıflandırma, tepki süresi (ham metrik interpolasyonu), kombinasyon, aldatma, seviye önerisi — 05 (AC-5.1, AC-5.2, AC-5.4, AC-5.5)
 - [ ] T4.3 Refleks geri bildirimi ve ses önceliği (konuşma–işaret çakışmaması) — 05 (AC-5.7)
 - [ ] T4.4 Ekranlar R1–R3, H3 — 12 (AC-12.1, AC-12.2 R2 kısmı; AC-12.7 R2 kısmı)
