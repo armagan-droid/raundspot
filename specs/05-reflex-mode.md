@@ -146,6 +146,15 @@ Bir denemenin penceresi kapanınca:
 - **Sonuç sesi:** her denemede kısa, konuşmasız ton (doğru: yüksek kısa "tık"; yanlış/kaçırıldı: alçak "tok"; aldatma ısırıldı: çift "tok"). Sonuç tonları ve form uyarısı sesi ayarlardan kapatılabilir; işaret sesi kapatılamaz, çünkü refleks modunun asıl kanalıdır ve RT ona göre ölçülür (11, 12 A). Ekranda sonuç ikonu + RT (ms).
 - **Form uyarısı:** refleks modunda deneme başına en fazla bir, yalnız `correct_faulty` denemelerinde, ref 05 bekleme süresiyle; bir sonraki işaret planlanmışsa ve konuşma bitmeyecekse atılır.
 - **Yanlış yön:** art arda 2 `wrong` aynı saldırıda ise bir kez "Jab'a dışa kaç: sağa" (`reflex.hint.<strike>`, gard yönüne göre çözülür) söylenir; set başına saldırı başına en fazla bir kez.
+- **Uygulama (T4.3, 2026-11-24):**
+  - Konuşma, planlanmış bir işaret sesinin 600 ms öncesinden sesin bitişine kadar olan aralıkla çakışmaz. Yeni işaret de süren bir konuşma bitmeden ve 600 ms geçmeden planlanmaz.
+  - Sığmayan form uyarısı ile "Gard al" / "Bekle" atılır; yön ipucu ertelenir ve sığdığı ilk anda söylenir.
+  - Süreler için tahmin kullanılır: işaret sesi ~600 ms, konuşma anahtar başına verilen süre.
+  - Form uyarısının bekleme süresi şablondaki `cooldownMs`'tir.
+  - "Art arda 2 `wrong`" o saldırının kendi denemeleri içindedir, çünkü saldırılar ardışık tekrar etmez.
+  - Yön ipucu anahtarı `reflex.hint.<saldırı>.<gard>`'dır.
+  - Sonuç tonları: `correct` / `correct_faulty` / `feint_ok` → doğru; `feint_bitten` → çift ton; diğerleri → yanlış.
+  - Özetin söylediği tepki süresi ortalamadır; ekrandaki istatistik medyan ve p90'dır. "En zor" saldırı, isabeti en düşük olan saldırıdır (eşitlikte medyan RT'si daha yavaş olan); adı `strike.name.<anahtar>` ile söylenir.
 - Set sonu özeti (≤ 8 sn, sesli kısa): "20 işaret, 17 doğru, ortalama tepki 410 milisaniye. En zor: sağ kroşe."
 
 ### Set özeti ve kayıt

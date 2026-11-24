@@ -376,6 +376,222 @@
         }
       }
     },
+    "reflex.get_ready": {
+      "comment": "Reflex mode (specs/05), spoken.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guard up, back to the center."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gard al, ortaya gel."
+          }
+        }
+      }
+    },
+    "reflex.hint.cross.orthodox": {
+      "comment": "Reflex hint after two wrong answers to the same strike (specs/05); depends on the stance.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Slip the cross to the outside: left."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düze dışa kaç: sola."
+          }
+        }
+      }
+    },
+    "reflex.hint.cross.southpaw": {
+      "comment": "Reflex hint after two wrong answers to the same strike (specs/05); depends on the stance.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Slip the cross to the outside: right."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düze dışa kaç: sağa."
+          }
+        }
+      }
+    },
+    "reflex.hint.jab.orthodox": {
+      "comment": "Reflex hint after two wrong answers to the same strike (specs/05); depends on the stance.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Slip the jab to the outside: right."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jab'a dışa kaç: sağa."
+          }
+        }
+      }
+    },
+    "reflex.hint.jab.southpaw": {
+      "comment": "Reflex hint after two wrong answers to the same strike (specs/05); depends on the stance.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Slip the jab to the outside: left."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jab'a dışa kaç: sola."
+          }
+        }
+      }
+    },
+    "reflex.hint.lead_hook.orthodox": {
+      "comment": "Reflex hint after two wrong answers to the same strike (specs/05); depends on the stance.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Under the left hook, come up on the left."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sol kroşenin altından sola geç."
+          }
+        }
+      }
+    },
+    "reflex.hint.lead_hook.southpaw": {
+      "comment": "Reflex hint after two wrong answers to the same strike (specs/05); depends on the stance.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Under the right hook, come up on the right."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sağ kroşenin altından sağa geç."
+          }
+        }
+      }
+    },
+    "reflex.hint.rear_hook.orthodox": {
+      "comment": "Reflex hint after two wrong answers to the same strike (specs/05); depends on the stance.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Under the right hook, come up on the right."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sağ kroşenin altından sağa geç."
+          }
+        }
+      }
+    },
+    "reflex.hint.rear_hook.southpaw": {
+      "comment": "Reflex hint after two wrong answers to the same strike (specs/05); depends on the stance.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Under the left hook, come up on the left."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sol kroşenin altından sola geç."
+          }
+        }
+      }
+    },
+    "reflex.set_summary %lld %lld %lld": {
+      "comment": "Spoken reflex set summary (specs/05).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld cues, %2$lld right, average reaction %3$lld milliseconds."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld işaret, %2$lld doğru, ortalama tepki %3$lld milisaniye."
+          }
+        }
+      }
+    },
+    "reflex.set_summary.hardest %@": {
+      "comment": "Spoken after the set summary (specs/05).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hardest: %@."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En zor: %@."
+          }
+        }
+      }
+    },
+    "reflex.wait_for_cue": {
+      "comment": "Reflex mode (specs/05), spoken.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wait, listen for the cue."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bekle, işareti dinle."
+          }
+        }
+      }
+    },
     "rest.done": {
       "extractionState": "manual",
       "localizations": {
@@ -749,6 +965,78 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sol kroşe!"
+          }
+        }
+      }
+    },
+    "strike.name.cross": {
+      "comment": "Strike name inside a sentence (reflex set summary, specs/05).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "the cross"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "düz"
+          }
+        }
+      }
+    },
+    "strike.name.jab": {
+      "comment": "Strike name inside a sentence (reflex set summary, specs/05).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "the jab"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "jab"
+          }
+        }
+      }
+    },
+    "strike.name.left_hook": {
+      "comment": "Strike name inside a sentence (reflex set summary, specs/05).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "the left hook"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sol kroşe"
+          }
+        }
+      }
+    },
+    "strike.name.right_hook": {
+      "comment": "Strike name inside a sentence (reflex set summary, specs/05).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "the right hook"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sağ kroşe"
           }
         }
       }

@@ -19,7 +19,7 @@ import Testing
         var keys: [String] = []
         for f in Repo.jsonFiles(in: Repo.exercises.appendingPathComponent("reflex")) {
             let c = try ReflexCatalog.parse(Repo.read(f)).get()
-            keys += c.strikes.flatMap { $0.say.values } + c.feints.map(\.say)
+            keys += c.strikes.flatMap { $0.say.values } + c.feints.map(\.say) + ReflexSet.spokenKeys(c)
         }
         for f in Repo.jsonFiles(in: Repo.exercises.appendingPathComponent("workouts")) {
             keys += try Workout.parse(Repo.read(f)).blocks.flatMap { $0.steps.map(\.textKey) }
