@@ -14,6 +14,7 @@ import SoloEngine
 /// - `<dir>/reflex/*.json`: reflex catalogs (specs/05): schema, file name =
 ///   `id`, every response a front-view template in `<dir>`, and no combo gap
 ///   shorter than the slowest accepted response (AC-5.6).
+/// - `<dir>/energy/met.json`, `keytel.json`: the calorie data (specs/08).
 /// - Any other JSON is an error until its
 ///   validator exists, so a new file kind cannot slip through unchecked.
 public struct ValidationReport: Sendable, Equatable {
@@ -38,6 +39,8 @@ public enum Validator {
                 report.errors += validateRulePack(file, relative: relative, requireHowTo: false)
             case 2 where parts[0] == "workouts":
                 report.errors += validateWorkout(file, relative: relative, root: root)
+            case 2 where parts[0] == "energy":
+                report.errors += validateEnergy(file, relative: relative)
             case 2 where parts[0] == "reflex":
                 report.errors += validateCatalog(file, relative: relative, root: root)
             case 2 where parts[0] == "demos":
@@ -77,6 +80,21 @@ public enum Validator {
             }
         }
         return errors
+    }
+
+    /// specs/08: `met.json` and `keytel.json`.
+    static func validateEnergy(_ file: URL, relative: String) -> [String] {
+        do {
+            let json = try JSONValue.parse(contentsOf: file)
+            switch file.lastPathComponent {
+            case "met.json": _ = try METTable.parse(json)
+            case "keytel.json": _ = try KeytelEquations.parse(json)
+            default: return ["\(relative): unknown energy file"]
+            }
+            return []
+        } catch {
+            return ["\(relative): \(error)"]
+        }
     }
 
     static func validateCatalog(_ file: URL, relative: String, root: URL) -> [String] {

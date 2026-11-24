@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "source": "Keytel et al. 2005, J Sports Sci 23(3): 289-297; EE kJ/min = a + b*HR + c*weightKg + d*age",
+  "verified": false,
+  "note": "male row seen only in a secondary source; female row not confirmed (specs/08 T6.1)",
+  "male": { "a": -55.0969, "b": 0.6309, "c": 0.1988, "d": 0.2017 },
+  "female": { "a": -20.4022, "b": 0.4472, "c": -0.1263, "d": 0.074 }
+}
