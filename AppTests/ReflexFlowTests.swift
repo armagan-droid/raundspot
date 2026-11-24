@@ -53,7 +53,7 @@ import Testing
         let summary = try #require(model.reflexSummary)
         #expect(summary.total == 2 && summary.hits == 0)
         let trials = try container.mainContext.fetch(FetchDescriptor<StoredReflexTrial>())
-        #expect(trials.count == 2 && trials.allSatisfy { $0.result == "missed" && $0.rtApproximate })
+        #expect(trials.count == 2 && trials.allSatisfy { $0.result == "missed" && $0.rtApproximate })  // no cue files yet: TTS
         #expect(trials.allSatisfy { $0.set != nil && $0.cueAtMs > 0 })
         let sets = try container.mainContext.fetch(FetchDescriptor<StoredSet>())
         #expect(sets.count == 1 && sets.first?.incompleteReps == 0 && sets.first?.trials.count == 2)

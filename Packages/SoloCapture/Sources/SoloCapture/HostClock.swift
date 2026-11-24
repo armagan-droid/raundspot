@@ -13,6 +13,11 @@ public enum HostClock {
     }
 
     public static var nowMs: Double { ms(fromHostTicks: mach_absolute_time()) }
+
+    /// The inverse of `ms(fromHostTicks:)`: a host time for scheduling audio (`AVAudioTime(hostTime:)`, specs/02).
+    public static func hostTicks(fromMs ms: Double) -> UInt64 {
+        UInt64((ms * 1e6 * Double(timebase.denom) / Double(timebase.numer)).rounded())
+    }
 }
 
 /// Frames per second over a sliding window, and dropped frames (specs/02 "Tanı paneli").
