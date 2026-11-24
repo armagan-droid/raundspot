@@ -82,6 +82,8 @@ public struct LandmarkSequence: Sendable, Equatable {
     public var hasWorld: Bool
     /// Required in v2, 1 in v1; copied into every frame.
     public var imageAspect: Double
+    /// Recording export metadata (specs/03, specs/09; v2 `team` only).
+    public var meta: ExportMeta?
 
     public init(formatVersion: Int, skeleton: Skeleton, exerciseId: String, source: Source, view: CameraView,
                 fps: Double, labels: [RepLabel]?, frames: [Frame], hasWorld: Bool, imageAspect: Double = 1) {
@@ -114,6 +116,7 @@ public struct LandmarkSequence: Sendable, Equatable {
 
     private static func read(_ json: JSONValue, _ r: inout SchemaReader) -> LandmarkSequence? {
         let common = ["formatVersion", "exerciseId", "source", "view", "fps", "labels", "frames"]
+        let v2Keys = ["skeleton", "imageAspect", "meta"]
         // The version decides the allowed keys, so read it first.
         let version = json["formatVersion"]?.numberValue
         guard version == 1 || version == 2 else {
@@ -121,7 +124,7 @@ public struct LandmarkSequence: Sendable, Equatable {
             return nil
         }
         let v2 = version == 2
-        guard let o = r.object(json, [], keys: v2 ? common + ["skeleton", "imageAspect"] : common) else { return nil }
+        guard let o = r.object(json, [], keys: v2 ? common + v2Keys : common) else { return nil }
 
         var skeleton: Skeleton? = .mediapipe33
         if v2 {
@@ -154,10 +157,17 @@ public struct LandmarkSequence: Sendable, Equatable {
                 break
             }
         }
+        var meta: ExportMeta?
+        if let m = o["meta"] {
+            if source != .team { r.add(["meta"], "only team recordings carry meta") }
+            meta = ExportMeta.read(m, &r)
+        }
         guard let exerciseId, let source, let view, let fps, let labels, let frames else { return nil }
-        return LandmarkSequence(
+        var seq = LandmarkSequence(
             formatVersion: v2 ? 2 : 1, skeleton: skeleton, exerciseId: exerciseId, source: source, view: view,
             fps: fps, labels: labels, frames: frames, hasWorld: hasWorld, imageAspect: imageAspect)
+        seq.meta = meta
+        return seq
     }
 
     private static func readLabels(_ v: JSONValue?, _ r: inout SchemaReader) -> [RepLabel]? {
@@ -239,5 +249,68 @@ public struct SequenceIssues: Error, Sendable, Equatable, CustomStringConvertibl
 
     public var description: String {
         "invalid landmark sequence:\n" + issues.map(\.description).joined(separator: "\n")
+    }
+}
+
+/// `meta` of an exported recording (specs/03, specs/09): no name and no free text.
+public struct ExportMeta: Sendable, Equatable {
+    public struct Template: Sendable, Equatable {
+        public var id: String
+        public var version: Int
+        public init(id: String, version: Int) { self.id = id; self.version = version }
+    }
+
+    public var recordingId: String
+    public var participant: String
+    public var consentVersion: Int
+    public var device: String
+    public var osVersion: String
+    public var appVersion: String
+    public var templates: [Template]
+
+    public init(recordingId: String, participant: String, consentVersion: Int, device: String, osVersion: String, appVersion: String,
+                templates: [Template]) {
+        self.recordingId = recordingId
+        self.participant = participant
+        self.consentVersion = consentVersion
+        self.device = device
+        self.osVersion = osVersion
+        self.appVersion = appVersion
+        self.templates = templates
+    }
+
+    static func read(_ v: JSONValue, _ r: inout SchemaReader) -> ExportMeta? {
+        let p = ["meta"]
+        guard let o = r.object(v, p, keys: ["recordingId", "participant", "consentVersion", "device", "osVersion", "appVersion", "templates"])
+        else { return nil }
+        let id = r.nonEmptyString(o["recordingId"], p + ["recordingId"])
+        if let id, UUID(uuidString: id) == nil { r.add(p + ["recordingId"], "must be a UUID") }
+        let participant = r.nonEmptyString(o["participant"], p + ["participant"])
+        if let participant, participant.range(of: #"^P[0-9]{2,}$"#, options: .regularExpression) == nil {
+            r.add(p + ["participant"], "must be a participant code (P07)")
+        }
+        let consent = r.int(o["consentVersion"], p + ["consentVersion"], min: 1)
+        let device = r.nonEmptyString(o["device"], p + ["device"])
+        let os = r.nonEmptyString(o["osVersion"], p + ["osVersion"])
+        let app = r.nonEmptyString(o["appVersion"], p + ["appVersion"])
+        let templates = r.array(o["templates"], p + ["templates"], minCount: 1).flatMap {
+            r.elements($0, p + ["templates"]) { r, v, path -> Template? in
+                guard let t = r.object(v, path, keys: ["id", "version"]), let id = r.identifier(t["id"], path + ["id"]),
+                      let ver = r.int(t["version"], path + ["version"], min: 1) else { return nil }
+                return Template(id: id, version: ver)
+            }
+        }
+        guard let id, let participant, let consent, let device, let os, let app, let templates else { return nil }
+        return ExportMeta(recordingId: id, participant: participant, consentVersion: consent, device: device, osVersion: os,
+                          appVersion: app, templates: templates)
+    }
+
+    var json: JSONValue {
+        var o: JSONValue = ["recordingId": .string(recordingId), "participant": .string(participant),
+                            "consentVersion": .number(Double(consentVersion)), "device": .string(device)]
+        o["osVersion"] = .string(osVersion)
+        o["appVersion"] = .string(appVersion)
+        o["templates"] = .array(templates.map { ["id": .string($0.id), "version": .number(Double($0.version))] })
+        return o
     }
 }

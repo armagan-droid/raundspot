@@ -181,4 +181,21 @@ private func isValid(_ json: JSONValue) -> Bool {
         s["formatVersion"] = 3
         #expect(!isValid(s))
     }
+
+    /// specs/03 `meta` (T5.4): strict, team recordings only, a participant code and no free text.
+    @Test func exportMeta() throws {
+        let frame: JSONValue = ["t": 0, "image": .array((0..<33).map { _ in ["x": 0.5, "y": 0.5, "z": 0, "visibility": 1] }), "world": .null]
+        var j: JSONValue = ["formatVersion": 2, "skeleton": "mediapipe33", "imageAspect": 1, "exerciseId": "slip_left", "source": "team",
+                            "view": "front", "fps": 30, "frames": [frame]]
+        j["meta"] = ["recordingId": "6F1B2C3D-0000-4000-8000-000000000001", "participant": "P07", "consentVersion": 1, "device": "iPhone",
+                     "osVersion": "26.1", "appVersion": "1.0", "templates": [["id": "slip_left", "version": 2]]]
+        let seq = try LandmarkSequence.parse(j).get()
+        #expect(seq.meta?.participant == "P07" && seq.meta?.templates == [.init(id: "slip_left", version: 2)])
+        // written and read back
+        #expect(try LandmarkSequence.parse(JSONValue.parse(seq.json.serialized())).get().meta == seq.meta)
+        var named = j; named["meta"]!["participant"] = "Ahmet"
+        var extra = j; extra["meta"]!["note"] = "hoca"
+        var synthetic = j; synthetic["source"] = "synthetic"
+        for bad in [named, extra, synthetic] { #expect(throws: SequenceIssues.self) { try LandmarkSequence.parse(bad).get() } }
+    }
 }

@@ -32,6 +32,7 @@ fixtures/
   snapshots/                       # Swift motorunun onaylı anlık görüntüleri (03)
   equivalence/                     # AC-4.4 eşdeğerlik testinin dondurulmuş şablon kopyaları (04)
   recordings/                      # kayıt modundan dışa aktarılan landmark dizileri (09)
+  export-sample/                   # kayıt modunun örnek dışa aktarımı (sentetik, AC-9.6 CI testi; kalibrasyona girmez)
 tools/
   golden-export/                   # bir kerelik TS betiği: salon reposunun c2fe3fd kopyasında çalışır (03)
 GymSpotSolo.xcodeproj              # uygulama hedefi + Debug/Beta/Release yapılandırmaları

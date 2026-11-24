@@ -100,3 +100,23 @@ private func run(_ args: [String]) -> (code: Int32, out: String) {
         #expect(throws: ReportError.self) { try Report.parseSweep("a=x") }
     }
 }
+
+/// AC-9.6 (CI side): a recording export (`fixtures/export-sample`, written by the SoloRecording export) is read
+/// by the strict schema and by `solo-calibrate report`; it carries meta and no picture.
+@Suite struct ExportSampleTests {
+    static let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent()
+        .deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
+
+    @Test func theExportSampleIsReadable() throws {
+        let dir = Self.root.appendingPathComponent("fixtures/export-sample", isDirectory: true)
+        let seqs = try Report.loadSequences(dir)
+        let seq = try #require(seqs.first)
+        #expect(seq.formatVersion == 2 && seq.skeleton == .vision19 && seq.source == .team)
+        #expect(seq.meta?.participant.hasPrefix("P") == true)
+        let text = try String(contentsOf: dir.appendingPathComponent("slip_left.json"), encoding: .utf8)
+        for word in ["video", "pixel", "jpeg", "png"] { #expect(!text.contains(word)) }
+        let report = try Report.run(ReportOptions(files: dir, rules: Self.root.appendingPathComponent("exercises")))
+        // read without error; an unlabelled export adds no rows (labels come with the notes, T5.2)
+        #expect(report.hasPrefix("# "))
+    }
+}

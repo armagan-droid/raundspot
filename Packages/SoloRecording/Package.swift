@@ -10,9 +10,11 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../SoloEngine"),
+        .package(path: "../SoloPose"),
     ],
     targets: [
-        .target(name: "SoloRecording", dependencies: [.product(name: "SoloEngine", package: "SoloEngine")]),
+        .target(name: "SoloRecording", dependencies: [.product(name: "SoloEngine", package: "SoloEngine"),
+                                                      .product(name: "SoloPose", package: "SoloPose")]),
         .testTarget(name: "SoloRecordingTests", dependencies: ["SoloRecording"]),
     ],
     swiftLanguageModes: [.v6]

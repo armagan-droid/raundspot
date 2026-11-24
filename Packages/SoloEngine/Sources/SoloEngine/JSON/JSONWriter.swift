@@ -132,6 +132,7 @@ extension LandmarkSequence {
         if v2 {
             o["skeleton"] = .string(skeleton.rawValue)
             o["imageAspect"] = .number(imageAspect)
+            if let meta { o["meta"] = meta.json }
         }
         o["exerciseId"] = .string(exerciseId)
         o["source"] = .string(source.rawValue)
