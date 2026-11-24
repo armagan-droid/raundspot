@@ -1,0 +1,13 @@
+{
+  "formatVersion": 1,
+  "source": "2024 Adult Compendium of Physical Activities (pacompendium.com), 1 MET = 3.5 mL O2/kg/min",
+  "segments": {
+    "technique": { "met": 5.3, "code": "15425", "status": "verified" },
+    "reflex": { "met": 7.8, "code": "15425/15430", "status": "assumption" },
+    "round": { "met": 10.3, "code": "15430", "status": "verified" },
+    "conditioning": { "met": 7.5, "code": "02020", "status": "verified" },
+    "warmup": { "met": 2.8, "code": "02024", "status": "verified" },
+    "cooldown": { "met": 2.3, "code": "02101", "status": "verified" },
+    "rest": { "met": 1.5, "code": null, "status": "unverified" }
+  }
+}

@@ -17,9 +17,10 @@ net (aktif) kcal = (MET − 1) × kilo (kg) × süre (saat)
 | Teknik modu seti (yavaş, kontrollü) | 5,3 | Compendium 15425: dövüş sanatları, yavaş tempo, acemi, pratik | doğrulandı |
 | Refleks seti | 7,8 | 15425 ile 15430'un ortası (deneme aralıkları ve hazırlık beklemesi dahil) | **varsayım**, hoca + nabız verisiyle gözden geçirilecek |
 | Raunt (v1.0) | 10,3 | Compendium 15430: dövüş sanatları, orta tempo (kickboks, Muay Thai dahil) | doğrulandı |
-| Kondisyon seti (squat, şınav, lunge, jumping jack) | 8,0 | Compendium, kalistenik, yüksek efor | **doğrulanacak** (2024 kodu) |
-| Isınma, soğuma, mobilite | 2,3–3,0 | Compendium, esneme / hafif kalistenik | **doğrulanacak** |
-| Setler arası dinlenme | 1,5 | ayakta hafif hareket | **doğrulanacak** |
+| Kondisyon seti (squat, şınav, lunge, jumping jack) | 7,5 | Compendium 2024, 02020: kalistenik, yüksek efor (şınav, mekik, barfiks, jumping jack, burpee) | doğrulandı (T6.1; 2011'de 8,0'dı) |
+| Isınma | 2,8 | Compendium 2024, 02024: kalistenik, hafif efor | doğrulandı (T6.1) |
+| Soğuma, mobilite | 2,3 | Compendium 2024, 02101: esneme, hafif | doğrulandı (T6.1) |
+| Setler arası dinlenme | 1,5 | ayakta hafif hareket | **doğrulanacak** (T6.1'de 2024 tablosunda karşılığı bulunamadı) |
 - Tablo veridir (`exercises/energy/met.json`); her satır Compendium kodunu taşır. "Doğrulanacak" satırlar T6.1'de Compendium'un 2024 tablosundan kontrol edilip kodlarıyla güncellenir.
 - 60 yaş ve üstü için 2024 Older Adult Compendium farklı bir taban (2,7 mL/kg/dk) kullanır; MVP'de ayrıca ele alınmaz (açık soru).
 
@@ -35,8 +36,10 @@ Nabız verisi **yeterliyse** MET yerine nabız tabanlı tahmin kullanılır.
   - **Canlı:** iOS 26'da iPhone'da çalışan `HKWorkoutSession` + `HKLiveWorkoutBuilder`, eşleşmiş Bluetooth nabız sensörlerinden (göğüs bandı, nabız ölçen kulaklık) nabzı kendisi toplar. iPhone'un nabız sensörü yoktur.
   - **Sonradan:** antrenman bitince HealthKit'ten aynı zaman aralığındaki `heartRate` örnekleri okunur (ör. Apple Watch'un o sırada kaydettiği). Watch'ta antrenman açık değilse örnekler seyrek olur ve çoğu zaman yeterlilik eşiğini geçmez.
   - **Apple Watch uygulaması** (canlı nabız, 14 yol haritası) MVP'de yok.
-- **Yeterlilik:** aktif sürenin her dakikasında en az bir örnek, toplamda aktif sürenin ≥ %70'i kapsanmış.
+- **Yeterlilik:** aktif süre, başından itibaren tam dakikalara bölünür. En az bir nabız örneği içeren dakikaların oranı ≥ %70 olmalıdır (T6.1 yorumu; AC-8.3 bu orana göre test edilir).
 - **Formül:** Keytel ve ark. (2005) nabız → enerji denklemleri (cinsiyet, yaş, kilo, ortalama nabız). Yaş ve cinsiyet HealthKit'ten (`dateOfBirth`, `biologicalSex`) okunur; okunamazsa nabız tahmini yapılmaz, MET kullanılır. Denklem katsayıları uygulamadan önce kaynağından doğrulanır (T6.1).
+  - **T6.1 durumu (2026-11-25):** katsayılar `exercises/energy/keytel.json`'da veri olarak tutulur. Erkek denklemi yalnız ikincil kaynakta görüldü, kadın katsayıları doğrulanamadı; makalenin tam metni (J Sports Sci 2005; 23(3): 289–297) gerekir. Dosya `verified: false` olduğu sürece nabız yöntemi seçilmez ve MET kullanılır.
+  - Denklemin biçimi: EE (kJ/dk) = a + b × nabız + c × kilo + d × yaş, cinsiyete göre katsayılarla. kcal = kJ / 4,184.
 - Sonuç ekranında hangi yöntemin kullanıldığı yazılır: "Tahmin: hareket türü ve süre" ya da "Tahmin: nabız verisi".
 
 ## HealthKit'e yazma

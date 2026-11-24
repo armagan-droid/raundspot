@@ -68,6 +68,12 @@ Bu proje salon reposundan bağımsızdır; salon reposuna hiçbir görevde yazı
 
 ## Faz 6 — HealthKit ve kalori
 - [ ] T6.1 MET tablosunu Compendium 2024'ten doğrula (kodlarıyla), Keytel denklemlerini kaynağından doğrula; enerji hesabı — 08 (AC-8.1, AC-8.3, AC-8.7)
+- Durum (2026-11-25, T6.1 kısmı):
+  - *Yapıldı: enerji hesabı `SoloEngine/Energy` (segment zaman çizelgesi, duraklatma sayılmaz, net kcal, nabız kapsamı ve yöntem seçimi, kilo önceliği, 5'e yuvarlama); AC-8.1 ve AC-8.3 testli. `exercises/energy/met.json` Compendium 2024 kodlarıyla: kalistenik 02020 7,5 (spec'teki 8,0 2011 değeriydi), ısınma 02024 2,8, soğuma 02101 2,3. `solo-calibrate validate` enerji dosyalarını denetler.*
+  - *Kalan:*
+    - *dinlenme MET'i (1,5) için 2024 karşılığı bulunamadı;*
+    - *Keytel katsayıları makalenin tam metniyle doğrulanmalı. `keytel.json` `verified: false` olduğu sürece nabız yöntemi kapalı, MET kullanılır;*
+    - *AC-8.7 "tahmin" ibaresi Y1 ve T6.2 ile gelir.*
 - [ ] T6.2 `SoloHealth`: izinler, `HKWorkoutSession`/`HKLiveWorkoutBuilder`, blok etkinlikleri, enerji örnekleri, iptal/silme — 08 (AC-8.2, AC-8.4–AC-8.6)
 
 ## Faz 7 — MVP tamamlama ve pilot
