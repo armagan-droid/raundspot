@@ -9,12 +9,15 @@ public struct PoseLine: Sendable {
     public var people: Int
     public var selected: Int?
     public var skipped: Bool
+    /// Upright width / height of the processed picture (the export's `imageAspect`).
+    public var aspect: Double
 
-    public init(joints: [String: [Double]]?, people: Int, selected: Int?, skipped: Bool = false) {
+    public init(joints: [String: [Double]]?, people: Int, selected: Int?, skipped: Bool = false, aspect: Double = 16.0 / 9) {
         self.joints = joints
         self.people = people
         self.selected = selected
         self.skipped = skipped
+        self.aspect = aspect
     }
 
     public static let skippedFrame = PoseLine(joints: nil, people: 0, selected: nil, skipped: true)
@@ -66,7 +69,7 @@ public final class RecordingWriter: @unchecked Sendable {
         // host PTS, and the frame's time in the video (from its first frame), exact in the same timescale
         let v = CMTimeSubtract(pts, startPTS)
         var line: [String: Any] = ["ptsValue": pts.value, "ptsScale": pts.timescale, "t": CMTimeGetSeconds(pts) * 1000,
-                                   "videoValue": v.value, "videoScale": v.timescale]
+                                   "videoValue": v.value, "videoScale": v.timescale, "aspect": pose.aspect]
         if pose.skipped {
             line["skipped"] = true
         } else {

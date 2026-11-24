@@ -2,6 +2,7 @@ import AVFoundation
 import Foundation
 import Testing
 @testable import SoloRecording
+import SoloEngine
 
 /// specs/09 T5.1: consent (AC-9.2), package writing (AC-9.3, AC-9.9), withdrawal (AC-9.7), storage (AC-9.8).
 @Suite(.serialized) struct SoloRecordingTests {
@@ -153,5 +154,46 @@ import Testing
         #expect(lib.packages().count == 1)
         try lib.purgeExpired(now: cal.date(byAdding: .month, value: 12, to: now)!)
         #expect(lib.packages().isEmpty)
+    }
+
+    /// AC-9.6: the export is a v2 vision19 team sequence with meta, read back by the strict schema; no picture.
+    @Test func exportIsAStrictLandmarkSequence() async throws {
+        let lib = try library()
+        try lib.addParticipant("P03", at: now)
+        try lib.consent("P03", adultConfirmed: true, at: now)
+        let w = try lib.newPackage(try meta(lib, "P03"), freeBytes: 10_000_000_000)
+        // a standing pose (Vision coordinates: y up), every 5th frame skipped by Vision
+        let joints: [String: [Double]] = ["nose": [0.5, 0.8, 0.9], "leftShoulder": [0.55, 0.65, 0.9], "rightShoulder": [0.45, 0.65, 0.9],
+                                          "leftHip": [0.53, 0.45, 0.9], "rightHip": [0.47, 0.45, 0.9]]
+        for i in 0..<30 {
+            let pts = CMTime(value: CMTimeValue(500_000 + i * 33_333), timescale: 1_000_000)
+            w.frame(pixelBuffer(10), pts: pts, pose: i % 5 == 4 ? .skippedFrame : PoseLine(joints: joints, people: 1, selected: 0, aspect: 0.75))
+            try await Task.sleep(for: .milliseconds(5))
+        }
+        await w.finish()
+        let out = FileManager.default.temporaryDirectory
+        let url = try RecordingExport.export(package: w.dir, consentVersion: 1, templateVersions: ["slip_left": 2], to: out)
+        #expect(url.lastPathComponent.hasPrefix("slip_left-P03-") && url.pathExtension == "gz")
+
+        // gunzip: 10-byte header, raw deflate, CRC32 and size
+        let gz = try Data(contentsOf: url)
+        #expect(gz.prefix(2) == Data([0x1F, 0x8B]))
+        let json = try (gz.dropFirst(10).dropLast(8) as NSData).decompressed(using: .zlib) as Data
+        let crc = gz.suffix(8).prefix(4).withUnsafeBytes { $0.loadUnaligned(as: UInt32.self) }
+        #expect(crc == RecordingExport.crc32(json))
+        let text = String(decoding: json, as: UTF8.self)
+        for word in ["video", "pixel", "jpeg", "png"] { #expect(!text.contains(word)) }
+
+        let seq = try LandmarkSequence.parse(data: json).get()
+        #expect(seq.formatVersion == 2 && seq.skeleton == .vision19 && seq.source == .team && !seq.hasWorld)
+        #expect(seq.meta?.participant == "P03" && seq.meta?.templates == [.init(id: "slip_left", version: 2)])
+        #expect(seq.frames.count == w.framesWritten && seq.imageAspect == 0.75)
+        #expect(seq.frames[4].image[LandmarkName.nose.index].visibility == 0)  // skipped by Vision
+        #expect(abs(seq.frames[0].image[LandmarkName.nose.index].y - 0.2) < 1e-9)  // y flipped to image coordinates
+        // the export is listed in the package's meta (shown on withdrawal)
+        #expect(lib.packages().first?.meta.exports == [url.lastPathComponent])
+        try? FileManager.default.copyItem(at: url, to: out.appendingPathComponent("export-sample.json.gz"))
+        try? json.write(to: out.appendingPathComponent("export-sample.json"))
+        print("EXPORT_SAMPLE", out.appendingPathComponent("export-sample.json").path)
     }
 }
