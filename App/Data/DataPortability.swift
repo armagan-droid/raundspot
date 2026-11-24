@@ -81,6 +81,6 @@ enum DataPortability {
         for s in try context.fetch(FetchDescriptor<StoredSession>()) { context.delete(s) }
         for p in try context.fetch(FetchDescriptor<Profile>()) { context.delete(p) }
         try context.save()
-        // no preferences or caches outside the store today (specs/10 checks UserDefaults use in CI)
+        // no preferences or caches outside the store today (specs/10; the CI privacy check guards that)
     }
 }
