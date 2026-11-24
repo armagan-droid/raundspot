@@ -89,8 +89,8 @@ private struct Boxer {
     let fps = 30.0
 
     init(level: ReflexCatalog.Level, cat: ResolvedCatalog, cues: Int? = nil, seed: UInt64 = 7, t0: Double = 100_000,
-         options: ReflexSet.Options = .init()) {
-        reflex = ReflexSet(catalog: cat, level: level, packs: responsePacks, cues: cues, seed: seed, now: t0, options: options)
+         options: ReflexSet.Options = .init(), packs: [String: LoadedRulePack] = responsePacks) {
+        reflex = ReflexSet(catalog: cat, level: level, packs: packs, cues: cues, seed: seed, now: t0, options: options)
         t = t0
     }
 
@@ -337,5 +337,141 @@ private func answer(_ key: String, at: Double) -> Boxer.Move? {
         #expect(xs.allSatisfy { $0 >= 0 && $0 < 1 })
         var c = ReflexRandom(seed: 9)
         #expect((0..<200).map { _ in c.int(1...3) }.allSatisfy { (1...3).contains($0) })
+    }
+}
+
+// MARK: - AC-5.7 feedback and the audio timeline (T4.3)
+
+/// A fake audio output: cue sounds and speech as time intervals.
+private struct Timeline {
+    var cues: [ClosedRange<Double>] = []
+    var speech: [(key: String, at: ClosedRange<Double>)] = []
+
+    mutating func record(_ out: [ReflexCommand], now: Double, cueMs: Double, speechMs: Double) {
+        for c in out {
+            switch c {
+            case .playCue(_, let at): cues.append(at...(at + cueMs))
+            case .speak(let k): speech.append((k, now...(now + speechMs)))
+            default: break
+            }
+        }
+    }
+
+    /// No speech overlaps a cue or its 600 ms lead-in, and no two speeches overlap.
+    func overlaps(guardMs: Double) -> [String] {
+        var out: [String] = []
+        for s in speech {
+            for c in cues where s.at.lowerBound < c.upperBound && s.at.upperBound > c.lowerBound - guardMs {
+                out.append("\(s.key) \(s.at) over cue \(c)")
+            }
+        }
+        for (a, b) in zip(speech, speech.dropFirst()) where b.at.lowerBound < a.at.upperBound { out.append("\(a.key) and \(b.key)") }
+        return out
+    }
+}
+
+@Suite("Reflex — feedback and audio priority (AC-5.7)") struct ReflexFeedbackTests {
+    let raw = try! catalog().0
+    let cat = try! catalog().1
+
+    /// Runs a boxer on a fake audio output; `react` answers cues.
+    fileprivate func run(_ level: ReflexCatalog.Level, cues: Int, seed: UInt64 = 3, packs: [String: LoadedRulePack] = responsePacks,
+             options: ReflexSet.Options = .init(), ms: Double = 90_000,
+             react: @escaping (_ n: Int, _ key: String, _ at: Double) -> Boxer.Move?) -> (Boxer, Timeline) {
+        var b = Boxer(level: level, cat: cat, cues: cues, seed: seed, options: options, packs: packs)
+        var tl = Timeline()
+        var n = 0
+        let end = b.t + ms
+        while b.t < end, b.reflex.phase != .done, b.reflex.phase != .stopped {
+            b.t += 1000 / b.fps
+            let out = b.reflex.push(Boxer.frame(b.pose(at: b.t), b.t))
+            b.commands += out
+            tl.record(out, now: b.t, cueMs: options.cueSoundMs, speechMs: options.speechMs(""))
+            for case .playCue(let key, let at) in out {
+                b.cues.append((key, at))
+                if let m = react(n, key, at) { b.moves.append(m) }
+                n += 1
+            }
+        }
+        return (b, tl)
+    }
+
+    /// Feedback of every kind on a fast level with combos: tones, fault cues, the wrong-direction hint, the summary;
+    /// no speech ever overlaps a cue.
+    @Test func speechNeverOverlapsACue() throws {
+        var options = ReflexSet.Options()
+        options.speechMs = { _ in 1400 }
+        let (b, tl) = run(raw.level(5)!, cues: 24, options: options) { n, key, at in
+            switch n % 4 {
+            case 0: return answer(key, at: at + 300).map { var m = $0; m.to.guardDrop = 1; m.duration = 1100; return m }  // faulty
+            case 1: return .init(start: at + 300, duration: 900, to: duck)  // wrong for slips
+            case 2: return answer(key, at: at + 300)
+            default: return nil  // missed
+            }
+        }
+        #expect(b.reflex.phase == .done)
+        #expect(b.commands.contains(.tone(.correct)) && b.commands.contains(.tone(.wrong)))
+        #expect(b.commands.contains { if case .speak(let k) = $0 { k.hasPrefix("cue.") } else { false } })
+        #expect(b.commands.contains { if case .speakSetSummary = $0 { true } else { false } })
+        #expect(tl.overlaps(guardMs: options.speechGuardMs) == [])
+        #expect(!tl.cues.isEmpty && !tl.speech.isEmpty)
+    }
+
+    @Test func twoWrongOnTheSameStrikeGiveTheHintOnce() {
+        // level 1, jab and cross: answer every cue with a duck (wrong)
+        let (b, _) = run(raw.level(1)!, cues: 8) { _, _, at in .init(start: at + 300, duration: 900, to: duck) }
+        let hints = b.commands.compactMap { if case .speak(let k) = $0, k.hasPrefix("reflex.hint.") { k } else { nil } }
+        #expect(!hints.isEmpty)
+        #expect(Set(hints).count == hints.count)
+        #expect(hints.allSatisfy { $0.hasSuffix(".orthodox") })
+    }
+
+    @Test func tonesAndFaultCuesCanBeTurnedOffTheCueCannot() {
+        var options = ReflexSet.Options()
+        options.resultTones = false
+        options.faultCueVoice = false
+        let (b, tl) = run(raw.level(1)!, cues: 3, options: options) { _, key, at in
+            answer(key, at: at + 300).map { var m = $0; m.to.guardDrop = 1; m.duration = 1100; return m }
+        }
+        #expect(!b.commands.contains { if case .tone = $0 { true } else { false } })
+        #expect(!b.commands.contains { if case .speak(let k) = $0 { k.hasPrefix("cue.") } else { false } })
+        #expect(tl.cues.count == 3)
+        #expect(b.reflex.trials.allSatisfy { $0.result == .correctFaulty })
+    }
+
+    /// The summary: cues, hits, mean RT and the hardest strike.
+    @Test func theSetSummaryIsSpoken() {
+        let (b, _) = run(raw.level(1)!, cues: 4) { n, key, at in n == 0 ? nil : answer(key, at: at + 400) }
+        guard case .speakSetSummary(let cues, let hits, let mean, let hardest)? = b.commands.dropLast().last else {
+            Issue.record("no summary before setDone")
+            return
+        }
+        #expect(cues == 4 && hits == 3)
+        #expect(mean != nil && hardest?.hasPrefix("strike.name.") == true)
+    }
+
+    /// A major fault in two attempts in a row stops the set and cancels the next planned cue of the combo,
+    /// whose trial is not recorded.
+    @Test func theSafetyPauseCancelsPlannedCues() throws {
+        var j = try Repo.read(Repo.exercises.appendingPathComponent("slip_right.json"))
+        var faults = j["faults"]!.arrayValue!
+        let gd = faults.firstIndex { $0["id"]?.stringValue == "guard_dropped" }!
+        faults[gd]["severity"] = "major"
+        j["faults"] = .array(faults)
+        var packs = responsePacks
+        packs["slip_right"] = try RulePackLoader.load(j, capabilities: .vision19TwoD).get()
+        // jab only, combos of two 900 ms apart: answer each cue with a guard-dropping slip to the right
+        var level = raw.level(3)!
+        level.strikes = ["jab"]
+        level.comboLen = 2...2
+        level.comboGapMs = 1500
+        let (b, _) = run(level, cues: 6, packs: packs) { n, _, at in
+            n % 2 == 0 ? .init(start: at + 300, duration: 900, to: EvaderParams(slip: -25, guardDrop: 1)) : nil
+        }
+        #expect(b.reflex.phase == .stopped)
+        let i = try #require(b.commands.firstIndex(of: .cancelCues))
+        #expect(b.commands[i + 1] == .safetyPause(faultId: "guard_dropped"))
+        #expect(b.reflex.trials.count < 6)
+        #expect(!b.commands.contains(.setDone))
     }
 }

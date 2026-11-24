@@ -105,13 +105,21 @@ public struct ReflexTrialRecord: Sendable, Equatable {
     public var faults: [String]
 }
 
+/// Result tones (specs/05 "Sonuç sesi"): no speech.
+public enum ReflexTone: String, Sendable, Equatable { case correct, wrong, feintBitten = "feint_bitten" }
+
 public enum ReflexCommand: Sendable, Equatable {
     /// Schedule a cue sound at a host time (ms).
     case playCue(key: String, atMs: Double)
+    /// Stop every scheduled or playing cue (safety pause).
+    case cancelCues
     case speak(String)
+    case tone(ReflexTone)
     case trial(ReflexTrialRecord)
     /// A response engine stopped the set; planned cues are dropped and not recorded.
     case safetyPause(faultId: String)
+    /// Spoken set summary (≤ 8 s): cues, hits, mean RT (ms, rounded) and the hardest strike's name key.
+    case speakSetSummary(cues: Int, hits: Int, meanRtMs: Int?, hardestNameKey: String?)
     case setDone
 }
 
@@ -135,6 +143,14 @@ public final class ReflexSet {
         public var waitForCueCooldownMs: Double = 15_000
         /// The cue sound's onset after its scheduled time and whether it is only approximate (TTS, Bluetooth).
         public var cueDelay: @Sendable (_ key: String) -> (ms: Double, approximate: Bool) = { _ in (0, false) }
+        /// How long a cue sound and a spoken key last (estimates for the timeline, specs/05 "Öncelik").
+        public var cueSoundMs: Double = 600
+        public var speechMs: @Sendable (_ key: String) -> Double = { _ in 1500 }
+        /// No speech in the last 600 ms before a cue (specs/05).
+        public var speechGuardMs: Double = 600
+        /// Settings (specs/11): result tones and the fault cue voice can be turned off; the cue sound cannot.
+        public var resultTones = true
+        public var faultCueVoice = true
 
         public init() {}
     }
@@ -173,6 +189,15 @@ public final class ReflexSet {
     private var lastStrike: String?
     /// Movement starts of attempts in progress, by engine.
     private var moving: [String: Double] = [:]
+    // feedback (T4.3)
+    private var speechUntil = -Double.infinity
+    private var queuedSpeech: [String] = []
+    private var lastFaultCueAt: [String: Double] = [:]
+    /// Consecutive wrong answers among each strike's own trials.
+    private var wrongStreak: [String: Int] = [:]
+    private var hinted: Set<String> = []
+    /// Cue sounds still to start or playing: (start, end).
+    private var plannedCues: [(start: Double, end: Double)] = []
 
     /// - Parameters:
     ///   - packs: the response templates by id (front view, near side left; specs/05 "Tepki motorları").
@@ -195,6 +220,18 @@ public final class ReflexSet {
         }
         self.engines = engines
         maxDurationMs = Double(engines.values.map { $0.loaded.pack.rep.maxDurationMs }.max() ?? 3000)
+    }
+
+    /// Every String Catalog key a set of this catalog can speak besides cue sounds and fault cues (specs/00 rule 8).
+    public static func spokenKeys(_ catalog: ReflexCatalog) -> [String] {
+        var keys = ["reflex.get_ready", "reflex.wait_for_cue"]
+        for s in catalog.strikes {
+            for st in Stance.allCases {
+                keys.append("reflex.hint.\(s.id).\(st.rawValue)")
+                if let say = s.say[st] { keys.append(say.replacingPrefix("strike.", with: "strike.name.")) }
+            }
+        }
+        return Array(Set(keys)).sorted()
     }
 
     /// The combined ready pose holds (specs/05 "Hazır olma").
@@ -259,7 +296,7 @@ public final class ReflexSet {
             preparingSince = now
             if now - lastWaitForCueAt >= options.waitForCueCooldownMs {
                 lastWaitForCueAt = now
-                out.append(.speak("reflex.wait_for_cue"))
+                say("reflex.wait_for_cue", droppable: true, &out)
             }
         case .cueing:
             // the earliest open window containing the start that has nothing from this engine yet
@@ -273,6 +310,8 @@ public final class ReflexSet {
 
     private func step() -> [ReflexCommand] {
         var out: [ReflexCommand] = []
+        plannedCues.removeAll { $0.end <= now }
+        flushSpeech(&out)
         switch phase {
         case .preparing:
             if isReady {
@@ -281,7 +320,7 @@ public final class ReflexSet {
             } else if now - preparingSince >= options.getReadyAfterMs,
                       lastGetReadyAt.map({ now - $0 >= options.getReadyEveryMs }) ?? true {
                 lastGetReadyAt = now
-                out.append(.speak("reflex.get_ready"))
+                say("reflex.get_ready", droppable: true, &out)
             }
         case .waiting(let until):
             if now >= until { planCombo(&out) }
@@ -290,6 +329,7 @@ public final class ReflexSet {
             if windows.isEmpty {
                 if cuesUsed >= cueCount {
                     phase = .done
+                    out.append(summaryCommand())
                     out.append(.setDone)
                 } else {
                     phase = .preparing
@@ -309,7 +349,8 @@ public final class ReflexSet {
         let feint = level.feintRate > 0 && !catalog.feints.isEmpty && rng.unit() < level.feintRate
         let comboId: Int? = length > 1 ? comboCount : nil
         if length > 1 { comboCount += 1 }
-        var at = now + options.planAheadMs
+        // a cue never starts over speech: after it ends, with the guard (specs/05 "Öncelik")
+        var at = Swift.max(now + options.planAheadMs, speechUntil + options.speechGuardMs)
         for i in 0..<length {
             var w: Window
             if feint, i == length - 1 {
@@ -329,6 +370,7 @@ public final class ReflexSet {
                 out.append(.playCue(key: strike.say, atMs: at))
             }
             windows.append(w)
+            plannedCues.append((at, at + options.cueSoundMs))
             cuesUsed += 1
             at += Double(level.comboGapMs ?? 0)
         }
@@ -353,10 +395,88 @@ public final class ReflexSet {
                 rtApproximate: w.approximate, faults: c.result.hasReactionTime ? c.chosen?.faults ?? [] : [])
             trials.append(record)
             out.append(.trial(record))
+            feedback(record, &out)
         }
     }
 
+    // MARK: - Feedback (specs/05 "Geri bildirim", T4.3)
+
+    private func feedback(_ r: ReflexTrialRecord, _ out: inout [ReflexCommand]) {
+        if options.resultTones {
+            switch r.result {
+            case .correct, .correctFaulty, .feintOk: out.append(.tone(.correct))
+            case .feintBitten: out.append(.tone(.feintBitten))
+            case .wrong, .missed, .early, .partial: out.append(.tone(.wrong))
+            }
+        }
+        // one fault cue at most, on correct_faulty only, with the template cooldown; dropped if it does not fit
+        if options.faultCueVoice, r.result == .correctFaulty, let ex = r.responseExerciseId, let fault = r.faults.first {
+            let key = "\(ex).\(fault)"
+            // the template's cooldown (ref 05)
+            let cooldown = engines[ex]?.loaded.pack.faults.first { $0.id == fault }.map { Double($0.cooldownMs) } ?? 4000
+            if now - (lastFaultCueAt[key] ?? -Double.infinity) >= cooldown, say("cue.\(key)", droppable: true, &out) {
+                lastFaultCueAt[key] = now
+            }
+        }
+        // two wrong in a row among the same strike's trials: the direction, once per strike per set
+        guard !r.isFeint else { return }
+        if r.result == .wrong {
+            let n = (wrongStreak[r.strikeId] ?? 0) + 1
+            wrongStreak[r.strikeId] = n
+            if n >= 2, !hinted.contains(r.strikeId) {
+                hinted.insert(r.strikeId)
+                say("reflex.hint.\(r.strikeId).\(catalog.stance.rawValue)", droppable: false, &out)
+            }
+        } else {
+            wrongStreak[r.strikeId] = 0
+        }
+    }
+
+    /// Speech never overlaps a cue sound or its 600 ms lead-in. Droppable speech that does not fit now is dropped,
+    /// the rest waits. Returns whether it was spoken now.
+    @discardableResult
+    private func say(_ key: String, droppable: Bool, _ out: inout [ReflexCommand]) -> Bool {
+        if queuedSpeech.isEmpty, fits(options.speechMs(key)) {
+            out.append(.speak(key))
+            speechUntil = now + options.speechMs(key)
+            return true
+        }
+        if !droppable { queuedSpeech.append(key) }
+        return false
+    }
+
+    private func fits(_ ms: Double) -> Bool {
+        let s = Swift.max(now, speechUntil), e = s + ms
+        guard s == now else { return false }
+        return !plannedCues.contains { s < $0.end && e > $0.start - options.speechGuardMs }
+    }
+
+    private func flushSpeech(_ out: inout [ReflexCommand]) {
+        while let key = queuedSpeech.first, fits(options.speechMs(key)) {
+            queuedSpeech.removeFirst()
+            out.append(.speak(key))
+            speechUntil = now + options.speechMs(key)
+        }
+    }
+
+    private func summaryCommand() -> ReflexCommand {
+        let s = ReflexSetSummary(trials)
+        let rts = trials.compactMap(\.reactionMs)
+        let mean = rts.isEmpty ? nil : Int((rts.reduce(0, +) / Double(rts.count)).rounded())
+        // the hardest: the lowest hit rate, then the slower median (strikes with a miss only)
+        let hardest = s.byStrike.filter { $0.value.hits < $0.value.total }.min { a, b in
+            let ra = Double(a.value.hits) / Double(a.value.total), rb = Double(b.value.hits) / Double(b.value.total)
+            return ra != rb ? ra < rb : (a.value.medianRtMs ?? 0) != (b.value.medianRtMs ?? 0) ? (a.value.medianRtMs ?? 0) > (b.value.medianRtMs ?? 0) : a.key < b.key
+        }
+        let nameKey = hardest.flatMap { h in catalog.strikes.first { $0.id == h.key } }.map { $0.say.replacingPrefix("strike.", with: "strike.name.") }
+        return .speakSetSummary(cues: s.total, hits: s.hits, meanRtMs: mean, hardestNameKey: nameKey)
+    }
+
     private func stop(_ fault: String, _ out: inout [ReflexCommand]) {
+        // the safety pause cancels planned or playing cues; their trials are not recorded (AC-5.7)
+        if !plannedCues.isEmpty || !windows.isEmpty { out.append(.cancelCues) }
+        plannedCues.removeAll()
+        queuedSpeech.removeAll()
         windows.removeAll()
         phase = .stopped
         out.append(.safetyPause(faultId: fault))
@@ -429,4 +549,8 @@ public enum ReflexLevelAdvice: Sendable, Equatable {
         if rate < 0.5 { return .tryLower }
         return nil
     }
+}
+
+extension String {
+    func replacingPrefix(_ p: String, with q: String) -> String { hasPrefix(p) ? q + dropFirst(p.count) : self }
 }
