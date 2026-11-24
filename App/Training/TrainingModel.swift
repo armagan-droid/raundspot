@@ -76,8 +76,10 @@ import UIKit
     /// R3: the last reflex set.
     private(set) var reflexSummary: ReflexSetSummary?
     private(set) var reflexAdvice: ReflexLevelAdvice?
-    /// The reaction times are approximate (TTS cue fallback; specs/05).
-    let reflexRTApproximate = true
+    /// The reaction times of the current set are approximate (TTS fallback or Bluetooth; specs/05).
+    private(set) var reflexRTApproximate = true
+    /// Cue sounds of the language (T3.3); a cue without a file falls back to TTS.
+    private let cueOut = CueOut(dir: Bundle.main.url(forResource: Lang.code, withExtension: nil, subdirectory: "audio"))
     private var reflexSets: [[ReflexTrialRecord]] = []
     private let tones = ToneOut()
     @ObservationIgnored private var cueTasks: [Task<Void, Never>] = []
@@ -252,6 +254,7 @@ import UIKit
         ticker?.cancel()
         cancelCues()
         tones.stop()
+        cueOut.shutdown()
         source.stop()
         speech.deactivate()
         for o in observers { NotificationCenter.default.removeObserver(o) }
@@ -493,7 +496,12 @@ import UIKit
         if s.state == .active, before.state != .active, reflex == nil, let cat = reflexCatalog,
            case .fixed(let n) = level, let lv = cat.levels.first(where: { $0.level == n }) {
             var options = ReflexSet.Options()
-            options.cueDelay = { _ in (0, true) }  // TTS: onset unknown (specs/05 "İşaret anı")
+            // when each cue is heard, read at the set's start (specs/05 "İşaret anı"); TTS: unknown, approximate
+            var delays: [String: (ms: Double, approximate: Bool)] = [:]
+            for k in cat.strikes.map(\.say) + cat.feints.map(\.say) { delays[k] = cueOut.cueDelay(k) }
+            let fixed = delays
+            options.cueDelay = { key in fixed[key] ?? (0, true) }
+            reflexRTApproximate = fixed.values.contains { $0.approximate }
             options.resultTones = settings.resultTones
             options.faultCueVoice = settings.faultCueVoice
             options.speechMs = { key in Double(String(localized: String.LocalizationValue(key)).count) * 70 + 400 }
@@ -521,15 +529,17 @@ import UIKit
             switch c {
             case .playCue(let key, let at):
                 let text = text(key)
+                let scheduled = cueOut.schedule(key, atMs: at)  // the sound file on the host clock (T3.3)
                 let delay = max(0, at - clock.nowMs)
                 cueTasks.append(Task { @MainActor [weak self] in
                     try? await Task.sleep(for: .milliseconds(Int(delay)))
                     guard let self, !Task.isCancelled else { return }
-                    self.speech.say(text)
+                    if !scheduled { self.speech.say(text) }  // TTS fallback
                     self.shownStrike = (text, self.clock.nowMs + 600)
                 })
             case .cancelCues:
                 cancelCues()
+                cueOut.stopAll()
             case .speak(let key):
                 speech.say(text(key))
             case .tone(let t):
