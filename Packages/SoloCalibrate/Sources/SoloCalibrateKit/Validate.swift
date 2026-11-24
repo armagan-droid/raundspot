@@ -11,7 +11,10 @@ import SoloEngine
 ///   format, file name = `exercise`, and the template exists in `<dir>`.
 /// - `<dir>/workouts/*.json`: ready-made workouts (specs/06): format, file
 ///   name = `id`, and every technique/conditioning template exists (AC-6.5).
-/// - Any other JSON (e.g. `reflex/`, `workouts/`) is an error until its
+/// - `<dir>/reflex/*.json`: reflex catalogs (specs/05): schema, file name =
+///   `id`, every response a front-view template in `<dir>`, and no combo gap
+///   shorter than the slowest accepted response (AC-5.6).
+/// - Any other JSON is an error until its
 ///   validator exists, so a new file kind cannot slip through unchecked.
 public struct ValidationReport: Sendable, Equatable {
     public var checkedFiles: [String] = []
@@ -35,6 +38,8 @@ public enum Validator {
                 report.errors += validateRulePack(file, relative: relative, requireHowTo: false)
             case 2 where parts[0] == "workouts":
                 report.errors += validateWorkout(file, relative: relative, root: root)
+            case 2 where parts[0] == "reflex":
+                report.errors += validateCatalog(file, relative: relative, root: root)
             case 2 where parts[0] == "demos":
                 report.errors += validateDemo(file, relative: relative, root: root)
             case 3 where parts[0] == "demos" && parts[1] == "steps":
@@ -61,7 +66,36 @@ public enum Validator {
             if let ex = b.exerciseId, !FileManager.default.fileExists(atPath: root.appendingPathComponent("\(ex).json").path) {
                 errors.append("\(relative): blocks[\(i)].exerciseId: no template '\(ex)' in exercises/ (specs/06 AC-6.5)")
             }
+            if case .reflex(let catalog, _, _, _, _) = b,
+               !FileManager.default.fileExists(atPath: root.appendingPathComponent("reflex/\(catalog).json").path) {
+                errors.append("\(relative): blocks[\(i)].catalogId: no catalog '\(catalog)' in exercises/reflex/ (specs/06)")
+            }
         }
+        return errors
+    }
+
+    static func validateCatalog(_ file: URL, relative: String, root: URL) -> [String] {
+        let catalog: ReflexCatalog
+        do {
+            catalog = try ReflexCatalog.parse(JSONValue.parse(contentsOf: file)).get()
+        } catch let e as CatalogIssues {
+            return e.issues.map { "\(relative): \($0)" }
+        } catch {
+            return ["\(relative): \(error)"]
+        }
+        var errors: [String] = []
+        if catalog.id != file.deletingPathExtension().lastPathComponent {
+            errors.append("\(relative): id '\(catalog.id)' does not match the file name")
+        }
+        // the responses' templates: front view, with their minDurationMs
+        var minDuration: [String: Int] = [:]
+        for r in catalog.responses {
+            guard let data = try? Data(contentsOf: root.appendingPathComponent("\(r).json")),
+                  case .success(let loaded) = RulePackLoader.load(data: data),
+                  loaded.pack.camera.views.contains(.front) else { continue }
+            minDuration[r] = Int(loaded.pack.rep.minDurationMs)
+        }
+        errors += catalog.templateIssues(minDurationMs: minDuration).map { "\(relative): \($0)" }
         return errors
     }
 

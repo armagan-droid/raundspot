@@ -65,6 +65,21 @@ v1.0 eklemeleri: `low_kick` → `check` (ön bacak), `body_kick` → (hoca karar
 ```
 `accept`/`prefer` her zaman orthodox için yazılır; southpaw aynalaması motor tarafından yapılır (test edilir).
 
+**Seviye kaydı ve doğrulama (T4.1, 2026-11-24):**
+- Seviye kaydının biçimi: `{ "level": 1, "strikes": ["jab", "cross"], "foreSec": [2.0, 4.0], "windowMs": 1500, "comboLen": [1, 1], "comboGapMs": 900, "feintRate": 0, "cues": 15 }`. `comboGapMs`, `comboLen` üst sınırı 1'den büyükse zorunludur, değilse yazılmaz.
+- Yükleyici katıdır, bilinmeyen alan hatadır. Ayrıca şunları denetler:
+  - `id` tanımlayıcıdır, `version` ≥ 1, `status` `draft` ya da `approved`, `assumes.opponentStance` `same`.
+  - `responses` boş olmayan ve tekrarsızdır.
+  - `specificity` iki farklı `responses` öğesinden oluşan çiftlerdir.
+  - Saldırı kimlikleri tekrarsızdır ve aldatma kimlikleriyle çakışmaz. `say.orthodox` ve `say.southpaw` boş olmaz. `accept` boş olmaz ve `responses`'un alt kümesidir; `prefer` `accept` içindedir.
+  - Seviyeler 1'den başlar ve ardışıktır. Bir seviyenin `strikes` listesi boş olmaz, tekrarsızdır ve tanımlı saldırılardan oluşur.
+  - Sayılar: `0 < foreSec[0] ≤ foreSec[1]`, `windowMs > 0`, `1 ≤ comboLen[0] ≤ comboLen[1]`, `0 ≤ feintRate < 1` (`feintRate > 0` ise en az bir aldatma tanımlı olmalı), `cues ≥ 1`.
+- Şablonlara bağlı denetimler `solo-calibrate validate` içindedir (AC-5.6):
+  - `responses`'taki her şablon `exercises/` altında bulunur ve `front` görünümü destekler.
+  - `comboGapMs`, o seviyedeki saldırıların `accept` şablonlarının en büyük `minDurationMs` değerinden kısa olamaz.
+  - Hazır antrenmanlardaki `catalogId` `exercises/reflex/` altında bir katalog olmalıdır (06).
+- **Southpaw aynalaması:** `accept`, `prefer` ve `specificity` içindeki şablon kimliklerinde `_left` ile `_right` yer değiştirir (`slip_left` ↔ `slip_right`, `bob_weave_left` ↔ `bob_weave_right`). `duck` ve `lean_back_front` değişmez. Konuşulan anahtar `say.<gard>`'dan seçilir.
+
 ### Tepki motorları
 - Refleks seti başlarken katalogdaki `responses` listesindeki her şablon için bir `ExerciseEngine` örneği açılır (hepsi `front`). Kurulum (12 S1) bu şablonların `minVisibleLandmarks` birleşimini ister: baştan ayağa.
 - Motorların form uyarıları kapalıdır (`cuesEnabled = false`); tespit edilen hatalar `REP_COMPLETED.faults` içinde toplanır, refleks katmanı kendi kuralıyla seslendirir (aşağıda "Geri bildirim").

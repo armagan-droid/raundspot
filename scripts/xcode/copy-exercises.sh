@@ -6,16 +6,17 @@
 # scripts/xcode/exercises.xcfilelist (inputs) and exercises-out.xcfilelist
 # (outputs, the same names in the bundle). A SoloEngine test keeps both in sync
 # with exercises/*.json, exercises/demos/*.json, exercises/demos/steps/*.json and
-# exercises/workouts/*.json.
+# exercises/workouts/*.json and exercises/reflex/*.json.
 set -eu
 dest="${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/exercises"
-mkdir -p "$dest/demos/steps" "$dest/workouts"
+mkdir -p "$dest/demos/steps" "$dest/workouts" "$dest/reflex"
 while IFS= read -r f; do
   [ -n "$f" ] || continue
   case "$f" in
     */exercises/demos/steps/*) cp "$f" "$dest/demos/steps/" ;;
     */exercises/demos/*) cp "$f" "$dest/demos/" ;;
     */exercises/workouts/*) cp "$f" "$dest/workouts/" ;;
+    */exercises/reflex/*) cp "$f" "$dest/reflex/" ;;
     *) cp "$f" "$dest/" ;;
   esac
 done < "${SCRIPT_INPUT_FILE_LIST_0}"

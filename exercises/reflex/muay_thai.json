@@ -1,0 +1,213 @@
+{
+  "id": "muay_thai",
+  "version": 1,
+  "status": "draft",
+  "assumes": {
+    "opponentStance": "same"
+  },
+  "responses": [
+    "slip_left",
+    "slip_right",
+    "duck",
+    "bob_weave_left",
+    "bob_weave_right"
+  ],
+  "specificity": [
+    [
+      "bob_weave_left",
+      "duck"
+    ],
+    [
+      "bob_weave_left",
+      "slip_left"
+    ],
+    [
+      "bob_weave_right",
+      "duck"
+    ],
+    [
+      "bob_weave_right",
+      "slip_right"
+    ]
+  ],
+  "strikes": [
+    {
+      "id": "jab",
+      "say": {
+        "orthodox": "strike.jab",
+        "southpaw": "strike.jab"
+      },
+      "accept": [
+        "slip_right",
+        "slip_left"
+      ],
+      "prefer": "slip_right"
+    },
+    {
+      "id": "cross",
+      "say": {
+        "orthodox": "strike.cross",
+        "southpaw": "strike.cross"
+      },
+      "accept": [
+        "slip_left",
+        "slip_right"
+      ],
+      "prefer": "slip_left"
+    },
+    {
+      "id": "lead_hook",
+      "say": {
+        "orthodox": "strike.left_hook",
+        "southpaw": "strike.right_hook"
+      },
+      "accept": [
+        "bob_weave_left",
+        "duck"
+      ],
+      "prefer": "bob_weave_left"
+    },
+    {
+      "id": "rear_hook",
+      "say": {
+        "orthodox": "strike.right_hook",
+        "southpaw": "strike.left_hook"
+      },
+      "accept": [
+        "bob_weave_right",
+        "duck"
+      ],
+      "prefer": "bob_weave_right"
+    }
+  ],
+  "feints": [
+    {
+      "id": "stop",
+      "say": "strike.stop"
+    }
+  ],
+  "levels": [
+    {
+      "level": 1,
+      "strikes": [
+        "jab",
+        "cross"
+      ],
+      "foreSec": [
+        2.0,
+        4.0
+      ],
+      "windowMs": 1500,
+      "comboLen": [
+        1,
+        1
+      ],
+      "feintRate": 0,
+      "cues": 15
+    },
+    {
+      "level": 2,
+      "strikes": [
+        "jab",
+        "cross",
+        "lead_hook",
+        "rear_hook"
+      ],
+      "foreSec": [
+        1.5,
+        3.5
+      ],
+      "windowMs": 1200,
+      "comboLen": [
+        1,
+        1
+      ],
+      "feintRate": 0,
+      "cues": 20
+    },
+    {
+      "level": 3,
+      "strikes": [
+        "jab",
+        "cross",
+        "lead_hook",
+        "rear_hook"
+      ],
+      "foreSec": [
+        1.2,
+        3.0
+      ],
+      "windowMs": 1000,
+      "comboLen": [
+        1,
+        2
+      ],
+      "comboGapMs": 900,
+      "feintRate": 0,
+      "cues": 20
+    },
+    {
+      "level": 4,
+      "strikes": [
+        "jab",
+        "cross",
+        "lead_hook",
+        "rear_hook"
+      ],
+      "foreSec": [
+        1.0,
+        2.5
+      ],
+      "windowMs": 850,
+      "comboLen": [
+        1,
+        3
+      ],
+      "comboGapMs": 700,
+      "feintRate": 0.1,
+      "cues": 24
+    },
+    {
+      "level": 5,
+      "strikes": [
+        "jab",
+        "cross",
+        "lead_hook",
+        "rear_hook"
+      ],
+      "foreSec": [
+        0.8,
+        2.0
+      ],
+      "windowMs": 700,
+      "comboLen": [
+        2,
+        4
+      ],
+      "comboGapMs": 550,
+      "feintRate": 0.15,
+      "cues": 24
+    },
+    {
+      "level": 6,
+      "strikes": [
+        "jab",
+        "cross",
+        "lead_hook",
+        "rear_hook"
+      ],
+      "foreSec": [
+        0.6,
+        1.8
+      ],
+      "windowMs": 600,
+      "comboLen": [
+        2,
+        4
+      ],
+      "comboGapMs": 450,
+      "feintRate": 0.2,
+      "cues": 30
+    }
+  ]
+}

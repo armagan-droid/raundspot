@@ -31,3 +31,4 @@ $(SRCROOT)/exercises/demos/steps/warmup.shadow.json
 $(SRCROOT)/exercises/workouts/eskiv_temeli.json
 $(SRCROOT)/exercises/workouts/kondisyon.json
 $(SRCROOT)/exercises/workouts/refleks.json
+$(SRCROOT)/exercises/reflex/muay_thai.json
