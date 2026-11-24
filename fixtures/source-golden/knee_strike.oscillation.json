@@ -1,0 +1,332 @@
+{
+ "goldenVersion": 1,
+ "source": {
+  "repo": "armagan-droid/gymspot",
+  "commit": "c2fe3fd"
+ },
+ "rulePack": "knee_strike",
+ "rulePackVersion": 1,
+ "setup": {
+  "view": "side",
+  "nearSide": "left"
+ },
+ "options": {
+  "safetyPause": true
+ },
+ "cuesEnabled": [],
+ "sequence": "sequences/knee_strike/oscillation.json",
+ "expected": {
+  "events": [
+   {
+    "frame": 20,
+    "t": 1000,
+    "type": "READY_POSE_HELD"
+   },
+   {
+    "frame": 44,
+    "t": 2200,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 51,
+    "t": 2550,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 350
+   },
+   {
+    "frame": 72,
+    "t": 3600,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 79,
+    "t": 3950,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 350
+   },
+   {
+    "frame": 100,
+    "t": 5000,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 107,
+    "t": 5350,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 350
+   }
+  ],
+  "metrics": {
+   "every": 10,
+   "values": [
+    {
+     "frame": 0,
+     "values": {
+      "knee_height_l": -0.7634889398063881,
+      "knee_height_r": -0.7492129538398051,
+      "knee_height": -0.7492129538398051,
+      "guard_near": 0.04420950492877329,
+      "torso_lean": 4.70317477888552
+     }
+    },
+    {
+     "frame": 10,
+     "values": {
+      "knee_height_l": -0.811567109828107,
+      "knee_height_r": -0.8411410856744282,
+      "knee_height": -0.7994204705157681,
+      "guard_near": 0.01573003296535196,
+      "torso_lean": 1.1700783417304212
+     }
+    },
+    {
+     "frame": 20,
+     "values": {
+      "knee_height_l": -0.7799233535562681,
+      "knee_height_r": -0.8531113976073592,
+      "knee_height": -0.7738762210515022,
+      "guard_near": 0.004072152570539261,
+      "torso_lean": 1.652686213318542
+     }
+    },
+    {
+     "frame": 30,
+     "values": {
+      "knee_height_l": -0.9065192569808511,
+      "knee_height_r": -0.8439507265614097,
+      "knee_height": -0.8400333039256267,
+      "guard_near": -0.0714995758211138,
+      "torso_lean": 1.2630461422562722
+     }
+    },
+    {
+     "frame": 40,
+     "values": {
+      "knee_height_l": -0.8222545492035569,
+      "knee_height_r": -0.8418470344599727,
+      "knee_height": -0.8007318594666901,
+      "guard_near": 0.03565391246452676,
+      "torso_lean": 0.4108683603053242
+     }
+    },
+    {
+     "frame": 50,
+     "values": {
+      "knee_height_l": -0.8037411041652022,
+      "knee_height_r": -0.6294836984619001,
+      "knee_height": -0.630021549210528,
+      "guard_near": -0.008130446693675318,
+      "torso_lean": 1.5062261235556655
+     }
+    },
+    {
+     "frame": 60,
+     "values": {
+      "knee_height_l": -0.9210523587504427,
+      "knee_height_r": -0.879517849397731,
+      "knee_height": -0.8783746906518455,
+      "guard_near": -0.049651583291097395,
+      "torso_lean": 1.8056169672243747
+     }
+    },
+    {
+     "frame": 70,
+     "values": {
+      "knee_height_l": -0.817787791176507,
+      "knee_height_r": -0.784095076493869,
+      "knee_height": -0.7776312652668598,
+      "guard_near": -0.07072459998818038,
+      "torso_lean": 2.264212055536553
+     }
+    },
+    {
+     "frame": 80,
+     "values": {
+      "knee_height_l": -0.8670803924819024,
+      "knee_height_r": -0.9186289869725862,
+      "knee_height": -0.8368117845966343,
+      "guard_near": -0.019177934953803835,
+      "torso_lean": 5.074836443339001
+     }
+    },
+    {
+     "frame": 90,
+     "values": {
+      "knee_height_l": -0.8857759617248642,
+      "knee_height_r": -0.8727106928490445,
+      "knee_height": -0.8464774415618395,
+      "guard_near": -0.09452709950661184,
+      "torso_lean": 1.4434395285541801
+     }
+    },
+    {
+     "frame": 100,
+     "values": {
+      "knee_height_l": -0.8407472112254046,
+      "knee_height_r": -0.37181613981587425,
+      "knee_height": -0.37410516142316497,
+      "guard_near": -0.030495249775737518,
+      "torso_lean": 5.574457450169831
+     }
+    },
+    {
+     "frame": 110,
+     "values": {
+      "knee_height_l": -0.9193548063662877,
+      "knee_height_r": -0.8752008437378291,
+      "knee_height": -0.8730808055911553,
+      "guard_near": -0.014894966998767507,
+      "torso_lean": 1.698220994515313
+     }
+    },
+    {
+     "frame": 120,
+     "values": {
+      "knee_height_l": -0.8369237865564887,
+      "knee_height_r": -0.8708697054639892,
+      "knee_height": -0.8293887918380324,
+      "guard_near": 0.0063653248800009474,
+      "torso_lean": 1.3017685480524717
+     }
+    }
+   ]
+  },
+  "repStates": [
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START"
+  ]
+ }
+}

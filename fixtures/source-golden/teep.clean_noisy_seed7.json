@@ -1,0 +1,270 @@
+{
+ "goldenVersion": 1,
+ "source": {
+  "repo": "armagan-droid/gymspot",
+  "commit": "c2fe3fd"
+ },
+ "rulePack": "teep",
+ "rulePackVersion": 1,
+ "setup": {
+  "view": "side",
+  "nearSide": "left"
+ },
+ "options": {
+  "safetyPause": true
+ },
+ "cuesEnabled": [],
+ "sequence": "sequences/teep/clean_noisy_seed7.json",
+ "expected": {
+  "events": [
+   {
+    "frame": 15,
+    "t": 1000.0000000000001,
+    "type": "READY_POSE_HELD"
+   },
+   {
+    "frame": 33,
+    "t": 2200,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 38,
+    "t": 2533.3333333333335,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 333
+   },
+   {
+    "frame": 54,
+    "t": 3600.0000000000005,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 59,
+    "t": 3933.3333333333335,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 333
+   },
+   {
+    "frame": 75,
+    "t": 5000,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 80,
+    "t": 5333.333333333334,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 333
+   }
+  ],
+  "metrics": {
+   "every": 10,
+   "values": [
+    {
+     "frame": 0,
+     "values": {
+      "kick_height_l": -1.7528507230999841,
+      "kick_height_r": -1.7271046358648539,
+      "kick_height": -1.7271046358648539,
+      "guard_near": 0.025450721033580283,
+      "torso_lean": 2.1302546154193074
+     }
+    },
+    {
+     "frame": 10,
+     "values": {
+      "kick_height_l": -1.6734932323446392,
+      "kick_height_r": -1.6734497333209086,
+      "kick_height": -1.6609261158222275,
+      "guard_near": -0.009804178515138377,
+      "torso_lean": 0.22596766335180307
+     }
+    },
+    {
+     "frame": 20,
+     "values": {
+      "kick_height_l": -1.7162112453814315,
+      "kick_height_r": -1.7164046702772444,
+      "kick_height": -1.701904554263896,
+      "guard_near": 0.010695393139356925,
+      "torso_lean": 0.36640629185495244
+     }
+    },
+    {
+     "frame": 30,
+     "values": {
+      "kick_height_l": -1.7913756763504534,
+      "kick_height_r": -1.7848165813612753,
+      "kick_height": -1.7705206704004313,
+      "guard_near": -0.034568843021923666,
+      "torso_lean": 1.4170620195462038
+     }
+    },
+    {
+     "frame": 40,
+     "values": {
+      "kick_height_l": -1.7960072193877417,
+      "kick_height_r": -1.7299388022159383,
+      "kick_height": -1.712906366005881,
+      "guard_near": -0.0032003683985395424,
+      "torso_lean": 2.5420492615606634
+     }
+    },
+    {
+     "frame": 50,
+     "values": {
+      "kick_height_l": -1.6818534412602377,
+      "kick_height_r": -1.711907929425369,
+      "kick_height": -1.659594649421562,
+      "guard_near": 0.0352585464850291,
+      "torso_lean": 5.164926409856431
+     }
+    },
+    {
+     "frame": 60,
+     "values": {
+      "kick_height_l": -1.6570951100462268,
+      "kick_height_r": -1.6133172386740449,
+      "kick_height": -1.6080547093770776,
+      "guard_near": 0.0072555515781698625,
+      "torso_lean": 2.010355041135468
+     }
+    },
+    {
+     "frame": 70,
+     "values": {
+      "kick_height_l": -1.7537841871251652,
+      "kick_height_r": -1.690015521685104,
+      "kick_height": -1.6852415414900435,
+      "guard_near": -0.050436291572414235,
+      "torso_lean": 2.3458135783314282
+     }
+    },
+    {
+     "frame": 80,
+     "values": {
+      "kick_height_l": -1.7548609566925562,
+      "kick_height_r": -1.6103583748379389,
+      "kick_height": -1.6106767554820558,
+      "guard_near": -0.003964531359306206,
+      "torso_lean": 4.1361514306622125
+     }
+    },
+    {
+     "frame": 90,
+     "values": {
+      "kick_height_l": -1.7376147241504634,
+      "kick_height_r": -1.756865615535603,
+      "kick_height": -1.7269740477113293,
+      "guard_near": 0.021003997182648646,
+      "torso_lean": 1.9549985658287439
+     }
+    }
+   ]
+  },
+  "repStates": [
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START"
+  ]
+ }
+}

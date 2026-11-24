@@ -1,0 +1,580 @@
+{
+ "goldenVersion": 1,
+ "source": {
+  "repo": "armagan-droid/gymspot",
+  "commit": "c2fe3fd"
+ },
+ "rulePack": "squat",
+ "rulePackVersion": 1,
+ "setup": {
+  "view": "front",
+  "nearSide": "left"
+ },
+ "options": {
+  "safetyPause": true
+ },
+ "cuesEnabled": [],
+ "sequence": "sequences/squat/oscillation.json",
+ "expected": {
+  "events": [
+   {
+    "frame": 53,
+    "t": 2650,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 75,
+    "t": 3750,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 1300
+   },
+   {
+    "frame": 108,
+    "t": 5400,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 132,
+    "t": 6600,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 1350
+   },
+   {
+    "frame": 221,
+    "t": 11050,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 243,
+    "t": 12150,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 1350
+   }
+  ],
+  "metrics": {
+   "every": 10,
+   "values": [
+    {
+     "frame": 0,
+     "values": {
+      "knee_angle_near": 171.40301804364893,
+      "torso_lean": 8.96110238672566,
+      "knee_valgus_l": -0.0007285098901770178,
+      "knee_valgus_r": -0.0012748753764206266
+     }
+    },
+    {
+     "frame": 10,
+     "values": {
+      "knee_angle_near": 175.26650517075723,
+      "torso_lean": 7.03973529159009,
+      "knee_valgus_l": 0.006409604407359506,
+      "knee_valgus_r": 0.0036148753288898243
+     }
+    },
+    {
+     "frame": 20,
+     "values": {
+      "knee_angle_near": 166.30663599531232,
+      "torso_lean": 8.50980859501566,
+      "knee_valgus_l": -0.012218839042978755,
+      "knee_valgus_r": -0.0025119508600895736
+     }
+    },
+    {
+     "frame": 30,
+     "values": {
+      "knee_angle_near": 168.0462955957679,
+      "torso_lean": 9.339229377869515,
+      "knee_valgus_l": 0.004346875564338524,
+      "knee_valgus_r": 0.0006542917296508046
+     }
+    },
+    {
+     "frame": 40,
+     "values": {
+      "knee_angle_near": 168.52985151869314,
+      "torso_lean": 8.232031598774714,
+      "knee_valgus_l": 0.0066644280363209515,
+      "knee_valgus_r": -0.015916724713471147
+     }
+    },
+    {
+     "frame": 50,
+     "values": {
+      "knee_angle_near": 133.6923052109356,
+      "torso_lean": 10.993981595406513,
+      "knee_valgus_l": 0.012381588349485304,
+      "knee_valgus_r": -0.0013230823787714792
+     }
+    },
+    {
+     "frame": 60,
+     "values": {
+      "knee_angle_near": 101.65428491490272,
+      "torso_lean": 12.958304133438528,
+      "knee_valgus_l": 0.004267173539096606,
+      "knee_valgus_r": 0.004771000719791132
+     }
+    },
+    {
+     "frame": 70,
+     "values": {
+      "knee_angle_near": 131.18663183564863,
+      "torso_lean": 10.325463203943913,
+      "knee_valgus_l": 0.00795195709835721,
+      "knee_valgus_r": 0.018419299924731753
+     }
+    },
+    {
+     "frame": 80,
+     "values": {
+      "knee_angle_near": 169.46904135105424,
+      "torso_lean": 8.80949699415913,
+      "knee_valgus_l": -0.00623476824794611,
+      "knee_valgus_r": 0.008318355759742801
+     }
+    },
+    {
+     "frame": 90,
+     "values": {
+      "knee_angle_near": 171.30806684663992,
+      "torso_lean": 7.615706038202041,
+      "knee_valgus_l": 0.0018907360009493683,
+      "knee_valgus_r": -0.015659838842064292
+     }
+    },
+    {
+     "frame": 100,
+     "values": {
+      "knee_angle_near": 170.6009944843367,
+      "torso_lean": 8.660473775291146,
+      "knee_valgus_l": -0.00585709316044411,
+      "knee_valgus_r": -0.005922896690989802
+     }
+    },
+    {
+     "frame": 110,
+     "values": {
+      "knee_angle_near": 111.67975395955163,
+      "torso_lean": 7.227355518231882,
+      "knee_valgus_l": 0.007378367844270312,
+      "knee_valgus_r": 0.004874634201211871
+     }
+    },
+    {
+     "frame": 120,
+     "values": {
+      "knee_angle_near": 102.7342525043096,
+      "torso_lean": 10.123065994742088,
+      "knee_valgus_l": 0.006421712353032273,
+      "knee_valgus_r": 0.001490961566488645
+     }
+    },
+    {
+     "frame": 130,
+     "values": {
+      "knee_angle_near": 157.11960404210035,
+      "torso_lean": 8.182279805620887,
+      "knee_valgus_l": 0.0024810872053764445,
+      "knee_valgus_r": 0.0004941676324741666
+     }
+    },
+    {
+     "frame": 140,
+     "values": {
+      "knee_angle_near": 172.6672882166967,
+      "torso_lean": 8.255204009362206,
+      "knee_valgus_l": 0.0062723590891257544,
+      "knee_valgus_r": -0.004111735413424382
+     }
+    },
+    {
+     "frame": 150,
+     "values": {
+      "knee_angle_near": 176.1559223161031,
+      "torso_lean": 9.72040925037595,
+      "knee_valgus_l": 0.011608401365397852,
+      "knee_valgus_r": 0.00008160032898851637
+     }
+    },
+    {
+     "frame": 160,
+     "values": {
+      "knee_angle_near": 163.25491528258414,
+      "torso_lean": 6.89740560387766,
+      "knee_valgus_l": 0.01627395371226178,
+      "knee_valgus_r": -0.0004879351000567809
+     }
+    },
+    {
+     "frame": 170,
+     "values": {
+      "knee_angle_near": 152.5571945674745,
+      "torso_lean": 7.268401531456904,
+      "knee_valgus_l": 0.011402702373856807,
+      "knee_valgus_r": -0.0029142423120019465
+     }
+    },
+    {
+     "frame": 180,
+     "values": {
+      "knee_angle_near": 155.19972740623416,
+      "torso_lean": 8.21771507433003,
+      "knee_valgus_l": -0.0022624462935381716,
+      "knee_valgus_r": 0.005692011355944926
+     }
+    },
+    {
+     "frame": 190,
+     "values": {
+      "knee_angle_near": 168.4464282120348,
+      "torso_lean": 9.17985601398971,
+      "knee_valgus_l": -0.0003118741996278166,
+      "knee_valgus_r": -0.010513712980672411
+     }
+    },
+    {
+     "frame": 200,
+     "values": {
+      "knee_angle_near": 171.94748566852866,
+      "torso_lean": 7.252217446911153,
+      "knee_valgus_l": -0.009325013594066255,
+      "knee_valgus_r": 0.007019909770883514
+     }
+    },
+    {
+     "frame": 210,
+     "values": {
+      "knee_angle_near": 164.91040868749883,
+      "torso_lean": 7.308131898564653,
+      "knee_valgus_l": 0.0046562453578378495,
+      "knee_valgus_r": -0.009531961249493874
+     }
+    },
+    {
+     "frame": 220,
+     "values": {
+      "knee_angle_near": 133.2548784675316,
+      "torso_lean": 9.599703187447165,
+      "knee_valgus_l": -0.001053805350209654,
+      "knee_valgus_r": 0.020029222813949605
+     }
+    },
+    {
+     "frame": 230,
+     "values": {
+      "knee_angle_near": 99.93679041946454,
+      "torso_lean": 9.981935918497063,
+      "knee_valgus_l": 0.013102121138618718,
+      "knee_valgus_r": 0.005048468842076978
+     }
+    },
+    {
+     "frame": 240,
+     "values": {
+      "knee_angle_near": 144.3015759085174,
+      "torso_lean": 11.283524268821155,
+      "knee_valgus_l": 0.00015819330935178903,
+      "knee_valgus_r": 0.013028060117381716
+     }
+    },
+    {
+     "frame": 250,
+     "values": {
+      "knee_angle_near": 173.18803380689556,
+      "torso_lean": 8.667205414096367,
+      "knee_valgus_l": -0.01115506136425245,
+      "knee_valgus_r": -0.007051924614885616
+     }
+    },
+    {
+     "frame": 260,
+     "values": {
+      "knee_angle_near": 165.52243105082982,
+      "torso_lean": 9.112322463569743,
+      "knee_valgus_l": -0.0008627848778952475,
+      "knee_valgus_r": 0.007380479232293768
+     }
+    }
+   ]
+  },
+  "repStates": [
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START"
+  ]
+ }
+}

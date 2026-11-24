@@ -1,0 +1,280 @@
+{
+ "goldenVersion": 1,
+ "source": {
+  "repo": "armagan-droid/gymspot",
+  "commit": "c2fe3fd"
+ },
+ "rulePack": "knee_strike",
+ "rulePackVersion": 1,
+ "setup": {
+  "view": "side",
+  "nearSide": "left"
+ },
+ "options": {
+  "safetyPause": true
+ },
+ "cuesEnabled": [],
+ "sequence": "sequences/knee_strike/faulty_1.json",
+ "expected": {
+  "events": [
+   {
+    "frame": 15,
+    "t": 1000.0000000000001,
+    "type": "READY_POSE_HELD"
+   },
+   {
+    "frame": 33,
+    "t": 2200,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 38,
+    "t": 2533.3333333333335,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [
+     "excessive_lean"
+    ],
+    "durationMs": 333
+   },
+   {
+    "frame": 54,
+    "t": 3600.0000000000005,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 59,
+    "t": 3933.3333333333335,
+    "type": "FAULT_DETECTED",
+    "faultId": "excessive_lean"
+   },
+   {
+    "frame": 59,
+    "t": 3933.3333333333335,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [
+     "excessive_lean"
+    ],
+    "durationMs": 333
+   },
+   {
+    "frame": 75,
+    "t": 5000,
+    "type": "REP_STARTED"
+   },
+   {
+    "frame": 80,
+    "t": 5333.333333333334,
+    "type": "REP_COMPLETED",
+    "outcome": "valid",
+    "faults": [],
+    "durationMs": 333
+   }
+  ],
+  "metrics": {
+   "every": 10,
+   "values": [
+    {
+     "frame": 0,
+     "values": {
+      "knee_height_l": -0.9107879657755942,
+      "knee_height_r": -0.8573213479380197,
+      "knee_height": -0.8573213479380197,
+      "guard_near": -0.009082000838163466,
+      "torso_lean": 0.6477784317019688
+     }
+    },
+    {
+     "frame": 10,
+     "values": {
+      "knee_height_l": -0.8631186547889329,
+      "knee_height_r": -0.8495014010562467,
+      "knee_height": -0.8494255961856902,
+      "guard_near": 0.002452672705981623,
+      "torso_lean": 0.4539775261911395
+     }
+    },
+    {
+     "frame": 20,
+     "values": {
+      "knee_height_l": -0.8562010353845178,
+      "knee_height_r": -0.8608647310569955,
+      "knee_height": -0.8490806885337305,
+      "guard_near": -0.0045702266357787735,
+      "torso_lean": 0.9472775523886221
+     }
+    },
+    {
+     "frame": 30,
+     "values": {
+      "knee_height_l": -0.8740601325798476,
+      "knee_height_r": -0.8561666312936264,
+      "knee_height": -0.8539391375869939,
+      "guard_near": -0.012763273413724966,
+      "torso_lean": 0.40672951019457526
+     }
+    },
+    {
+     "frame": 40,
+     "values": {
+      "knee_height_l": -0.8621435892538636,
+      "knee_height_r": -0.8656042135875238,
+      "knee_height": -0.843054173653285,
+      "guard_near": -0.01388197473283308,
+      "torso_lean": 0.7292464245677441
+     }
+    },
+    {
+     "frame": 50,
+     "values": {
+      "knee_height_l": -0.8805092140734062,
+      "knee_height_r": -0.8770757693893639,
+      "knee_height": -0.8754445533996171,
+      "guard_near": -0.002558929240715888,
+      "torso_lean": 0.3920790517256327
+     }
+    },
+    {
+     "frame": 60,
+     "values": {
+      "knee_height_l": -0.8709711913920939,
+      "knee_height_r": -0.8323053458821735,
+      "knee_height": -0.8299964671130936,
+      "guard_near": 0.0017854341074619172,
+      "torso_lean": 0.8403205243732466
+     }
+    },
+    {
+     "frame": 70,
+     "values": {
+      "knee_height_l": -0.857813227208343,
+      "knee_height_r": -0.8580351975023249,
+      "knee_height": -0.8452075949526503,
+      "guard_near": -0.01147529969574599,
+      "torso_lean": 0.2591041112876904
+     }
+    },
+    {
+     "frame": 80,
+     "values": {
+      "knee_height_l": -0.8773332645361307,
+      "knee_height_r": -0.741647754374226,
+      "knee_height": -0.7417248913357348,
+      "guard_near": -0.007855005359321914,
+      "torso_lean": 1.1966060817342865
+     }
+    },
+    {
+     "frame": 90,
+     "values": {
+      "knee_height_l": -0.86512557879414,
+      "knee_height_r": -0.8639469628679135,
+      "knee_height": -0.8562564070258911,
+      "guard_near": -0.01078307386263516,
+      "torso_lean": 0.41743263846962564
+     }
+    }
+   ]
+  },
+  "repStates": [
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "IN_REP",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START",
+   "AT_START"
+  ]
+ }
+}

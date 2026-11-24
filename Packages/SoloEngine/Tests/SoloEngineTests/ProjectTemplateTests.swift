@@ -123,7 +123,7 @@ private let deepDuck = EvaderParams(kneeAngle: 110, torsoLean: 25)
     }
 }
 
-// MARK: - AC-4.4 equivalence (synthetic part; the golden part waits for T1.2)
+// MARK: - AC-4.4 equivalence (synthetic sequences and the source golden's)
 
 @Suite("Project templates — AC-4.4 equivalence") struct EquivalenceTests {
     static let dir = Repo.root.appendingPathComponent("fixtures/equivalence", isDirectory: true)
@@ -166,6 +166,42 @@ private let deepDuck = EvaderParams(kneeAngle: 110, torsoLean: 25)
                 #expect(actual == expected, "\(id) case \(i) seed \(seed)")
             }
         }
+    }
+
+    @Test func theScopeNamesGoldenCases() {
+        for file in Self.outOfScope.keys { #expect(SourceGolden.caseFiles.contains(file), "\(file)") }
+    }
+
+    /// The source golden sequences of the template, reduced to vision19 without world: the frozen v2 gives the
+    /// source engine's rep outcomes and faults, as the golden records them (specs/04 AC-4.4).
+    /// Outside AC-4.4's golden scope (specs/04 open question 7, decision a): duck sequences with noise above 0.003
+    /// (the 2D duck's noise limit, specs/04 "Duck") and threshold-boundary cases, where 2D and 3D measure differently.
+    static let outOfScope: [String: String] = [
+        "duck.clean_noisy_seed7.json": "noise 0.006",
+        "duck.mirrored_seed3.json": "noise 0.006",
+        "duck.tracking_lost.json": "noise 0.006",
+        "duck.low_visibility.json": "noise 0.006",
+        "duck.oscillation.json": "threshold oscillation, noise 0.008",
+        "duck.faulty_2.json": "125° shallow duck at the attemptMinExcursion boundary",
+        "slip_left.oscillation.json": "threshold oscillation, noise 0.008",
+    ]
+
+    static func goldenCases(_ id: String) -> [String] { SourceGolden.caseFiles.filter { $0.hasPrefix("\(id).") } }
+
+    @Test(arguments: (goldenCases("slip_left") + goldenCases("duck")).filter { outOfScope[$0] == nil })
+    func sourceGolden(_ file: String) throws {
+        let golden = try EngineCase(json: Repo.read(SourceGolden.dir.appendingPathComponent(file)))
+        let seq = try LandmarkSequence.parse(data: Data(contentsOf: SourceGolden.dir.appendingPathComponent(golden.sequence))).get()
+        let expected = golden.expected.events.compactMap { e -> Completed? in
+            if case .repCompleted(let o, let f, _) = e.event { Completed(outcome: o, faults: f) } else { nil }
+        }
+        let engine = ExerciseEngine(try Self.frozen(golden.rulePack), setup: golden.setup, options: golden.options)
+        var switches = golden.cuesEnabled[...]
+        let events = vision(seq).frames.flatMap { frame in
+            while let s = switches.first, frame.t >= s.fromT { engine.setCuesEnabled(s.enabled); switches.removeFirst() }
+            return engine.push(frame).map(\.event)
+        }
+        #expect(completed(events) == expected, "\(file): source \(expected), v2 \(completed(events))")
     }
 
     @Test func slipLeft() throws { try check("slip_left", Self.slipCases) }
