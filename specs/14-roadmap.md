@@ -29,7 +29,7 @@ Bu proje salon reposundan bağımsızdır; salon reposuna hiçbir görevde yazı
   - *Kare kaynağı: uygulamada `FrameSource` (`CameraFrameSource`, `SequenceFrameSource`). Debug derlemesinde ana listeden bir landmark dizisi dosyası seçilir; antrenmanlar kamera yerine o diziyle, döngüde çalışır.*
   - *Test: `FakeCameraTests`, sahte saatle uçtan uca. Kareler, seans makinesi ve kayıtlar aynı saatte.*
   - *Açık kalanlar: AC-2.2'nin ses kısmı T3.3'teki planlı sesle; gerçek kamerada `synchronizationClock` eşlemesinin doğrulanması T0.2 cihaz ölçümüyle.*
-- [ ] T3.2 `SoloPose`: Vision 2B (+3B, karara göre) → `Frame` dönüşümü, ön kamera aynalama kuralı — 03 (AC-3.6)
+- [ ] T3.2 `SoloPose`: Vision 2B (+3B, karara göre) → `Frame` dönüşümü, ön kamera aynalama kuralı — 03 (AC-3.6) *Durum (2026-11-25): Vision 2B → `Frame` dönüşümü, aday seçimi ve döndürme kodda; AC-3.6'nın sentetik birim testi `SoloPoseTests`'te (y ekseni, sol/sağ, ön kamerada sola kaçışta `lateralLean2d` > 0). Kalan: cihazda sabit pozlu görüntü testi ve 3B (H1/H2), ikisi de T0.2 spike'ına bağlı.*
 - [ ] T3.3 Ses çıkışı: `AVAudioEngine` planlı çalma, çıkış gecikmesi, TTS yedeği, ses oturumu kuralları; ses dosyaları ve `cueOnsetMs` meta verisi — 02, 05
 - Durum (2026-11-24, T3.3 kısmı):
   - *Yapıldı: `SoloCapture/CueOut`. İşaret sesi `AVAudioPlayerNode` ile host saatinde ileri bir zamana planlanır (`HostClock.hostTicks`). `t_cue` = çıkış gecikmesi + I/O tamponu + `cueOnsetMs` (`CueTiming`). Meta veri `cues.json` (05). Dosyası olmayan işaret TTS ile söylenir ve `rtApproximate` işaretlenir; Bluetooth'ta da öyle. Sonuç tonları `ToneOut`. Ses oturumu 02'ye uygun (`SpeechOut`).*
