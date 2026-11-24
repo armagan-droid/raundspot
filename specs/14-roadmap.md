@@ -68,7 +68,8 @@ Bu proje salon reposundan bağımsızdır; salon reposuna hiçbir görevde yazı
     - *Paket: video ses izsiz HEVC ve her karesine aynı PTS'li poz satırı; `engine.jsonl`, `app.jsonl`, `meta.json`.*
     - *Depolama: yedekten hariç, `NSFileProtectionComplete`; boş alan eşikleri; 11/12 ay saklama.*
     - *Testler AC-9.2, AC-9.3, AC-9.7 ve AC-9.9'u gerçek `AVAssetWriter` videosuyla kapsar. Koruma sınıfı simülatörde raporlanmadığı için o kısım cihazda denetlenir (AC-9.8).*
-  - *Kalan: Beta arayüzü (Ayarlar → Geliştirici → onaylı açma, X2 katılımcılar, X3 rıza, X4 kırmızı KAYIT bandı), kamera karelerinin, motor ve uygulama satırlarının antrenman sırasında yazıcıya bağlanması, cihazda 10 dakikalık AC-9.3 testi.*
+  - *Beta arayüzü (2026-11-25): Ayarlar → Geliştirici → Kayıt modu. Onaylı açma; X2 katılımcılar ve geri çekme (dışa aktarılmış dosyalar hatırlatılır); X3 rıza (18+ katılımcının kendisi işaretler); X1 liste; X4 kayıt başlatma, kırmızı KAYIT bandı ve çerçeve. Kamera kareleri Vision sonrası yazıcıya gider; motor (metrikler, rep durumu, olaylar) ve uygulama (durum, işaret, deneme, kademeli çalışma) satırları yazılır. Disk alanı API'si gizlilik bildirimine eklendi (E174.1).*
+  - *Kalan: AC-9.2 UI testi (UI test hedefi yok), cihazda 10 dakikalık AC-9.3 testi ve koruma sınıfı (AC-9.8), hukuki rıza metni (09 açık soru 1).*
 - [ ] T5.2 Oynatma ekranı ve notlar — 09 (AC-9.4)
 - [ ] T5.3 Yeniden oynatma ve değer taraması — 09 (AC-9.5)
 - [ ] T5.4 Landmark dışa aktarma; örnek dosyanın `solo-calibrate` ile okunması (CI) — 09 (AC-9.6)

@@ -69,6 +69,13 @@ import UIKit
     private let health: HealthWorkout?
     /// The session's net kcal estimate (Y1), nil without a weight.
     private(set) var sessionKcal: Double?
+
+    /// Recording mode (Beta, specs/09): engine and app lines go here; set before the space confirmation.
+    var recording: RecordingSink? {
+        didSet { if recording != nil { recordingStartedAt = clock.nowMs } }
+    }
+    private(set) var recordingStartedAt: Double?
+    var isRecording: Bool { recording != nil }
     private var activeSince: Double?
     private var activeMs = 0.0
     private var lastDurationMs: Double?
@@ -263,6 +270,8 @@ import UIKit
     func appWentToBackground() { send(.interrupted(.background)) }
 
     func close() {
+        recording?.finish()
+        recording = nil
         ticker?.cancel()
         cancelCues()
         tones.stop()
@@ -278,6 +287,12 @@ import UIKit
 
     private func send(_ input: SessionInput) {
         let before = session.s
+        defer {
+            if let r = recording, before.state != session.s.state || before.blockIndex != session.s.blockIndex {
+                r.appLine(["t": clock.nowMs, "type": "state", "input": "\(input)", "state": session.s.state.rawValue,
+                           "block": session.s.blockIndex, "set": session.s.setIndex])
+            }
+        }
         apply(session.handle(input))
         afterTransition(from: before)
     }
@@ -455,6 +470,13 @@ import UIKit
         }
         guard let engine else { return }
         let events = engine.push(f)
+        if let r = recording {
+            var line: [String: Any] = ["t": f.t, "template": loaded.pack.id, "rep": engine.repState.rawValue,
+                                       "near": engine.nearSide.rawValue]
+            line["metrics"] = engine.metrics.mapValues { $0.isNaN ? NSNull() as Any : $0 as Any }
+            if !events.isEmpty { line["events"] = events.map { "\($0.event)" } }
+            r.engineLine(line)
+        }
         let m = engine.metrics[loaded.pack.rep.metric]
         guide = guideTracker?.update(f, repMetric: m, inRep: engine.repState == .inRep, minVisibility: loaded.pack.camera.minVisibility)
         targetLine = lineTracker?.update(f, repMetric: m, minVisibility: loaded.pack.camera.minVisibility)
@@ -541,6 +563,7 @@ import UIKit
         for c in commands {
             switch c {
             case .playCue(let key, let at):
+                recording?.appLine(["t": clock.nowMs, "type": "cue", "key": key, "plannedAt": at])
                 let text = text(key)
                 let scheduled = cueOut.schedule(key, atMs: at)  // the sound file on the host clock (T3.3)
                 let delay = max(0, at - clock.nowMs)
@@ -559,6 +582,9 @@ import UIKit
                 tones.play(t == .correct ? .correct : t == .wrong ? .wrong : .doubleWrong)
             case .trial(let r):
                 lastTrial = (r, now + 1000)
+                recording?.appLine(["t": clock.nowMs, "type": "trial", "strike": r.strikeId, "feint": r.isFeint, "cueAt": r.cueAt,
+                                    "result": r.result.rawValue, "response": r.responseExerciseId ?? NSNull(),
+                                    "reactionMs": r.reactionMs ?? NSNull(), "approximate": r.rtApproximate])
                 if let setId = session.s.setId { recorder?.writeReflexTrial(r, setId: setId, at: Date()) }
                 if r.result == .correctFaulty, let ex = r.responseExerciseId, let p = packs[ex] {
                     let names = r.faults.compactMap { id in p.pack.faults.first { $0.id == id }.map { Lang.text($0.name) } }
@@ -672,6 +698,7 @@ import UIKit
         guard state == .serious || state == .critical else { return }
         if !degradations.contains("fps24") {
             degradations.append("fps24")
+            recording?.appLine(["t": clock.nowMs, "type": "degradation", "step": "fps24"])
             source.limitFrameRate(24)
             recorder?.noteDegradation("fps24")
         }
@@ -744,4 +771,11 @@ struct TrainingSettings {
         self.init(slowTempo: (p?.techniqueTempo ?? "slow") == "slow", resultTones: p?.resultTones ?? true,
                   faultCueVoice: p?.faultCueVoice ?? true, backCamera: p?.camera == "back", weightKg: p?.weightKg)
     }
+}
+
+/// Recording mode's writer as the workout sees it (Beta only implements it, specs/09).
+protocol RecordingSink: AnyObject {
+    func engineLine(_ line: [String: Any])
+    func appLine(_ line: [String: Any])
+    func finish()
 }

@@ -34,6 +34,9 @@ struct SettingsView: SwiftUI.View {
                 #if DEBUG || BETA
                 Section("settings.developer") {
                     Text("settings.developer.diagnostics").font(.callout)
+                    #if RECORDING_MODE
+                    NavigationLink("rec.title") { RecordingHome() }
+                    #endif
                 }
                 #endif
             }

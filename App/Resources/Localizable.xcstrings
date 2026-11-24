@@ -1485,6 +1485,420 @@
         }
       }
     },
+    "rec.add": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekle"
+          }
+        }
+      }
+    },
+    "rec.band %@": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "● REC %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "● KAYIT %@"
+          }
+        }
+      }
+    },
+    "rec.band.accessibility": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıt sürüyor"
+          }
+        }
+      }
+    },
+    "rec.code.placeholder": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Code, e.g. P07"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kod, örn. P07"
+          }
+        }
+      }
+    },
+    "rec.consent.accept": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I have read it and I accept"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Okudum, kabul ediyorum"
+          }
+        }
+      }
+    },
+    "rec.consent.given": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Consent given"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rıza var"
+          }
+        }
+      }
+    },
+    "rec.consent.missing": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No consent"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rıza yok"
+          }
+        }
+      }
+    },
+    "rec.consent.text": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What is recorded: video without sound, joint coordinates, the app's measurements and notes. Why: to develop and calibrate the app. Where: only on this phone; the video never leaves it. Shared: only pseudonymous joint data, never video. How long: at most 12 months. Withdraw: tell the operator; all your recordings are deleted. (Draft text, to be reviewed by a lawyer.)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ne kaydedilir: sessiz video, eklem koordinatları, uygulamanın ölçümleri ve notlar. Neden: uygulamayı geliştirmek ve kalibre etmek. Nerede: yalnız bu telefonda; video telefondan hiç çıkmaz. Ne paylaşılır: yalnız takma adlı eklem verisi, video asla. Ne kadar: en çok 12 ay. Geri çekme: operatöre söyle; tüm kayıtların silinir. (Taslak metin, hukukçu tarafından gözden geçirilecek.)"
+          }
+        }
+      }
+    },
+    "rec.disable": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn off recording mode"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıt modunu kapat"
+          }
+        }
+      }
+    },
+    "rec.enable": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn on recording mode"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıt modunu aç"
+          }
+        }
+      }
+    },
+    "rec.enable.confirm": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn on"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aç"
+          }
+        }
+      }
+    },
+    "rec.enable.warning": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This mode records video. Record only people who gave their explicit consent."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu mod video kaydeder. Yalnız açık rıza veren kişileri kaydet."
+          }
+        }
+      }
+    },
+    "rec.participant": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Participant"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Katılımcı"
+          }
+        }
+      }
+    },
+    "rec.participant.none": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seç"
+          }
+        }
+      }
+    },
+    "rec.participants": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Participants"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Katılımcılar"
+          }
+        }
+      }
+    },
+    "rec.recordings": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recordings"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıtlar"
+          }
+        }
+      }
+    },
+    "rec.start": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New recording"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeni kayıt"
+          }
+        }
+      }
+    },
+    "rec.start.button": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start recording"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydı başlat"
+          }
+        }
+      }
+    },
+    "rec.template": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hareket"
+          }
+        }
+      }
+    },
+    "rec.title": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording mode"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıt modu"
+          }
+        }
+      }
+    },
+    "rec.withdraw": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Withdraw consent"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rızayı geri çek"
+          }
+        }
+      }
+    },
+    "rec.withdrawn": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Consent withdrawn"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rıza geri çekildi"
+          }
+        }
+      }
+    },
+    "rec.withdrawn.exports %@": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Their recordings were deleted. Also delete these exported files: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıtları silindi. Dışa aktarılmış şu dosyaları da sil: %@"
+          }
+        }
+      }
+    },
     "reflex.advice.higher": {
       "comment": "specs/05 level advice; never automatic.",
       "extractionState": "manual",

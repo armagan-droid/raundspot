@@ -5,7 +5,7 @@ import Foundation
 // NSFileProtectionComplete (AC-9.8). Real names never enter: a participant is a code (P07).
 
 public enum RecordingError: Error, Equatable {
-    case invalidCode, duplicateCode, unknownParticipant, adultNotConfirmed, noConsent, lowStorage
+    case invalidCode, duplicateCode, unknownParticipant, adultNotConfirmed, noConsent, lowStorage, disabled
 }
 
 public struct Participant: Codable, Sendable, Equatable {
@@ -76,6 +76,16 @@ public final class RecordingLibrary {
     private struct State: Codable {
         var participants: [Participant] = []
         var consents: [RecordingConsent] = []
+        /// Off until turned on with its confirmation (specs/09 "Erişim", AC-9.1).
+        var enabled = false
+    }
+
+    public var isEnabled: Bool { state.enabled }
+
+    /// Turning recording mode on needs the operator's confirmation in the UI first.
+    public func setEnabled(_ on: Bool) throws {
+        state.enabled = on
+        try save()
     }
 
     public var participants: [Participant] { state.participants }
@@ -162,6 +172,7 @@ public final class RecordingLibrary {
 
     /// A new package for a participant with an active consent (AC-9.2) and enough space.
     public func newPackage(_ meta: RecordingMeta, freeBytes: Int64) throws -> RecordingWriter {
+        guard state.enabled else { throw RecordingError.disabled }
         guard let c = activeConsent(meta.participant), c.id == meta.consentId else { throw RecordingError.noConsent }
         guard StorageCheck.check(freeBytes: freeBytes) != .refuse else { throw RecordingError.lowStorage }
         return try RecordingWriter(dir: packagesDir.appendingPathComponent("\(meta.recordingId.uuidString).gsrec", isDirectory: true), meta: meta)

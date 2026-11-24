@@ -7,6 +7,8 @@ public struct CameraFrame {
     public let pixelBuffer: CVPixelBuffer
     /// Presentation time on the host clock, ms (specs/02 "Saat tabanı").
     public let hostTimeMs: Double
+    /// The same time as a `CMTime` on the host clock (recording mode writes it, specs/09).
+    public let pts: CMTime
     /// Clockwise turn that still makes the buffer upright, degrees (0, 90, 180, 270);
     /// 0 when the connection already rotates the buffers.
     public let rotationDegrees: Double
@@ -136,7 +138,7 @@ extension CameraSession: AVCaptureVideoDataOutputSampleBufferDelegate {
         let pts = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
         let host = session.synchronizationClock.map { CMSyncConvertTime(pts, from: $0, to: CMClockGetHostTimeClock()) } ?? pts
         let angle = lock.withLock { captureAngle }
-        handler?(CameraFrame(pixelBuffer: buffer, hostTimeMs: CMTimeGetSeconds(host) * 1000, rotationDegrees: angle,
+        handler?(CameraFrame(pixelBuffer: buffer, hostTimeMs: CMTimeGetSeconds(host) * 1000, pts: host, rotationDegrees: angle,
                              width: CVPixelBufferGetWidth(buffer), height: CVPixelBufferGetHeight(buffer)))
     }
 
