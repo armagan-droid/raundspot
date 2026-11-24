@@ -64,7 +64,11 @@ struct TrainingView: SwiftUI.View {
         GeometryReader { geo in
             ZStack {
                 if model.workout.usesCamera {
-                    CameraPreview(camera: model.camera).ignoresSafeArea()
+                    if let camera = (model.source as? CameraFrameSource)?.camera {
+                        CameraPreview(camera: camera).ignoresSafeArea()
+                    } else {
+                        Color.black.ignoresSafeArea()
+                    }
                     if model.showSkeleton {
                         SkeletonOverlay(frame: model.frame, aspect: model.aspect, mirrored: model.isFrontCamera,
                                         minVisibility: model.minVisibility)

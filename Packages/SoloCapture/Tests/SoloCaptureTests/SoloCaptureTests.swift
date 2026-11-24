@@ -16,4 +16,13 @@ import Testing
         for i in 0..<20 { m.record(2000 + Double(i) * 1000 / 15) }
         #expect(abs(m.fps - 15) < 0.01)
     }
+
+    @Test func clocks() {
+        let m = ManualClock(startMs: 500)
+        #expect(m.nowMs == 500)
+        m.advance(byMs: 33.5)
+        #expect(m.nowMs == 533.5)
+        let live = LiveClock.shared.nowMs
+        #expect(abs(live - HostClock.nowMs) < 1000)
+    }
 }
