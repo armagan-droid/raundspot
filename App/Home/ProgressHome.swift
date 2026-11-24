@@ -132,13 +132,13 @@ struct SessionDetail: SwiftUI.View {
     var body: some SwiftUI.View {
         List {
             ForEach(session.blocks.sorted { $0.position < $1.position }, id: \.id) { b in
-                Section(b.exerciseId.flatMap { ExerciseCatalog.pack($0).map { Lang.text($0.pack.name) } } ?? String(localized: LocalizedStringResource(stringLiteral: "progress.kind.\(b.kind)"))) {
+                Section(Self.title(b)) {
                     ForEach(b.sets.sorted { $0.setIndex < $1.setIndex }, id: \.id) { s in
                         VStack(alignment: .leading, spacing: 2) {
                             if s.trials.isEmpty {
                                 Text("training.summary \(s.validReps) \(s.faultyReps)").font(.callout)
-                                ForEach(s.attempts.sorted { $0.index < $1.index }.filter { !$0.faults.isEmpty }, id: \.id) { a in
-                                    Text("progress.attempt.faults \(a.index + 1) \(a.faults.joined(separator: ", "))").font(.caption)
+                                ForEach(Self.faulty(s), id: \.id) { a in
+                                    Text(Self.faultLine(a)).font(.caption)
                                 }
                             } else {
                                 let hits = s.trials.filter { ProgressStats.hits.contains($0.result) }.count
@@ -153,5 +153,21 @@ struct SessionDetail: SwiftUI.View {
             }
         }
         .navigationTitle(Text(WorkoutNames.name(session.workoutId)))
+    }
+
+    // split out: one long expression is too slow for the type checker on CI
+    static func title(_ b: StoredBlock) -> String {
+        if let id = b.exerciseId, let p = ExerciseCatalog.pack(id) { return Lang.text(p.pack.name) }
+        return String(localized: String.LocalizationValue("progress.kind.\(b.kind)"))
+    }
+
+    static func faulty(_ s: StoredSet) -> [StoredAttempt] {
+        s.attempts.filter { !$0.faults.isEmpty }.sorted { $0.index < $1.index }
+    }
+
+    static func faultLine(_ a: StoredAttempt) -> String {
+        let faults: String = a.faults.joined(separator: ", ")
+        let n: Int = a.index + 1
+        return String(localized: "progress.attempt.faults \(n) \(faults)")
     }
 }
