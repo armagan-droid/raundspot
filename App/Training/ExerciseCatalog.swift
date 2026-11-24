@@ -21,7 +21,10 @@ enum ExerciseCatalog {
         return try? ExerciseDemo.parse(json)
     }
 
-    static func pack(_ id: String) -> LoadedRulePack? { load().first { $0.pack.id == id } }
+    /// The bundle does not change while the app runs: loaded once.
+    private static let cached = load()
+
+    static func pack(_ id: String) -> LoadedRulePack? { cached.first { $0.pack.id == id } }
 
     static let eskivIds = ["slip_left", "slip_right", "slip", "duck", "bob_weave_left", "bob_weave_right", "lean_back"]
 

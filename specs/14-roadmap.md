@@ -78,7 +78,7 @@ Bu proje salon reposundan bağımsızdır; salon reposuna hiçbir görevde yazı
     - *AC-10.6 anlık görüntü testi (uygulamada anlık görüntü altyapısı yok);*
     - *gizlilik politikası ile kullanım koşullarının hukuki metni (10 açık soru 1; uygulamadakiler taslak);*
     - *tema seçimi (sistem teması izlenir).*
-- [ ] T7.2 İlerleme G1–G3 — 12
+- [x] T7.2 İlerleme G1–G3 — 12 *Durum (2026-11-24): `App/Home/ProgressHome` (G1 Swift Charts: 8 haftalık antrenman sayısı, seviyeye göre medyan RT, isabet; G2 geçmiş, detay ve silme; G3 son 30 günde eskiv bazında temiz tekrar oranı ve en sık hatalar). Hesaplar `ProgressStats`'ta, testli. Silmede Sağlık sorusu T6.2 ile gelir.*
 - [x] T7.3 Gizlilik: ağ isteği testi, bağımlılık listesi, `PrivacyInfo.xcprivacy` — 10 (AC-10.1, AC-10.2, AC-10.5) *Durum (2026-11-24):*
   - *`App/Resources/PrivacyInfo.xcprivacy`: izleme yok, toplanan veri yok, `SystemBootTime` (35F9.1, `HostClock`).*
   - *`scripts/ci/check-privacy.sh` (Linux CI) gerekçe isteyen API'leri bildirime karşı tarar; uzak paket ve ağ API'si kullanılırsa kırılır.*
