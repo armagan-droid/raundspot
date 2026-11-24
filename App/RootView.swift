@@ -20,6 +20,8 @@ struct RootView: SwiftUI.View {
     /// H3, first step: a workout waiting for its eskiv picks (specs/06 "Seçim").
     @State private var choiceFor: Workout?
     @State private var resolvedChoice: Workout?
+    /// HealthKit's latest weight, read when the list appears (specs/08 "Kilo"); never stored.
+    @State private var healthWeight: (kg: Double, date: Date)?
     private let reflexCatalog = ExerciseCatalog.reflexCatalog()
 
     struct Running: Identifiable {
@@ -48,7 +50,7 @@ struct RootView: SwiftUI.View {
                 Section("list.single") {
                     ForEach(packs, id: \.pack.id) { loaded in
                         Button {
-                            running = Running(model: TrainingModel(single: loaded, recorder: recorder(for: nil), source: frameSource(), settings: TrainingSettings(profiles.first),
+                            running = Running(model: TrainingModel(single: loaded, recorder: recorder(for: nil), source: frameSource(), settings: trainingSettings,
                                                                            health: healthStore()))
                         } label: { row(loaded) }
                             .foregroundStyle(.primary)
@@ -75,6 +77,9 @@ struct RootView: SwiftUI.View {
                 if packs.isEmpty { Text("list.empty") }
             }
             .navigationTitle(AppBrand.name)
+            .task {
+                if LiveHealthStore.isAvailable { healthWeight = await LiveHealthStore().latestBodyMass() }
+            }
         }
         .fullScreenCover(item: $running) { TrainingView($0.model) }
         .sheet(item: $choiceFor, onDismiss: {
@@ -142,7 +147,7 @@ struct RootView: SwiftUI.View {
     private func start(_ w: Workout, packs: [String: LoadedRulePack], level: Int) {
         running = Running(model: TrainingModel(workout: w, packs: packs, recorder: recorder(for: w), source: frameSource(),
                                                reflexCatalog: reflexCatalog, stance: stance, reflexLevel: level,
-                                               settings: TrainingSettings(profiles.first), health: healthStore()))
+                                               settings: trainingSettings, health: healthStore()))
     }
 
     /// The picked level becomes the next suggestion (specs/11 `Profile.reflexLevel`).
@@ -154,6 +159,13 @@ struct RootView: SwiftUI.View {
         }()
         p.reflexLevel = level
         try? context.save()
+    }
+
+    /// The profile's settings, with the weight by specs/08's order: HealthKit (≤ 90 days), then the profile.
+    private var trainingSettings: TrainingSettings {
+        var s = TrainingSettings(profiles.first)
+        s.weightKg = Energy.weight(healthKit: healthWeight, profile: profiles.first?.weightKg, now: Date())
+        return s
     }
 
     /// Apple Health when the user allowed workouts (specs/08); nil otherwise, and nothing stops.
