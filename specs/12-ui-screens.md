@@ -41,7 +41,7 @@ Sıra: **S2 → S1 → S3**. Alan onayı, kullanıcı telefonu yerleştirirken (
 |---|---|---|
 | S1 | Kamera kurulumu | ref 08 A3'ün karşılığı: tam ekran önizleme (ön kamerada aynalı gösterim), hedef siluet, kılavuz çerçeve, sorunlu kenarlarda kırmızı bant, büyük ipucu, sesli ipucu. Kontroller ref 08 "A3 kurulum kontrolleri"ndeki gibi (tüm vücut, çok uzak/yakın değil, görünüm uygun, tek kişi) + **mesafe**: görünen vücut kutusunun yüksekliğinden ve kamera görüş açısından tahmin edilen mesafe 2–3 m aralığında değilse "Biraz yaklaş" / "Bir adım geri" (boy profilde varsa onunla, yoksa 1,70 m varsayımıyla). Telefon eğimi > 10° ise "Telefonu dik koy". Refleks modunda gereken landmark birleşimi (baştan ayağa). Kamera ipucunun altında `howTo` ve gösterim animasyonu (varsa, 04) |
 | S2 | Alan onayı ve tıbbi uyarı | Seans başına bir kez, S1'den önce: "Tıbbi tavsiye değildir. Ağrı hissedersen dur." (10) + "Etrafında en az 2×2 m boş alan var mı? Kaygan zemin, eşya, evcil hayvan?" → "Alan güvenli" düğmesine **dokunarak** onay. Sesle ya da duruşla onay yoktur: bilinçli bir kullanıcı eylemi olmalıdır. Kamera engelleri göremez; bu kullanıcı onayıdır |
-| S3 | Isınma | Adım adım sesli rehber (06), kalan süre büyük, "Atla" (atlanınca uyarı bir kez). Kamerayla sayım yapılmaz (06 `warmup`) |
+| S3 | Isınma | Adım adım sesli rehber (06), adımın gösterim animasyonu (04 "Adım gösterimleri"), kalan süre büyük, "Atla" (atlanınca uyarı bir kez). Kamerayla sayım yapılmaz (06 `warmup`). Soğuma aynı yerleşimdedir |
 
 Kurulum hazır 1,5 sn kesintisiz sürerse sonraki adıma kendiliğinden geçilir (ref 08 "Otomatik başlama").
 

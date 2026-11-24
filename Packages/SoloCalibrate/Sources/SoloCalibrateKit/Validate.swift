@@ -37,6 +37,8 @@ public enum Validator {
                 report.errors += validateWorkout(file, relative: relative, root: root)
             case 2 where parts[0] == "demos":
                 report.errors += validateDemo(file, relative: relative, root: root)
+            case 3 where parts[0] == "demos" && parts[1] == "steps":
+                report.errors += validateStepDemo(file, relative: relative)
             default:
                 report.errors.append("\(relative): no validator for this file kind yet")
             }
@@ -63,6 +65,17 @@ public enum Validator {
         return errors
     }
 
+    /// specs/04 "Adım gösterimleri": `step` = file name.
+    static func validateStepDemo(_ file: URL, relative: String) -> [String] {
+        do {
+            let demo = try ExerciseDemo.parse(JSONValue.parse(contentsOf: file))
+            guard let step = demo.step else { return ["\(relative): a step demo needs step, not exercise"] }
+            return step == file.deletingPathExtension().lastPathComponent ? [] : ["\(relative): step '\(step)' does not match the file name"]
+        } catch {
+            return ["\(relative): \(error)"]
+        }
+    }
+
     static func validateDemo(_ file: URL, relative: String, root: URL) -> [String] {
         let demo: ExerciseDemo
         do {
@@ -70,13 +83,14 @@ public enum Validator {
         } catch {
             return ["\(relative): \(error)"]
         }
+        guard let exercise = demo.exercise else { return ["\(relative): a template demo needs exercise (step demos go in demos/steps/)"] }
         var errors: [String] = []
-        if demo.exercise != file.deletingPathExtension().lastPathComponent {
-            errors.append("\(relative): exercise '\(demo.exercise)' does not match the file name")
+        if exercise != file.deletingPathExtension().lastPathComponent {
+            errors.append("\(relative): exercise '\(exercise)' does not match the file name")
         }
-        let template = root.appendingPathComponent("\(demo.exercise).json")
+        let template = root.appendingPathComponent("\(exercise).json")
         if !FileManager.default.fileExists(atPath: template.path) {
-            errors.append("\(relative): no template '\(demo.exercise)' in exercises/")
+            errors.append("\(relative): no template '\(exercise)' in exercises/")
         } else if let data = try? Data(contentsOf: template), case .success(let loaded) = RulePackLoader.load(data: data),
                   !loaded.pack.camera.views.contains(demo.view) {
             errors.append("\(relative): view '\(demo.view.rawValue)' is not in the template's camera.views")
