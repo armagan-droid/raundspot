@@ -22,7 +22,7 @@ import UIKit
     private(set) var aspect: Double = 16.0 / 9
     private(set) var records: [SessionRecord] = []
     private(set) var lastSet: (valid: Int, faulty: Int)?
-    private(set) var now: Double = HostClock.nowMs
+    private(set) var now: Double
     var showSkeleton = true
     var showDiagnostics = false
     var soundOn = true { didSet { speech.enabled = soundOn } }
@@ -37,9 +37,9 @@ import UIKit
     private(set) var guide: HeadGuide?
     private(set) var targetLine: TargetLineGuide?
 
-    let camera = CameraSession(position: .front)
+    let source: FrameSource
+    let clock: SoloClock
     private let speech = SpeechOut(language: Lang.code)
-    private var pipeline: FramePipeline?
     private var engine: ExerciseEngine?
     private var engineBlock: Int?
     private var guideTracker: HeadGuideTracker?
@@ -57,10 +57,17 @@ import UIKit
     private var activeSince: Double?
     private var activeMs = 0.0
 
-    init(workout: Workout, packs: [String: LoadedRulePack], recorder: SessionRecorder? = nil) {
+    /// - Parameters:
+    ///   - source: the camera by default; a sequence file for the fake camera (AC-2.2).
+    ///   - clock: the host clock by default; frames, ticks and records all use it.
+    init(workout: Workout, packs: [String: LoadedRulePack], recorder: SessionRecorder? = nil,
+         source: FrameSource = CameraFrameSource(), clock: SoloClock = LiveClock.shared) {
         self.workout = workout
         self.packs = packs
         self.recorder = recorder
+        self.source = source
+        self.clock = clock
+        now = clock.nowMs
         var versions: [String: Int] = [:]
         for (id, p) in packs { versions[id] = p.pack.version }
         session = SessionMachine(workout: workout, exerciseVersions: versions, makeId: { UUID().uuidString })
@@ -68,13 +75,14 @@ import UIKit
     }
 
     /// One template from the list: one set of 10 (specs/12 H2).
-    convenience init(single loaded: LoadedRulePack, recorder: SessionRecorder? = nil) {
+    convenience init(single loaded: LoadedRulePack, recorder: SessionRecorder? = nil,
+                     source: FrameSource = CameraFrameSource(), clock: SoloClock = LiveClock.shared) {
         let id = loaded.pack.id
         let block: Block = ExerciseCatalog.eskivIds.contains(id)
             ? .technique(exerciseId: id, sets: 1, reps: 10, restSec: 0, mode: .lenient)
             : .conditioning(exerciseId: id, sets: 1, reps: 10, durationSec: nil, restSec: 0, mode: .lenient)
         self.init(workout: Workout(id: "single_\(id)", name: loaded.pack.name, estimatedMinutes: 3, blocks: [block]),
-                  packs: [id: loaded], recorder: recorder)
+                  packs: [id: loaded], recorder: recorder, source: source, clock: clock)
     }
 
     // MARK: - What the screen shows
@@ -82,7 +90,7 @@ import UIKit
     var state: SessionState { session.state }
     var snapshot: SessionSnapshot { session.s }
     var name: String { Lang.text(workout.name) }
-    var isFrontCamera: Bool { camera.position == .front }
+    var isFrontCamera: Bool { source.isFrontCamera }
     var spaceConfirmed: Bool { session.s.spaceConfirmed }
     var block: Block? { session.block }
     var currentPack: LoadedRulePack? { block?.exerciseId.flatMap { packs[$0] } }
@@ -150,21 +158,24 @@ import UIKit
     /// S2: a deliberate tap, before the camera (specs/12, rule 7).
     func confirmSpace() async {
         if workout.usesCamera {
-            guard await CameraSession.requestAccess() else {
-                screen = .cameraDenied
-                return
+            if source.needsCameraAccess {
+                guard await CameraSession.requestAccess() else {
+                    screen = .cameraDenied
+                    return
+                }
             }
-            let pipeline = FramePipeline { [weak self] candidates, t in
-                Task { @MainActor in self?.receive(candidates, t) }
-            }
-            self.pipeline = pipeline
             do {
-                try camera.configure { frame in pipeline.process(frame) }
+                try source.start { [weak self] candidates, t in
+                    if Thread.isMainThread {
+                        MainActor.assumeIsolated { self?.receive(candidates, t) }
+                    } else {
+                        Task { @MainActor in self?.receive(candidates, t) }
+                    }
+                }
             } catch {
                 screen = .cameraFailed
                 return
             }
-            camera.start()
             observeInterruptions()
         }
         speech.activate()
@@ -180,7 +191,7 @@ import UIKit
 
     func close() {
         ticker?.cancel()
-        camera.stop()
+        source.stop()
         speech.deactivate()
         for o in observers { NotificationCenter.default.removeObserver(o) }
         observers = []
@@ -201,24 +212,29 @@ import UIKit
             while !Task.isCancelled {
                 try? await Task.sleep(for: .milliseconds(100))
                 guard let self else { return }
-                self.now = HostClock.nowMs
-                self.send(.tick(now: self.now))
-                if self.now > self.bandUntil, self.bandUntil > 0 { self.band = nil }
+                self.tick()
             }
         }
     }
 
+    /// One clock step: the session machine's TICK (also driven by tests on a manual clock).
+    func tick() {
+        now = clock.nowMs
+        send(.tick(now: now))
+        if now > bandUntil, bandUntil > 0 { band = nil }
+    }
+
     /// Time spent in sets (specs/11 `activeMs`).
-    private var currentActiveMs: Double { activeMs + (activeSince.map { HostClock.nowMs - $0 } ?? 0) }
+    private var currentActiveMs: Double { activeMs + (activeSince.map { clock.nowMs - $0 } ?? 0) }
 
     private func afterTransition(from before: SessionSnapshot) {
         let s = session.s
         let inSet = { (st: SessionState) in st == .active || st == .confirm }
         if inSet(s.state), !inSet(before.state) {
-            activeSince = HostClock.nowMs
+            activeSince = clock.nowMs
             if let setId = s.setId { recorder?.setStarted(setId, at: Date()) }
         } else if !inSet(s.state), inSet(before.state), let since = activeSince {
-            activeMs += HostClock.nowMs - since
+            activeMs += clock.nowMs - since
             activeSince = nil
         }
         // a new set starts with a fresh rep counter in the template engine
@@ -238,7 +254,7 @@ import UIKit
         if s.state.isTerminal, screen == .live {
             screen = .finished
             ticker?.cancel()
-            camera.stop()
+            source.stop()
             UIApplication.shared.isIdleTimerDisabled = false
         }
     }
@@ -276,7 +292,7 @@ import UIKit
     private func showBand(_ text: String, warning: Bool, sticky: Bool = false) {
         band = text
         bandIsWarning = warning
-        bandUntil = sticky ? .infinity : HostClock.nowMs + 2500
+        bandUntil = sticky ? .infinity : clock.nowMs + 2500
     }
 
     // MARK: - Frames
@@ -284,7 +300,7 @@ import UIKit
     private func receive(_ candidates: [Frame], _ t: Double) {
         meter.record(t)
         fps = meter.fps
-        dropped = camera.dropped
+        dropped = source.dropped
         candidateCount = candidates.count
         let selection = selectPerson(candidates, track: track)
         track = selection.track
@@ -312,7 +328,7 @@ import UIKit
             guide = nil
             targetLine = nil
         }
-        latencyMs = HostClock.nowMs - t
+        latencyMs = clock.nowMs - t
     }
 
     private var context: SetupContext { SetupContext(verticalFOVDegrees: verticalFOV()) }
@@ -397,9 +413,11 @@ import UIKit
 
     private func observeInterruptions() {
         let nc = NotificationCenter.default
-        observers.append(nc.addObserver(forName: AVCaptureSession.wasInterruptedNotification, object: camera.session, queue: .main) {
-            [weak self] _ in MainActor.assumeIsolated { self?.send(.interrupted(.camera)) }
-        })
+        if let session = source.captureSession {
+            observers.append(nc.addObserver(forName: AVCaptureSession.wasInterruptedNotification, object: session, queue: .main) {
+                [weak self] _ in MainActor.assumeIsolated { self?.send(.interrupted(.camera)) }
+            })
+        }
         observers.append(nc.addObserver(forName: AVAudioSession.interruptionNotification, object: nil, queue: .main) { [weak self] n in
             let began = (n.userInfo?[AVAudioSessionInterruptionTypeKey] as? UInt) == AVAudioSession.InterruptionType.began.rawValue
             MainActor.assumeIsolated { self?.send(began ? .audioInterrupted : .audioResumed) }
@@ -413,7 +431,7 @@ import UIKit
 
     /// The upright vertical field of view: the format's FOV is along the long side.
     private func verticalFOV() -> Double? {
-        guard let h = camera.horizontalFOVDegrees else { return nil }
+        guard let h = source.horizontalFOVDegrees else { return nil }
         if aspect < 1 { return h }
         let half = tan(h * .pi / 360) / aspect
         return 2 * atan(half) * 180 / .pi

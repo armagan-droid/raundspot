@@ -1,6 +1,8 @@
+import SoloCapture
 import SoloEngine
 import SwiftData
 import SwiftUI
+import UniformTypeIdentifiers
 
 /// H1/H2 (specs/12), trial form: ready-made workouts, then single templates.
 /// The tab bar (Antrenman · İlerleme · Ayarlar) arrives with the screen tasks.
@@ -9,6 +11,9 @@ struct RootView: SwiftUI.View {
     @State private var running: Running?
     @Environment(\.modelContext) private var context
     @Query private var profiles: [Profile]
+    /// Debug: the fake camera's landmark sequence (specs/02 "Derleme yapılandırmaları").
+    @State private var fakeSequence: LandmarkSequence?
+    @State private var pickingSequence = false
 
     struct Running: Identifiable {
         let id = UUID()
@@ -22,7 +27,7 @@ struct RootView: SwiftUI.View {
                 Section("list.workouts") {
                     ForEach(ExerciseCatalog.workouts(packs), id: \.id) { w in
                         Button {
-                            running = Running(model: TrainingModel(workout: w, packs: byId, recorder: recorder(for: w)))
+                            running = Running(model: TrainingModel(workout: w, packs: byId, recorder: recorder(for: w), source: frameSource()))
                         } label: {
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(Lang.text(w.name)).font(.headline)
@@ -36,11 +41,27 @@ struct RootView: SwiftUI.View {
                 Section("list.single") {
                     ForEach(packs, id: \.pack.id) { loaded in
                         Button {
-                            running = Running(model: TrainingModel(single: loaded, recorder: recorder(for: nil)))
+                            running = Running(model: TrainingModel(single: loaded, recorder: recorder(for: nil), source: frameSource()))
                         } label: { row(loaded) }
                             .foregroundStyle(.primary)
                     }
                 }
+                #if DEBUG
+                Section("debug.section") {
+                    Button(fakeSequence == nil ? "debug.fake_camera.pick" : "debug.fake_camera.off") {
+                        if fakeSequence == nil { pickingSequence = true } else { fakeSequence = nil }
+                    }
+                    if let seq = fakeSequence {
+                        Text("debug.fake_camera.on \(seq.exerciseId) \(seq.frames.count)").font(.caption)
+                    }
+                }
+                #endif
+            }
+            .fileImporter(isPresented: $pickingSequence, allowedContentTypes: [.json]) { result in
+                guard case .success(let url) = result else { return }
+                let scoped = url.startAccessingSecurityScopedResource()
+                defer { if scoped { url.stopAccessingSecurityScopedResource() } }
+                fakeSequence = (try? Data(contentsOf: url)).flatMap { try? LandmarkSequence.parse(data: $0).get() }
             }
             .overlay {
                 if packs.isEmpty { Text("list.empty") }
@@ -69,6 +90,12 @@ struct RootView: SwiftUI.View {
             }
         }
         .frame(minHeight: 44)
+    }
+
+    /// The camera, or in Debug the chosen sequence file replayed on the host clock.
+    private func frameSource() -> FrameSource {
+        if let seq = fakeSequence { return SequenceFrameSource(sequence: seq, clock: LiveClock.shared, autoPump: true) }
+        return CameraFrameSource()
     }
 
     /// Writes the workout's records to the store (specs/11).

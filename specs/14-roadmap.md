@@ -24,7 +24,11 @@ Bu proje salon reposundan bağımsızdır; salon reposuna hiçbir görevde yazı
 - [x] T2.9 `solo-calibrate report` ve `--sweep` (ref 09 ölçüt tanımları) — 03, 09
 
 ## Faz 3 — Kamera, poz, teknik modu
-- [ ] T3.1 `SoloCapture`: kamera oturumu, kare kuyruğu, host saati; sahte kamera (dosyadan kare akışı) — 02 (AC-2.2)
+- [x] T3.1 `SoloCapture`: kamera oturumu, kare kuyruğu, host saati; sahte kamera (dosyadan kare akışı) — 02 (AC-2.2) *Durum (2026-11-24):*
+  - *Saat: `SoloClock` (`LiveClock`, `ManualClock`).*
+  - *Kare kaynağı: uygulamada `FrameSource` (`CameraFrameSource`, `SequenceFrameSource`). Debug derlemesinde ana listeden bir landmark dizisi dosyası seçilir; antrenmanlar kamera yerine o diziyle, döngüde çalışır.*
+  - *Test: `FakeCameraTests`, sahte saatle uçtan uca. Kareler, seans makinesi ve kayıtlar aynı saatte.*
+  - *Açık kalanlar: AC-2.2'nin ses kısmı T3.3'teki planlı sesle; gerçek kamerada `synchronizationClock` eşlemesinin doğrulanması T0.2 cihaz ölçümüyle.*
 - [ ] T3.2 `SoloPose`: Vision 2B (+3B, karara göre) → `Frame` dönüşümü, ön kamera aynalama kuralı — 03 (AC-3.6)
 - [ ] T3.3 Ses çıkışı: `AVAudioEngine` planlı çalma, çıkış gecikmesi, TTS yedeği, ses oturumu kuralları; ses dosyaları ve `cueOnsetMs` meta verisi — 02, 05
 - [x] T3.4 Seans motoru (06 Bölüm 1) + hazır antrenman JSON'ları + SwiftData modeli ve göç altyapısı (11 Bölüm 1; seans kayıtları buradan itibaren yazılır) — 06 (AC-6.1–AC-6.5), 11 (AC-11.1, AC-11.2)
