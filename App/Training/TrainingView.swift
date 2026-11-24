@@ -352,6 +352,7 @@ struct TrainingView: SwiftUI.View {
             Text(String(format: "FPS %.1f · drop %d · lat %.0f ms", model.fps, model.dropped, model.latencyMs))
             Text("state \(model.state.rawValue) · block \(model.snapshot.blockIndex) · set \(model.snapshot.setIndex)")
             Text("view \(model.setupView.rawValue) · aspect \(String(format: "%.2f", model.aspect)) · people \(model.candidateCount)")
+            Text("thermal \(model.thermal.rawValue) · degraded \(model.degradations.joined(separator: ","))")
             Text("hints \(model.hints.map { $0.rawValue.replacingOccurrences(of: "setup.hint.", with: "") }.joined(separator: ", "))")
             ForEach(model.metricRows, id: \.0) { row in
                 Text(String(format: "%@ %.3f", row.0, row.1))

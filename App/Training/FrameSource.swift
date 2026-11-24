@@ -16,6 +16,8 @@ protocol FrameSource: AnyObject {
     var captureSession: AVCaptureSession? { get }
     func start(deliver: @escaping @Sendable (_ candidates: [Frame], _ t: Double) -> Void) throws
     func stop()
+    /// Degraded operation (specs/02 "Kademeli çalışma"): at most this many frames per second.
+    func limitFrameRate(_ fps: Double)
 }
 
 /// The camera and Vision 2D (T3.1, T3.2).
@@ -39,6 +41,8 @@ final class CameraFrameSource: FrameSource {
     }
 
     func stop() { camera.stop() }
+
+    func limitFrameRate(_ fps: Double) { camera.setFrameRate(Int32(fps)) }
 }
 
 /// A landmark sequence replayed on a clock, looping (specs/02 "Derleme
@@ -56,6 +60,12 @@ final class SequenceFrameSource: FrameSource {
     private var timer: Timer?
     /// Pump on a timer; tests pump by hand.
     private let autoPump: Bool
+    /// Degraded rate: frames closer than this to the last delivered one are dropped.
+    private var minGapMs: Double = 0
+    private var lastDelivered = -Double.infinity
+    private(set) var delivered = 0
+
+    func limitFrameRate(_ fps: Double) { minGapMs = 1000 / fps - 1e-6 }
 
     init(sequence: LandmarkSequence, clock: SoloClock, loop: Bool = true, autoPump: Bool = false) {
         self.sequence = sequence
@@ -106,6 +116,9 @@ final class SequenceFrameSource: FrameSource {
             guard t <= now else { return }
             f.t = t
             next += 1
+            if t - lastDelivered < minGapMs { continue }
+            lastDelivered = t
+            delivered += 1
             deliver([f], t)
         }
     }

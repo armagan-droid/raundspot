@@ -253,6 +253,10 @@ enum SoloStore {
 // MARK: - Writes (the only mutations of engine records)
 
 extension SoloSchemaV1.Session {
+    fileprivate func addDegradation(_ d: String) {
+        if !degradations.contains(d) { degradations.append(d) }
+    }
+
     fileprivate func finish(status: String, warmupSkipped: Bool, endedAt: Date?, activeMs: Int) {
         self.status = status
         self.warmupSkipped = warmupSkipped
@@ -289,6 +293,12 @@ struct RecordContext {
     init(context: ModelContext, info: RecordContext) {
         self.context = context
         self.info = info
+    }
+
+    /// Degraded operation during the session (specs/02, specs/11 `degradations`: no3d, fps24).
+    func noteDegradation(_ d: String) {
+        session?.addDegradation(d)
+        try? context.save()
     }
 
     /// The set in progress started at `at` (the first record of a set is its end).

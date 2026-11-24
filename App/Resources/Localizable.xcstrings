@@ -3304,6 +3304,24 @@
         }
       }
     },
+    "thermal.critical": {
+      "comment": "specs/12 E4",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The phone got very hot: take a short break."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telefon çok ısındı, kısa bir mola."
+          }
+        }
+      }
+    },
     "tracking.lost": {
       "extractionState": "manual",
       "localizations": {
