@@ -71,13 +71,17 @@ public struct Workout: Sendable, Equatable {
     public var sport: String
     public var estimatedMinutes: Int
     public var blocks: [Block]
+    /// Rest in seconds after a block's last set, by block index: the rest between circuit rounds (specs/06 "Devre").
+    public var restAfterBlock: [Int: Int]
 
-    public init(id: String, name: LocalizedText, sport: String = "muay_thai", estimatedMinutes: Int, blocks: [Block]) {
+    public init(id: String, name: LocalizedText, sport: String = "muay_thai", estimatedMinutes: Int, blocks: [Block],
+                restAfterBlock: [Int: Int] = [:]) {
         self.id = id
         self.name = name
         self.sport = sport
         self.estimatedMinutes = estimatedMinutes
         self.blocks = blocks
+        self.restAfterBlock = restAfterBlock
     }
 
     public var usesCamera: Bool { blocks.contains(where: \.usesCamera) }
@@ -120,6 +124,19 @@ public struct Workout: Sendable, Equatable {
             return out
         }
 
+        /// In a circuit a move is one set and the circuit owns the rest.
+        func conditioning(_ e: JSONValue, _ p: String, inCircuit: Bool) throws(ParseError) -> Block {
+            let keys: Set<String> = inCircuit ? ["type", "exerciseId", "reps", "durationSec", "mode"]
+                : ["type", "exerciseId", "sets", "reps", "durationSec", "restSec", "mode"]
+            let b = try object(e, p, keys)
+            let reps = b["reps"] == nil ? nil : try int(b["reps"], p + ".reps", min: 1)
+            let dur = b["durationSec"] == nil ? nil : try int(b["durationSec"], p + ".durationSec", min: 1)
+            guard (reps == nil) != (dur == nil) else { throw fail(p, "needs exactly one of reps and durationSec") }
+            return .conditioning(exerciseId: try string(b["exerciseId"], p + ".exerciseId"),
+                                 sets: inCircuit ? 1 : try int(b["sets"], p + ".sets", min: 1), reps: reps, durationSec: dur,
+                                 restSec: inCircuit ? 0 : try int(b["restSec"], p + ".restSec", min: 0), mode: try mode(b["mode"], p + ".mode"))
+        }
+
         let o = try object(json, "", ["formatVersion", "id", "name", "sport", "estimatedMinutes", "blocks"])
         guard o["formatVersion"]?.numberValue == 1 else { throw fail("formatVersion", "must be 1") }
         let id = try string(o["id"], "id")
@@ -130,6 +147,7 @@ public struct Workout: Sendable, Equatable {
         let minutes = try int(o["estimatedMinutes"], "estimatedMinutes", min: 1)
         guard let list = o["blocks"]?.arrayValue, !list.isEmpty else { throw fail("blocks", "needs at least one block") }
         var blocks: [Block] = []
+        var restAfter: [Int: Int] = [:]
         for (i, e) in list.enumerated() {
             let p = "blocks[\(i)]"
             guard let type = e["type"]?.stringValue else { throw fail(p + ".type", "missing") }
@@ -144,13 +162,26 @@ public struct Workout: Sendable, Equatable {
                                          reps: try int(b["reps"], p + ".reps", min: 1), restSec: try int(b["restSec"], p + ".restSec", min: 0),
                                          mode: try mode(b["mode"], p + ".mode")))
             case "conditioning":
-                let b = try object(e, p, ["type", "exerciseId", "sets", "reps", "durationSec", "restSec", "mode"])
-                let reps = b["reps"] == nil ? nil : try int(b["reps"], p + ".reps", min: 1)
-                let dur = b["durationSec"] == nil ? nil : try int(b["durationSec"], p + ".durationSec", min: 1)
-                guard (reps == nil) != (dur == nil) else { throw fail(p, "needs exactly one of reps and durationSec") }
-                blocks.append(.conditioning(exerciseId: try string(b["exerciseId"], p + ".exerciseId"), sets: try int(b["sets"], p + ".sets", min: 1),
-                                            reps: reps, durationSec: dur, restSec: try int(b["restSec"], p + ".restSec", min: 0),
-                                            mode: try mode(b["mode"], p + ".mode")))
+                blocks.append(try conditioning(e, p, inCircuit: false))
+            case "circuit":
+                // specs/06 "Devre": opened into one-set blocks; the rest comes after the last move of every round but the last
+                let b = try object(e, p, ["type", "rounds", "restSec", "blocks"])
+                let rounds = try int(b["rounds"], p + ".rounds", min: 1)
+                let rest = try int(b["restSec"], p + ".restSec", min: 0)
+                guard let items = b["blocks"]?.arrayValue, !items.isEmpty else { throw fail(p + ".blocks", "needs at least one block") }
+                var moves: [Block] = []
+                for (j, item) in items.enumerated() {
+                    let q = "\(p).blocks[\(j)]"
+                    guard item["type"]?.stringValue == "conditioning" else { throw fail(q + ".type", "must be conditioning") }
+                    moves.append(try conditioning(item, q, inCircuit: true))
+                }
+                for r in 0..<rounds {
+                    for (j, m) in moves.enumerated() {
+                        guard case .conditioning(let id, _, let reps, let dur, _, let md) = m else { continue }
+                        if j == moves.count - 1, r < rounds - 1, rest > 0 { restAfter[blocks.count] = rest }
+                        blocks.append(.conditioning(exerciseId: id, sets: 1, reps: reps, durationSec: dur, restSec: 0, mode: md))
+                    }
+                }
             case "reflex":
                 let b = try object(e, p, ["type", "catalogId", "level", "cues", "sets", "restSec"])
                 let level: ReflexLevel
@@ -167,6 +198,6 @@ public struct Workout: Sendable, Equatable {
                 throw fail(p + ".type", "unknown block type '\(type)'")
             }
         }
-        return Workout(id: id, name: name, sport: sport, estimatedMinutes: minutes, blocks: blocks)
+        return Workout(id: id, name: name, sport: sport, estimatedMinutes: minutes, blocks: blocks, restAfterBlock: restAfter)
     }
 }
