@@ -115,6 +115,11 @@ Dil, tema, gard yönü, seviye/hedef, kilo/boy, kamera (ön/arka), form uyarıs�
 |---|---|---|
 | S1, T2, R2, X4 | Kamera tam ekran (`contain`, kırpma yok, ref 08); panel sağda yarı saydam | Kamera tam ekran; ipucu üstte, panel altta |
 | Diğer | Dikey öncelikli; yatayda tek sütun ortalanmış | Tek sütun |
+- **Sayaç ve saldırı adının boyutu (T3.5, 2026-11-25):** ikisi de sistem yazı tipinin sıkışık (`compressed`) genişliğiyle, kalın yazılır. Oranın paydası ekranın tam yüksekliğidir (güvenli alan dahil). Ölçü satır yüksekliğidir: sayaçta ≥ %25, saldırı adında ≥ %20 (AC-12.2).
+  - Sayaçta "x/hedef" bu boyutta genişliğe sığarsa tek satır olur. Sığmazsa (dikey ekranda) x bu boyutta yazılır, "/hedef" altında daha küçük durur.
+  - Saldırı adı tek satıra sığmazsa sözcük sınırından en çok iki satıra bölünür.
+  - Kullanılabilir genişlik, ekran genişliğinden iki yandaki güvenli alan (yatayda 62 pt) ve 24 pt kenar boşlukları düşülerek bulunur.
+  - Testler 375×667 (en küçük, iPhone SE) ve 440×956 (en büyük) ekranlarda, iki yönde ölçer: hedef 30'a kadar her sayaç değeri ve TR/EN her saldırı metni (AC-12.1, AC-12.2). Ekranlar `SNAPSHOT_DIR` verilirse PNG olarak da yazılır; bu görüntüler insan gözüyle bakmak içindir.
 - Kurulumda dikey tutulan telefona "Önden eskiv için telefonu yan çevir" önerilir (zorunlu değil).
 
 ## Kabul kriterleri
