@@ -238,7 +238,7 @@ struct TrainingView: SwiftUI.View {
                 if let rt = t.record.reactionMs { Text("reflex.rt \(Int(rt.rounded()))").font(.title.bold()).monospacedDigit() }
             }
             .accessibilityElement(children: .combine)
-            .accessibilityLabel(Text(LocalizedStringKey("reflex.result.\(t.record.result.rawValue)")))
+            .accessibilityLabel(Text(LocalizedStringKey(String("reflex.result.\(t.record.result.rawValue)"))))
             .allowsHitTesting(false)
         }
     }
@@ -397,13 +397,7 @@ struct TrainingView: SwiftUI.View {
             Text("\(valid)").font(.system(size: 96, weight: .bold, design: .rounded))
             Text("training.summary \(valid) \(faulty)").font(.headline)
             Text("training.finished.sets \(sets.count)").font(.callout)
-            // specs/08 "Gösterim": always an estimate, with its method
-            if let kcal = model.sessionKcal {
-                Text("energy.estimate \(Energy.display(kcal))").font(.title3.bold())
-                Text("energy.method.met").font(.caption).foregroundStyle(.secondary)
-            } else {
-                Text("energy.no_weight").font(.caption).foregroundStyle(.secondary)
-            }
+            EnergyEstimate(kcal: model.sessionKcal)
             Button("training.close") { dismiss() }.buttonStyle(.borderedProminent).frame(minHeight: 44)
         }
         .padding()
@@ -416,5 +410,19 @@ struct TrainingView: SwiftUI.View {
             Button("training.close") { dismiss() }
         }
         .padding(32)
+    }
+}
+
+/// Y1's calorie line (specs/08 "Gösterim"): always called an estimate, with its method (AC-8.7). The only place kcal is shown.
+struct EnergyEstimate: SwiftUI.View {
+    let kcal: Double?
+
+    var body: some SwiftUI.View {
+        if let kcal {
+            Text("energy.estimate \(Energy.display(kcal))").font(.title3.bold())
+            Text("energy.method.met").font(.caption).foregroundStyle(.secondary)
+        } else {
+            Text("energy.no_weight").font(.caption).foregroundStyle(.secondary)
+        }
     }
 }

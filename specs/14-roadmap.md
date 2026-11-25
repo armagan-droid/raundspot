@@ -86,7 +86,7 @@ Bu proje salon reposundan bağımsızdır; salon reposuna hiçbir görevde yazı
   - *Kalan:*
     - *dinlenme MET'i (1,5) için 2024 karşılığı bulunamadı;*
     - *Keytel katsayıları makalenin tam metniyle doğrulanmalı. `keytel.json` `verified: false` olduğu sürece nabız yöntemi kapalı, MET kullanılır;*
-    - *AC-8.7 "tahmin" ibaresi Y1 ve T6.2 ile gelir.*
+    - *~~AC-8.7~~ (2026-11-25): kalori yalnız Y1'de, `EnergyEstimate` ile gösterilir; `ScreenTextTests` TR ve EN'de "tahmin"/"estimate" ibaresini ekrandan okur.*
 - [ ] T6.2 `SoloHealth`: izinler, `HKWorkoutSession`/`HKLiveWorkoutBuilder`, blok etkinlikleri, enerji örnekleri, iptal/silme — 08 (AC-8.2, AC-8.4–AC-8.6)
 - Durum (2026-11-25, T6.2 kısmı):
   - *Yapıldı: `SoloHealth` `HealthWorkout` (blok başına etkinlik ve net enerji örneği, ana tür en uzun blok, 3 dk'dan kısa iptal atılır, kilo yoksa enerji örneği yok; AC-8.2 ve AC-8.5 sahte depoyla testli). `LiveHealthStore` (`HKWorkoutSession` ve canlı builder, builder'ın enerji toplaması kapalı, kapalı alan) derleniyor.*
@@ -103,9 +103,9 @@ Bu proje salon reposundan bağımsızdır; salon reposuna hiçbir görevde yazı
   - *Yapıldı: ilk açılış O1–O7 ve O9 (`App/Home/OnboardingView`; sağlık yanıtları saklanmaz), alt sekme çubuğu (Antrenman · İlerleme · Ayarlar), Ayarlar (A).*
   - *Profil ayarları antrenmana uygulanır: kamera, form uyarısı sesi, sonuç tonları, yavaş tempo (`minDurationMs` × 2 ve "Daha yavaş"; 05 öntanımlısı `slow`).*
   - *Dışa aktarma `exportVersion: 1` ve silme `DataPortability`'de. Testler AC-10.3, AC-10.4 ve AC-10.7'yi kapsar.*
+  - *AC-10.6 (2026-11-25): `ScreenTextTests` ekranı bir pencerede çizer ve görüntüsünü Vision'ın cihaz içi metin tanımasıyla okur (TR ve EN; ağ yok). Tıbbi uyarı O2, S2 ve Ayarlar'da görünür. Aynı test, ekranda ham anahtar görünmemesini de denetler. Bu denetim dört hata buldu (`LocalizedStringKey` içinde ara değer yanlış anahtarı arıyordu): O2 sağlık soruları ham anahtar olarak görünüyordu; Ayarlar'daki gizlilik, koşullar ve tıbbi uyarı metinleri de etkileniyordu; R2 sonucunun VoiceOver etiketi de öyle. Hepsi düzeltildi.*
   - *Henüz yok:*
     - *O5'te "Sağlık'tan al" ve O6'da "İzin ver" (T6.2);*
-    - *AC-10.6 anlık görüntü testi (uygulamada anlık görüntü altyapısı yok);*
     - *gizlilik politikası ile kullanım koşullarının hukuki metni (10 açık soru 1; uygulamadakiler taslak);*
     - *tema seçimi (sistem teması izlenir).*
 - [x] T7.2 İlerleme G1–G3 — 12 *Durum (2026-11-24): `App/Home/ProgressHome` (G1 Swift Charts: 8 haftalık antrenman sayısı, seviyeye göre medyan RT, isabet; G2 geçmiş, detay ve silme; G3 son 30 günde eskiv bazında temiz tekrar oranı ve en sık hatalar). Hesaplar `ProgressStats`'ta, testli. Silmede Sağlık sorusu T6.2 ile gelir.*

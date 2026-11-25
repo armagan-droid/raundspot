@@ -20,6 +20,9 @@ struct OnboardingView: SwiftUI.View {
     @State private var weightText = ""
     @State private var cameraAsked = false
 
+    /// - Parameter step: the page to open on (tests); the first launch starts at O1.
+    init(step: Step = .welcome) { _step = State(initialValue: step) }
+
     var body: some SwiftUI.View {
         NavigationStack {
             ScrollView {
@@ -47,13 +50,13 @@ struct OnboardingView: SwiftUI.View {
             Text("onboarding.health.title").font(.headline)
             ForEach(0..<3, id: \.self) { i in
                 VStack(alignment: .leading) {
-                    Text(LocalizedStringKey("onboarding.health.q\(i + 1)"))
+                    Text(LocalizedStringKey(String("onboarding.health.q\(i + 1)")))
                     Picker("", selection: $answers[i]) {
                         Text("onboarding.no").tag(Bool?.some(false))
                         Text("onboarding.yes").tag(Bool?.some(true))
                     }
                     .pickerStyle(.segmented)
-                    .accessibilityLabel(Text(LocalizedStringKey("onboarding.health.q\(i + 1)")))
+                    .accessibilityLabel(Text(LocalizedStringKey(String("onboarding.health.q\(i + 1)"))))
                 }
             }
             if answers.contains(true) { Text("onboarding.health.advice").font(.callout.bold()).foregroundStyle(.orange) }
