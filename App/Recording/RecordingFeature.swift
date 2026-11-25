@@ -7,6 +7,7 @@ import CoreVideo
 import SoloEngine
 import SoloPose
 import SoloRecording
+import SwiftData
 import SwiftUI
 
 #if RECORDING_MODE_RELEASE_FORBIDDEN
@@ -52,6 +53,10 @@ struct RecordingHome: SwiftUI.View {
     @State private var running: TrainingModel?
     @State private var participant = ""
     @State private var template = "slip_left"
+    /// 0: a technique set of `template`; 1…: a reflex set at that level (specs/09 "Refleks kaydı").
+    @State private var reflexLevel = 0
+    private let reflexCatalog = ExerciseCatalog.reflexCatalog()
+    @Query private var profiles: [Profile]
     @State private var withdrawn: [String]?
 
     var body: some SwiftUI.View {
@@ -118,8 +123,14 @@ struct RecordingHome: SwiftUI.View {
                 Text("rec.participant.none").tag("")
                 ForEach(allowed, id: \.self) { Text($0).tag($0) }
             }
-            Picker("rec.template", selection: $template) {
-                ForEach(ExerciseCatalog.load().map(\.pack.id), id: \.self) { Text($0).tag($0) }
+            Picker("rec.kind", selection: $reflexLevel) {
+                Text("rec.kind.technique").tag(0)
+                ForEach(reflexCatalog?.levels.map(\.level) ?? [], id: \.self) { Text("rec.kind.reflex \($0)").tag($0) }
+            }
+            if reflexLevel == 0 {
+                Picker("rec.template", selection: $template) {
+                    ForEach(ExerciseCatalog.load().map(\.pack.id), id: \.self) { Text($0).tag($0) }
+                }
             }
             Button("rec.start.button") { start(lib) }.disabled(!allowed.contains(participant))
         }
@@ -146,18 +157,33 @@ struct RecordingHome: SwiftUI.View {
     }
 
     private func start(_ lib: RecordingLibrary) {
-        guard let pack = ExerciseCatalog.pack(template), let consent = lib.activeConsent(participant) else { return }
+        guard let consent = lib.activeConsent(participant) else { return }
+        let reflex = reflexLevel > 0 ? reflexCatalog : nil
+        // a technique set records its template; a reflex set every response template of the catalog
+        let ids = reflex?.responses ?? [template]
+        guard reflex != nil || ExerciseCatalog.pack(template) != nil else { return }
+        let stance = profiles.first?.stance ?? "orthodox"
         let free = (try? URL(fileURLWithPath: NSHomeDirectory()).resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey]))?
             .volumeAvailableCapacityForImportantUsage ?? 0
         let meta = RecordingMeta(participant: participant, consentId: consent.id, createdAt: Date(), device: UIDevice.current.model,
                                  osVersion: UIDevice.current.systemVersion,
                                  appVersion: Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "",
-                                 mode: "technique", stance: "orthodox", camera: "front", pose3D: false,
-                                 templates: [pack.pack.id: Self.templateText(pack.pack.id)])
+                                 mode: reflex == nil ? "technique" : "reflex", stance: reflex == nil ? "orthodox" : stance, camera: "front",
+                                 pose3D: false, templates: Dictionary(uniqueKeysWithValues: ids.map { ($0, Self.templateText($0)) }),
+                                 reflexCatalog: reflex?.id, reflexLevel: reflex == nil ? nil : reflexLevel)
         guard let writer = try? lib.newPackage(meta, freeBytes: free) else { return }
         let source = CameraFrameSource()
         source.record = { pb, pts, poses in writer.frame(pb, pts: pts, pose: RecordingFeature.poseLine(poses)) }
-        let model = TrainingModel(single: pack, source: source)
+        let model: TrainingModel
+        if let reflex {
+            let w = Workout(id: "rec_reflex", name: ExerciseCatalog.workouts(ExerciseCatalog.load()).first { $0.id == "refleks" }?.name
+                                ?? LocalizedText(tr: reflex.id, en: reflex.id),
+                            estimatedMinutes: 3, blocks: [.reflex(catalogId: reflex.id, level: .fixed(reflexLevel), cues: nil, restSec: 0, sets: 1)])
+            model = TrainingModel(workout: w, packs: [:], source: source, reflexCatalog: reflex, stance: Stance(rawValue: stance) ?? .orthodox,
+                                  reflexLevel: reflexLevel)
+        } else if let pack = ExerciseCatalog.pack(template) {
+            model = TrainingModel(single: pack, source: source)
+        } else { return }
         model.recording = RecordingSinkAdapter(writer)
         running = model
     }

@@ -198,4 +198,32 @@ private func isValid(_ json: JSONValue) -> Bool {
         var synthetic = j; synthetic["source"] = "synthetic"
         for bad in [named, extra, synthetic] { #expect(throws: SequenceIssues.self) { try LandmarkSequence.parse(bad).get() } }
     }
+
+    /// specs/03 `reflex` (T5.2): a reflex recording's cue and trial lines, strict, team only; `expected` is the coach's label.
+    @Test func reflexLines() throws {
+        let frame: JSONValue = ["t": 0, "image": .array((0..<33).map { _ in ["x": 0.5, "y": 0.5, "z": 0, "visibility": 1] }), "world": .null]
+        var j: JSONValue = ["formatVersion": 2, "skeleton": "mediapipe33", "imageAspect": 1, "exerciseId": "muay_thai", "source": "team",
+                            "view": "front", "fps": 30, "frames": [frame]]
+        j["reflex"] = ["catalogId": "muay_thai", "level": 2, "stance": "orthodox",
+                       "cues": [["t": 1200, "key": "strike.jab", "plannedAt": 1195]],
+                       "trials": [["t": 2100, "strike": "jab", "feint": false, "cueAt": 1200, "result": "correct", "response": "slip_left",
+                                   "reactionMs": 310, "approximate": false, "expected": "slip_left"],
+                                  ["t": 3900, "strike": "jab", "feint": true, "cueAt": 3000, "result": "feint_ok", "response": .null,
+                                   "reactionMs": .null, "approximate": false, "expected": .null],
+                                  ["t": 5900, "strike": "hook", "feint": false, "cueAt": 5000, "result": "missed", "response": .null,
+                                   "reactionMs": .null, "approximate": false]]]
+        let seq = try LandmarkSequence.parse(j).get()
+        let r = try #require(seq.reflex)
+        #expect(r.level == 2 && r.cues == [.init(t: 1200, key: "strike.jab", plannedAt: 1195)])
+        #expect(r.trials.map(\.expected) == [.some("slip_left"), .some(nil), nil])
+        #expect(r.trials[1].response == nil && r.trials[0].reactionMs == 310 && r.trials[1].result == .feintOk)
+        // written and read back
+        #expect(try LandmarkSequence.parse(JSONValue.parse(seq.json.serialized())).get().reflex == r)
+        var extra = j; extra["reflex"]!["note"] = "hoca"
+        var badResult = j; badResult["reflex"]!["trials"] = [["t": 1, "strike": "jab", "feint": false, "cueAt": 0, "result": "great",
+                                                              "response": .null, "reactionMs": .null, "approximate": false]]
+        var synthetic = j; synthetic["source"] = "synthetic"
+        var v1 = j; v1["formatVersion"] = 1; v1["skeleton"] = nil; v1["imageAspect"] = nil
+        for bad in [extra, badResult, synthetic, v1] { #expect(throws: SequenceIssues.self) { try LandmarkSequence.parse(bad).get() } }
+    }
 }

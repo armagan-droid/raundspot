@@ -1892,6 +1892,60 @@
         }
       }
     },
+    "rec.kind": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording type"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıt türü"
+          }
+        }
+      }
+    },
+    "rec.kind.reflex %lld": {
+      "comment": "Recording mode, Beta only (specs/09): a reflex set at this level.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reflex · level %lld"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Refleks · seviye %lld"
+          }
+        }
+      }
+    },
+    "rec.kind.technique": {
+      "comment": "Recording mode, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Technique (one template)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Teknik (bir şablon)"
+          }
+        }
+      }
+    },
     "rec.note.add": {
       "comment": "Recording mode playback, Beta only (specs/09).",
       "extractionState": "manual",
@@ -1924,6 +1978,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "Yazan"
+          }
+        }
+      }
+    },
+    "rec.note.cancel": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vazgeç"
           }
         }
       }
@@ -1982,6 +2054,24 @@
         }
       }
     },
+    "rec.note.no_response": {
+      "comment": "Recording mode playback, Beta only (specs/09): no response was right (a feint).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No response (feint)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tepki yok (çalım)"
+          }
+        }
+      }
+    },
     "rec.note.outcome": {
       "comment": "Recording mode playback, Beta only (specs/09).",
       "extractionState": "manual",
@@ -1996,6 +2086,42 @@
           "stringUnit": {
             "state": "translated",
             "value": "Etiket"
+          }
+        }
+      }
+    },
+    "rec.note.response": {
+      "comment": "Recording mode playback, Beta only (specs/09): the coach's right response for a reflex trial.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Right response"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doğru tepki"
+          }
+        }
+      }
+    },
+    "rec.note.save": {
+      "comment": "Recording mode playback, Beta only (specs/09).",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save note"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notu kaydet"
           }
         }
       }
