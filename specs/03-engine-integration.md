@@ -169,6 +169,50 @@ Tüm şablonlar `status: "draft"`'tır ve eşikler MediaPipe sentetik verisiyle 
 3. Yeni eşikler doğrudan `exercises/<id>.json` dosyasına yazılır ve şablonun `version`'ı artar. Kaynak kopyalar (`exercises/source/`) değişmez.
 4. Pilot ölçütlerini (sayım ≥ %95, yanlış alarm ≤ %10) karşılayan şablon `status: "calibrated"` olur.
 
+### Şablon önerisi (`solo-calibrate suggest`, T2.10, 2026-11-25)
+Yeni bir hareketin ya da yeniden kalibre edilen bir şablonun **tekrar eşiklerini** etiketli kayıtlardan önerir. Hareket tasarımı yine JSON'dur (04): metrikler, `rep.metric`, hatalar ve metinler elle yazılır. Araç yalnız `rep` bloğunun sayılarını önerir. Öneri insan onayıyla şablona girer; araç `exercises/` altındaki dosyayı kendiliğinden değiştirmez.
+
+- **Komut:** `solo-calibrate suggest --files <dizin> --rules <dizin> --exercise <id> [--out <dosya>]`.
+- **Girdi:**
+  - Taslak şablon `<rules>/<id>.json`. Şablon doğrulayıcıdan geçmelidir; hareketin yönü (`start.enter` ile `target.enter` hangisi büyük) taslaktan alınır.
+  - O şablonun etiketli dizileri (`labels.reps`). Etiketler kişinin yaptığı **her denemeyi sırasıyla** listeler: `valid`, `faulty`, `incomplete`.
+  - Dizide etiket yoksa ya da hiç `valid` deneme yoksa araç hata verir.
+- **Seri:** her dizi taslak şablonla motordan geçirilir; tekrar metriğinin motorun gördüğü (yumuşatılmış) değeri kare kare alınır. `NaN` kareler atlanır. Değer, **derinlik** `d`'ye çevrilir: dinlenmeden hedefe doğru pozitif.
+- **Denemeleri bulma:**
+  - Derinlik serisinin yerel tepeleri büyükten küçüğe dolaşılır.
+  - Bir tepe, kabul edilmiş her tepeyle arasında seri iki tepeden küçüğünün yarısına (dinlenme referansına göre) inmişse kabul edilir. Dinlenme referansı, serinin %20'lik dilimidir. Tepe bu referanstan en az max(6σ, dizinin en derin tepesinin %10'u) kadar derin olmalıdır.
+  - Etiket sayısı kadar tepe alınır ve zamana göre sıralanır; etiketlerle sırayla eşlenir.
+  - Yeterli tepe bulunamazsa araç o diziyi "etiketlerle eşleşmiyor" diye raporlar ve öneriye katmaz.
+- **Dinlenme ve gürültü:**
+  - Dinlenme `R`, ardışık tepeler arasındaki (ve ilk tepeden önceki, son tepeden sonraki) en düşük değerlerin ortancasıdır.
+  - Gürültü `σ`, ardışık kare farklarının mutlak değerlerinin ortancası × 1,4826 / √2'dir.
+- **Öneri** (`D` = en zayıf `valid` tepenin derinliği, `R`'ye göre; tüm dizilerden):
+
+  | Alan | Derinlik |
+  |---|---|
+  | `start.enter` | 0,20·D |
+  | `start.exit` | 0,30·D |
+  | `attemptMinExcursion` | 0,15·D |
+  | `target.exit` | 0,70·D |
+  | `target.enter` | 0,80·D |
+
+  - `incomplete` etiketli tepe varsa `target.enter`, en güçlü `incomplete` tepe ile `D`'nin ortasıdır. Bu değer 0,45·D ile 0,95·D arasına kırpılır. `target.exit`, `target.enter − 0,10·D` olur.
+  - Değerler metrik ölçeğine geri çevrilir. `D`'nin büyüklüğüne göre üç anlamlı basamağa yuvarlanır (adım 10^(⌊log10 D⌋−2)).
+  - Süreler:
+    - her `valid` denemenin süresi, önerilen eşiklerle ölçülür: tepeden önce `start.exit`'in son geçişi ile tepeden sonra `start.enter`'e ilk dönüş arası;
+    - `minDurationMs` = en kısa sürenin 0,6 katı, 50'ye aşağı yuvarlanır (en az 100);
+    - `maxDurationMs` = en uzun sürenin 1,5 katı, 100'e yukarı yuvarlanır.
+- **Uyarılar** (öneriyi durdurmaz, rapora yazılır):
+  - histerezis aralığı (`start.exit − start.enter`, 0,10·D) 3σ'dan küçük: hareket gürültüye göre küçük;
+  - bir dinlenme değeri `start.enter` derinliğinden yüksek: kişi denemeler arasında başlangıca dönmüyor;
+  - en güçlü `incomplete` tepe en zayıf `valid` tepeden derin: tekrar metriği bu ayrımı yapamıyor; hata ifadesi ya da başka metrik gerekir.
+- **Doğrulama ve çıktı:**
+  - Önerilen şablon ve taslak aynı dizilerle `Calibration` ölçütlerinden geçirilir (sayım doğruluğu, yanlış alarm); ikisi yan yana Markdown raporda gösterilir.
+  - Rapor ayrıca dizi ve deneme sayılarını, `R`, `σ` ve `D` değerlerini, önerilen `rep` bloğunu JSON olarak ve uyarıları içerir.
+  - `--out` verilirse şablonun önerilen `rep` ile kopyası yazılır: `version` bir artar, `status` `draft` kalır.
+- **Kapsam dışı:** hata eşikleri. Onlar için `report --sweep faults.<id>.threshold=…` kullanılır.
+- Kayıt modundaki (09) dışa aktarım, yeni bir hareket için yalnız taslağın bulduğu her deneme etiketliyse `labels.reps` taşır. Bu yüzden öneri için taslak eşiklerin her denemeyi bulması gerekir; ilk taslak geniş tutulur. Kaydın içinden doğrudan deneme işaretleme açık sorudur (aşağıda).
+
 ## Kabul kriterleri
 - AC-3.1: `tools/golden-export`, `c2fe3fd` kopyasında iki kez çalıştırıldığında bayt bayt aynı `fixtures/source-golden/` içeriğini üretir; üretilen her dosya `source.commit` taşır.
 - AC-3.2: Swift motoru `superseded` listesinde olmayan tüm kaynak golden durumlarında olay, rep durumu ve metrik eşitlik kurallarını sağlar (CI, Linux).
@@ -177,8 +221,10 @@ Tüm şablonlar `status: "draft"`'tır ve eşikler MediaPipe sentetik verisiyle 
 - AC-3.5: İskelette olmayan landmark kullanan şablon Swift yükleyicide `unsupported_landmark` hatasıyla reddedilir (test).
 - AC-3.6: Vision → `Frame` dönüşümü: bilinen bir test görüntüsünde (sabit poz) y ekseni ve sol/sağ doğru; ön kamera karesinde `lateralLean2d` işareti kişinin soluna kaçışta pozitiftir (cihaz testi + sentetik birim testi).
 - AC-3.7: Anlık görüntüden sapan motor değişikliği CI'da kırılır; `fixtures/source-golden/` altındaki bir dosyanın değişmesi ya da silinmesi CI'da kırılır (yalnız `superseded.json` eklenebilir).
+- AC-3.8: `solo-calibrate suggest`: bilinen eşiklerle üretilmiş sentetik etiketli dizilerde (gürültülü, `valid` ve `incomplete` denemeli) önerilen `rep` bloğu, aynı dizilerde sayım doğruluğu %100 ve süre sınırları içinde verir. Etiket sayısıyla eşleşmeyen dizi raporlanır ve öneriye girmez. `--out` dosyası doğrulayıcıdan geçer ve `version`'ı bir artmıştır (test).
 
 ## Açık sorular
 1. Spike sonrası H1/H2 kararı. H2'de squat önden görünümde 2B diz açısı derinliği küçük gösterir (perspektif); squat iOS'ta yalnız yandan mı desteklenmeli?
 2. Kalibrasyon kayıtları için yeterli katılımcı: hoca + 3 öğrenci yeterli mi, farklı boy/kilo/kıyafet çeşitliliği nasıl sağlanacak?
 3. MediaPipe'ı iOS'ta da kullanmak (MediaPipe Tasks iOS SDK) bir seçenek olarak değerlendirilmedi; ürün kararı Vision. Spike'ta Vision yetersiz kalırsa yeniden açılmalı mı?
+4. Yeni hareket kaydı: oynatmada (09) denemeyi taslağın bulmasına bakmadan doğrudan işaretlemek (başlangıç ve bitiş zamanı). Böylece taslak eşikler yanlışken de `suggest` için etiket çıkar. Gerekli mi, yoksa geniş taslak yeterli mi?
