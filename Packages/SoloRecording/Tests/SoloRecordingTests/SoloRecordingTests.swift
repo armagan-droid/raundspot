@@ -196,4 +196,56 @@ import SoloEngine
         try? json.write(to: out.appendingPathComponent("export-sample.json"))
         print("EXPORT_SAMPLE", out.appendingPathComponent("export-sample.json").path)
     }
+
+    /// specs/09 "Refleks kaydı" (T5.2): trials are `app.jsonl`'s trial lines, a note labels the right response,
+    /// and the export carries the cue and trial lines as `reflex` (specs/03).
+    @Test func reflexRecordingExportsItsTrialsWithTheCoachsLabels() async throws {
+        let lib = try library()
+        try lib.addParticipant("P04", at: now)
+        try lib.consent("P04", adultConfirmed: true, at: now)
+        var m = try meta(lib, "P04")
+        m.mode = "reflex"
+        m.reflexCatalog = "muay_thai"
+        m.reflexLevel = 2
+        m.templates = ["slip_left": "{}", "slip_right": "{}"]
+        let w = try lib.newPackage(m, freeBytes: 10_000_000_000)
+        let joints: [String: [Double]] = ["nose": [0.5, 0.8, 0.9], "leftHip": [0.53, 0.45, 0.9], "rightHip": [0.47, 0.45, 0.9]]
+        for i in 0..<10 {
+            w.frame(pixelBuffer(10), pts: CMTime(value: CMTimeValue(1_000 + i * 500), timescale: 1_000), pose: PoseLine(joints: joints, people: 1, selected: 0))
+        }
+        w.appLine(["t": 1200.0, "type": "cue", "key": "strike.jab", "plannedAt": 1195.0])
+        w.appLine(["t": 2100.0, "type": "trial", "strike": "jab", "feint": false, "cueAt": 1200.0, "result": "correct", "response": "slip_left",
+                   "reactionMs": 310.0, "approximate": false])
+        w.appLine(["t": 3000.0, "type": "cue", "key": "strike.jab", "plannedAt": 3000.0])
+        w.appLine(["t": 3900.0, "type": "trial", "strike": "jab", "feint": true, "cueAt": 3000.0, "result": "feint_bitten", "response": "slip_right",
+                   "reactionMs": NSNull(), "approximate": false])
+        w.appLine(["t": 4000.0, "type": "degradation", "step": "fps24"])
+        await w.finish()
+
+        let trials = RecordingNotes.trials(package: w.dir)
+        #expect(trials == [RecordedAttempt(start: 1200, end: 2100, outcome: "correct"), RecordedAttempt(start: 3000, end: 3900, outcome: "feint_bitten")])
+        // the coach: the first was right, the second needed no response (a feint)
+        var notes = [RecordingNote(t: 1500, text: "iyi", author: .coach, label: .init(response: "slip_left", faults: [])),
+                     RecordingNote(t: 3500, text: "çalım", author: .coach, label: .init(response: RecordingNote.Label.noResponse, faults: []))]
+        try RecordingNotes.save(notes, w.dir)
+
+        let seq = try RecordingExport.sequence(package: w.dir, consentVersion: 1, templateVersions: ["slip_left": 2, "slip_right": 2])
+        #expect(seq.exerciseId == "muay_thai" && seq.labels == nil)
+        let r = try #require(seq.reflex)
+        #expect(r.catalogId == "muay_thai" && r.level == 2 && r.stance == .orthodox)
+        #expect(r.cues.map(\.t) == [1200, 3000])
+        #expect(r.trials.map(\.result) == [.correct, .feintBitten] && r.trials[1].reactionMs == nil)
+        #expect(r.trials.map(\.expected) == [.some("slip_left"), .some(nil)])
+        // the export reads back strictly, and its name is the catalog's
+        #expect(try LandmarkSequence.parse(JSONValue.parse(seq.json.serialized())).get().reflex == r)
+        let url = try RecordingExport.export(package: w.dir, consentVersion: 1, templateVersions: [:], to: FileManager.default.temporaryDirectory)
+        #expect(url.lastPathComponent.hasPrefix("muay_thai-P04-"))
+
+        // an edited note keeps its time; an unlabelled trial has no `expected`
+        notes[1] = RecordingNotes.edited(notes[1], text: "yok", author: .developer, label: nil)
+        #expect(notes[1].t == 3500 && notes[1].text == "yok" && notes[1].author == .developer && notes[1].label == nil)
+        try RecordingNotes.save(notes, w.dir)
+        let again = try RecordingExport.sequence(package: w.dir, consentVersion: 1, templateVersions: [:])
+        #expect(again.reflex?.trials.map(\.expected) == [.some("slip_left"), nil])
+    }
 }

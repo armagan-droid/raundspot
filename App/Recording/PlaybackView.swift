@@ -68,6 +68,10 @@ struct PlaybackView: SwiftUI.View {
     @State private var author = RecordingNote.Author.coach
     @State private var labelOutcome = ""
     @State private var labelFaults: Set<String> = []
+    /// A reflex note's right response: a response template or `noResponse`; "" for no label.
+    @State private var labelResponse = ""
+    /// The note in the form (specs/09 "Not düzenleme"), nil for a new one.
+    @State private var editing: UUID?
     @State private var exportURL: URL?
     @State private var sweepPath = "rep.target.enter"
     @State private var sweepValues = ""
@@ -80,14 +84,30 @@ struct PlaybackView: SwiftUI.View {
         template = package.meta.templates.keys.sorted().first ?? ""
         _notes = State(initialValue: RecordingNotes.load(package.url))
         let p = poses
-        markers = RecordingReplay.recorded(package: package.url, template: package.meta.templates.keys.sorted().first ?? "").compactMap { e in
-            guard let sec = p.videoSec(host: e.t), let v = try? JSONValue.parse(Data(e.json.utf8)), let type = v["type"]?.stringValue,
-                  type != "READY_POSE_HELD" else { return nil }
-            return (sec, type == "REP_COMPLETED" ? (v["outcome"]?.stringValue ?? type) : type)
+        if package.meta.isReflex {
+            // a reflex recording: its cues and trial results (specs/09 "Refleks kaydı")
+            let cues = RecordingNotes.appLines(package.url, type: "cue").compactMap { o in (o["t"] as? Double).flatMap(p.videoSec(host:)).map { ($0, "cue") } }
+            let trials = RecordingNotes.appLines(package.url, type: "trial").compactMap { o -> (Double, String)? in
+                guard let sec = (o["t"] as? Double).flatMap(p.videoSec(host:)) else { return nil }
+                return (sec, o["result"] as? String ?? "trial")
+            }
+            markers = (cues + trials).sorted { $0.0 < $1.0 }
+        } else {
+            markers = RecordingReplay.recorded(package: package.url, template: package.meta.templates.keys.sorted().first ?? "").compactMap { e in
+                guard let sec = p.videoSec(host: e.t), let v = try? JSONValue.parse(Data(e.json.utf8)), let type = v["type"]?.stringValue,
+                      type != "READY_POSE_HELD" else { return nil }
+                return (sec, type == "REP_COMPLETED" ? (v["outcome"]?.stringValue ?? type) : type)
+            }
         }
     }
 
-    private var faultIds: [String] { ExerciseCatalog.pack(template)?.pack.faults.map(\.id) ?? [] }
+    private var isReflex: Bool { package.meta.isReflex }
+    /// The faults of the labelled template: the recording's template, or the reflex note's response.
+    private var faultIds: [String] {
+        let id = isReflex ? labelResponse : template
+        return ExerciseCatalog.pack(id)?.pack.faults.map(\.id) ?? []
+    }
+    private var hasLabel: Bool { isReflex ? !labelResponse.isEmpty : !labelOutcome.isEmpty }
 
     var body: some SwiftUI.View {
         Form {
@@ -103,7 +123,7 @@ struct PlaybackView: SwiftUI.View {
                 controls
             }
             notesSection
-            replaySection
+            if !isReflex { replaySection }  // reflex replay is not there yet (specs/09)
             exportSection
         }
         .navigationTitle(Text("\(package.meta.participant) · \(template)"))
@@ -140,10 +160,10 @@ struct PlaybackView: SwiftUI.View {
 
     static func color(_ type: String) -> Color {
         switch type {
-        case "valid": .green
-        case "faulty", "FAULT_DETECTED": .orange
-        case "incomplete": .gray
-        case "SAFETY_PAUSE", "TRACKING_LOST": .red
+        case "valid", "correct", "feint_ok": .green
+        case "faulty", "FAULT_DETECTED", "correct_faulty", "partial": .orange
+        case "incomplete", "missed": .gray
+        case "SAFETY_PAUSE", "TRACKING_LOST", "wrong", "early", "feint_bitten": .red
         default: .blue
         }
     }
@@ -195,13 +215,16 @@ struct PlaybackView: SwiftUI.View {
                     Text(n.text)
                     HStack {
                         Text(n.author == .coach ? "rec.note.coach" : "rec.note.developer")
-                        if let l = n.label { Text("\(l.outcome) \(l.faults.joined(separator: ", "))") }
+                        if let l = n.label { Text(Self.describe(l)) }
                     }
                     .font(.caption).foregroundStyle(.secondary)
                 }
-                .onTapGesture { if let s = poses.videoSec(host: n.t) { seek(s) } }
+                .listRowBackground(editing == n.id ? Color.yellow.opacity(0.15) : nil)
+                .contentShape(Rectangle())
+                .onTapGesture { edit(n) }
             }
             .onDelete { idx in
+                if let e = editing, idx.contains(where: { notes[$0].id == e }) { clearForm() }
                 notes.remove(atOffsets: idx)
                 try? RecordingNotes.save(notes, package.url)
             }
@@ -210,31 +233,76 @@ struct PlaybackView: SwiftUI.View {
                 Text("rec.note.coach").tag(RecordingNote.Author.coach)
                 Text("rec.note.developer").tag(RecordingNote.Author.developer)
             }
-            Picker("rec.note.outcome", selection: $labelOutcome) {
-                Text("rec.note.no_label").tag("")
-                Text("valid").tag("valid")
-                Text("faulty").tag("faulty")
-                Text("incomplete").tag("incomplete")
+            if isReflex {
+                Picker("rec.note.response", selection: $labelResponse) {
+                    Text("rec.note.no_label").tag("")
+                    ForEach(package.meta.templates.keys.sorted(), id: \.self) { Text($0).tag($0) }
+                    Text("rec.note.no_response").tag(RecordingNote.Label.noResponse)
+                }
+            } else {
+                Picker("rec.note.outcome", selection: $labelOutcome) {
+                    Text("rec.note.no_label").tag("")
+                    Text("valid").tag("valid")
+                    Text("faulty").tag("faulty")
+                    Text("incomplete").tag("incomplete")
+                }
             }
-            if !labelOutcome.isEmpty {
+            if hasLabel {
                 ForEach(faultIds, id: \.self) { f in
                     Toggle(f, isOn: Binding(get: { labelFaults.contains(f) }, set: { on in
                         if on { labelFaults.insert(f) } else { labelFaults.remove(f) }
                     }))
                 }
             }
-            Button("rec.note.add") { addNote() }.disabled(noteText.isEmpty && labelOutcome.isEmpty)
+            if editing != nil {
+                Button("rec.note.save") { saveNote() }.disabled(noteText.isEmpty && !hasLabel)
+                Button("rec.note.cancel", role: .cancel) { clearForm() }
+            } else {
+                Button("rec.note.add") { saveNote() }.disabled(noteText.isEmpty && !hasLabel)
+            }
         }
     }
 
-    private func addNote() {
-        guard let host = poses.host(videoSec: now) else { return }
-        let label = labelOutcome.isEmpty ? nil : RecordingNote.Label(outcome: labelOutcome, faults: labelFaults.sorted())
-        notes.append(RecordingNote(t: host, text: noteText, author: author, label: label))
-        notes.sort { $0.t < $1.t }
+    static func describe(_ l: RecordingNote.Label) -> String {
+        let head = l.response.map { $0 == RecordingNote.Label.noResponse ? String(localized: "rec.note.no_response") : $0 } ?? l.outcome ?? ""
+        return ([head] + l.faults).filter { !$0.isEmpty }.joined(separator: " · ")
+    }
+
+    private var formLabel: RecordingNote.Label? {
+        let faults = labelFaults.filter(faultIds.contains).sorted()
+        if isReflex { return labelResponse.isEmpty ? nil : RecordingNote.Label(response: labelResponse, faults: faults) }
+        return labelOutcome.isEmpty ? nil : RecordingNote.Label(outcome: labelOutcome, faults: faults)
+    }
+
+    /// Tapping a note seeks to it and loads it into the form.
+    private func edit(_ n: RecordingNote) {
+        if let s = poses.videoSec(host: n.t) { seek(s) }
+        editing = n.id
+        noteText = n.text
+        author = n.author
+        labelOutcome = n.label?.outcome ?? ""
+        labelResponse = n.label?.response ?? ""
+        labelFaults = Set(n.label?.faults ?? [])
+    }
+
+    /// A new note at the current time, or the edited note with its time kept.
+    private func saveNote() {
+        if let e = editing, let i = notes.firstIndex(where: { $0.id == e }) {
+            notes[i] = RecordingNotes.edited(notes[i], text: noteText, author: author, label: formLabel)
+        } else {
+            guard let host = poses.host(videoSec: now) else { return }
+            notes.append(RecordingNote(t: host, text: noteText, author: author, label: formLabel))
+            notes.sort { $0.t < $1.t }
+        }
         try? RecordingNotes.save(notes, package.url)
+        clearForm()
+    }
+
+    private func clearForm() {
+        editing = nil
         noteText = ""
         labelOutcome = ""
+        labelResponse = ""
         labelFaults = []
     }
 

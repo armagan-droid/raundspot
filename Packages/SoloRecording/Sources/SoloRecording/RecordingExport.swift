@@ -34,15 +34,19 @@ public enum RecordingExport {
         }
         guard frames.count > 1 else { throw ExportError.empty }
         let fps = Double(frames.count - 1) / ((frames.last!.t - frames.first!.t) / 1000)
-        let exercise = meta.templates.keys.sorted().first ?? "free"
+        let notes = RecordingNotes.load(dir)
+        // a reflex recording is named by its catalog and carries its cue and trial lines (specs/09 "Refleks kaydı")
+        let reflex = RecordingNotes.reflexLines(package: dir, meta: meta, notes: notes)
+        let exercise = reflex?.catalogId ?? meta.templates.keys.sorted().first ?? "free"
         // the labels of the notes, when every attempt has one (specs/09)
-        let labels = RecordingNotes.labels(RecordingNotes.load(dir), attempts: RecordingNotes.attempts(package: dir, template: exercise))
+        let labels = reflex != nil ? nil : RecordingNotes.labels(notes, attempts: RecordingNotes.attempts(package: dir, template: exercise))
         var seq = LandmarkSequence(formatVersion: 2, skeleton: .vision19, exerciseId: exercise, source: .team,
                                    view: meta.mode == "side" ? .side : .front, fps: (fps * 100).rounded() / 100, labels: labels,
                                    frames: frames, hasWorld: false, imageAspect: aspect)
         seq.meta = ExportMeta(recordingId: meta.recordingId.uuidString, participant: meta.participant, consentVersion: consentVersion,
                               device: meta.device, osVersion: meta.osVersion, appVersion: meta.appVersion,
                               templates: meta.templates.keys.sorted().map { .init(id: $0, version: templateVersions[$0] ?? 1) })
+        seq.reflex = reflex
         return seq
     }
 

@@ -38,9 +38,13 @@ public struct RecordingMeta: Codable, Sendable, Equatable {
     public var templates: [String: String]
     /// Exports made from this package (specs/09 "Dışa aktarma").
     public var exports: [String]
+    /// A reflex recording's catalog and level (`mode: "reflex"`, specs/09 "Refleks kaydı").
+    public var reflexCatalog: String?
+    public var reflexLevel: Int?
 
     public init(recordingId: UUID = UUID(), participant: String, consentId: UUID, createdAt: Date, device: String, osVersion: String,
-                appVersion: String, mode: String, stance: String, camera: String, pose3D: Bool, templates: [String: String], exports: [String] = []) {
+                appVersion: String, mode: String, stance: String, camera: String, pose3D: Bool, templates: [String: String], exports: [String] = [],
+                reflexCatalog: String? = nil, reflexLevel: Int? = nil) {
         self.recordingId = recordingId
         self.participant = participant
         self.consentId = consentId
@@ -54,7 +58,11 @@ public struct RecordingMeta: Codable, Sendable, Equatable {
         self.pose3D = pose3D
         self.templates = templates
         self.exports = exports
+        self.reflexCatalog = reflexCatalog
+        self.reflexLevel = reflexLevel
     }
+
+    public var isReflex: Bool { mode == "reflex" }
 }
 
 /// Free space rule before recording (specs/09): warn under 2 GB, refuse under 500 MB.

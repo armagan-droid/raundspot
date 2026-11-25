@@ -84,6 +84,8 @@ public struct LandmarkSequence: Sendable, Equatable {
     public var imageAspect: Double
     /// Recording export metadata (specs/03, specs/09; v2 `team` only).
     public var meta: ExportMeta?
+    /// A reflex recording's cue and trial lines (specs/03 `reflex`, T5.2; v2 `team` only).
+    public var reflex: ReflexLines?
 
     public init(formatVersion: Int, skeleton: Skeleton, exerciseId: String, source: Source, view: CameraView,
                 fps: Double, labels: [RepLabel]?, frames: [Frame], hasWorld: Bool, imageAspect: Double = 1) {
@@ -116,7 +118,7 @@ public struct LandmarkSequence: Sendable, Equatable {
 
     private static func read(_ json: JSONValue, _ r: inout SchemaReader) -> LandmarkSequence? {
         let common = ["formatVersion", "exerciseId", "source", "view", "fps", "labels", "frames"]
-        let v2Keys = ["skeleton", "imageAspect", "meta"]
+        let v2Keys = ["skeleton", "imageAspect", "meta", "reflex"]
         // The version decides the allowed keys, so read it first.
         let version = json["formatVersion"]?.numberValue
         guard version == 1 || version == 2 else {
@@ -162,11 +164,17 @@ public struct LandmarkSequence: Sendable, Equatable {
             if source != .team { r.add(["meta"], "only team recordings carry meta") }
             meta = ExportMeta.read(m, &r)
         }
+        var reflex: ReflexLines?
+        if let x = o["reflex"] {
+            if source != .team { r.add(["reflex"], "only team recordings carry reflex lines") }
+            reflex = ReflexLines.read(x, &r)
+        }
         guard let exerciseId, let source, let view, let fps, let labels, let frames else { return nil }
         var seq = LandmarkSequence(
             formatVersion: v2 ? 2 : 1, skeleton: skeleton, exerciseId: exerciseId, source: source, view: view,
             fps: fps, labels: labels, frames: frames, hasWorld: hasWorld, imageAspect: imageAspect)
         seq.meta = meta
+        seq.reflex = reflex
         return seq
     }
 
@@ -311,6 +319,118 @@ public struct ExportMeta: Sendable, Equatable {
         o["osVersion"] = .string(osVersion)
         o["appVersion"] = .string(appVersion)
         o["templates"] = .array(templates.map { ["id": .string($0.id), "version": .number(Double($0.version))] })
+        return o
+    }
+}
+
+/// `reflex` of an exported reflex recording (specs/03, specs/09): the `app.jsonl` cue and trial lines.
+public struct ReflexLines: Sendable, Equatable {
+    public struct Cue: Sendable, Equatable {
+        public var t: Double
+        public var key: String
+        public var plannedAt: Double
+        public init(t: Double, key: String, plannedAt: Double) { self.t = t; self.key = key; self.plannedAt = plannedAt }
+    }
+
+    public struct Trial: Sendable, Equatable {
+        public var t: Double
+        public var strike: String
+        public var feint: Bool
+        public var cueAt: Double
+        public var result: ReflexResult
+        public var response: String?
+        public var reactionMs: Double?
+        public var approximate: Bool
+        /// The coach's label: nil when unlabelled, `.some(nil)` for "no response" (a feint).
+        public var expected: String??
+
+        public init(t: Double, strike: String, feint: Bool, cueAt: Double, result: ReflexResult, response: String?, reactionMs: Double?,
+                    approximate: Bool, expected: String?? = nil) {
+            self.t = t
+            self.strike = strike
+            self.feint = feint
+            self.cueAt = cueAt
+            self.result = result
+            self.response = response
+            self.reactionMs = reactionMs
+            self.approximate = approximate
+            self.expected = expected
+        }
+    }
+
+    public var catalogId: String
+    public var level: Int
+    public var stance: Stance
+    public var cues: [Cue]
+    public var trials: [Trial]
+
+    public init(catalogId: String, level: Int, stance: Stance, cues: [Cue], trials: [Trial]) {
+        self.catalogId = catalogId
+        self.level = level
+        self.stance = stance
+        self.cues = cues
+        self.trials = trials
+    }
+
+    static func read(_ v: JSONValue, _ r: inout SchemaReader) -> ReflexLines? {
+        let p = ["reflex"]
+        guard let o = r.object(v, p, keys: ["catalogId", "level", "stance", "cues", "trials"]) else { return nil }
+        let catalog = r.identifier(o["catalogId"], p + ["catalogId"])
+        let level = r.int(o["level"], p + ["level"], min: 1)
+        let stance = r.enumValue(o["stance"], p + ["stance"], Stance.self, options: ["orthodox", "southpaw"])
+        let cues = r.array(o["cues"], p + ["cues"]).flatMap {
+            r.elements($0, p + ["cues"]) { r, v, path -> Cue? in
+                guard let c = r.object(v, path, keys: ["t", "key", "plannedAt"]), let t = r.number(c["t"], path + ["t"]),
+                      let key = r.nonEmptyString(c["key"], path + ["key"]), let at = r.number(c["plannedAt"], path + ["plannedAt"]) else { return nil }
+                return Cue(t: t, key: key, plannedAt: at)
+            }
+        }
+        let trials = r.array(o["trials"], p + ["trials"]).flatMap {
+            r.elements($0, p + ["trials"]) { r, v, path -> Trial? in
+                guard let x = r.object(v, path, keys: ["t", "strike", "feint", "cueAt", "result", "response", "reactionMs", "approximate",
+                                                     "expected"]) else { return nil }
+                let t = r.number(x["t"], path + ["t"])
+                let strike = r.identifier(x["strike"], path + ["strike"])
+                let feint = r.bool(x["feint"], path + ["feint"])
+                let cueAt = r.number(x["cueAt"], path + ["cueAt"])
+                let result = r.enumValue(x["result"], path + ["result"], ReflexResult.self, options: ReflexResult.allCases.map(\.rawValue))
+                let approximate = r.bool(x["approximate"], path + ["approximate"])
+                func nullableId(_ key: String) -> String?? {
+                    guard let v = x[key] else { r.add(path + [key], "Invalid input: expected string or null, received undefined"); return nil }
+                    if v == .null { return .some(nil) }
+                    return r.identifier(v, path + [key]).map { .some($0) }
+                }
+                let response = nullableId("response")
+                var reaction: Double??
+                if let rv = x["reactionMs"] {
+                    reaction = rv == .null ? .some(nil) : r.number(rv, path + ["reactionMs"], where: { $0 >= 0 }, "must be non-negative").map { .some($0) }
+                } else {
+                    r.add(path + ["reactionMs"], "Invalid input: expected number or null, received undefined")
+                }
+                let expected: String?? = x["expected"] == nil ? nil : nullableId("expected")
+                if x["expected"] != nil, expected == nil { return nil }
+                guard let t, let strike, let feint, let cueAt, let result, let approximate, let response, let reaction else { return nil }
+                return Trial(t: t, strike: strike, feint: feint, cueAt: cueAt, result: result, response: response, reactionMs: reaction,
+                             approximate: approximate, expected: expected)
+            }
+        }
+        guard let catalog, let level, let stance, let cues, let trials else { return nil }
+        return ReflexLines(catalogId: catalog, level: level, stance: stance, cues: cues, trials: trials)
+    }
+
+    var json: JSONValue {
+        func id(_ s: String?) -> JSONValue { s.map { .string($0) } ?? .null }
+        var o: JSONValue = ["catalogId": .string(catalogId), "level": .number(Double(level)), "stance": .string(stance.rawValue)]
+        o["cues"] = .array(cues.map { ["t": .number($0.t), "key": .string($0.key), "plannedAt": .number($0.plannedAt)] })
+        o["trials"] = .array(trials.map { x in
+            var e: JSONValue = ["t": .number(x.t), "strike": .string(x.strike), "feint": .bool(x.feint), "cueAt": .number(x.cueAt)]
+            e["result"] = .string(x.result.rawValue)
+            e["response"] = id(x.response)
+            e["reactionMs"] = x.reactionMs.map { .number($0) } ?? .null
+            e["approximate"] = .bool(x.approximate)
+            if let ex = x.expected { e["expected"] = id(ex) }
+            return e
+        })
         return o
     }
 }

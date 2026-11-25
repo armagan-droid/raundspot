@@ -44,6 +44,8 @@ Bir kayıt, kamera akışının tek bir kesintisiz parçasıdır (bir set, bir r
 - Kontroller: oynat/durdur, kare kare ileri–geri, 0,25×/0,5×/1× hız, işaretten işarete atlama, sürükleyerek sarma.
 - **Not ekleme:** o anki zamana not. Alanlar: metin (TR/EN serbest), isteğe bağlı **etiket**: deneme sonucu (`valid`/`faulty`/`incomplete`; refleks denemesinde doğru tepki şablonu) ve hata kimlikleri (o kaydın şablonlarındaki hatalardan seçilir). Not, zamanına en yakın denemeye bağlanır (deneme aralığındaysa). Notlar düzenlenip silinebilir.
 - Hoca telefonu eline alıp not ekleyebilir; notun yazarı için "hoca / geliştirici" seçimi tutulur (isim değil).
+- **Not düzenleme (T5.2, 2026-11-25):** listedeki nota dokunmak videoyu o zamana sarar ve notu forma yükler. "Kaydet" metni, yazarı ve etiketi değiştirir; zamanı değişmez. "Vazgeç" formu boşaltır.
+- **Refleks kaydı (T5.2, 2026-11-25):** X4'te kayıt türü "teknik" (bir şablon) ya da "refleks" (seviye seçilir; bir refleks seti) olur. Refleks kaydının `meta.json`'ında `mode: "reflex"`, `reflexCatalog` (katalog kimliği), `reflexLevel` ve `templates` olarak katalogdaki bütün tepki şablonları bulunur; duruş kullanıcının profilindendir. Denemeler `app.jsonl`'ın `trial` satırlarıdır: deneme aralığı işaretin çıktığı an (`cueAt`) ile deneme satırının zamanı arasıdır. Refleks notunun etiketi **doğru tepki**dir: katalogdaki tepki şablonlarından biri ya da "tepki yok" (çalım; JSON'da `null`), isteğe bağlı hata kimlikleriyle (o tepki şablonunun hatalarından). Zaman çizelgesi refleks kaydında işaretleri ve deneme sonuçlarını gösterir; X6 yeniden oynatma refleks kaydında henüz yoktur.
 
 ## Yeniden oynatma (yeni eşiklerle)
 - Bir kayıt ya da kayıt grubu seçilir, bir şablon parametresi değiştirilir (ref 09'daki `--sweep` yol sözdizimi: `rep.target.enter`, `faults.<id>.threshold`) ya da şablonun başka bir sürümü seçilir.
@@ -54,7 +56,7 @@ Bir kayıt, kamera akışının tek bir kesintisiz parçasıdır (bir set, bir r
 - Sonuçlar kayda ek dosya olarak saklanmaz (her seferinde yeniden hesaplanır); "Kopyala (JSON)" ile alınabilir.
 
 ## Dışa aktarma
-- **Yalnız landmark verisi** dışa aktarılır: `LandmarkSequence` `formatVersion: 2`, `skeleton: "vision19"`, `source: "team"` (03), notlardaki etiketler `labels.reps` olarak, `meta` (şablon kimlikleri/sürümleri, cihaz, katılımcı kodu, rıza sürümü). Ek olarak refleks kayıtlarında `app.jsonl`'ın işaret ve deneme satırları.
+- **Yalnız landmark verisi** dışa aktarılır: `LandmarkSequence` `formatVersion: 2`, `skeleton: "vision19"`, `source: "team"` (03), notlardaki etiketler `labels.reps` olarak, `meta` (şablon kimlikleri/sürümleri, cihaz, katılımcı kodu, rıza sürümü). Ek olarak refleks kayıtlarında `app.jsonl`'ın işaret ve deneme satırları. Biçimi 03'teki `reflex` alanıdır (T5.2); refleks dizisinin `exerciseId`'si katalog kimliğidir, dosya adındaki şablon da odur.
 - Paylaşım sayfası (Dosyalar, AirDrop) ile tek `.json` dosyası (gzip'li). **Video ve kare görüntüsü dışa aktarılamaz** (paylaşım sayfasına hiç verilmez).
 - Her dışa aktarım meta veriye yazılır (ne zaman, hangi dosya adı); rıza geri çekilince operatöre bu liste gösterilir.
 - `meta` alanının katı şeması (yalnız yukarıdaki alanlar; isim ya da serbest metin yok) 03'teki dizi şemasındadır (T5.4). Dışa aktarılan dosya gzip'lidir: `<şablon>-<katılımcı>-<kayıt kimliğinin ilk 8 hanesi>.json.gz`. Dışa aktarımda poz satırının seçilen kişisi dizinin karesi olur. Atlanan karelerde eklemler görünürlük 0 yazılır. Notlardaki etiketler oynatma ekranıyla (T5.2) gelir.
