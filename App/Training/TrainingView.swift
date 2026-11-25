@@ -96,9 +96,9 @@ struct TrainingView: SwiftUI.View {
                 }
                 .padding()
                 if [.active, .confirm].contains(model.state) || (model.state == .paused && model.snapshot.resumeTo == .active) {
-                    if model.reflexCount == nil { counter(height: geo.size.height) } else { reflexCounter }
+                    if model.reflexCount == nil { counter(screen: Self.screen(geo)) } else { reflexCounter }
                 }
-                if model.state == .active, model.reflexCount != nil { reflexLive(height: geo.size.height) }
+                if model.state == .active, model.reflexCount != nil { reflexLive(screen: Self.screen(geo)) }
                 if model.state == .countdown {
                     Text("\(model.secondsLeft)")
                         .font(.system(size: max(geo.size.height * 0.35, 80), weight: .bold, design: .rounded))
@@ -225,11 +225,10 @@ struct TrainingView: SwiftUI.View {
     }
 
     /// R2: the strike's name large at the cue (≥ 20 % of the height, 600 ms), then the result and RT for a second.
-    @ViewBuilder private func reflexLive(height: CGFloat) -> some SwiftUI.View {
+    @ViewBuilder private func reflexLive(screen: CGSize) -> some SwiftUI.View {
+        let height = screen.height
         if let s = model.shownStrike, model.now < s.until {
-            Text(s.text)
-                .font(.system(size: max(height * 0.22, 56), weight: .heavy, design: .rounded))
-                .minimumScaleFactor(0.5).lineLimit(1)
+            StrikeText(text: s.text, screen: screen)
                 .shadow(radius: 10)
                 .allowsHitTesting(false)
         } else if let t = model.lastTrial, model.now < t.until {
@@ -239,7 +238,7 @@ struct TrainingView: SwiftUI.View {
                 if let rt = t.record.reactionMs { Text("reflex.rt \(Int(rt.rounded()))").font(.title.bold()).monospacedDigit() }
             }
             .accessibilityElement(children: .combine)
-            .accessibilityLabel(Text(LocalizedStringKey("reflex.result.\(t.record.result.rawValue)")))
+            .accessibilityLabel(Text(LocalizedStringKey(String("reflex.result.\(t.record.result.rawValue)"))))
             .allowsHitTesting(false)
         }
     }
@@ -283,15 +282,19 @@ struct TrainingView: SwiftUI.View {
         }
     }
 
-    private func counter(height: CGFloat) -> some SwiftUI.View {
+    /// The full screen: the ratios of AC-12.2 count the safe area too.
+    static func screen(_ geo: GeometryProxy) -> CGSize {
+        CGSize(width: geo.size.width + geo.safeAreaInsets.leading + geo.safeAreaInsets.trailing,
+               height: geo.size.height + geo.safeAreaInsets.top + geo.safeAreaInsets.bottom)
+    }
+
+    private func counter(screen: CGSize) -> some SwiftUI.View {
         VStack {
             HStack {
                 Spacer()
-                Text(model.target.map { "\(model.counted)/\($0)" } ?? "\(model.counted)")
-                    .font(.system(size: max(height * 0.25, 60), weight: .bold, design: .rounded))
-                    .monospacedDigit()
+                CounterText(counted: model.counted, target: model.target, screen: screen)
                     .shadow(radius: 6)
-                    .padding(.trailing, 24)
+                    .padding(.trailing, LiveText.margin)
                     .onTapGesture { tapForDiagnostics() }
                     .accessibilityLabel(Text("training.count.accessibility \(model.counted)"))
             }
@@ -394,13 +397,7 @@ struct TrainingView: SwiftUI.View {
             Text("\(valid)").font(.system(size: 96, weight: .bold, design: .rounded))
             Text("training.summary \(valid) \(faulty)").font(.headline)
             Text("training.finished.sets \(sets.count)").font(.callout)
-            // specs/08 "Gösterim": always an estimate, with its method
-            if let kcal = model.sessionKcal {
-                Text("energy.estimate \(Energy.display(kcal))").font(.title3.bold())
-                Text("energy.method.met").font(.caption).foregroundStyle(.secondary)
-            } else {
-                Text("energy.no_weight").font(.caption).foregroundStyle(.secondary)
-            }
+            EnergyEstimate(kcal: model.sessionKcal)
             Button("training.close") { dismiss() }.buttonStyle(.borderedProminent).frame(minHeight: 44)
         }
         .padding()
@@ -413,5 +410,19 @@ struct TrainingView: SwiftUI.View {
             Button("training.close") { dismiss() }
         }
         .padding(32)
+    }
+}
+
+/// Y1's calorie line (specs/08 "Gösterim"): always called an estimate, with its method (AC-8.7). The only place kcal is shown.
+struct EnergyEstimate: SwiftUI.View {
+    let kcal: Double?
+
+    var body: some SwiftUI.View {
+        if let kcal {
+            Text("energy.estimate \(Energy.display(kcal))").font(.title3.bold())
+            Text("energy.method.met").font(.caption).foregroundStyle(.secondary)
+        } else {
+            Text("energy.no_weight").font(.caption).foregroundStyle(.secondary)
+        }
     }
 }

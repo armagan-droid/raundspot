@@ -46,7 +46,7 @@ struct SettingsView: SwiftUI.View {
             }
             .sheet(item: $sheet) { s in
                 NavigationStack {
-                    ScrollView { Text(LocalizedStringKey("settings.text.\(s.rawValue)")).padding() }
+                    ScrollView { Text(LocalizedStringKey(String("settings.text.\(s.rawValue)"))).padding() }
                         .toolbar { Button("training.close") { sheet = nil } }
                 }
             }
