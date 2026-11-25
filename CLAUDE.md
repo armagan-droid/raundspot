@@ -47,6 +47,7 @@ Tam liste ve gerekçeler: `specs/00-vision.md` "Değişmez kurallar". Özet:
 - Uygulama testleri (macOS): `xcodebuild test -project GymSpotSolo.xcodeproj -scheme GymSpotSolo -destination 'platform=iOS Simulator,name=…' CODE_SIGNING_ALLOWED=NO`
 - Paket testleri (iOS paketleri): `cd Packages/<Paket> && xcodebuild test -scheme <Paket> -destination 'platform=iOS Simulator,name=…'`
 - Release ikili kontrolü (AC-2.3, AC-2.5): `scripts/ci/check-release-binary.sh <derived-data-dizini>`
+- Tekrar eşiği önerisi (yeni hareket): `swift run --package-path Packages/SoloCalibrate solo-calibrate suggest --files <etiketli diziler> --rules exercises --exercise <id> [--out <dosya>]` (`specs/03` "Şablon önerisi")
 - Anlık görüntüleri güncelleme (yalnız spec değişikliğiyle): `UPDATE_SNAPSHOTS=1 swift test …`
 
 ## Proje yapısı notları

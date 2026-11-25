@@ -114,6 +114,14 @@ Eşikler (`rep.start`, `rep.target`, `neck_only` eşiği, `overlay.headTarget`) 
 **Duck (`duck`, version 2):** metrik adları kaynaktaki gibi; `height_l = heightOverShoulders2d(nose, left_ankle)`, `height_r = heightOverShoulders2d(nose, right_ankle)`, `head_height = avg(height_l, height_r)`. Ölçek kaynaktan farklıdır: sentetik vücutta yeni değer / kaynak `chainHeight` oranı ayakta ve yana eskivde 4,545, derin duck'ta 4,59'dur (neredeyse orantılı). Kaynak eşikleri her eşiğin kendi derinliğindeki oranla taşınır: `start: { enter: 4.23, exit: 4.16 }`, `target: { enter: 3.94, exit: 4.00 }`, `attemptMinExcursion: 0.12` (kaynakta denemenin kesinleştiği 0,885 → 4,04), `readyPose`'ta `head_height > 4.18`, `overlay.headTarget.height: 3.94`. Eşiğe %1'den yakın sentetik durumlarda sonuç kaynaktan ayrılabilir (bu yüzden eşdeğerlik testi eşikten uzak durumlarla yapılır; golden dizileri T1.2'de). Uygulama kesikli çizgiyi `ayak bileği.y − height · omuz genişliği` yüksekliğine çizer (12). **Risk:** ayakta değer kişinin boy / omuz genişliği oranına bağlıdır (kaynak `chainHeight` ise kişiden bağımsızdır, dik = 1). Başlangıç bölgesi ayakta değerin yalnız ~%2,6 altındadır; geniş omuzlu bir kullanıcı ayaktayken başlangıç bölgesine girmeyebilir. Kalibrasyon (03) farklı vücut tiplerinden kayıtla bunu ölçer; sapma bölgeleri aşarsa set başı ayakta duruşa göre oran (açık soru 6 seçenek b) yeniden değerlendirilir.
 
 ## Yeni şablonlar
+Yeni bir hareketin tasarım akışı:
+1. Metrikler, `rep.metric`, hatalar ve TR/EN metinler JSON olarak yazılır; eşikler geniş bir taslaktır (`status: "draft"`).
+2. `solo-calibrate validate` çalıştırılır.
+3. Kayıt modunda (09) etiketli kayıt alınır.
+4. `solo-calibrate suggest` tekrar eşiklerini önerir (03 "Şablon önerisi").
+5. `report --sweep` ile hata eşikleri taranır.
+6. Hoca onayı ve pilot ölçütleriyle şablon `calibrated` olur.
+
 Aşağıdaki eşikler sentetik verilerle **başlangıç değerleridir**; hepsi `draft`'tır ve kayıt modunda hocanın etiketli kayıtlarıyla kalibre edilir (03, 09). `howTo` ve `cue` metinleri hoca onayından geçer.
 
 **Ortak başlangıç değerleri (T2.8, bu dosyada ayrıca yazılmayan alanlar):**

@@ -6,6 +6,7 @@ public enum CLI {
     public static let usage = """
         usage: solo-calibrate validate <dir>
                solo-calibrate report --files <dir> [--rules <dir>] [--exercise <id>] [--sweep <path>=<v1>,<v2>,...]
+               solo-calibrate suggest --files <dir> --rules <dir> --exercise <id> [--out <file>]
                solo-calibrate --version
         """
 
@@ -27,6 +28,12 @@ public enum CLI {
             case "report":
                 output(try Report.run(reportOptions(Array(arguments.dropFirst()))))
                 return 0
+            case "suggest":
+                let o = try options(Array(arguments.dropFirst()), allowed: ["--files", "--rules", "--exercise", "--out"])
+                guard let files = o["--files"], let rules = o["--rules"], let exercise = o["--exercise"] else { throw CalibrateError.usage(usage) }
+                output(try Suggest.run(files: URL(fileURLWithPath: files, isDirectory: true), rules: URL(fileURLWithPath: rules, isDirectory: true),
+                                       exercise: exercise, out: o["--out"].map { URL(fileURLWithPath: $0) }))
+                return 0
             case "--version":
                 output(SoloEngine.generatedBy)
                 return 0
@@ -39,6 +46,9 @@ public enum CLI {
         } catch let error as ReportError {
             output("error: \(error.description)")
             return 1
+        } catch let error as SuggestError {
+            output("error: \(error.description)")
+            return 1
         } catch let error as CalibrateError {
             output("error: \(error.description)")
             return 2
@@ -48,18 +58,22 @@ public enum CLI {
         }
     }
 
-    /// `--files <dir> [--rules <dir>] [--exercise <id>] [--sweep <spec>]`; rules default to `exercises`.
-    static func reportOptions(_ args: [String]) throws -> ReportOptions {
+    /// `--key value` pairs, each key once and only from `allowed`.
+    static func options(_ args: [String], allowed: [String]) throws -> [String: String] {
         var values: [String: String] = [:]
         var i = 0
         while i < args.count {
             let key = args[i]
-            guard ["--files", "--rules", "--exercise", "--sweep"].contains(key), i + 1 < args.count, values[key] == nil else {
-                throw CalibrateError.usage(usage)
-            }
+            guard allowed.contains(key), i + 1 < args.count, values[key] == nil else { throw CalibrateError.usage(usage) }
             values[key] = args[i + 1]
             i += 2
         }
+        return values
+    }
+
+    /// `--files <dir> [--rules <dir>] [--exercise <id>] [--sweep <spec>]`; rules default to `exercises`.
+    static func reportOptions(_ args: [String]) throws -> ReportOptions {
+        let values = try options(args, allowed: ["--files", "--rules", "--exercise", "--sweep"])
         guard let files = values["--files"] else { throw CalibrateError.usage(usage) }
         return ReportOptions(files: URL(fileURLWithPath: files, isDirectory: true),
                              rules: URL(fileURLWithPath: values["--rules"] ?? "exercises", isDirectory: true),
