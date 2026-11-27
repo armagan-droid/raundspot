@@ -120,6 +120,17 @@ public enum Suggest {
         return accepted.count == count ? accepted.sorted() : nil
     }
 
+    /// The deepest frame inside each marked span; nil when a span holds no frame.
+    static func peaks(_ s: Series, spans: [[Double]]) -> [Int]? {
+        var out: [Int] = []
+        for span in spans {
+            let inside = s.t.indices.filter { s.t[$0] >= span[0] && s.t[$0] <= span[1] }
+            guard let deepest = inside.max(by: { s.x[$0] < s.x[$1] }) else { return nil }
+            out.append(deepest)
+        }
+        return out
+    }
+
     public static func suggest(pack: JSONValue, sequences: [LandmarkSequence]) throws -> SuggestResult {
         guard let first = sequences.first else { throw SuggestError.noLabeledSequences }
         let caps = PoseCapabilities(skeleton: first.skeleton, worldAvailable: first.hasWorld)
@@ -141,7 +152,11 @@ public enum Suggest {
             let s = series(loaded, seq, orientation: orientation)
             let d = noise(s.x)
             let sigma = median(d) * 1.4826 / 2.0.squareRoot()
-            guard let p = peaks(s.x, count: labels.count, sigma: sigma.isNaN ? 0 : sigma) else { unmatched.append(i); continue }
+            // marked attempts: the deepest frame of each span; otherwise the peak search
+            let spans = labels.compactMap(\.span)
+            let found = spans.count == labels.count && !spans.isEmpty
+                ? peaks(s, spans: spans) : peaks(s.x, count: labels.count, sigma: sigma.isNaN ? 0 : sigma)
+            guard let p = found else { unmatched.append(i); continue }
             diffs += d
             matched.append(Matched(seq: seq, s: s, peaks: p, labels: labels))
         }

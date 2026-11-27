@@ -129,6 +129,10 @@ Salon reposunda `c2fe3fd` sonrası motor değişiklikleri buraya kendiliğinden 
   - `image` ve `world` her karede 33 elemanlı dizidir (MediaPipe sırası). `mediapipe33`'te hiçbir eleman `null` olamaz. `vision19`'da Vision'da olmayan 16 eklem (aşağıda "Eksik eklemler") **mutlaka** `null`, diğer 17 eklem `null` olmayan noktadır (görülmeyen eklem `visibility: 0` ile yazılır).
   - `formatVersion: 2`'de üst düzey `imageAspect` (pozitif sayı: işlenen görüntünün genişliği / yüksekliği, kişinin dik göründüğü yönde) zorunludur ve her kareye `Frame.imageAspect` olarak geçer; `formatVersion: 1` dizileri 1 (kare görüntü, kaynak sentetik üretici) kabul edilir. Yeni 2B fonksiyonları x'i bununla düzeltir (04 "En-boy düzeltmesi").
   - **`meta`** (T5.4, 2026-11-25; yalnız `formatVersion: 2` ve `source: "team"`, isteğe bağlı, katı): `{ "recordingId": "<uuid>", "participant": "P07", "consentVersion": 1, "device": "iPhone", "osVersion": "26.1", "appVersion": "1.0", "templates": [ { "id": "slip_left", "version": 2 } ] }`. Bunlardan başka alan, isim ya da serbest metin olmaz. `participant` `P` ve rakamlardan oluşur (09).
+  - **`labels.reps[].span`** (T5.2, 2026-11-27; isteğe bağlı): `[başlangıç, bitiş]`, denemenin elle işaretlenmiş zaman aralığı (ms, karelerle aynı saat; 09 "Deneme işaretleme"). Kurallar:
+    - Ya her etikette vardır ya hiçbirinde.
+    - Başlangıç bitişten küçüktür ve aralık dizinin ilk ve son karesi arasındadır.
+    - Aralıklar zaman sırasındadır ve çakışmaz.
   - **`reflex`** (T5.2, 2026-11-25; yalnız `formatVersion: 2` ve `source: "team"`, isteğe bağlı, katı): refleks kaydının işaret ve deneme satırları. `{ "catalogId": "muay_thai", "level": 2, "stance": "orthodox", "cues": [ { "t": 1200, "key": "strike.jab", "plannedAt": 1195 } ], "trials": [ { "t": 2100, "strike": "jab", "feint": false, "cueAt": 1200, "result": "correct", "response": "slip_left", "reactionMs": 310, "approximate": false, "expected": "slip_left" } ] }`. Zamanlar karelerle aynı saattedir (ms). `response` ve `reactionMs` `null` olabilir. `expected` hocanın etiketidir: doğru tepki şablonu ya da `null` (tepki yok); etiketlenmemiş denemede alan hiç yoktur. `result` 05'teki deneme sonuçlarından biridir. Başka alan olmaz.
   - 3B verisi olmayan kayıtta (H2, kademeli çalışma) `world` alanı kare başına `null` yazılır; motora bütün world noktaları `NaN` koordinat ve görünürlük 0 olarak verilir. JSON `NaN` taşıyamadığı için bu tek gösterimdir.
 - Swift sentetik vücut aracına `toVision19(frame)` eklenir: MediaPipe çerçevesinden eksik noktaları atar, 3B'de burun yerine `centerHead` tahminini koyar (iki kulağın world orta noktası; görünürlüğü 2B burnunki) ve 3B'de olmayan göz ve kulakları eksik yapar. İsteğe bağlı olarak world tamamen kaldırılır (H2). Böylece kaynak golden dizileri `vision19`'a indirgenip yeni davranışın anlık görüntülerinde kullanılır.
@@ -211,7 +215,7 @@ Yeni bir hareketin ya da yeniden kalibre edilen bir şablonun **tekrar eşikleri
   - Rapor ayrıca dizi ve deneme sayılarını, `R`, `σ` ve `D` değerlerini, önerilen `rep` bloğunu JSON olarak ve uyarıları içerir.
   - `--out` verilirse şablonun önerilen `rep` ile kopyası yazılır: `version` bir artar, `status` `draft` kalır.
 - **Kapsam dışı:** hata eşikleri. Onlar için `report --sweep faults.<id>.threshold=…` kullanılır.
-- Kayıt modundaki (09) dışa aktarım, yeni bir hareket için yalnız taslağın bulduğu her deneme etiketliyse `labels.reps` taşır. Bu yüzden öneri için taslak eşiklerin her denemeyi bulması gerekir; ilk taslak geniş tutulur. Kaydın içinden doğrudan deneme işaretleme açık sorudur (aşağıda).
+- **İşaretli denemeler (2026-11-27):** etiketler `span` taşıyorsa tepe aranmaz. Her denemenin tepesi kendi aralığındaki en derin karedir ve dizi her zaman eşleşir. Hoca denemeleri oynatmada elle işaretlediğinde (09 "Deneme işaretleme") taslak eşikler yanlış olsa da öneri çıkar. `span` yoksa yukarıdaki tepe arama kullanılır; o zaman dışa aktarımın `labels.reps` taşıması için taslağın her denemeyi bulması gerekir.
 
 ## Kabul kriterleri
 - AC-3.1: `tools/golden-export`, `c2fe3fd` kopyasında iki kez çalıştırıldığında bayt bayt aynı `fixtures/source-golden/` içeriğini üretir; üretilen her dosya `source.commit` taşır.
@@ -221,10 +225,10 @@ Yeni bir hareketin ya da yeniden kalibre edilen bir şablonun **tekrar eşikleri
 - AC-3.5: İskelette olmayan landmark kullanan şablon Swift yükleyicide `unsupported_landmark` hatasıyla reddedilir (test).
 - AC-3.6: Vision → `Frame` dönüşümü: bilinen bir test görüntüsünde (sabit poz) y ekseni ve sol/sağ doğru; ön kamera karesinde `lateralLean2d` işareti kişinin soluna kaçışta pozitiftir (cihaz testi + sentetik birim testi).
 - AC-3.7: Anlık görüntüden sapan motor değişikliği CI'da kırılır; `fixtures/source-golden/` altındaki bir dosyanın değişmesi ya da silinmesi CI'da kırılır (yalnız `superseded.json` eklenebilir).
-- AC-3.8: `solo-calibrate suggest`: bilinen eşiklerle üretilmiş sentetik etiketli dizilerde (gürültülü, `valid` ve `incomplete` denemeli) önerilen `rep` bloğu, aynı dizilerde sayım doğruluğu %100 ve süre sınırları içinde verir. Etiket sayısıyla eşleşmeyen dizi raporlanır ve öneriye girmez. `--out` dosyası doğrulayıcıdan geçer ve `version`'ı bir artmıştır (test).
+- AC-3.8: `solo-calibrate suggest`: bilinen eşiklerle üretilmiş sentetik etiketli dizilerde (gürültülü, `valid` ve `incomplete` denemeli) önerilen `rep` bloğu, aynı dizilerde sayım doğruluğu %100 ve süre sınırları içinde verir. Etiket sayısıyla eşleşmeyen dizi raporlanır ve öneriye girmez. `--out` dosyası doğrulayıcıdan geçer ve `version`'ı bir artmıştır (test). Etiketler `span` taşıyorsa tepe aranmaz; her deneme kendi aralığından ölçülür ve taslak yanlışken de öneri çıkar (test).
 
 ## Açık sorular
 1. Spike sonrası H1/H2 kararı. H2'de squat önden görünümde 2B diz açısı derinliği küçük gösterir (perspektif); squat iOS'ta yalnız yandan mı desteklenmeli?
 2. Kalibrasyon kayıtları için yeterli katılımcı: hoca + 3 öğrenci yeterli mi, farklı boy/kilo/kıyafet çeşitliliği nasıl sağlanacak?
 3. MediaPipe'ı iOS'ta da kullanmak (MediaPipe Tasks iOS SDK) bir seçenek olarak değerlendirilmedi; ürün kararı Vision. Spike'ta Vision yetersiz kalırsa yeniden açılmalı mı?
-4. Yeni hareket kaydı: oynatmada (09) denemeyi taslağın bulmasına bakmadan doğrudan işaretlemek (başlangıç ve bitiş zamanı). Böylece taslak eşikler yanlışken de `suggest` için etiket çıkar. Gerekli mi, yoksa geniş taslak yeterli mi?
+4. ~~Yeni hareket kaydında denemeyi doğrudan işaretlemek~~ — **karar (2026-11-27): evet**, 09 "Deneme işaretleme" ve `labels.reps[].span`.

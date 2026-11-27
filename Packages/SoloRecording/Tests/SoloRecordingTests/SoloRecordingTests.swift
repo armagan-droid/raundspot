@@ -248,4 +248,37 @@ import SoloEngine
         let again = try RecordingExport.sequence(package: w.dir, consentVersion: 1, templateVersions: [:])
         #expect(again.reflex?.trials.map(\.expected) == [.some("slip_left"), nil])
     }
+
+    /// specs/09 "Deneme işaretleme": the coach marks attempts; marks never overlap, and when there are any the export's
+    /// labels come from them, with their spans (specs/03).
+    @Test func markedAttemptsBecomeTheExportsLabels() async throws {
+        let lib = try library()
+        try lib.addParticipant("P06", at: now)
+        try lib.consent("P06", adultConfirmed: true, at: now)
+        let w = try lib.newPackage(try meta(lib, "P06"), freeBytes: 10_000_000_000)
+        let joints: [String: [Double]] = ["nose": [0.5, 0.8, 0.9], "leftHip": [0.53, 0.45, 0.9], "rightHip": [0.47, 0.45, 0.9]]
+        for i in 0..<20 {
+            w.frame(pixelBuffer(10), pts: CMTime(value: CMTimeValue(1_000 + i * 250), timescale: 1_000), pose: PoseLine(joints: joints, people: 1, selected: 0))
+        }
+        await w.finish()
+
+        var marks: [AttemptMark] = []
+        let valid = RecordingNote.Label(outcome: "valid", faults: [])
+        marks = try RecordingMarks.adding(AttemptMark(start: 3000, end: 3800, label: .init(outcome: "faulty", faults: ["neck_only"])), to: marks)
+        marks = try RecordingMarks.adding(AttemptMark(start: 1500, end: 2500, label: valid), to: marks)
+        #expect(marks.map(\.start) == [1500, 3000])  // kept in time order
+        #expect(throws: RecordingMarks.MarkError.overlap) { try RecordingMarks.adding(AttemptMark(start: 2400, end: 3100, label: valid), to: marks) }
+        #expect(throws: RecordingMarks.MarkError.reversed) { try RecordingMarks.adding(AttemptMark(start: 4000, end: 3900, label: valid), to: marks) }
+        // editing a mark's label keeps its range and does not count as an overlap with itself
+        marks[0].label = .init(outcome: "incomplete", faults: [])
+        try RecordingMarks.save(marks, w.dir)
+        #expect(RecordingMarks.load(w.dir) == marks)
+
+        // a note label exists too, but the marks win
+        try RecordingNotes.save([RecordingNote(t: 1600, text: "x", author: .coach, label: valid)], w.dir)
+        let seq = try RecordingExport.sequence(package: w.dir, consentVersion: 1, templateVersions: ["slip_left": 2])
+        #expect(seq.labels == [RepLabel(outcome: .incomplete, faults: [], span: [1500, 2500]),
+                               RepLabel(outcome: .faulty, faults: ["neck_only"], span: [3000, 3800])])
+        #expect(try LandmarkSequence.parse(JSONValue.parse(seq.json.serialized())).get().labels == seq.labels)
+    }
 }

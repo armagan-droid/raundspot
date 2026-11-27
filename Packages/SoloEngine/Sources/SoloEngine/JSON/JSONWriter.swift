@@ -141,7 +141,9 @@ extension LandmarkSequence {
         o["fps"] = .number(fps)
         if let labels {
             o["labels"] = ["reps": .array(labels.map {
-                ["outcome": .string($0.outcome.rawValue), "faults": .array($0.faults.map { .string($0) })]
+                var l: JSONValue = ["outcome": .string($0.outcome.rawValue), "faults": .array($0.faults.map { .string($0) })]
+                if let span = $0.span { l["span"] = .array(span.map { .number($0) }) }
+                return l
             })]
         }
         o["frames"] = .array(frames.map { f in

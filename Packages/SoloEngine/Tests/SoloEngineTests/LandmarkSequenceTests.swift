@@ -226,4 +226,27 @@ private func isValid(_ json: JSONValue) -> Bool {
         var v1 = j; v1["formatVersion"] = 1; v1["skeleton"] = nil; v1["imageAspect"] = nil
         for bad in [extra, badResult, synthetic, v1] { #expect(throws: SequenceIssues.self) { try LandmarkSequence.parse(bad).get() } }
     }
+
+    /// specs/03 `labels.reps[].span` (T5.2): a marked attempt's time range; all or none, ordered, inside the frames.
+    @Test func labelSpans() throws {
+        let frames: [JSONValue] = (0..<5).map { i in
+            ["t": .number(Double(i) * 1000), "image": .array((0..<33).map { _ in ["x": 0.5, "y": 0.5, "z": 0, "visibility": 1] }), "world": .null]
+        }
+        var j: JSONValue = ["formatVersion": 2, "skeleton": "mediapipe33", "imageAspect": 1, "exerciseId": "slip_left", "source": "team",
+                            "view": "front", "fps": 1, "frames": .array(frames)]
+        j["labels"] = ["reps": [["outcome": "valid", "faults": [], "span": [500, 1500]], ["outcome": "incomplete", "faults": [], "span": [2000, 3000]]]]
+        let seq = try LandmarkSequence.parse(j).get()
+        #expect(seq.labels?.map(\.span) == [[500, 1500], [2000, 3000]])
+        #expect(try LandmarkSequence.parse(JSONValue.parse(seq.json.serialized())).get().labels == seq.labels)
+        func with(_ reps: JSONValue) -> JSONValue { var c = j; c["labels"] = ["reps": reps]; return c }
+        let bad: [JSONValue] = [
+            with([["outcome": "valid", "faults": [], "span": [500, 1500]], ["outcome": "valid", "faults": []]]),  // not all
+            with([["outcome": "valid", "faults": [], "span": [1500, 500]]]),  // reversed
+            with([["outcome": "valid", "faults": [], "span": [500, 9000]]]),  // past the last frame
+            with([["outcome": "valid", "faults": [], "span": [500, 2500]], ["outcome": "valid", "faults": [], "span": [2000, 3000]]]),  // overlap
+            with([["outcome": "valid", "faults": [], "span": [500]]]),  // one number
+        ]
+        for b in bad { #expect(throws: SequenceIssues.self) { try LandmarkSequence.parse(b).get() } }
+        #expect(throws: Never.self) { try LandmarkSequence.parse(with([["outcome": "valid", "faults": []]])).get() }
+    }
 }

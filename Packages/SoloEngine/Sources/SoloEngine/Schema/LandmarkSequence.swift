@@ -57,10 +57,13 @@ public enum RepOutcome: String, CaseIterable, Sendable, Equatable {
 public struct RepLabel: Sendable, Equatable {
     public var outcome: RepOutcome
     public var faults: [String]
+    /// The attempt's marked time range `[start, end]`, ms (specs/03 `labels.reps[].span`).
+    public var span: [Double]?
 
-    public init(outcome: RepOutcome, faults: [String]) {
+    public init(outcome: RepOutcome, faults: [String], span: [Double]? = nil) {
         self.outcome = outcome
         self.faults = faults
+        self.span = span
     }
 }
 
@@ -159,6 +162,7 @@ public struct LandmarkSequence: Sendable, Equatable {
                 break
             }
         }
+        if let labels = labels ?? nil, let frames { checkSpans(labels, frames: frames, &r) }
         var meta: ExportMeta?
         if let m = o["meta"] {
             if source != .team { r.add(["meta"], "only team recordings carry meta") }
@@ -178,17 +182,35 @@ public struct LandmarkSequence: Sendable, Equatable {
         return seq
     }
 
+    /// Spans: all or none, start < end, inside the frames, in order without overlap.
+    private static func checkSpans(_ labels: [RepLabel], frames: [Frame], _ r: inout SchemaReader) {
+        let spans = labels.compactMap(\.span)
+        guard !spans.isEmpty else { return }
+        guard spans.count == labels.count else { return r.add(["labels", "reps"], "span must be on every label or on none") }
+        let first = frames.first?.t ?? 0, last = frames.last?.t ?? 0
+        for (i, s) in spans.enumerated() {
+            if !(s[0] < s[1]) { r.add(["labels", "reps", "\(i)", "span"], "start must be before end") }
+            if s[0] < first || s[1] > last { r.add(["labels", "reps", "\(i)", "span"], "must lie within the frames") }
+            if i > 0, s[0] < spans[i - 1][1] { r.add(["labels", "reps", "\(i)", "span"], "spans must be in order and must not overlap") }
+        }
+    }
+
     private static func readLabels(_ v: JSONValue?, _ r: inout SchemaReader) -> [RepLabel]? {
         guard let o = r.object(v, ["labels"], keys: ["reps"]) else { return nil }
         guard let reps = r.array(o["reps"], ["labels", "reps"]) else { return nil }
         return r.elements(reps, ["labels", "reps"]) { r, value, path in
-            guard let l = r.object(value, path, keys: ["outcome", "faults"]) else { return nil }
+            guard let l = r.object(value, path, keys: ["outcome", "faults", "span"]) else { return nil }
             let outcome = r.enumValue(l["outcome"], path + ["outcome"], RepOutcome.self,
                                       options: RepOutcome.allCases.map(\.rawValue))
             let faults = r.array(l["faults"], path + ["faults"])
                 .flatMap { r.elements($0, path + ["faults"]) { r, e, p in r.identifier(e, p) } }
+            var span: [Double]?
+            if let sv = l["span"] {
+                span = r.array(sv, path + ["span"], minCount: 2, maxCount: 2).flatMap { r.elements($0, path + ["span"]) { r, e, p in r.number(e, p) } }
+                if span == nil { return nil }
+            }
             guard let outcome, let faults else { return nil }
-            return RepLabel(outcome: outcome, faults: faults)
+            return RepLabel(outcome: outcome, faults: faults, span: span)
         }
     }
 

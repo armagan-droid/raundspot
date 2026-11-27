@@ -72,6 +72,13 @@ struct PlaybackView: SwiftUI.View {
     @State private var labelResponse = ""
     /// The note in the form (specs/09 "Not düzenleme"), nil for a new one.
     @State private var editing: UUID?
+    // specs/09 "Deneme işaretleme"
+    @State private var marks: [AttemptMark]
+    @State private var markStart: Double?
+    @State private var editingMark: UUID?
+    @State private var markOutcome = "valid"
+    @State private var markFaults: Set<String> = []
+    @State private var markInvalid = false
     @State private var exportURL: URL?
     @State private var sweepPath = "rep.target.enter"
     @State private var sweepValues = ""
@@ -83,6 +90,7 @@ struct PlaybackView: SwiftUI.View {
         poses = PlaybackPoses(package.url)
         template = package.meta.templates.keys.sorted().first ?? ""
         _notes = State(initialValue: RecordingNotes.load(package.url))
+        _marks = State(initialValue: RecordingMarks.load(package.url))
         let p = poses
         if package.meta.isReflex {
             // a reflex recording: its cues and trial results (specs/09 "Refleks kaydı")
@@ -122,6 +130,7 @@ struct PlaybackView: SwiftUI.View {
                 timeline
                 controls
             }
+            if !isReflex { marksSection }  // reflex trials are the trial lines (specs/09)
             notesSection
             if !isReflex { replaySection }  // reflex replay is not there yet (specs/09)
             exportSection
@@ -139,6 +148,13 @@ struct PlaybackView: SwiftUI.View {
         GeometryReader { g in
             ZStack(alignment: .leading) {
                 Capsule().fill(.gray.opacity(0.3)).frame(height: 6)
+                ForEach(marks) { m in
+                    if let a = poses.videoSec(host: m.start), let b = poses.videoSec(host: m.end) {
+                        Rectangle().fill(Self.color(m.label.outcome ?? "").opacity(0.35))
+                            .frame(width: max(2, g.size.width * (b - a) / duration), height: 14)
+                            .offset(x: g.size.width * a / duration)
+                    }
+                }
                 ForEach(Array(markers.enumerated()), id: \.offset) { _, m in
                     Rectangle().fill(Self.color(m.type)).frame(width: 2, height: 16)
                         .offset(x: g.size.width * m.sec / duration)
@@ -261,6 +277,97 @@ struct PlaybackView: SwiftUI.View {
                 Button("rec.note.add") { saveNote() }.disabled(noteText.isEmpty && !hasLabel)
             }
         }
+    }
+
+    private var markFaultToggles: some SwiftUI.View {
+        ForEach(faultIds, id: \.self) { f in
+            Toggle(f, isOn: Binding(get: { markFaults.contains(f) }, set: { on in
+                if on { markFaults.insert(f) } else { markFaults.remove(f) }
+            }))
+        }
+    }
+
+    private var markOutcomePicker: some SwiftUI.View {
+        Picker("rec.note.outcome", selection: $markOutcome) {
+            Text("valid").tag("valid")
+            Text("faulty").tag("faulty")
+            Text("incomplete").tag("incomplete")
+        }
+    }
+
+    /// Attempts marked by hand: start, end and label (specs/09 "Deneme işaretleme").
+    private var marksSection: some SwiftUI.View {
+        Section {
+            ForEach(marks) { m in
+                HStack {
+                    Text(verbatim: Self.span(m, poses)).monospacedDigit()
+                    Spacer()
+                    Text(Self.describe(m.label)).font(.caption).foregroundStyle(.secondary)
+                }
+                .listRowBackground(editingMark == m.id ? Color.yellow.opacity(0.15) : nil)
+                .contentShape(Rectangle())
+                .onTapGesture { editMark(m) }
+            }
+            .onDelete { idx in
+                if let e = editingMark, idx.contains(where: { marks[$0].id == e }) { clearMark() }
+                marks.remove(atOffsets: idx)
+                try? RecordingMarks.save(marks, package.url)
+            }
+            if let e = editingMark {
+                markOutcomePicker
+                markFaultToggles
+                Button("rec.note.save") {
+                    if let i = marks.firstIndex(where: { $0.id == e }) {
+                        marks[i].label = RecordingNote.Label(outcome: markOutcome, faults: markFaults.filter(faultIds.contains).sorted())
+                        try? RecordingMarks.save(marks, package.url)
+                    }
+                    clearMark()
+                }
+                Button("rec.note.cancel", role: .cancel) { clearMark() }
+            } else if let start = markStart {
+                Text("rec.mark.started \(String(format: "%.2f", poses.videoSec(host: start) ?? 0))").monospacedDigit()
+                markOutcomePicker
+                markFaultToggles
+                Button("rec.mark.end") { endMark(start) }
+                Button("rec.note.cancel", role: .cancel) { clearMark() }
+            } else {
+                Button("rec.mark.start") { markStart = poses.host(videoSec: now); markInvalid = false }
+            }
+            if markInvalid { Text("rec.mark.invalid").font(.caption).foregroundStyle(.red) }
+        } header: {
+            Text("rec.marks")
+        } footer: {
+            Text("rec.marks.footer")
+        }
+    }
+
+    static func span(_ m: AttemptMark, _ poses: PlaybackPoses) -> String {
+        String(format: "%.2f–%.2f s", poses.videoSec(host: m.start) ?? 0, poses.videoSec(host: m.end) ?? 0)
+    }
+
+    private func editMark(_ m: AttemptMark) {
+        if let s = poses.videoSec(host: m.start) { seek(s) }
+        markStart = nil
+        editingMark = m.id
+        markOutcome = m.label.outcome ?? "valid"
+        markFaults = Set(m.label.faults)
+        markInvalid = false
+    }
+
+    private func endMark(_ start: Double) {
+        guard let end = poses.host(videoSec: now) else { return }
+        let mark = AttemptMark(start: start, end: end, label: RecordingNote.Label(outcome: markOutcome, faults: markFaults.filter(faultIds.contains).sorted()))
+        guard let next = try? RecordingMarks.adding(mark, to: marks) else { markInvalid = true; return }
+        marks = next
+        try? RecordingMarks.save(marks, package.url)
+        clearMark()
+    }
+
+    private func clearMark() {
+        markStart = nil
+        editingMark = nil
+        markOutcome = "valid"
+        markFaults = []
     }
 
     static func describe(_ l: RecordingNote.Label) -> String {

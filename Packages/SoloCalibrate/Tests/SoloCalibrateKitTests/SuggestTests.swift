@@ -68,6 +68,21 @@ private func tempDirectory(_ files: [String: String]) throws -> URL {
         #expect(s.used == 2 && s.unmatched == [2])
     }
 
+    /// Marked attempts (`span`, specs/09 "Deneme işaretleme"): no peak search, each attempt measured in its own range.
+    /// Here the coach marked two of three attempts; the unmarked third is the deepest, which would mislead a peak search.
+    @Test func markedSpansAreMeasuredWhereTheCoachPutThem() throws {
+        var seq = squats([(92, 1800, valid), (140, 1500, incomplete), (90, 2000, valid)], seed: 9)
+        // timeline: lead-in 3000, rest 1200 → attempts at [3000, 4800), [6000, 7500), [8700, 10700)
+        seq.labels = [RepLabel(outcome: .valid, faults: [], span: [2900, 4900]), RepLabel(outcome: .incomplete, faults: [], span: [5900, 7600])]
+        let marked = try Suggest.suggest(pack: draft(), sequences: [seq])
+        #expect(marked.used == 1 && marked.warnings.isEmpty, "\(marked.warnings)")
+        #expect(marked.rep.target.enter > 92 && marked.rep.target.enter < 140)
+        // the same labels without spans: the two deepest peaks are taken, and the incomplete one looks deeper than the valid one
+        seq.labels = seq.labels!.map { RepLabel(outcome: $0.outcome, faults: $0.faults) }
+        let searched = try Suggest.suggest(pack: draft(), sequences: [seq])
+        #expect(!searched.warnings.isEmpty)
+    }
+
     @Test func withoutValidAttemptsThereIsNoSuggestion() throws {
         let only = squats([(140, 1500, incomplete)], seed: 8)
         #expect(throws: SuggestError.self) { try Suggest.suggest(pack: draft(), sequences: [only]) }

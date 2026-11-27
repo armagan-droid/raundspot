@@ -45,6 +45,14 @@ Bir kayıt, kamera akışının tek bir kesintisiz parçasıdır (bir set, bir r
 - **Not ekleme:** o anki zamana not. Alanlar: metin (TR/EN serbest), isteğe bağlı **etiket**: deneme sonucu (`valid`/`faulty`/`incomplete`; refleks denemesinde doğru tepki şablonu) ve hata kimlikleri (o kaydın şablonlarındaki hatalardan seçilir). Not, zamanına en yakın denemeye bağlanır (deneme aralığındaysa). Notlar düzenlenip silinebilir.
 - Hoca telefonu eline alıp not ekleyebilir; notun yazarı için "hoca / geliştirici" seçimi tutulur (isim değil).
 - **Not düzenleme (T5.2, 2026-11-25):** listedeki nota dokunmak videoyu o zamana sarar ve notu forma yükler. "Kaydet" metni, yazarı ve etiketi değiştirir; zamanı değişmez. "Vazgeç" formu boşaltır.
+- **Deneme işaretleme (T5.2, 2026-11-27; 03 açık soru 4 kararı):** teknik kaydında hoca denemeyi motorun bulmasına bakmadan kendisi işaretleyebilir.
+  - "Başlangıç" o anki kareyi denemenin başı yapar, "Bitiş" sonu yapar. Sonuç (`valid`/`faulty`/`incomplete`) ve hata kimlikleri işaretle birlikte seçilir.
+  - İşaretler `marks.json`'da tutulur: `[{ "id", "start", "end", "label": { "outcome", "faults" } }]`. Zamanlar host ms'dir.
+  - Başı sonundan önce olmalıdır. İşaretler çakışamaz; çakışan işaret kaydedilmez.
+  - İşarete dokunmak videoyu başına sarar ve etiketi forma yükler. Etiket düzenlenebilir, işaret silinebilir.
+  - Zaman çizelgesinde işaretler yarı saydam şerit olarak görünür.
+  - Kayıtta en az bir işaret varsa dışa aktarımdaki `labels.reps` işaretlerden gelir (zaman sırasıyla, her birinde `span`, 03); not etiketleri o zaman kullanılmaz. İşaret yoksa not etiketleri eskisi gibi motorun denemelerine bağlanır.
+  - Refleks kaydında işaretleme yoktur; denemeler deneme satırlarıdır.
 - **Refleks kaydı (T5.2, 2026-11-25):** X4'te kayıt türü "teknik" (bir şablon) ya da "refleks" (seviye seçilir; bir refleks seti) olur. Refleks kaydının `meta.json`'ında `mode: "reflex"`, `reflexCatalog` (katalog kimliği), `reflexLevel` ve `templates` olarak katalogdaki bütün tepki şablonları bulunur; duruş kullanıcının profilindendir. Denemeler `app.jsonl`'ın `trial` satırlarıdır: deneme aralığı işaretin çıktığı an (`cueAt`) ile deneme satırının zamanı arasıdır. Refleks notunun etiketi **doğru tepki**dir: katalogdaki tepki şablonlarından biri ya da "tepki yok" (çalım; JSON'da `null`), isteğe bağlı hata kimlikleriyle (o tepki şablonunun hatalarından). Zaman çizelgesi refleks kaydında işaretleri ve deneme sonuçlarını gösterir; X6 yeniden oynatma refleks kaydında henüz yoktur.
 
 ## Yeniden oynatma (yeni eşiklerle)
