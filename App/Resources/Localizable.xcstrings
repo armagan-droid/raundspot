@@ -1946,6 +1946,114 @@
         }
       }
     },
+    "rec.mark.end": {
+      "comment": "Recording mode playback, Beta only (specs/09 'Deneme işaretleme').",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The attempt ends here"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Denemenin sonu burası"
+          }
+        }
+      }
+    },
+    "rec.mark.invalid": {
+      "comment": "Recording mode playback, Beta only (specs/09 'Deneme işaretleme').",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The end must come after the start and must not overlap another attempt."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bitiş başlangıçtan sonra olmalı ve başka bir denemeyle çakışmamalı."
+          }
+        }
+      }
+    },
+    "rec.mark.start": {
+      "comment": "Recording mode playback, Beta only (specs/09 'Deneme işaretleme').",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The attempt starts here"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Denemenin başı burası"
+          }
+        }
+      }
+    },
+    "rec.mark.started %@": {
+      "comment": "Recording mode playback, Beta only (specs/09 'Deneme işaretleme').",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start: %@ s"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başlangıç: %@ sn"
+          }
+        }
+      }
+    },
+    "rec.marks": {
+      "comment": "Recording mode playback, Beta only (specs/09 'Deneme işaretleme').",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Attempts (marked by hand)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Denemeler (elle işaretli)"
+          }
+        }
+      }
+    },
+    "rec.marks.footer": {
+      "comment": "Recording mode playback, Beta only (specs/09 'Deneme işaretleme').",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When there are marked attempts, the export's labels come from them."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İşaretli deneme varsa dışa aktarımın etiketleri buradan gelir."
+          }
+        }
+      }
+    },
     "rec.note.add": {
       "comment": "Recording mode playback, Beta only (specs/09).",
       "extractionState": "manual",

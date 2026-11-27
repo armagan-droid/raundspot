@@ -38,8 +38,10 @@ public enum RecordingExport {
         // a reflex recording is named by its catalog and carries its cue and trial lines (specs/09 "Refleks kaydı")
         let reflex = RecordingNotes.reflexLines(package: dir, meta: meta, notes: notes)
         let exercise = reflex?.catalogId ?? meta.templates.keys.sorted().first ?? "free"
-        // the labels of the notes, when every attempt has one (specs/09)
-        let labels = reflex != nil ? nil : RecordingNotes.labels(notes, attempts: RecordingNotes.attempts(package: dir, template: exercise))
+        // the coach's marked attempts when there are any, else the notes' labels when every engine attempt has one (specs/09)
+        let marks = RecordingMarks.load(dir)
+        let labels = reflex != nil ? nil : !marks.isEmpty ? RecordingMarks.labels(marks)
+            : RecordingNotes.labels(notes, attempts: RecordingNotes.attempts(package: dir, template: exercise))
         var seq = LandmarkSequence(formatVersion: 2, skeleton: .vision19, exerciseId: exercise, source: .team,
                                    view: meta.mode == "side" ? .side : .front, fps: (fps * 100).rounded() / 100, labels: labels,
                                    frames: frames, hasWorld: false, imageAspect: aspect)
